@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.9.24
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-Gestione+segreteria+medica-28Med.Plan.-29">Gestione segreteria medica(Med.Plan.)</h1>
+
+<p>Il programma, interamente sviluppato all&#39;interno del settore Sviluppo di AGP-INF, nasce da una specifica necessità di <a href="http://www.isprambiente.gov.it">I.S.P.R.A.</a> nel gestire la sorveglianza sanitaria e la medicina sul lavoro del personale.</p>
+
+<p>Il programma è stato appositamente sviluppato su piattaforma web per consentire l&#39;accesso alle risorse interne tramite l&#39;utilizzo di un comune browser web.</p>
+
+<p>All&#39;interno dell&#39;applicazione è possibile gestire le attività di segreteria dedica programmando, per ciascun dipendente, le analisi cliniche e le visite presso il medico competente. E&#39; possibile gestire i rischi lavorativi connessi alle attività lavorative dell&#39;Istituto raggruppandoli in categorie di rischio collegandoli a ciascun dipendente. Per ogni categoria di rischio è possibile indicare il numero di mesi di sorveglianza sanitaria. Allo scadere dei mesi indicati, il sistema visualizza l&#39;elenco dei dipendenti “scaduti”. E&#39; possibile scegliere tra:</p>
+<ul><li>
+<p>Dipendenti nuovi: elenco di personale che a cui non è associta nessuna categori di rischio;</p>
+</li><li>
+<p>Dipendenti scaduti: elenco di personale che è scaduto prima del mese corrente;</p>
+</li><li>
+<p>Dipendenti in scadenza nel mese corrente: elenco di personale che ha almeno una categoria di rischio in scadenza nel mese corrente;</p>
+</li><li>
+<p>Dipendenti in scadenza nel primo mese successivo: elenco di personale che ha almeno una categoria di rischio in scadenza nel mese successivo al mese corrente;</p>
+</li><li>
+<p>Dipendenti in scadenza nel secondo mese successivo: elenco di personale che ha almeno una categoria di rischio in scadenza nel secondo mese successivo al mese corrente;</p>
+</li><li>
+<p>Dipendenti cancellati: elenco di personale che è stato cancellato manualmente dal sistema;</p>
+</li><li>
+<p>Dipendenti bloccati e/o cessati: elenco di personale che è stato bloccato automaticamente dal sistema in caso, ad esempio, di scadenza contratto;</p>
+</li></ul>
+
+<p>Nello specifico il sistema, rilasciato in riuso, permette:</p>
+<ul><li>
+<p>Una autenticazione SingleSignOn su sistema CAS Server;</p>
+</li><li>
+<p>Acquisizione automatica dei dipendenti da repository REST-API Json;</p>
+</li><li>
+<p>Creazione e gestione manuale dei dipendenti;</p>
+</li><li>
+<p>Gestione dei rischi sul lavoro;</p>
+</li><li>
+<p>Raggruppamento in categorie dei rischi sul lavoro;</p>
+</li><li>
+<p>Profilazione dei dipendenti in base alle categorie di rischio collegate;</p>
+</li><li>
+<p>Calendarizzazione delle analisi e delle visite;</p>
+</li><li>
+<p>Comunicazioni tramite e-mail con i dipendenti;</p>
+</li><li>
+<p>Gestione dello storico delle idoneità per ciascun dipendente;</p>
+</li><li>
+<p>Gestione delle scadenze delle idoneità per ciascuna categoria di rischio;</p>
+</li><li>
+<p>Generazione di reportistica riservata al medico competente;</p>
+</li><li>
+<p>Manuali d&#39;utilizzo per i tre profili utente: dipendente generico, segreteria e medico competente.</p>
+</li></ul>
+
+<h2 id="label-Licenza">Licenza</h2>
+
+<p>Il codice sorgente del sito progetto è rilasciato sotto licenza MIT License (codice SPDX: MIT). La licenza è visibile nel file <a href="https://opensource.org/licenses/MIT">LICENSE</a></p>
+
+<h2 id="label-Repository">Repository</h2>
+
+<p>Questo repository contiene il codice sorgente del programma per la gestione della sorveglianza sanitaria e della medicina sul lavoro del personale.</p>
+
+<p>Il sito è sviluppato in linguaggio Ruby 2.7, framework Rails 6.0 e webpacker StimulusJS.</p>
+
+<h3 id="label-Specifiche+tecniche+progetto">Specifiche tecniche progetto</h3>
+<ul><li>
+<p><a href="https://www.ruby-lang.org">Ruby 2.7.x</a></p>
+</li><li>
+<p><a href="https://rvm.io/">RVM</a></p>
+</li><li>
+<p><a href="https://rubyonrails.org/">Ruby on Rais 6.0</a></p>
+</li><li>
+<p><a href="https://nodejs.org/">NodeJS</a></p>
+</li><li>
+<p><a href="https://yarnpkg.com/">Yarn</a></p>
+</li><li>
+<p><a href="https://stimulusjs.org/">Webpacker StimulusJS</a></p>
+</li><li>
+<p><a href="https://www.postgresql.org/">Postgresql</a></p>
+</li><li>
+<p>HTML5 + CSS3</p>
+</li><li>
+<p>no jQuery</p>
+</li><li>
+<p><a href="https://rubycas.github.io/">Server CAS</a> - autenticazione SingleSignOn</p>
+</li><li>
+<p><a href="https://www.openssl.org/">Openssl</a> -</p>
+</li></ul>
+
+<p>* In alternativa al server CAS e` necessario sviluppare altri sistemi di autenticazione come ldap</p>
+
+<h3 id="label-Requisiti+tecnici+per+ambiente+server">Requisiti tecnici per ambiente server</h3>
+<ul><li>
+<p>Sistema operativo: Linux</p>
+</li><li>
+<p>Gestore pacchetto ruby: RVM</p>
+</li><li>
+<p>Linguaggio di programmazione: Ruby 2.7</p>
+</li><li>
+<p>Framework: Rais 6.0</p>
+</li><li>
+<p>Webpacker: StimulusJS</p>
+</li><li>
+<p>Database: PostgreSQL &gt;= 12.2</p>
+</li><li>
+<p>NodeJS: JavaScript runtime &gt;= v13.10</p>
+</li><li>
+<p>Package Manager: Yarn &gt;= 1.22</p>
+</li><li>
+<p>Deploy applicazione: Accesso ssh per deploy applicazione via Capistrano</p>
+</li><li>
+<p>Webserver: Nginx + Puma</p>
+</li><li>
+<p>Autenticazione utenti: CAS Server</p>
+</li></ul>
+
+<h3 id="label-Requisiti+minimi+per+i+client">Requisiti minimi per i client</h3>
+<ul><li>
+<p>Mozilla Firefox 53, Chrome 58, Microsoft Edge, Internet Explorer 11, Safari 9.0 o altro browser compatibile con HTML 5, CSS 3;</p>
+</li><li>
+<p>Per Internet Explorer 11 la modalità di compatibilità deve essere disattivata;</p>
+</li><li>
+<p>Javascript abilitato;</p>
+</li><li>
+<p>Cookie abilitati;</p>
+</li><li>
+<p>Supporto ai certificati SSL;</p>
+</li><li>
+<p>Risoluzione schermo 1024x768.</p>
+</li></ul>
+
+<h3 id="label-Configurazione+consigliata+per+i+client">Configurazione consigliata per i client</h3>
+<ul><li>
+<p>Mozilla Firefox &gt;= 53, Chrome &gt;= 58, Microsoft Edge, Safari 9.0 o altro browser compatibile con HTML 5 e CSS 3;</p>
+</li><li>
+<p>Javascript abilitato;</p>
+</li><li>
+<p>Cookie abilitati;</p>
+</li><li>
+<p>Supporto ai certificati SSL;</p>
+</li><li>
+<p>Risoluzione schermo &gt;= 1280x1024.</p>
+</li></ul>
+
+<h2 id="label-Installazione+ambiente">Installazione ambiente</h2>
+
+<p>Installare l&#39;ambiente di sviluppo e di produzione come indicato <a href="https://gorails.com/setup">qui</a>.</p>
+
+<h2 id="label-Installazione+applicazione">Installazione applicazione</h2>
+
+<h3 id="label-In+sviluppo">In sviluppo</h3>
+<ol><li>
+<p>Clonare il progetto in sviluppo</p>
+
+<pre class="code ruby"><code class="ruby">git clone https://github.com/isprambiente/medplan.git
+</code></pre>
+</li><li>
+<p>Da una shell posizionarsi sulla root del progetto ed eseguire</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='id identifier rubyid_install'>install</span> <span class='id identifier rubyid_bundle'>bundle</span>
+  <span class='id identifier rubyid_bundle'>bundle</span> <span class='id identifier rubyid_install'>install</span>
+  <span class='id identifier rubyid_yarn'>yarn</span> <span class='id identifier rubyid_install'>install</span>
+</code></pre>
+</li><li>
+<p>Generare la propria master.key <code>   rails secret  </code></p>
+</li><li>
+<p>Editare il file delle credenziali <code>   rails credentials:edit </code></p>
+</li><li>
+<p>Inserire il testo indicato di seguito aggiornandolo con i propri parametri:</p>
+
+<pre class="code ruby"><code class="ruby">secret_key_base:
+
+  cas:
+    base_url: &#39;https://server.domain.com/cas/&#39;
+
+  development:
+    database: nomeistanza_development
+    username: username
+    password: password
+    host: hostname
+  test:
+    database: nomeistanza_test
+    username: username
+    password: password
+    host: hostname
+
+  production:
+    database: nomeistanza_production
+    username: username
+    password: password
+    host: hostname
+
+  \# Indicare le credenziali per collegarsi al servizio REST-API in formato JSON da cui scaricare le informazioni degli utenti.
+  api:
+    url: &#39;https://api.domain.com/medplan.json&#39;
+    user: &#39;username&#39;
+    secret_access_key: &#39;password&#39;
+
+  \# Indicare una password se si vuole bloccre la modifica dei file excel
+  excel:
+    password: nil
+
+  \# Modificare le impostazioni per l&#39;invio delle email con le proprie
+  mail:
+    address: &#39;smtp.domain.com&#39;
+    port: 465
+    domain: &#39;domain.com&#39;
+    ssl: true
+    user_name: &#39;&lt;username&gt;&#39;
+    password: &#39;&lt;password&gt;&#39;
+    sender: &#39;sender@domain.com&#39;
+</code></pre>
+</li><li>
+<p>Modificare il file <code>config/deploy</code></p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_lock'>lock</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>3.11.2</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># indicare la versione corretta del capistrano
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:deploy_to</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/home/medplan</span><span class='tstring_end'>&quot;</span></span> <span class='comment'># indicare il path in cui installare l&#39;applicazione in produzione
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:tmp_dir</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/home/medplan/shared/tmp</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># indicare il path della tempdir dell&#39;applicazione in produzione
+</span></code></pre>
+</li><li>
+<p>Modificare il file <code>config/deploy/production.rb</code></p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_role'>role</span> <span class='symbol'>:app</span><span class='comma'>,</span> <span class='qwords_beg'>%w{</span><span class='tstring_content'>medplan@medplan.domain.com</span><span class='tstring_end'>}</span></span>
+<span class='id identifier rubyid_role'>role</span> <span class='symbol'>:web</span><span class='comma'>,</span> <span class='qwords_beg'>%w{</span><span class='tstring_content'>medplan@medplan.domain.com</span><span class='tstring_end'>}</span></span>
+<span class='id identifier rubyid_role'>role</span> <span class='symbol'>:db</span><span class='comma'>,</span>  <span class='qwords_beg'>%w{</span><span class='tstring_content'>medplan@medplan.domain.com</span><span class='tstring_end'>}</span></span>
+
+<span class='id identifier rubyid_server'>server</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>medplan.domain.com</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>user:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>medplan</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='label'>roles:</span> <span class='qwords_beg'>%w{</span><span class='tstring_content'>app</span><span class='words_sep'> </span><span class='tstring_content'>db</span><span class='words_sep'> </span><span class='tstring_content'>web</span><span class='tstring_end'>}</span></span><span class='comma'>,</span> <span class='label'>my_property:</span> <span class='symbol'>:my_value</span>
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:branch</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>master</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:rails_env</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>production</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:ssh_options</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:forward_agent</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rbrace'>}</span>
+</code></pre>
+</li><li>
+<p>Creare il file <code>config/settings.local.yml</code> partendo da <code>config/settings.yml</code> per sovrascrivere i parametri di default. Il file è incluso nel <code>.gitignore</code> pertanto sarà necessario ricopiarlo manualmente sul server nel path <code>shared/config/settings.local.yml</code></p>
+</li><li>
+<p>Copiare i seguenti file sul server in produzione nella cartella <code>shared/config/</code></p>
+<ul><li>
+<p>settings.local.yml</p>
+</li><li>
+<p>database.yml</p>
+</li><li>
+<p>master.key</p>
+</li><li>
+<p>secrets.yml</p>
+</li></ul>
+</li><li>
+<p>Per il deploy in produzione utilizzare Capistrano <code> cap production deploy </code> Verificare e risolvere eventuali errori che si potrebbero verificare durante il deploy.</p>
+
+<h3 id="label-In+produzione">In produzione</h3>
+</li><li>
+<p>Posizionarsi nella root dell&#39;applicazione ed eseguire: <code> gem install bundle gem install bundler gem install puma puma -C /path/to/config </code></p>
+</li><li>
+<p>Per nginx, creare un file nella cartella <code>/etc/nginx/config/medplan.conf</code> e incollare quanto segue modificando, prima di salvare, con i propri parametri: "` upstream medplan {  server unix:///&lt;root_path&gt;/shared/tmp/sockets/puma.sock; }</p>
+
+<p>server {  server_name medplan.domain.com;  listen 443 ssl;  listen [::]:443 ssl;  ssl_certificate /etc/nginx/cert/medplanarm.crt;  ssl_certificate_key /etc/nginx/cert/medplan.key;  ssl_protocols TLSv1.2 TLSv1.3;  ssl_ciphers ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;</p>
+
+<p>access_log /var/log/nginx/medplan.access.log;  error_log /var/log/nginx/medplan.error.log;</p>
+
+<p>root /&lt;root_path&gt;/current/public;</p>
+
+<p>client_max_body_size 20M;</p>
+
+<p>location / {  proxy_pass <a href="http://medplan">medplan</a>; # match the name of upstream directive which is defined above  proxy_redirect off;</p>
+
+<pre class="code ruby"><code class="ruby">proxy_set_header   Host              $host;
+proxy_set_header   X-Real-IP         $remote_addr;
+proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header   X-Forwarded-Proto $scheme;
+</code></pre>
+
+<p>}</p>
+
+<p>location ~ ^/(system|assets)/ {  root /&lt;root_path&gt;/current/public;  gzip_static on; # to serve pre-gzipped version  expires max;  add_header Cache-Control public;  }</p>
+
+<p> location /docs/ {  root /&lt;root_path&gt;/current/doc/site;  rewrite ^/docs/(.*)$ /$1 break;  gzip_static on; # to serve pre-gzipped version  expires max;  add_header Cache-Control public;  index index.html;  } } “`</p>
+</li><li>
+<p>Riavviare Nginx</p>
+</li></ol>
+
+<p>Verificare e risolvere eventuali errori al riavvio di nginx.</p>
+
+<p>Cortesemente integrare la guida qualora fosse necessario.</p>
+
+<p>Grazie per la collaborazione.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Tue Mar 31 09:48:49 2020 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.24 (ruby-2.7.0).
+</div>
+
+    </div>
+  </body>
+</html>
