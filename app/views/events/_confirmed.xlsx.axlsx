@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+@password = Settings.excel.password
+meetings = Meeting.confirmed.distinct(:event_id).pluck(:event_id)
+@events_visit = Event.future.visit.where(id: meetings)
+@events_analisys = Event.future.analisys.where(id: meetings)
+
+def xlsx(events = [], title = '')
+  wb.add_worksheet(name: title) do |sheet|
+    style_title = wb.styles.add_style sz: 12, b: true, alignment: { horizontal: :center, vertical: :center }, bg_color: 'F0DC82'
+
+    sheet.add_row ["#{title} confermate"], style: [style_title]
+    sheet.merge_cells("A#{sheet.rows.count}:D#{sheet.rows.count}")
+    sheet.add_row ['']
+
+    events.each do |event, _k|
+      event.users.each do |user|
+        meeting = Meeting.joins(:user).where('users.id = ?', user.id).where(event: event).first
+        sheet.add_row [l(event.date_on), meeting.start_at.utc.strftime('%H:%M') + ' - ' + meeting.stop_at.strftime('%H:%M'), user.label, event.city.capitalize]
+      end
+    end
+  end
+end
+
+xlsx @events_visit, 'Analisi'
+xlsx @events_analisys, 'Visite'

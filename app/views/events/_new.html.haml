@@ -1,0 +1,19 @@
+= render 'form'
+%br/
+%table#events.table.is-striped.is-narrow.is-hoverable.is-fullwidth
+  %thead
+    %tr
+      %th.small-2= t('date', scope: 'event')
+      %th.small-1 Inizio
+      %th.small-1 Tipologia
+      %th.small-2= t('city', scope: 'event')
+      %th.small-1 Stato
+      %th.small-5= t('category', scope: 'audit')
+      %th{ width: "110px" }
+  %tbody
+    - if @user.events.future.distinct.present?
+      = render @user.events.future.distinct
+    - else
+      %tr
+        %td.has-text-centered{ colspan: 7 } Nessun evento programmato
+

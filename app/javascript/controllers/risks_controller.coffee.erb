@@ -1,0 +1,17 @@
+import { Controller } from "stimulus"
+import DualListbox from 'dual-listbox/dist/dual-listbox'
+import PageController from './page_controller'
+
+export default class extends PageController
+  @targets = [ "container", "listbox" ]
+
+  connect: =>
+    if this.hasListboxTarget
+      select = this.listboxTarget
+      listbox = new DualListbox select,
+        availableTitle: 'Categorie disponibili'
+        selectedTitle: 'Categorie selezionate'
+        addButtonText: '>'
+        removeButtonText: '<'
+        addAllButtonText: '>>'
+        removeAllButtonText: '<<'

@@ -1,0 +1,11 @@
+<p>Buongiorno <%= @user.label %>,</p>
+<p>sono presenti nuovi eventi programmati per lei dalla Segreteria Medica.</p>
+
+<p><%= Settings.events.analisys.description %></p>
+
+<p>Si prega di indicare, direttamente sul sito di seguito indicato, un numero di telefono cellulare per eventuali comunicazioni urgenti.</p>
+
+<p>Per visualizzare e confermare gli eventi seguire il seguente link:<br />
+<a href="<%= Settings.app.url %>"><%= Settings.app.url %></a></p>
+
+<p>Per qualunque problema contattare l'indirizzo e-mail: <a href='mail_to:<%= Settings.email %>'><%= Settings.email %></a></p>

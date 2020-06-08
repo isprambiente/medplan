@@ -1,0 +1,7 @@
+#users.columns.is-desktop{ data: { controller: 'section', section_url: home_list_path } }
+  %a.button.is-medium.is-link.is-hidden-desktop.is-spaced{ data: { action: 'click->page#toggleMenu', id: 'filters' } }
+    %span.icon{ style: 'margin-right:.5rem' }
+      %i.fas.fa-bars{ data: { action: 'click->page#toggleMenu', id: 'filters' }, aria: { hidden: "true" } }
+    Filtri di ricerca
+  #filters.column.is-3-desktop.is-hidden-touch= render partial: 'filters'
+  .column{ data: { target: 'section.container' } }

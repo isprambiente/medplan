@@ -1,0 +1,26 @@
+= form_with model: @category, data: { action: 'ajax:success->page#goPage ajax:success->modal#close ajax:error->modal#goPage' }, remote: true do |f|
+  .form-inputs
+    .columns
+      .column.is-9-desktop.is-8-tablet
+        .field
+          %label.label.is-required Titolo
+          .control.is-expanded= f.text_field :title, class: "input"
+          %p.help.is-danger= @category.errors.messages[:title].join(', ')
+      .column
+        .field
+          %label.label.is-required Mesi
+          .control.is-expanded= f.number_field :months, class: "input"
+          %p.help.is-danger= @category.errors.messages[:months].join(', ')
+    .columns
+      .column
+        .field
+          %label.label Protocollo
+          .control.is-expanded= f.text_area :protocol, label: 'Protocollo', class: "textarea"
+          %p.help.is-danger= @category.errors.messages[:protocol].join(', ')
+    .columns
+      .column
+        = f.select :risk_ids, Risk.all.map{|r| [ r.title, r.id ] }, {}, { multiple: true, data: { target: 'categories.listbox' } }
+        %p.help.is-danger= @category.errors.messages[:risk_ids].join(', ')
+  .form-actions
+    .columns
+      .column= f.submit icon: 'save', value: 'Salva', class: 'button is-fullwidth is-link'

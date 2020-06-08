@@ -1,0 +1,3 @@
+%a.panel-block.columns{ href: edit_event_path(id: event.id), data: { action: 'ajax:success->modal#open', remote: true, title: "#{ t(event.gender, scope: 'event.gender') } a #{ t(event.city, scope: 'user.cities', default: event.city) } del #{l(event.date_on)}" } }
+  .column= fas_icon( 'calendar', text: l(event.date_on) )
+  .column.is-2.has-text-right= t(event.gender, scope: 'event.gender')

@@ -1,0 +1,13 @@
+Buongiorno <%= @user.label %>,
+
+sono presenti nuovi eventi programmati per Lei dalla Segreteria Medica.
+
+Per visualizzare e confermare gli eventi seguire il link:
+  <%= Settings.app.url %>
+
+Comparira' l'indicazione circa la data e l'ora di effettuazione della visita.
+<%= Settings.events.visit.description %>
+
+Cliccando su "PROPOSTA" si convalida l'appuntamento, in caso fosse necessario programmare una data alternativa, si prega invece di scrivere all'indirizzo e-mail: <%= Settings.email %>
+
+Si prega, infine di indicare nello spazio "Emergenze" che compare nel box Informazioni Generali un numero di telefono cellulare per eventuali comunicazioni urgenti.

@@ -1,0 +1,9 @@
+%li.columns.is-mobile{id: event.div, class: ['list', cycle('dark', 'light', name: 'meeting')]}
+  .column.is-3-desktop= l event.date_on
+  .column.is-2-desktop= event.time(@user)
+  .column
+  .column.is-3-desktop
+    - if event.status(@user) == 'proposed'
+      = link_to t(:proposed, scope: 'event.status'), user_event_reserve_path(@user, event), method: :put, remote: true, class: 'button is-fullwidth proposed status'
+    - else
+      = link_to t(event.status(@user), scope: 'event.status'), '#', class: ['button is-fullwidth disabled status', event.status(@user)], disabled: true

@@ -1,0 +1,242 @@
+it:
+  title: Med. Plan.
+  refresh: 'Ricarica'
+  loading: 'Caricamento in corso'
+  return: 'Indietro'
+  abort: 'Annulla'
+  month: 'Mese'
+  months: 'Mesi'
+  year: 'Anno'
+  save: 'Salva'
+  find: 'Cerca'
+  all: 'Tutti'
+  reload: 'Ricarica la pagina'
+  logout: Esci
+  not_authorized: 'Non sei autorizzato'
+  'yes': 'Si'
+  'no': 'No'
+  menu:
+    risk_and_category: 'Rischi e categorie'
+  message:
+    email:
+      sendto: 'Invia e-mail di notifica'
+      subjects:
+        user_event: '[Sorveglianza Sanitaria] Creati prossimi appuntamenti'
+        user_event_analisys: '[Sorveglianza Sanitaria] Creati prossimi appuntamenti per analisi'
+        user_event_visit: '[Sorveglianza Sanitaria] Creati prossimi appuntamenti per visita'
+        user_event_confirmed: '[Sorveglianza Sanitaria] Conferma appuntamento per il '
+        user_event_modified: '[Sorveglianza Sanitaria] Aggiornamento appuntamento del '
+      confirm: 'Confermi invio e-mail?'
+      sendok: 'Invio eseguito'
+      blank: "E-mail non configurata per questo utente"
+    meeting:
+      select_one_category: 'Devi selezionare almeno una Categoria'
+      delete: "Sicuro di voler cancellare l'appuntamento?"
+      deleteok: 'Cancellazione appuntamento avvenuta con successo!'
+    event:
+      delete: "Sicuro di voler cancellare l'evento e tutti gli appuntamenti collegati?"
+      deleteok: 'Cancellazione evento e appuntamenti avvenuta con successo!'
+    category:
+      delete: "Attenzione operazione irreversibile, continuare con l'eliminazione?"
+    risk:
+      delete: "Attenzione operazione irreversibile, continuare con l'eliminazione?"
+    user:
+      editok: 'Utente modificato.<br />Ricarica la pagina, cliccando <a href="#" onClick="document.location.reload(true);">qui</a>, per visualizzare le modifiche'
+      delete: 'Sei sicuro di voler cancellare questo utente?'
+      reactive: "Sei sicuro di voler riattivare questo utente?"
+    audit:
+      delete: 'Sei sicuro di voler cancellare questo risultato?'
+  event:
+    general_informations: 'Informazioni generali'
+    not_found: 'Nessun evento disponibile'
+    delete: 'Cancella evento'
+    sendto: 'Avvisa'
+    fullday: 'Tutto il giorno'
+    type: 'Tipo'
+    city: 'Città'
+    date: 'Data'
+    new: 'Aggiungi evento'
+    manage: 'Gestione eventi'
+    summary: 'Riepilogo'
+    calendar: 'Calendario'
+    users: 'Utenti'
+    dates:  'Date appuntamento'
+    legend: 'Legenda'
+    print: "Stampa"
+    health: Storico idoneità
+    event_waiting: 'Appuntamenti in validazione'
+    event_confirmed: 'Confermati'
+    gender:
+      visit: 'Visita'
+      analisys: 'Analisi'
+    genders:
+      visit: 'Visite'
+      analisys: 'Analisi'
+    status:
+      scheduled: 'Schedulate'
+      proposed: 'Proposta'
+      waiting: 'In validazione'
+      confirmed: 'Confermata'
+      blocked: 'Non disponibile'
+    index:
+      title: "Calendario"
+  helpers:
+    submit:
+      event:
+        create: "Crea appuntamento"
+        update: "Aggiorna appuntamento"
+  audit:
+    category: 'Categorie'
+    category_available: 'Categorie disponibili'
+    not_found: 'Nessuna categoria disponibile'
+    selection: 'Selezionate'
+    state: 'Stato'
+    next_visit: 'Prossima visita'
+    delete: 'Cancella'
+    form:
+      status: 'Stato'
+      revision_date: 'Data visita'
+      doctor: 'Dottore'
+      lab: 'Laboratorio'
+      body: 'Note'
+      save: 'Salva'
+    status:
+      deleted: "Cancellato"
+      created: "Appena creato"
+      suitable: "Idoneo"
+      suitable_prescription_temporary: "Idoneo con prescrizioni temporanee"
+      suitable_prescription_permanent: "Idoneo con prescrizioni permanenti"
+      unsuitable_temporary: "Non idoneo temporaneamente"
+      unsuitable_permanent: "Non idoneo permanentemente"
+      change_date_next_visit: "Modificata data prossima visita"
+  histories:
+    doctor_id: Il nome del dottore
+    status: Lo stato
+    revision_date: La data di revisione
+    lab: Il laboratorio
+    body: Le note
+  user:
+    index:
+      title: "Gestione utenti"
+    office: 'Sede'
+    not_found: 'Nessun utente trovato'
+    general_informations: 'Informazioni generali'
+    reactive: 'Riattiva'
+    note: 'Note'
+    deleted: 'Cancellato'
+    blocked: 'Bloccato e/o cancellato su JPERS'
+    deleted_and_blocked: 'Rimosso sia in Med.Plan. sia su JPERS'
+    delete: 'Cancella utente'
+    details: 'Dettagli utente'
+    find: 'Cerca utente'
+    modified: 'Utente modificato'
+    fullname: 'Nominativo'
+    cf: 'Codice fiscale'
+    lastname: 'Cognome'
+    name: 'Nome'
+    sex: 'Sesso'
+    city: 'Città'
+    telephone: 'Interno'
+    personal_tel: "Tel. emergenze"
+    structure: 'Struttura'
+    responsable: 'Responsabile'
+    position: 'Postazione lavorativa'
+    start_date: 'Data inizio'
+    stop_date: 'Data fine'
+    place_and_structure: 'Recapiti e struttura'
+    born_date: 'Data di nascita'
+    born_city: 'Città di nascita'
+    contract_type: 'Rapporto di lavoro'
+    email: 'E-mail'
+    signature: 'Matr.'
+    expiration_date: 'Scadenza contratto'
+    nothing: 'Nessuna'
+    unknown: 'Sconosciuta'
+    online: 'In servizio'
+    offline: 'Cessato'
+    filter: 'Filtro'
+    filters: 'Filtri'
+    same_user: 'Non puoi cancellare o bloccare te stesso!'
+    file_assegnazione: 'File assegnazione'
+    has_file_assegnazione: 'Ha un file di assegnazione'
+    cities:
+      other: "Altro"
+      chioggia: "Chioggia"
+      livorno: "Livorno"
+      milazzo: "Milazzo"
+      ozzano: "Ozzano"
+      palermo: "Palermo"
+      roma: "Roma"
+      telelavoro: "Telelavoro"
+      venezia: "Venezia"
+    postazione:
+      altro: "Altro"
+      sede: "Sede"
+      telelavoro: "Telelavoro"
+      comando: "Comando"
+      distacco: "Distacco"
+      maternita: "Maternità"
+      aspettativa: "Aspettativa"
+  category:
+    title: Categorie di rischio
+    new: 'Nuova Categoria'
+  risk:
+    title: 'Rischi lavorativi'
+    connected: 'Rischi collegati'
+    new: 'Nuovo Rischio'
+  home:
+    index:
+      title: "Riepilogo generale"
+      box: 'Riepilogo stato utenti'
+      expired: 'Scaduti prima di '
+      expire_at: 'In scadenza a '
+      filter:
+        all: "Tutti gli utenti"
+        new: "Nuovi utenti"
+        expired: "Utenti scaduti prima di questo mese"
+        thismonth: "Utenti in scadenza questo mese"
+        nextmonth: "Utenti in scadenza tra 1 mese"
+        next2months: "Utenti in scadenza tra 2 mesi"
+        locked: "Utenti cancellati"
+        blocked: "Utenti bloccati e/o cessati su JPERS"
+    user:
+      title: "Sorveglianza sanitaria"
+      reserve: "Prenotazioni"
+    books:
+      title: 'Manuale'
+      user:
+        title: 'Manuale utente'
+        summary: 'Sommario'
+      editor:
+        title: 'Manuale segretaria'
+        summary: 'Sommario'
+      admin:
+        title: 'Manuale dottore'
+        summary: 'Sommario'
+    report:
+      title: "Report"
+      new: 'Creazione report'
+      create: 'Genera report'
+    versions:
+      title: 'Versioni'
+      New: 'Nuovo'
+      Edit: 'Modifica'
+      Fix: 'Correzione'
+      Removed: 'Rimosso'
+    help:
+      title: "Segnala errore"
+  meeting:
+    title: "Appuntamenti"
+    gender:
+      visit: Visita
+      analisys: Analisi
+    status:
+      blocked: "Bloccato"
+      proposed: "Proposta"
+      waiting: "In validazione"
+      confirmed: "Confermato"
+    statuses:
+      blocked: "ha bloccato"
+      proposed: "ha proposto"
+      waiting: "sta valutando"
+      confirmed: "ha confermato"

@@ -1,0 +1,8 @@
+it:
+  activerecord:
+    errors:
+      models:
+        history:
+          attributes:
+            doctor:
+              required: il dottore è richiesto

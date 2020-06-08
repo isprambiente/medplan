@@ -1,0 +1,57 @@
+= form_with model: [@user,@audit], data: { action: 'ajax:success->audits#goPage ajax:error->audits#goPage' }, remote: true do |f|
+  .form-inputs
+    = f.fields_for :histories, @history do | h |
+      = h.hidden_field :author_id, value: current_user.id
+      .columns.has-2.tablet
+        .column
+          .field
+            %label.label.is-required= t('status', scope: 'audit.form')
+            .control.is-expanded
+              .select.is-fullwidth= h.select :status, t_enum(Audit.statuses, 'audit.status').reject {|k,v| v == 'deleted' || v == 'created'}, {selected: 2, include_blank: false}
+        .column
+          .field
+            %label.label.is-required= t('revision_date', scope: 'audit.form')
+            .control.is-expanded= h.text_field :revision_date, type: :date, id: 'revision_date', class: "input", placeholder: 'Prossima visita', value: Time.now.strftime('%Y-%m-%d')
+        .column
+          .field
+            %label.label.is-required= t('doctor', scope: 'audit.form')
+            .control.is-expanded
+              .select.is-fullwidth= h.select :doctor_id, User.doctors.map{|d| [d.label, d.id]}, {include_blank: false}
+        .column
+          .field
+            %label.label.is-required= t('lab', scope: 'audit.form')
+            .control.is-expanded
+              .select.is-fullwidth= h.select :lab, Settings.audits.lab, {include_blank: false}
+      .columns
+        .column
+          .field
+            %label.label= t('body', scope: 'audit.form')
+            .control.is-expanded= h.text_area :body, class: 'textarea'
+
+  .form-actions
+    .has-text-right
+      %button.button.is-link.is-medium.has-text-white{type: 'submit'}= fas_icon('save', text: t('save', scope: ''))
+      = link_to fas_icon('reply', text: t('abort', scope: '')), @user, remote: true, class: 'button is-danger is-medium', data: { action: 'ajax:success->modal#goPage' }
+
+%section.section
+  %table.table.is-fullwidth.is-narrow.is-striped
+    %caption
+      %h4.title.is-4 Storico valutazioni
+    %thead
+      %th.has-text-centered= t('revision_date', scope: 'audit.form')
+      %th.has-text-centered= t('status', scope: 'audit.form')
+      %th.has-text-centered= t('doctor', scope: 'audit.form')
+      %th.has-text-centered= t('lab', scope: 'audit.form')
+    %tbody
+      - if @histories.present?
+        - @histories.each do |history|
+          %tr{id: history.div}
+            %td.has-text-centered= l_date history.revision_date
+            %td.has-text-centered= t history.status, scope: 'audit.status'
+            %td.has-text-centered= history.doctor.label unless history.doctor.nil?
+            %td.has-text-centered= history.lab
+      - else
+        %tr
+          %td.has-text-centered{ colspan: 4 } Nessuna valutazione trovata
+  .has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe unless @pagy.blank?
+

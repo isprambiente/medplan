@@ -1,0 +1,9 @@
+- audit = Audit.where('category_id = ? AND user_id = ?', category.id, @user.id).first
+.columns.is-mobile{class: cycle('dark','light')  }
+  .column.is-10-desktop.is-8-tablet= category.title.capitalize
+  .column= fas_icon 'calendar', text: category.months
+  .column
+    %input.switch.is-success.is-unchecked-danger{ id: category.div, type: "checkbox", checked: audit.blank? ? false : "checked" }
+    %label.has-text-inside.has-text-white{ for: category.div, data: { action: 'click->audits#manageAudit', audits_url: audit.blank? ? user_audits_path(@user, {category_id: category.id}) : user_audit_path(@user, audit.id), audits_method: audit.blank? ? 'POST' : 'DELETE', user_id: @user.id } }
+      %span.switch-active{ aria: { hidden: "true" } }= t('yes')
+      %span.switch-inactive{ aria: { hidden: "true" } }= t('no')

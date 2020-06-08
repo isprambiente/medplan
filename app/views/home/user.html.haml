@@ -1,0 +1,33 @@
+#user.container
+  %article.message
+    .message-header= t('general_informations', scope: 'user')
+    .message-body
+      %ul
+        %li.columns.is-mobile
+          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('user', text: t('fullname', scope: 'user')+': ')
+          .column= @user.label unless @user.label.blank?
+        %li.columns.is-mobile
+          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
+          .column= @user.cf unless @user.cf.blank?
+        %li.columns.is-mobile
+          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('credit-card', text: t('matr', scope: 'user')+': ')
+          .column= @user.matr unless @user.matr.blank?
+        %li.columns.is-mobile
+          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
+          .column= @user.structure unless @user.structure.blank?
+        %li.columns.is-mobile
+          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('phone-volume', text: t('personal_tel', scope: 'user')+': ')
+          .column.is-3-desktop.is-5-tablet= @user.emergenze
+          .column= link_to 'cambia', "#{ Settings.rubrica }", target: true, data: { confirm: "Stai per essere reinderizzato nella sezione riservata della rubrica nella quale potrai modificare il numero delle emergenze. Una volta modificato, dovrai attendere fino a 3 ore affinché i sistemi si sincronizzino per vedere il nuovo numero sul sito di Med.Plan. Confermi di voler procedere?" }
+
+  .columns.has-2
+    #analisys-list.column
+      %article.message
+        .message-header= t(:analisys, scope: 'event.gender')
+        .message-body
+          %ul= render(partial: 'user_event', collection: @analisys.distinct, as: :event) || t('not_found', scope: 'event')
+    #visit-list.column
+      %article.message
+        .message-header= t(:visit, scope: 'event.gender')
+        .message-body
+          %ul= render(partial: 'user_event', collection: @visits.distinct, as: :event) || t('not_found', scope: 'event')

@@ -1,0 +1,29 @@
+.container
+  = render 'users/detail' , user: @user, response: true
+  %br/
+  - if @user.locked_at?
+    = link_to fas_icon("reply", text: t('reactive', scope: 'user')), unlock_user_path(@user), method: :patch, class: 'button is-danger is-fullwidth'
+  - else
+    = render(partial: 'audits/audits') || t('not_found', scope: 'event')
+    %h3.title.is-3.has-text-centered Appuntamenti programmati
+    .columns.has-2-tablet{ data: { controller: 'events users' } }
+      #analisys-list.column
+        %article.message
+          .message-header= t(:analisys, scope: 'event.gender')
+          .message-body= render(partial: 'user_event', collection: @analisys, as: :event) || t('not_found', scope: 'event')
+      #visit-list.column
+        %article.message
+          .message-header= t(:visit, scope: 'event.gender')
+          .message-body= render(partial: 'user_event', collection: @visits, as: :event) || t('not_found', scope: 'event')
+  - if @user.username.blank? # è un esterno
+    %br/
+    %article.message.is-danger
+      %h5.title.is-5.message-header Attenzione
+      .message-body
+        .has-text-justify
+          Questo utente è stato generato manualmente e, non potendo essere sincronizzato con l'archivio del personale, non avra' alcuni dati relativi alla locazione e al contratto bloccando le funzionalita' associate ai dati assenti.
+          Non potendo, inoltre, accedere al programma, l'utente non potrà confermare autonomamente le date delle visite e delle analisi e necessiterà di una comunicazione manuale.
+        .has-text-justify
+          Se l'utente, in futuro, dovesse essere assunto e/o gestito sul database del personale, le informazioni aggiornate verranno automaticamente sincronizzate sovrascrivendo quelle inserite manualmente.
+        .has-text-justify
+          La sincronizzazione avverra' tramite la ricerca del codice fiscale.

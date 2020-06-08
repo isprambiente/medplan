@@ -1,0 +1,10 @@
+import Noty from 'noty'
+import { Controller } from "stimulus"
+
+export default class extends Controller
+  connect: =>
+    options = {theme: 'bulma', progressBar: true, layout: 'topCenter'}
+    options['type'] = this.data.get("type") || 'info'
+    options['text'] = this.element.innerHTML
+    options['timeout'] = this.data.get("timeout") || false
+    new Noty(options).show()

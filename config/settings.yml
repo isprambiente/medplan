@@ -1,0 +1,86 @@
+title: Med.Plan.
+group: tua_societa
+header: /head.html
+footer: /footer.html
+subtitle: Programma per la gestione della segreteria medica
+email: medico-competente@domain.com
+user_data_lib: nil_data
+domain: domain.com
+cas: https://cas.domain.com/cas/
+rubrica: https://rubrica.domain.com
+tracker: tracker.domain.com
+app:
+  url: https://tuo_sito.domain.com
+bug:
+  icon: bug
+  title: Segnala un problema nel programma
+  link: https://domain.com
+  confirm: "Per problematiche relative ad appuntamenti o per contattare la segreteria medica, devi scrivere una e-mail a tuaemail@domain.com<br/><br/>Confermi di voler proseguire?"
+events:
+  maxusers: 10
+  visit:
+    description: "Inserisci una descrizione che comparirà sia nella mail della visita sia nel promemoria ical"
+    location: "Inserisci l'indirizzo della visita"
+  analisys:
+    description: "Inserisci una descrizione che comparirà sia nella mail delle analisi sia nel promemoria ical"
+    location: "Inserisci indirizzo delle analisi"
+audits:
+  lab:
+    - Il tuo laboratorio
+history:
+  status:
+    - created
+    - suitable
+    - suitable_prescription_temporary
+    - suitable_prescription_permanent
+    - unsuitable_temporary
+    - unsuitable_permanent
+    - deleted
+    - change_date_next_visit
+
+database:
+  development:
+    database: <database>
+    username: <username>
+    password: <password> # può essere configurata qui o nel file criptato credentials.yml
+    host:     <host>
+    sslmode:  'prefer'
+  test:
+    database: <database>
+    username: <username>
+    password: <password> # può essere configurata qui o nel file criptato credentials.yml
+    host:     <host>
+    sslmode:  'prefer'
+  staging:
+    database: <database>
+    username: <username>
+    password: <password> # può essere configurata qui o nel file criptato credentials.yml
+    host:     <host>
+    sslmode:  'prefer'
+  production:
+    database: <database>
+    username: <username>
+    password: <password> # può essere configurata qui o nel file criptato credentials.yml
+    host:     <host>
+    sslmode:  'prefer'
+
+api:
+  url: <url_json>
+  username: <username>
+  secret_access_key: <password> # può essere configurata qui o nel file criptato credentials.yml
+
+excel:
+  password: <password> # può essere configurata qui o nel file criptato credentials.yml
+
+action_mailer:
+  default_url_option: 
+    host: <server_host>
+    protocol: 'https'
+  smtp_settings:
+   address: <url_smtp>
+   port: <port>
+   domain: <domainnme>
+   ssl: <true|false>
+   username: <username>
+   password: <password> # può essere configurata qui o nel file criptato credentials.yml
+   sender: <sender>

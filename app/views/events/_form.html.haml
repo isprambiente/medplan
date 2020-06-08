@@ -1,0 +1,32 @@
+= form_with model: [@user, @event], data: { controller: 'users', action: 'ajax:success->modal#goPage ajax:success->users#renderUser', user_id: @user.id }, remote: true do |f|
+  .columns
+    .column.is-2-desktop
+      .field
+        %label.label.is-required= t('date', scope: 'event')
+        .control.is-expanded= f.text_field :date_on, type: :date, class: 'input datepiker', value: Date.today.strftime('%Y-%m-%d'), data: { target: 'events.datepicker' }
+    .column.is-1-desktop
+      .field
+        %label.label.is-required= 'Ora inizio'
+        .control.is-expanded
+          .select.is-fullwidth= f.select :start_at, ('08:00'.in_time_zone.to_datetime.to_i .. '20:00'.in_time_zone.to_datetime.to_i).step(30.minutes).map{|t| Time.at(t).strftime('%H:%M') }, default: '08:00', include_blank: false, include_hidden: false
+          =# f.text_field :start_at, type: :time, class: 'input timepiker', value: '08:00', data: { target: 'events.timepicker' }
+    .column.is-3-desktop
+      .field
+        %label.label.is-required= 'Tipologia'
+        .control.is-expanded
+          .select.is-fullwidth= f.select :gender, t_enum(Event.genders, 'meeting.gender'), include_blank: false
+    .column.is-3-desktop
+      .field
+        %label.label.is-required= t('city', scope: 'event')
+        .control.is-expanded
+          .select.is-fullwidth= f.select :city, t_enum(User.cities, 'user.cities'), selected: @user.city, include_blank: false
+    .column.is-3-desktop
+      .field
+        %label.label.is-required= 'Stato'
+        .control.is-expanded
+          .select.is-fullwidth= f.select :state, t_enum(Meeting.statuses, 'meeting.status'), selected: 'proposed', include_blank: false
+  .columns{ data: { controller: 'events' } }
+    .column= f.select :ids, @user.audits.map{|a| ["#{a.category.title} (#{l a.expire})", a.id ]}, {selected: @user.audits.expired.ids}, {:multiple=> true, :size=>4, data: { target: 'events.listbox' }}
+  .columns
+    %br/
+    .column= f.submit value: 'Salva', class: "button is-fullwidth is-medium is-link is-focused", data: { disable_with: 'Salvataggio in corso...' }

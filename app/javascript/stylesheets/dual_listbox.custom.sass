@@ -1,0 +1,15 @@
+.dual-listbox
+  .dual-listbox__search
+    display: none
+  .dual-listbox__container
+    @extend .columns
+    & > div
+      @extend .column
+      &.dual-listbox__buttons
+        @extend .is-1
+        display: inline-grid
+    .dual-listbox__available, .dual-listbox__selected
+      width: 100%
+      height: 200px
+
+    .dual-listbox__buttons

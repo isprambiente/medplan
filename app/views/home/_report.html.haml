@@ -1,0 +1,16 @@
+= form_with scope: :report,  url: home_report_path+'.xlsx' , :method => :get, remote: true do |f|
+  .columns
+    .column.is-6-desktop
+      .field
+        %label.label.is-required= t('year', scope: '')
+        .control.is-expanded
+          .select.is-fullwidth= f.select :year, 2014..Time.now.year, :require => true, include_blank: false, default: Time.now.year
+    .column.is-6-desktop
+      .field
+        %label.label.is-required= t('office', scope: 'user')
+        .control.is-expanded
+          .select.is-fullwidth= f.select :city, t_enum(User.cities,'user.cities').reject {|k,v| v == 'other'}, :require => true, include_blank: false
+
+  .columns
+    %br/
+    .column= f.submit value: 'Genera report', class: "button is-fullwidth is-medium is-link is-focused", data: { disable_with: 'Salvataggio in corso...' }

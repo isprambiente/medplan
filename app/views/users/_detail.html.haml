@@ -1,0 +1,114 @@
+- if user.username.blank?
+  - status = "stato del contratto non disponibile"
+  - status_class = 'grey-dark'
+- elsif user.deleted?
+  - status = 'offline'
+  - status_class = 'danger'
+- else
+  - status = 'online'
+  - status_class = 'success'
+#user.container
+  .columns.has-2-tablet
+    .column
+      %article.message
+        .message-header
+          = t('general_informations', scope: 'user')
+          - if user.username.blank? # è un esterno
+            = link_to fas_icon('edit', text: 'Modifica dati utente esterno'), edit_external_user_path(user), id: 'edit_#{user.id}', remote: true, data: { action: 'ajax:success->users#goPage' }
+        .message-body
+          %ul.info
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('user', text: t('fullname', scope: 'user')+': ')
+              .column= @user.label unless @user.label.blank?
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
+              .column= user.cf unless user.cf.blank?
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('calendar', text: t('born_date', scope: 'user')+': ')
+              .column= user.data_nasc.blank? ? 'n.d.' : user.data_nasc.to_date.strftime('%d/%m/%Y')
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('map-marker', text: t('born_city', scope: 'user')+': ')
+              .column= user.citta_nasc.blank? ? 'n.d.' : user.citta_nasc.titleize
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('envelope', text: t('email', scope: 'user')+': ')
+              .column= user.email.blank? ? 'n.d.' : "<a href='mailto:#{user.email}'>#{user.email}</a>".html_safe
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('credit-card', text: t('signature', scope: 'user')+': ')
+              .column= user.matr.blank? ? 'n.d.' : user.matr
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('money-check', text: t('contract_type', scope: 'user')+': ')
+              .column= user.denominazione_contratto.blank? ? 'n.d.' : user.denominazione_contratto
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('calendar', text: t('expiration_date', scope: 'user')+': ')
+              .column= user.scadenza_rapporto.blank? ? 'n.d.' : user.scadenza_rapporto.to_date.strftime('%d/%m/%Y')
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('circle', text: t('status', scope: 'user')+': ')
+              .column.is-uppercase.has-text-weight-bold{ class: "has-text-#{ status_class }" }= t(status, scope: 'user', default: status)
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('edit', text: t('note', scope: 'user')+': ')
+              .column
+                %span{ class: "#{ 'editable tooltip' if current_user.secretary? }", data: { tooltip: "Clicca per #{ user.body.present? ? 'modificare la' : 'inserire una' } nota", action: 'click->users#edit', user_id: user.id, field: { name: "user[body]", type: 'textarea', value: user.body.present? ? user.body : '', placeholder: "Inserisci una nota" } } }= user.body.present? ? user.body : 'aggiungi'
+
+    .column
+      %article.message
+        .message-header= t('place_and_structure', scope: 'user')
+        .message-body
+          %ul.info
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('map-marker', text: t('city', scope: 'user')+': ')
+              .column= t(user.city, scope: 'user.cities') unless user.city.blank?
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('building', text: t('office', scope: 'user')+': ')
+              .column= user.location.blank? ? 'n.d.' : user.location.capitalize
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('fax', text: t('telephone', scope: 'user')+': ')
+              .column= user.telephone.blank? ? 'n.d.' : "#{user.prefix} #{user.telephone}"
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
+              .column= user.structure_label.blank? ? 'n.d.' : user.structure_label
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('user-secret', text: t('responsable', scope: 'user')+': ')
+              .column= user.responsabile.blank? ? 'n.d.' : user.responsabile
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('mobile-alt', text: t('personal_tel', scope: 'user')+': ')
+              .column
+                - if @user.emergenze.present?
+                  %span.tooltip{ style: 'cursor: help', data: { tooltip: "Inserito dall'utente e non modificabile" } }= user.emergenze
+                  - if user.tel.present?
+                    %br/
+                %span{ class: "#{ 'editable tooltip' if current_user.secretary? }", data: { tooltip: "Clicca per #{ user.tel.present? ? 'modificare' : 'inserire' } il recapito telefonico", action: 'click->users#edit', user_id: user.id, field: { name: "user[tel]", type: 'tel', value: user.tel.present? ? user.tel : '', placeholder: "Inserisci un recapito telefonico", pattern: "[+.\/\-\0-9]+", required: false } } }= ( user.tel.present? ? user.tel : 'aggiungi numero' )
+            %li.columns.is-mobile
+              .column.is-4= fas_icon('file-pdf', text: t('file_assegnazione', scope: 'user')+': ')
+              .column
+                - if user.assegnazione.attached?
+                  .columns.is-mobile
+                    .column.is-10-desktop= link_to user.assegnazione.filename, url_for(user.assegnazione), target: :blank
+                    .column= link_to fas_icon('trash', tooltip: 'Cancella'), delete_attachment_user_path(id: user.id), class: 'button tiny is-danger', remote: true, method: :delete, data: { action: 'ajax:success->users#goPage', confirm: 'Confermi la cancellazione del file?' }
+                - else
+                  %a{ data: { action: 'click->users#toggleVisible click->users#toggleVisibleSelf', id: 'assegnazione' } } aggiungi file pdf
+
+                = form_with model: user, url: user_path(id: user.id), method: :put, multipart: true, class: 'is-hidden', id: 'assegnazione', data: { action: 'ajax:success->users#goPage' } do |f|
+                  .columns.is-mobile.is-vcentered
+                    .column
+                      .form-inputs= f.file_field :assegnazione, id: 'assegnazione', accept: 'application/pdf', direct_upload: true
+                    .column.is-2
+                      %button.button.is-fullwidth.is-success.small{ type: 'submit' }= fas_icon('save', tooltip: 'Carica')
+                    .column.is-2
+                      %a.button.is-fullwidth.is-danger.small{ href: user_path(id: user.id), data: { action: 'ajax:success->users#goPage', remote: true } }= fas_icon('times', tooltip: 'Annulla')
+      - unless user.postazione == "sede"
+        %article.message
+          .message-header= t('position', scope: 'user')
+          .message-body
+            %ul.info
+              %li.columns.is-mobile
+                .column.is-4= fas_icon('laptop', text: t('position', scope: 'user')+': ')
+                .column= user.postazione.capitalize
+              %li.columns.is-mobile
+                .column.is-4= fas_icon('calendar', text: t('start_date', scope: 'user')+': ')
+                .column= l( user.postazione_inizio.to_date )  if user.postazione_inizio.present?
+              %li.columns.is-mobile
+                .column.is-4= fas_icon('calendar', text: t('stop_date', scope: 'user')+': ')
+                .column= l( user.postazione_fine.to_date )  if user.postazione_fine.present?
+              %li.columns.is-mobile
+                .column.is-4= fas_icon('map-marker', text: ( user.postazione == "telelavoro" ? t('city', scope: 'user') : t('presso', scope: 'user') ) +': ')
+                .column= user.postazione_locazione  if user.postazione_locazione.present?

@@ -1,0 +1,58 @@
+- if @user.new_record?
+  - url = users_path
+  - method = 'post'
+- elsif @user.persisted?
+  - url = external_user_path
+  - method = 'put'
+.box
+  = form_with model: @user, :url => url, method: method do |f|
+    .form-inputs
+      .columns.has-2
+        .column
+          .field
+            %label.label.is-required= t('lastname', scope: 'user')
+            .control.is-expanded= f.text_field :lastname, placeholder: t('lastname', scope: 'user'), class: 'input'
+        .column
+          .field
+            %label.label.is-required= t('name', scope: 'user')
+            .control.is-expanded= f.text_field :name, placeholder: t('name', scope: 'user'), class: 'input'
+      .columns.has-4
+        .column
+          .field
+            %label.label.is-required= t('cf', scope: 'user')
+            .control.is-expanded= f.text_field :cf, placeholder: t('cf', scope: 'user'), maxlength: 16, class: 'input'
+        .column
+          .field
+            %label.label= t('email', scope: 'user')
+            .control.is-expanded= f.text_field :email, placeholder: t('email', scope: 'user'), class: 'input'
+        .column
+          .field
+            %label.label= t('office', scope: 'user')
+            .control.is-expanded
+              .select.is-fullwidth= f.select :city, t_enum(User.cities, 'user.cities'), { include_blank: false }, {}
+        .column
+          .field
+            %label.label= t('sex', scope: 'user')
+            .control.is-expanded
+              .select.is-fullwidth= f.select :sex, [['Maschio','M'],['Femmina','F']], { include_blank: false }, {}
+      .columns
+        .column
+          .field
+            %label.label= t('note', scope: 'user')
+            .control.is-expanded= f.text_area :body, class: 'textarea has-fixed-size'
+    .form-actions
+      .columns
+        .column= f.submit icon: 'save', value: 'Salva utente', class: 'button is-fullwidth is-link'
+
+%article.message
+  %h5.title.is-5.has-text-centered.message-header Attenzione
+  .message-body
+    %p.has-text-justify
+      Un utente generato manualmente, non potendo essere sincronizzato con l'archivio del personale,
+      non avra' alcuni dati relativi alla locazione e al contratto bloccando le funzionalita' associate ai dati assenti.
+      Non potendo, inoltre, accedere al programma, l'utente non potrà confermare autonomamente le date delle visite e delle analisi e necessiterà di una comunicazione manuale.
+    %p.has-text-justify
+      Se l'utente, in futuro, dovesse essere assunto e/o gestito sul database del personale, le informazioni aggiornate verranno automaticamente sincronizzate sovrascrivendo quelle inserite manualmente.
+    %p.has-text-justify
+      La sincronizzazione avverra' tramite la ricerca del codice fiscale.
+

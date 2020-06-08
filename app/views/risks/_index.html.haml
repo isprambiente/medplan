@@ -1,0 +1,5 @@
+= render(partial: 'risk', collection: @risks, as: :risk) || t('not_found', scope: 'risk')
+%br/
+%hr.container
+%br/
+%div.has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe

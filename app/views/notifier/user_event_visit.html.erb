@@ -1,0 +1,14 @@
+<p>Buongiorno <%= @user.label %>,</p>
+
+<p>sono presenti nuovi eventi programmati per Lei dalla Segreteria Medica.</p>
+
+<p>Per visualizzare e confermare gli eventi seguire il link:<br />
+  <a href='<%= Settings.app.url %>'><%= Settings.app.url %></a>
+</p>
+
+<p>Comparira' l'indicazione circa la data e l'ora di effettuazione della visita.</p>
+<p><%= Settings.events.visit.description %></p>
+
+<p>Cliccando su "PROPOSTA" si <b><u>convalida</u></b> l'appuntamento, in caso fosse necessario programmare una data alternativa, si prega invece di scrivere all'indirizzo e-mail: <a href='mail_to:<%= Settings.email %>'><%= Settings.email %></a></p>
+
+<p>Si prega, infine di indicare nello spazio "Emergenze" che compare nel box Informazioni Generali un numero di telefono cellulare per eventuali comunicazioni urgenti.</p>

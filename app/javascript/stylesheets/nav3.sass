@@ -1,0 +1,54 @@
+$nav3-font-size: 1.2em
+$nav3-text-color: $white
+$nav3-background-color: $ispra-darker
+$nav3-background-color-hover: $primary
+$nav3-dropdown-font-size: 0.9rem
+
+#nav3
+  background: $nav3-background-color
+  nav.navbar
+    background: transparent
+    .navbar-brand
+      width: 3rem
+      font-size: calc(#{$nav3-font-size} - 0.1em)
+      .icon
+        margin: 0
+      a.button
+        &:not(.is-textless)
+          width: 6rem !important
+          &:after
+            content: 'Menù'
+    a.navbar-item
+      white-space: nowrap
+      color: $nav3-text-color
+      font-size: $nav3-font-size
+      &:hover, &.is-active
+        transition: all 0.5s ease
+        background: $nav3-background-color-hover
+      &:focus, &:active
+        background: transparent
+      span.icon
+        margin-right: .5rem
+        &.is-right
+          margin-left: .5rem
+          margin-right: 0
+    div.navbar-dropdown
+      background: $nav3-background-color
+      border-top: .5rem
+      a.navbar-item
+        font-size: $nav3-dropdown-font-size
+      hr.navbar-divider
+        background-color: $nav3-text-color
+        height: 1px
+    a.navbar-link
+      white-space: nowrap
+      color: $nav3-text-color
+      font-size: $nav3-font-size
+      background: $nav3-background-color
+      &:not(.is-arrowless)::after
+        border-color: $nav3-text-color
+      &:hover
+        background: transparent
+      &.is-active
+        background: $nav3-background-color-hover
+

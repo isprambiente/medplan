@@ -1,0 +1,20 @@
+it:
+  pagy:
+
+    item_name:
+      one: "elemento"
+      other: "elementi"
+
+    nav:
+      prev: "&lsaquo;&nbsp;Indietro"
+      next: "Avanti&nbsp;&rsaquo;"
+      gap: "&hellip;"
+
+    info:
+      no_items: "No %{item_name} trovati"
+      single_page: "Trovati <b>%{count}</b> %{item_name}"
+      multiple_pages: "Trovati <b>%{from}-%{to}</b> su <b>%{count}</b> %{item_name}"
+
+    combo_nav_js: "Pag. %{page_input} di %{pages}"
+
+    items_selector_js: "Visualizza %{items_input} %{item_name} per pagina"

@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+wb = xlsx_package.workbook
+
+return render partial: @filter, locals: { wb: wb, filter: @filter }

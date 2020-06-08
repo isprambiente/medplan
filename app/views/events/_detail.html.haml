@@ -1,0 +1,36 @@
+#event.container
+  .columns.has-2-tablet
+    #informations.column
+      %article.message
+        .message-header= t('general_informations', scope: 'event')
+        .message-body
+          %ul
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('calendar', text: t('date', scope: 'event')+': ')
+              .column= l event.date_on
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('medkit', text: t('type', scope: 'event')+': ')
+              .column= t(event.gender, scope: 'event.gender')
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('building', text: t('city', scope: 'event')+': ')
+              .column= event.city.capitalize
+            %li
+              %a{ href: event_path(@event), class: 'button is-fullwidth is-danger', data: { remote: true, method: :delete, confirm: t('event.delete', scope: 'message'), action: 'ajax:success->events#refreshCalendar ajax:success->modal#goPage' } }= fas_icon('trash', text: t('delete', scope: 'event') )
+
+    #summary.column
+      %article.message
+        .message-header= t('summary', scope: 'event')
+        .message-body
+          %ul
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('calendar', text: t('scheduled', scope: 'event.status')+': ')
+              .column= event.users.distinct.count
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('circle', text: t('confirmed', scope: 'event.status')+': ', style: 'color:green')
+              .column= event.meetings.confirmed.joins(:audit).group(:user_id).count.count
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('circle', text: t('waiting', scope: 'event.status')+': ', style: 'color:orange')
+              .column= event.meetings.waiting.joins(:audit).group(:user_id).count.count
+            %li.columns.is-mobile
+              .column.is-4-desktop.is-5-tablet= fas_icon('circle', text: t('blocked', scope: 'event.status')+': ', style: 'color:grey')
+              .column= event.meetings.blocked.joins(:audit).group(:user_id).count.count

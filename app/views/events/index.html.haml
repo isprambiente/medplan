@@ -1,0 +1,17 @@
+.columns{ data: { controller: 'events' } }
+  %section.column.is-3-tablet
+    %nav#calendar_legend.panel.filters.is-grey-dark
+      %p.panel-heading= fas_icon('list', text: t('legend', scope: 'event'))
+      %a.panel-block.columns.is-paddingless
+        .column.is-2= fas_icon('hospital', style: "margin:0.5em;color:white;", span_style: 'button analisys')
+        .column= t('analisys', scope: 'event.gender')+' '+t('confirmed', scope: 'event.status')
+      %a.panel-block.columns.is-paddingless
+        .column.is-2= fas_icon('user-md', style: "margin:0.5em;color:white;", span_style: 'button visit')
+        .column= t('visit', scope: 'event.gender')+' '+t('confirmed', scope: 'event.status')
+
+    %nav#meetings.panel.filters
+      %p.panel-heading= fas_icon('calendar', text: t('event_waiting', scope: 'event'))
+      .panel-block
+        %a.button.is-small.is-warning.is-fullwidth{ href: home_meetings_path, data: { remote: true, action: 'click->events#refreshCalendar ajax:success->events#goPage' } }= fas_icon( 'spinner', text: t('refresh') )
+      %span{ data: { target: 'events.container' } }= render partial: 'home/meetings', collection: @meetings, as: :event
+  %section#calendar.column{ data: { target: 'events.calendar', events_url: events_path } }

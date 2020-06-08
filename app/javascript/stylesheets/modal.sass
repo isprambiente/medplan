@@ -1,0 +1,39 @@
+.modal
+  .modal-card
+    +mobile
+      &.is-small, &.is-medium, &.is-large, &.is-xlarge, &.is-full
+        max-width: 100%
+    +tablet
+      &.is-small
+        max-width: 768px
+      &.is-medium, &.is-large, &.is-xlarge
+        min-width: 769px
+        max-width: 1023px
+      &.is-full
+        min-width: 100%
+    +desktop
+      &.is-small
+        max-width: 768px
+      &.is-medium
+        min-width: 769px
+        max-width: 1023px
+      &.is-large
+        min-width: 1024px
+        max-width: 1215px
+      &.is-xlarge
+        min-width: 1216px
+        max-width: 1407px
+      &.is-full
+        min-width: 100%
+
+  .modal-card-head
+    .modal-card-menu
+      margin: 0 1rem
+      height: 100%
+      a.button:not(:last-child)
+        margin-right: .5rem
+
+  .modal-card-body
+    overflow-x: hidden
+    table.table
+      margin-bottom: 2rem

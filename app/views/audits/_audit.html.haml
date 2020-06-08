@@ -1,0 +1,8 @@
+%tr.audit{ id: audit.div }
+  %td.text-left= audit.category.title.to_s.titleize
+  %td.text-left= t audit.status, scope: 'audit.status'
+  %td.has-text-centered{id: 'td_'+audit.div, class: audit.status_class}
+    - pointer = response ? 'pointer' : 'default'
+    %a{ class: "expire_date #{pointer}", data: { action: 'click->audits#editDateExpire', user_id: @user.id, audits_url: user_audit_path(user_id: @user.id, id: audit.id, log: true) } }= l_date audit.expire
+  - if response
+    %td.has-text-right= link_to fas_icon('cog'), edit_user_audit_path(user_id: @user.id, id: audit.id), class: 'button is-link', data: { action: 'ajax:success->modal#goPage' }, remote: true

@@ -1,0 +1,189 @@
+# frozen_string_literal: true
+
+year = @year.to_s
+city = @city.to_s
+@password = Rails.application.credentials.excel[:password]
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Report #{year}") do |sheet|
+  # Stili
+  style_title = wb.styles.add_style sz: 10, b: false, alignment: { horizontal: :center, vertical: center, wrap_text: true }, bg_color: 'A8A8A8', border: { style: :thin, color: '000000' }
+  style_cols_string = wb.styles.add_style sz: 10, b: false, alignment: { horizontal: :left, vertical: center, wrap_text: true }, border: { style: :thin, color: '000000' }
+  style_cols_number = wb.styles.add_style sz: 10, b: false, alignment: { horizontal: :center, vertical: center }, width: 2, border: { style: :thin, color: '000000' }
+
+  # INIZIO GENERAZIONE REPORT DI STAMPA
+  sheet.add_row [1, 'Anno di Riferimento', '', '', year, '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  # DATI INVIO
+  sheet.add_row ['', 'DATI INVIO'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [2, 'Numero di protocollo', '', '', '', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [3, 'Codice Utente', '', '', '', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [4, 'Ruolo', '', '', 'Medico Competente Unico', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [5, 'Data Comunicazione', '', '', '', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [6, 'Ora Comunicazione', '', '', '', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  # DATI IDENTIFICATIVI DELL'AZIENDA
+  sheet.add_row ['', 'DATI IDENTIFICATIVI DELL\'AZIENDA'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [7, 'Ragione Sociale o Codice Conto (nel caso di natanti)', '', '', 'ISTITUTO SUPERIORE PER LA PROTEZIONE E LA RICERCA AMBIENTALE', '', '', ''], height: 50, style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [8, 'Partita IVA della Ragione Sociale/codice fiscale', '', '', '', '', '', ''], height: 30, style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [9, 'Codice Fiscale della Ragione Sociale', '', '', '10125211002', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [10, 'Indirizzo Sede Legale', '', '', 'VIA VITALIANO BRANCATI 48', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [11, 'Denominazione unità produttiva o codice certificato (nel caso di natanti)', '', '', "SEDE DI #{city.upcase}", '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [12, 'Indirizzo Unità produttiva', '', '', '', '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [13, 'Codice attività economica (ATECO) /Codice categoria naviglio nel caso di natanti', '', '', '', '', '', ''], height: 30, style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  # DATI LAVORATORI OCCUPATI
+  users = User.where('users.city=?', User.cities[@city])
+  male = users.male
+  female = users.female
+
+  sheet.add_row ['', 'DATI LAVORATORI OCCUPATI'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row ['', '', '', '', 'Maschi', '', 'Femmine', ''], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [14, 'N. totale lavoratori occupati al 30/6', '', '', male.where("TO_DATE((metadata -> 'inizio_rapporto'): text, 'YYYY/MM/DD') <= '#{@year}/06/30'").count, '', female.where("TO_DATE((metadata -> 'inizio_rapporto'): text, 'YYYY/MM/DD') <= '#{@year}/06/30'").count, ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [15, 'N. totale lavoratori occupati al 31/12', '', '', male.where("TO_DATE((metadata -> 'inizio_rapporto'): text, 'YYYY/MM/DD') <= '#{@year}/12/31'").count, '', female.where("TO_DATE((metadata -> 'inizio_rapporto'): text, 'YYYY/MM/DD') <= '#{@year}/12/31'").count, ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [16, 'Media annuale lavoratori occupati (calcolata in automatico dal sistema)', '', '', '', '', '', ''], style: [style_cols_number, style_cols_string, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  # DATI IDENTIFICATIVI DELL'AZIENDA
+  sheet.add_row ['', 'DATI IDENTIFICATIVI DEL MEDICO COMPETENTE'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [17, 'Cognome e nome del Medico Competente', '', '', User.doctors.first.try(:label).to_s, '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [18, 'Luogo e data di nascita del medico competente', '', '', "#{User.doctors.first.try(:citta_nasc)}, #{User.doctors.first.try(:data_nasc)}", '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [19, 'Codice Fiscale del Medico Competente', '', '', User.doctors.first.try(:cf).to_s, '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row [20, 'PEC o e-mail del Medico Competente', '', '', User.doctors.first.try(:email).to_s, '', '', ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string, style_cols_string]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  # DATI RELATIVI ALLA SORVEGLIANZA SANITARIA
+  sheet.add_row ['', 'DATI RELATIVI ALLA SORVEGLIANZA SANITARIA'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row ['', '', '', '', 'Maschi', '', 'Femmine', ''], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  male = @users.where("metadata ->> 'sex' = 'M'").where.not('histories.status=? and histories.status=?', 'deleted', 'created')
+  malebetween = male.between(start_on: @start_at, stop_on: @stop_at)
+  female = @users.where("metadata ->> 'sex' = 'F'").where.not('histories.status=? and histories.status=?', 'deleted', 'created')
+  femalebetween = female.between(start_on: @start_at, stop_on: @stop_at)
+
+  sheet.add_row [22, 'Numero di lavoratori soggetti a sorveglianza sanitaria', '', '', male.count, '', female.count, ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  sheet.add_row [23, 'Numero di lavoratori visitati nell\'anno di riferimento', '', '', malebetween.count, '', femalebetween.count, ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  rowcode = 23
+
+  t_enum(Audit.statuses, 'audit.status').each do |value, key|
+    next if %w[deleted created].include?(key)
+
+    rowcode += 1
+    malebykey = malebetween.where('histories.status=?', key)
+    femalebykey = femalebetween.where('histories.status=?', key)
+    sheet.add_row [rowcode, "Numero di lavoratori visitati e #{value}", '', '', malebykey.count, '', femalebykey.count, ''], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number]
+    sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+    sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+    sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+  end
+
+  # ESPOSIZIONE AI RISCHI LAVORATIVI DEI LAVORATORI
+  sheet.add_row ['', 'ESPOSIZIONE AI RISCHI LAVORATIVI DEI LAVORATORI'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row ['', '', '', '', 'Lavoratori soggetti a sorveglianza sanitaria', '', 'Lavoratori sottoposti a sorveglianza', ''], height: 50, style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  row = sheet.rows.count
+  sheet.add_row ['', '', '', '', '', '', 'Lavoratori visitati', ''], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+
+  sheet.merge_cells("A#{row}:A#{sheet.rows.count}")
+  sheet.merge_cells("B#{row}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{row}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{row}:H#{row}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+
+  sheet.add_row ['', 'Rischi lavoratori', '', '', 'Maschi', 'Femmine', 'Maschi', 'Femmine'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  Risk.printed.each do |risk|
+    males = @users.where('risks.id=?', risk.id).where("metadata ->> 'sex' = 'M'")
+    malesbetween = males.between(start_on: @start_at, stop_on: @stop_at)
+    female = @users.where('risks.id=?', risk.id).where("metadata ->> 'sex' = 'F'")
+    femalebetween = female.between(start_on: @start_at, stop_on: @stop_at)
+
+    sheet.add_row [risk.code, risk.title.capitalize, '', '', males.count, female.count, malesbetween.count, femalebetween.count], style: [style_cols_number, style_cols_string, style_cols_string, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number]
+    sheet.merge_cells("B#{sheet.rows.count}:D#{sheet.rows.count}")
+  end
+
+  # ADEMPIMENTI AI SENSI DELL'ARTICOLO 41 C.4 D. LGS. 81/08
+  sheet.add_row ['', 'ADEMPIMENTI AI SENSI DELL\'ARTICOLO 41 C.4 D. LGS. 81/08'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("B#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row ['', '', 'N. lavoratori sottoposti alle verifiche ex art. 41 c.4 D.Lgs. 81/08', '', 'N. lavoratori positivi ai test di screening', '', 'N. di lavoratori positivi ai test di conferma', ''], height: 50, style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+  sheet.merge_cells("C#{sheet.rows.count}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{sheet.rows.count}:F#{sheet.rows.count}")
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row ['', '', 'Maschi', 'Femmine', 'Maschi', 'Femmine', 'Maschi', 'Femmine'], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+
+  sheet.merge_cells("A#{sheet.rows.count - 1}:B#{sheet.rows.count}")
+
+  sheet.add_row ['44', Risk.find_by(code: '50').title.capitalize, '0', '0', '0', '0', '0', '0'], style: [style_cols_number, style_cols_string, style_cols_number, style_cols_number, style_cols_number, style_cols_number, style_cols_number, style_cols_number] if Risk.find_by(code: '50').present?
+
+  sheet.add_row ['45', Risk.find_by(code: '51').title.capitalize, '0', '0', '', '', 'Lavoratori risultati inidonei alla mansione', ''], height: 40, style: [style_cols_number, style_cols_string, style_cols_number, style_cols_number, style_title, style_title, style_title, style_title] if Risk.find_by(code: '51').present?
+  row = sheet.rows.count
+  sheet.merge_cells("G#{sheet.rows.count}:H#{sheet.rows.count}")
+  sheet.add_row ['', '', '', '', '', '', 'Maschi', 'Femmine'], style: [style_cols_number, style_cols_string, style_cols_number, style_cols_number, style_title, style_title, style_title, style_title]
+  sheet.add_row ['', '', '', '', '', '', '0', '0'], style: [style_cols_number, style_cols_string, style_cols_number, style_cols_number, style_title, style_title, style_cols_number, style_cols_number]
+
+  sheet.merge_cells("A#{row}:A#{sheet.rows.count}")
+  sheet.merge_cells("B#{row}:B#{sheet.rows.count}")
+  sheet.merge_cells("C#{row}:C#{sheet.rows.count}")
+  sheet.merge_cells("D#{row}:D#{sheet.rows.count}")
+  sheet.merge_cells("E#{row}:E#{sheet.rows.count}")
+  sheet.merge_cells("F#{row}:F#{sheet.rows.count}")
+end

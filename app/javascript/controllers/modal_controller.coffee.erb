@@ -1,0 +1,41 @@
+import { Controller } from "stimulus"
+import PageController from './page_controller'
+
+export default class extends PageController
+  @targets = ['container', 'title', 'menu', 'body', 'footer']
+
+  open: (event) =>
+    [data, status, xhr] = event.detail
+    #if this.hasContainerTarget
+    target = event.currentTarget
+    modal = this.containerTarget
+    if target
+      if target.dataset.title
+        this.titleTarget.innerHTML = target.dataset.title
+      else
+        this.titleTarget.innerHTML = ''
+      if target.dataset.menu
+        menu_html = ''
+        menu = target.dataset.menu.split('|')
+        menu.forEach (c) ->
+          a = c.split(',')
+          menu_html += "<a class='button tooltip has-tooltip-bottom' data-tooltip='Carica in una nuova finestra'  href='#{a[1]}' target='#{a[2]}'>#{a[0]}</a>"
+        this.menuTarget.innerHTML = menu_html
+      else
+        this.menuTarget.innerHTML = ''
+    this.bodyTarget.innerHTML = xhr.response
+    modal.classList.add('is-active')
+    modal.closest('html').classList.add('is-clipped')
+
+  goPage: (event) =>
+    [data, status, xhr] = event.detail
+    this.bodyTarget.innerHTML = xhr.response
+
+  close: (event) =>
+    modal = event.currentTarget.closest('#modal.modal')
+    modal.querySelector('.modal-card-title').innerHTML = ''
+    modal.querySelector('.modal-card-menu').innerHTML = ''
+    modal.querySelector('.modal-card-body').innerHTML = ''
+    modal.querySelector('.modal-card-footer').innerHTML = ''
+    modal.classList.remove('is-active')
+    modal.closest('html').classList.remove('is-clipped')

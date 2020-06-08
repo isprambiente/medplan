@@ -1,0 +1,150 @@
+import Rails from "@rails/ujs"
+import { Controller } from "stimulus"
+import Timeout from 'smart-timeout'
+import PageController from './page_controller'
+
+export default class extends PageController
+  @targets = [ "container" ]
+
+  renderUser: (event, user_id='') =>
+    if user_id == ''
+      target = event.currentTarget
+      user_id = target.dataset.userId
+    container = document.getElementById("user_#{user_id}")
+    Rails.ajax
+      type: "GET"
+      url: "/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/#{user_id}/<%= I18n.t( 'user', scope: 'routes', default: 'user' ) %>"
+      success: (response, status, xhr) =>
+        container.outerHTML = xhr.response
+      error: ( error ) =>
+        this.send "Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error"
+
+  edit: (event) =>
+    target = event.target
+    if target.classList.contains('editable')
+      container = target.parentNode
+      userId = target.dataset.userId
+      editDiv = document.createElement("DIV")
+      editDiv.id = "#{userId}_editor"
+      editDiv.className = "editor"
+      container.appendChild(editDiv)
+      oldDate = target.text
+      if target.dataset.hasOwnProperty('fieldType')
+        if target.dataset.fieldType == 'textarea'
+          el = document.createElement("TEXTAREA")
+          el.className = "textarea editor is-radiusless has-fixed-size"
+          el.innerHTML = target.dataset.fieldValue
+        else if target.dataset.fieldType == 'file'
+          user_id = target.dataset.userId
+          form = document.createElement("FORM")
+          form.method = 'post'
+          form.action = "/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/#{ user_id }"
+          form.dataset.multipart = 'true'
+          form.dataset.remote = ''
+          form.acceptCharset = 'UTF-8'
+          form.dataset.action = 'ajax:success->users#abort'
+          el = document.createElement("INPUT")
+          el.type = 'hidden'
+          el.name = '_method'
+          el.value = 'put'
+          form.appendChild(el)
+          el = document.createElement("INPUT")
+          el.name = target.dataset.fieldName
+          el.type = target.dataset.fieldType
+          el.className = "input #{ target.dataset.fieldType } editor is-radiusless"
+          el.accept = target.dataset.fieldAccept || ''
+          # el.dataset.directUpload = target.dataset.fieldDirectUpload || 'false'
+          form.appendChild(el)
+        else
+          el = document.createElement("INPUT")
+          el.type = target.dataset.fieldType
+          el.className = "input #{ target.dataset.fieldType } editor is-radiusless"
+          el.style = "width:60%;"
+          el.value = target.dataset.fieldValue
+      else
+        el = document.createElement("INPUT")
+        el.className = "input editor is-radiusless"
+        el.style = "width:60%;"
+        el.value = target.dataset.fieldValue
+      if target.dataset.hasOwnProperty('fieldPattern')
+        el.pattern = target.dataset.fieldPattern
+        el.addEventListener 'change', (event) =>
+          if el.validity.typeMismatch
+            el.setCustomValidity("Valore inserito non valido!")
+          else
+            el.setCustomValidity("")
+      if target.dataset.hasOwnProperty('fieldRequired')
+        el.required = 'required'
+      unless target.dataset.fieldType == 'file'  
+        el.placeholder = target.dataset.fieldPlaceholder
+        el.name = target.dataset.fieldName
+        editDiv.appendChild(el)
+        btnSave = document.createElement("BUTTON")
+        btnSave.innerHTML = "<i class='fa fa-save' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Salva' else '' }"
+        btnSave.className = "button tooltip is-success is-radiusless"
+        btnSave.dataset.tooltip = "Salva"
+        btnSave.dataset.action = "click->users#update"
+        btnSave.dataset.userId = userId
+        editDiv.appendChild(btnSave)
+        btnCanc = document.createElement("BUTTON")
+        btnCanc.innerHTML = "<i class='fa fa-times' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Annulla' else '' }"
+        btnCanc.className = "button tooltip is-danger is-radiusless"
+        btnCanc.dataset.tooltip = "Annulla"
+        btnCanc.dataset.action = "click->users#abort"
+        editDiv.appendChild(btnCanc)
+      else
+        if form
+          btnSave = document.createElement("BUTTON")
+          btnSave.innerHTML = "<i class='fa fa-save' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Salva' else '' }"
+          btnSave.className = "button tooltip is-success is-radiusless"
+          btnSave.dataset.tooltip = "Salva"
+          # btnSave.dataset.action = "click->users#update"
+          btnSave.type = 'submit'
+          btnSave.dataset.userId = userId
+          form.appendChild(btnSave)
+          btnCanc = document.createElement("BUTTON")
+          btnCanc.innerHTML = "<i class='fa fa-times' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Annulla' else '' }"
+          btnCanc.className = "button tooltip is-danger is-radiusless"
+          btnCanc.dataset.tooltip = "Annulla"
+          btnCanc.dataset.action = "click->users#abort"
+          form.appendChild(btnCanc)
+          editDiv.appendChild(form)
+      target.classList.add('is-hidden')
+
+  update: (event) =>
+    target = event.currentTarget
+    editor = target.parentNode
+    container = editor.parentNode
+    link = container.querySelector(".editable")
+    input = editor.querySelector(".editor")
+    value = input.value
+    user_id = target.dataset.userId
+    url = "/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/#{ user_id }"
+    if input.checkValidity()
+      Rails.ajax
+        type: "PUT"
+        url: "#{ url }"
+        data: "#{ input.name }=#{ value }"
+        success: (data, status, xhr) =>
+          this.send('Salvataggio avvenuto correttamente!')
+          this.removeElement target
+          link.innerHTML = if value != '' then value else 'aggiungi'
+          link.dataset.fieldValue = value
+        error: (error) =>
+          this.removeElement target
+          this.send('Si è verificato un errore durante il salvataggio della data!', 'error')
+    else
+      if input.hasAttribute('pattern')
+        this.send "Immettere un valore compreso tra #{input.pattern}!", 'error'
+      else
+        this.send 'Valore immesso non valido!', 'error'
+
+  abort: (event) =>
+    this.removeElement event.currentTarget
+
+  removeElement: (target) =>
+    editor = target.closest('.editor')
+    container = editor.parentNode
+    editor.remove()
+    link = container.querySelector('.editable.is-hidden')
+    link.classList.remove('is-hidden') if link

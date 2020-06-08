@@ -1,0 +1,81 @@
+//!
+// Modifiche grafiche partendo dal CSS in versione FullCalendar v2.2.6
+// Sovrascrivo classi esistenti nel CSS originale
+
+#calendar
+  margin: 0 auto
+  thead, tbody, tfoot
+    background-color: transparent
+    border: 0
+  tbody
+    border-top: 1px solid
+  .fc-view-container
+    border: 0
+  table, th, tr, td
+    border: none
+    background: transparent
+  td.fc-day, td.fc-day-top
+    border-top: 0
+    border-left: 1px solid #AAA
+    border-right: 1px solid #AAA
+    border-bottom: 1px solid #AAA
+  td.fc-today
+    background-color: #ffa
+  td.fc-widget-header
+    border-bottom: 1px solid #DDD
+  div.fc-content-skeleton table
+    thead
+      background-color: #fff
+      td.fc-other-month.weekend
+        background-color: #EAEAEA !important
+
+  .aaa
+    background: repeating-linear-gradient( 45deg, transparent, transparent 1px, #ccc 1px, #ccc 1px ), linear-gradient(to bottom, #eee, #999)
+  .fc-past
+    background-color: #EAEAEA
+
+.weekend
+  border: 1px solid #DDD
+  background-color: #EAEAEA !important
+  color: #222
+
+.fc-widget-header .weekend
+  background-color: transparent !important
+
+.fc-day-number
+  font-weight: bold
+
+.fc-state-highlight
+  background-color: #EFF9AD !important
+
+.fc-state-hover
+  color: #F2F2F2
+  text-decoration: none
+  background-position: 0
+
+.fc .fc-view tbody .fc-row
+  min-height: 8rem
+
+.fc-bgevent-skeleton, .fc-highlight-skeleton
+  bottom: 20px
+
+.fc-view-container *, .fc-view-container *:before, .fc-view-container *:after
+  box-sizing: border-box
+
+.fc-scroller
+  overflow: hidden !important
+
+.fc-listWeek-view
+  tr.fc-list-item, tr.fc-list-heading
+    color: $black !important
+    background: none !important
+    &.visit
+      .fc-event-dot
+        background-color: $warning
+    &.analisys
+      .fc-event-dot
+        background-color: $success
+    & > *
+      color: $black !important
+  .fc-list-item-title
+    text-transform: uppercase

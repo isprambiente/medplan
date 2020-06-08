@@ -1,0 +1,55 @@
+it:
+  simple_form:
+    "yes": 'SI'
+    "no": 'No'
+    required:
+      text: 'obbligatorio'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "Verificare i seguenti problemi:"
+    labels:
+      default:
+        user: 'Utente'
+      event:
+        audits: 'Categorie di rischio'
+        gender: 'Tipologia'
+        status: 'Stato'
+        start_at: 'Inizio'
+        stop_at: 'Fine'
+      category:
+        code: 'Codice (vecchio programma)'
+        title: Titolo
+        months: 'Frequenza (mesi)'
+        protocol: 'Protocollo da eseguire'
+        risks: 'Rischi collegati'
+      risk:
+        code: 'Codice (vecchio programma)'
+        title: Titolo
+        printed: In stampa
+        categories: Categorie di rischio
+  helpers:
+    submit:
+      audit:
+        create: "Aggiungi"
+        update: "Modifica stato utente"
+        
+        
+        
+        
+    # Labels and hints examples
+    # labels:
+    #   defaults:
+    #     password: 'Password'
+    #   user:
+    #     new:
+    #       email: 'E-mail to sign in.'
+    #     edit:
+    #       email: 'E-mail.'
+    # hints:
+    #   defaults:
+    #     username: 'User name to sign in.'
+    #     password: 'No special characters, please.'
+

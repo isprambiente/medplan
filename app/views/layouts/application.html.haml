@@ -1,0 +1,33 @@
+!!! 5
+%html.no-js{lang: "#{I18n.locale || I18n.default_locale}"}
+  %head
+    %meta{ charset: "utf-8" }
+    %meta{ "http-equiv": 'X-UA-Compatible', content: 'IE=edge' }
+    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    %meta{ name: 'description', content: "#{Settings.subtitle}" }
+    = favicon_link_tag
+    %title= Settings.title
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body{ data: { controller: "page" } }
+    #loader.is-hidden
+      .is-loading
+    #error.modal
+      .modal-background
+      .modal-content
+        .box.has-text-centered= fas_icon 'exclamation-triangle fa-4x has-text-danger is-large', text: '<br/><br/>ATTENZIONE e` stato rilevato un errore di trasmissione, recaricare la pagina e riprovare.'
+    %header
+      #remote-header{ data: {controller: 'section', section_url: Settings.header, target: 'section.container'}}
+      = render partial: 'nav_3'
+    = notifications.html_safe
+    = notify_status(@status) if @status
+    %section
+      <noscript><div class="callout alert radius">ATTENZIONE! questo sito richiede le funzioni javascript abilitate per funzionare correttamente.</div></noscript>
+    %section.section{ data: { controller: "modal" } }
+      %div{ data: { target: "page.container" } }= yield
+      #modal.modal{ data: { target: "modal.container" } }= render partial: 'modal'
+    = render partial: 'menu'
+    %footer{ data: {controller: 'section', section_url: Settings.footer, target: 'section.container'}}
+

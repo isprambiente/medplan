@@ -1,0 +1,57 @@
+= form_with scope: 'filter', url: home_list_path, method: :get, data: {action: "ajax:success->section#goPage"} do |f|
+  %nav.panel.filters
+    %p.panel-heading= fas_icon('list', text: t('box', scope: 'home.index'))
+    %label.panel-block
+      = f.radio_button :riepilogo, 'new', data: {action: "section#sendForm"}
+      %span= t('new', scope: 'home.index.filter')
+      %span.tag.is-rounded.is-to-right= @users.unassigned.count
+    %label.panel-block
+      = f.radio_button :riepilogo, 'expired', data: {action: "section#sendForm"}, checked: true
+      %span= t('expired', scope: 'home.index') + " " + l(@start_at, :format => '%B %Y').capitalize
+      %span.tag.is-rounded.is-to-right= @users.where('audits.expire < ? ', @start_at).count
+    %label.panel-block
+      = f.radio_button :riepilogo, 'thismonth', data: {action: "section#sendForm"}
+      %span= t('expire_at', scope: 'home.index')+"#{l(@start_at, :format => '%B %Y').capitalize}"
+      %span.tag.is-rounded.is-to-right= @users.where('audits.expire Between ? And ?', @start_at, @stop_at).count
+    %label.panel-block
+      = f.radio_button :riepilogo, 'nextmonth', data: {action: "section#sendForm"}
+      %span= t('expire_at', scope: 'home.index')+"#{l(@next_start_at, :format => '%B %Y').capitalize} (+1 "+t('month', scope: '')+")"
+      %span.tag.is-rounded.is-to-right= @users.where('audits.expire Between ? And ?', @next_start_at, @next_stop_at).count
+    %label.panel-block
+      = f.radio_button :riepilogo, 'next2months', data: {action: "section#sendForm"}
+      %span= t('expire_at', scope: 'home.index')+"#{l(@next_2_start_at, :format => '%B %Y').capitalize} (+2 "+t('months', scope: '')+")"
+      %span.tag.is-rounded.is-to-right= @users.where('audits.expire Between ? And ?', @next_2_start_at, @next_2_stop_at).count
+    %label.panel-block
+      = f.radio_button :riepilogo, 'locked', data: {action: "section#sendForm"}
+      %span= t('locked', scope: 'home.index.filter')
+      %span.tag.is-rounded.is-to-right= @users.locked.count
+    %label.panel-block
+      = f.radio_button :riepilogo, 'blocked', data: {action: "section#sendForm"}
+      %span= t('blocked', scope: 'home.index.filter')
+      %span.tag.is-rounded.is-to-right= @users.blocked.count
+
+  %nav#meetings.panel.filters{ data: { controller: 'events' } }
+    %p.panel-heading= fas_icon('calendar', text: t('event_waiting', scope: 'event'))
+    .panel-block
+      %a.button.is-small.is-warning.is-fullwidth{ href: home_meetings_path, data: { remote: true, action: 'ajax:success->events#goPage' } }= fas_icon( 'spinner', text: t('refresh') )
+    %span{ data: { target: 'events.container' } }= render partial: 'meetings', collection: @meetings, as: :event
+
+  %nav#cities.panel.filters
+    %p.panel-heading= fas_icon('map-marker', text: t('city', scope: 'user'))
+    %label.panel-block
+      = f.radio_button :city, '', data: {action: "section#sendForm"}
+      %span= t('all', scope: '')
+    - User.cities.each do |city|
+      %label.panel-block{class: [city[0],'sedi']}
+        = f.radio_button :city, city[0], data: {action: "section#sendForm"}
+        %span= t(city[0], scope: 'user.cities')
+
+  %nav#positions.panel.filters
+    %p.panel-heading= fas_icon('building', text: t('position', scope: 'user'))
+    %label.panel-block{class: 'sedi'}
+      = f.radio_button :postazione, '', selected: 'selected', data: {action: "section#sendForm"}
+      %span= t('all')
+    - User.postaziones.each do |postazione|
+      %label.panel-block{class: [postazione[0],'sedi']}
+        = f.radio_button :postazione, postazione[0], data: {action: "section#sendForm"}
+        %span= t(postazione[0], scope: 'user.positions')

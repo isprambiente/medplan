@@ -1,0 +1,20 @@
+.container
+  %article.message.is-medium
+    .message-header.has-text-centered Segnala un problema nel programma
+    .message-body
+      %p Per problematiche relative ad appuntamenti o per contattare la segreteria medica, devi scrivere una e-mail a "#{ link_to Settings.email, "mailto: " + Settings.email }"
+      %br/
+      %p Proseguendo sarai reindirizzato alla pagina del programma di assistenza per descrivere, in dettaglio, il problema riscontrato. Sarà considerata cosa gradita, dal Settore, se oltre a una descrizione il più dettagliata possibile venisse allegato anche un file contenente l'immagine dell'errore generato ove chiaramente possibile.
+      %br/
+      %p Confermi di voler proseguire?
+      %hr{ style: 'border: 1px solid #dcdcdc;' }
+      %p
+        %nav.level
+          .level-left
+            .level-item
+              %a.button.is-danger.is-fullwidth{ href: root_path, target: '_self' } Annulla
+
+          .level-right
+            .level-item
+              %a.button.is-link.is-fullwidth{ href: Settings.bug.link, target: '_self' } Si, prosegui
+

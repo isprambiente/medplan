@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xml:space="preserve"
+   enable-background="new 0 0 1634.3589 1621.8223"
+   viewBox="0 0 1634.3589 1621.8223"
+   y="0px"
+   x="0px"
+   id="Layer_1"
+   version="1.1"><metadata
+   id="metadata15"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs13" />
+<g
+   id="g8">
+	<path
+   id="path2"
+   d="M43.3653,815.9111"
+   stroke-miterlimit="10"
+   stroke="#000000"
+   fill="none" />
+	<polygon
+   id="polygon4"
+   points="41.8891,542.9337 546.9691,542.9337 546.9691,35.5902 1085.278,35.5902 1085.278,542.9596    1592.8286,542.9596 1592.8286,1079.3282 1089.236,1079.3282 1089.236,1586.2321 549.0645,1586.2321 549.0645,1079.5869    41.902,1079.5869  "
+   fill="#EE1C24" />
+	
+		<polyline
+   id="polyline6"
+   points="   43.3653,815.9111 192.3589,815.9111 217.6922,743.9111 275.0255,1055.9111 321.6922,563.2445 355.0255,861.2445 390.3589,815.9111    668.3588,815.9111 693.0255,746.5778 750.3588,1055.9111 797.0255,563.2445 831.6922,862.5778 864.3588,815.9111    1217.6921,815.9111 1243.0255,742.5778 1300.3589,1055.9111 1346.3589,563.2445 1379.0255,865.9111 1411.6921,817.9111    1590.9935,817.9111  "
+   stroke-miterlimit="10"
+   stroke-linejoin="round"
+   stroke-linecap="round"
+   stroke-width="15"
+   stroke="#FFFFFF"
+   fill="none" />
+</g>
+</svg>

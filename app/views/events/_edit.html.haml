@@ -1,0 +1,6 @@
+= render 'detail' , event: @event
+%nav.level
+  .level-left
+  .level-right
+    %p.level-item= link_to fas_icon('envelope', text: 'Invia a tutti'), confirmed_users_event_path(@event), remote: true, method: :put, class: 'button is-fullwidth is-link tooltip', data: {confirm: "Confermi l'invio di una mail unica a tutti i dipendenti di questa lista? Ogni dipendente riceverà una email solo con i suoi dati.", tooltip: "Invio di una mail a tutti i dipendenti", action: 'ajax:success->events#refreshMeeting', event_id: @event.id }
+#meetings-edit{ data: { target: 'events.meetings' } }= render partial: "events/meeting", collection: @meetings

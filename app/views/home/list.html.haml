@@ -1,0 +1,12 @@
+- if @users.present?
+  #users
+    - @users.each do |user|
+      - if ['expired','thismonth','nextmonth','next2months'].include?(@riepilogo)
+        - if @old_expire != user.expire
+          %h5.title.is-5= user.expire.strftime('%d/%m/%Y')
+          - @old_expire = user.expire
+      = render user
+  %hr
+  .has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe
+- else
+  .has-text-centered= t('not_found', scope: 'user')

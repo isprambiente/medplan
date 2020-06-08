@@ -1,0 +1,17 @@
+- response = false unless defined? response
+%article#audits.message{ data: { controller: 'audits' } }
+  .message-header Idoneità
+  .message-body.is-paddingless
+    %table.audits.table.is-striped.is-narrow.is-hoverable.is-fullwidth
+      %thead
+        %tr
+          %th= t('title', scope: 'category')
+          %th{ width: "150" }= t('state', scope: 'audit')
+          %th.has-text-centered{ width: "250" }= t('next_visit', scope: 'audit')
+          %th{ width: "100" }
+      %tbody
+        - if @audits.present?
+          = render @audits
+        - else
+          %tr
+            %td.has-text-centered{ colspan: 4 } Nessuna categoria di rischio selezionata

@@ -1,0 +1,24 @@
+= form_with model: @risk, data: { action: 'ajax:success->page#goPage ajax:success->modal#close ajax:error->modal#goPage' }, remote: true do |f|
+  .form-inputs
+    .columns
+      .column.is-9-desktop.is-8-tablet
+        .field
+          %label.label.is-required Titolo
+          .control.is-expanded= f.text_field :title, class: "input"
+          %p.help.is-danger= @risk.errors.messages[:title].join(', ')
+      .column
+        %label.label.is-required Visualizza in stampa
+        .control.is-expanded
+          %label.radio
+            = f.radio_button :printed, true
+            = t('yes')
+          %label.radio
+            = f.radio_button :printed, false
+            = t('no')
+    .columns
+      .column
+        = f.select :category_ids, Category.all.map{|r| [ r.title, r.id ] }, { label: 'Categorie di rischio' }, { multiple: true, data: { target: 'risks.listbox' } }
+        %p.help.is-danger= @risk.errors.messages[:category_ids].join(', ')
+  .form-actions
+    .columns
+      .column= f.submit icon: 'save', value: 'Salva', class: 'button is-fullwidth is-link'

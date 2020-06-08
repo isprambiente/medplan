@@ -1,0 +1,5 @@
+= render(partial: 'category', collection: @categories, as: :category) || t('not_found', scope: 'category')
+%br/
+%hr.container
+%br/
+%div.has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe
