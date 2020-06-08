@@ -1,0 +1,119 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - employee-management
+  - document-management
+  - office
+description:
+  it:
+    documentation: 'https://rubydoc.info/github/isprambiente/medplan/master'
+    features:
+      - gestione dipendenti
+      - gestione appuntamenti
+      - calendario appuntamenti
+      - gestione categorie di rischio
+      - gestione rischi lavorativi
+      - gestione scadenze idoneità
+      - generazione reportistica
+    genericName: Segreteria medica
+    longDescription: >
+      Il programma, interamente sviluppato all'interno del settore Sviluppo di
+      AGP-INF, nasce da una specifica necessità di
+      [I.S.P.R.A.](http://www.isprambiente.gov.it) nel gestire la sorveglianza
+      sanitaria e la medicina sul lavoro del personale. Il programma è stato
+      appositamente sviluppato su piattaforma web per consentire l'accesso alle
+      risorse interne tramite l'utilizzo di un comune browser web. All'interno
+      dell'applicazione è possibile gestire le attività di segreteria dedica
+      programmando, per ciascun dipendente, le analisi cliniche e le visite
+      presso il medico competente.  E' possibile gestire i rischi lavorativi
+      connessi alle attività lavorative dell'Istituto raggruppandoli in
+      categorie di rischio collegandoli a ciascun dipendente.  Per ogni
+      categoria di rischio è possibile indicare il numero di mesi di
+      sorveglianza sanitaria.  Allo scadere dei mesi indicati, il sistema
+      visualizza l'elenco dei dipendenti "scaduti".  E' possibile scegliere tra:
+      * Dipendenti nuovi: elenco di personale che a cui non è associta nessuna
+      categori di rischio; * Dipendenti scaduti: elenco di personale che è
+      scaduto prima del mese corrente; * Dipendenti in scadenza nel mese
+      corrente: elenco di personale che ha almeno una categoria di rischio in
+      scadenza nel mese corrente; * Dipendenti in scadenza nel primo mese
+      successivo: elenco di personale che ha almeno una categoria di rischio in
+      scadenza nel mese successivo al mese corrente; * Dipendenti in scadenza
+      nel secondo mese successivo: elenco di personale che ha almeno una
+      categoria di rischio in scadenza nel secondo mese successivo al mese
+      corrente; * Dipendenti cancellati: elenco di personale che è stato
+      cancellato manualmente dal sistema; * Dipendenti bloccati e/o cessati:
+      elenco di personale che è stato bloccato automaticamente dal sistema in
+      caso, ad esempio, di scadenza contratto;
+
+      Nello specifico il sistema, rilasciato in riuso, permette:
+
+      * Una autenticazione SingleSignOn su sistema CAS Server; * Acquisizione
+      automatica dei dipendenti da repository REST-API Json; * Creazione e
+      gestione manuale dei dipendenti; * Gestione dei rischi sul lavoro; *
+      Raggruppamento in categorie dei rischi sul lavoro; * Profilazione dei
+      dipendenti in base alle categorie di rischio collegate; *
+      Calendarizzazione delle analisi e delle visite; * Comunicazioni tramite
+      e-mail con i dipendenti; * Gestione dello storico delle idoneità per
+      ciascun dipendente; * Gestione delle scadenze delle idoneità per ciascuna
+      categoria di rischio; * Generazione di reportistica riservata al medico
+      competente; * Manuali d'utilizzo per i tre profili utente: dipendente
+      generico, segreteria e medico competente.
+    shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
+developmentStatus: stable
+inputTypes:
+  - text/plain
+  - application/json
+intendedAudience:
+  countries:
+    - it
+  scope:
+    - government
+it:
+  conforme:
+    gdpr: false
+    lineeGuidaDesign: true
+    misureMinimeSicurezza: true
+    modelloInteroperabilita: true
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: ispra_rm
+legal:
+  license: MIT
+  mainCopyrightOwner: 2020 Istituto Superiore per la Protezione e la Ricerca Ambientale
+  repoOwner: Istituto Superiore per la Protezione e la Ricerca Ambientale
+localisation:
+  availableLanguages:
+    - it
+    - en
+  localisationReady: true
+maintenance:
+  contacts:
+    - affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
+      email: francesco.loreti@isprambiente.it
+      name: Francesco Loreti
+      phone: '+390650072225'
+    - affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
+      email: andrea.ranaldi@isprambiente.it
+      name: Andrea Ranaldi
+      phone: '+390650072358'
+  type: internal
+name: Med.Plan.
+outputTypes:
+  - application/vnd.ms-excel
+platforms:
+  - web
+  - linux
+releaseDate: '2020-03-23'
+softwareType: standalone/web
+softwareVersion: 1.0.0
+url: 'https://github.com/isprambiente/medplan'
+usedBy:
+  - ISPRA
