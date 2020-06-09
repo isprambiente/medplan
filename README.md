@@ -1,3 +1,7 @@
+[![Inline docs](http://inch-ci.org/github/remote-exec/command-designer.png)](http://inch-ci.org/github/isprambiente/medplan)
+[![Yard Docs](http://img.shields.io/badge/yard-docs-blue.svg)](http://rubydoc.info/github/isprambiente/medplan/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/606f40e65760b34fbf84/maintainability)](https://codeclimate.com/github/isprambiente/medplan/maintainability)
+
 # Gestione segreteria medica(Med.Plan.)
 
 Il programma, interamente sviluppato all'interno del settore Sviluppo di AGP-INF, nasce da una specifica necessità di [I.S.P.R.A.](http://www.isprambiente.gov.it) nel gestire la sorveglianza sanitaria e la medicina sul lavoro del personale.
