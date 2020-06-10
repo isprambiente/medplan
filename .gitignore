@@ -21,7 +21,7 @@
 
 # generici
 /private
-/docs
+/doc
 /*.sublime-project
 /*.sublime-workspace
 /.project
