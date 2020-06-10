@@ -63,6 +63,9 @@ description:
       * Generazione di reportistica riservata al medico competente; 
       * Manuali d'utilizzo per i tre profili utente: dipendente generico, segreteria e medico competente.
     shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
+    screenshots:
+      - doc/screen-1.png
+      - doc/screen-2.png
 developmentStatus: stable
 inputTypes:
   - text/plain
