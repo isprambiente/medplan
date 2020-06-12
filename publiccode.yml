@@ -66,6 +66,7 @@ description:
     screenshots:
       - doc/screen-1.png
       - doc/screen-2.png
+logo: 'doc/logo.svg'
 developmentStatus: stable
 inputTypes:
   - text/plain
