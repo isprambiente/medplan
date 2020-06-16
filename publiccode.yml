@@ -124,3 +124,4 @@ softwareVersion: 1.0.1
 url: 'https://github.com/isprambiente/medplan'
 usedBy:
   - ISPRA
+  - ISIN
