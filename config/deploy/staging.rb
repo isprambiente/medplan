@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-server 'test.yourserver.com', user: 'medplan', roles: %w[web app db]
+server Settings.deploy.host, user: 'medplan', roles: %w[web app db]
 set :deploy_to, '/home/medplan/staging'
 set :rails_env, 'staging'
 set :branch, 'staging'
