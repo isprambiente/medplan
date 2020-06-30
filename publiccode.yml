@@ -120,7 +120,7 @@ platforms:
 roadmap: 'https://github.com/isprambiente/medplan/projects'
 releaseDate: '2020-06-08'
 softwareType: standalone/web
-softwareVersion: 1.0.1
+softwareVersion: 1.0.2
 url: 'https://github.com/isprambiente/medplan'
 usedBy:
   - ISPRA
