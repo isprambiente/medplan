@@ -84,3 +84,7 @@ action_mailer:
    username: <username>
    password: <password> # può essere configurata qui o nel file criptato credentials.yml
    sender: <sender>
+
+deploy:
+  host: 'test.yourserver.com'
+  
