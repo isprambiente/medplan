@@ -66,12 +66,17 @@ class EventsController < ApplicationController
   end
 
   def reserve
+    @template = params[:template].presence || 'user'
     @event.user = @user
     old_status = @event.status(@user)
     @result = @event.update_status! if current_user.secretary? || (current_user == @user && @event.status(@user) == 'proposed')
     @meeting = @user.meetings.find_by(event: @event)
     @response = Notifier.user_event_confirmed(@user, @event).deliver_now if @result && current_user.secretary? && (@event.status(@user) != old_status)
-    render partial: 'users/user_event', locals: { event: @event }
+    if @template == 'user'
+      render partial: 'home/user_event', locals: { event: @event }
+    else
+      render partial: 'users/user_event', locals: { event: @event }
+    end      
   end
 
   # DELETE /events/1

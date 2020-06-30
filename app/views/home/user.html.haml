@@ -20,7 +20,7 @@
           .column.is-3-desktop.is-5-tablet= @user.emergenze
           .column= link_to 'cambia', "#{ Settings.rubrica }", target: true, data: { confirm: "Stai per essere reinderizzato nella sezione riservata della rubrica nella quale potrai modificare il numero delle emergenze. Una volta modificato, dovrai attendere fino a 3 ore affinché i sistemi si sincronizzino per vedere il nuovo numero sul sito di Med.Plan. Confermi di voler procedere?" }
 
-  .columns.has-2
+  .columns.has-2{ data: { controller: 'events' } }
     #analisys-list.column
       %article.message
         .message-header= t(:analisys, scope: 'event.gender')
