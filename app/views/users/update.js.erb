@@ -1,9 +1,0 @@
-$('#modal-body').html('<%= escape_javascript(render 'show') %>');
-<% if @user.errors.blank? %>
-  $('<%= @user.full_div%>').replaceWith('<%= escape_javascript(render 'user', user: @user) %>');
-  alert('Modifica effettuata!');
-<% else %>
-    alert('<%= @user.errors.full_messages.join(', ').to_s.html_safe %>');
-<% end %>
-link_to_modal( $('#users <%= @user.full_div %>') );
-reload_js( $('#users <%= @user.full_div %>') );
