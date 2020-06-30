@@ -1,5 +1,5 @@
 - unless @users.blank?
-  %ul.users= render @users
+  .users= render @users
   %hr
   .has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe
 - else
