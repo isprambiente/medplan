@@ -15,6 +15,7 @@
 /log/*.log
 /tmp
 /.yardoc
+
 # assets
 /public/assets
 /public/system
@@ -25,24 +26,23 @@
 /*.sublime-project
 /*.sublime-workspace
 /.project
-/config/secrets.yml
-/config/database.yml
 
+# ignore local settings
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
 
-exp.txt
-
 /public/packs
 /public/packs-test
 /node_modules
+
+# Ignore documents 
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
 
+# Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/credentials.yml.enc
 
-output.html
 rubocop.html
