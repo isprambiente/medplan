@@ -1,0 +1,7 @@
+database:
+  production:
+    database: 'medplan_production'
+    username: 'medplan'
+    password: 'Scrofola1' # può essere configurata qui o nel file criptato credentials.yml
+    host:     'db.intranet.isprambiente.it'
+    sslmode:  'require'
