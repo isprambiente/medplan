@@ -77,6 +77,8 @@ class UsersChecknewJob < ApplicationJob
     user.data_aggiornamento       = data['updated_at']
     user.deleted                  = data['stato'] == 'scaduto'
     user.prefix                   = '065007'
-    user.save
+    response = user.save
+
+    puts "#{user.username} - #{response}" unless response
   end
 end
