@@ -18,7 +18,8 @@
         %li.columns.is-mobile
           .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('phone-volume', text: t('personal_tel', scope: 'user')+': ')
           .column.is-3-desktop.is-5-tablet= @user.emergenze
-          .column= link_to 'cambia', "#{ Settings.rubrica }", target: true, data: { confirm: "Stai per essere reinderizzato nella sezione riservata della rubrica nella quale potrai modificare il numero delle emergenze. Una volta modificato, dovrai attendere fino a 3 ore affinché i sistemi si sincronizzino per vedere il nuovo numero sul sito di Med.Plan. Confermi di voler procedere?" }
+          .column
+            %a{ data: { action: 'click->page#confirmation', page_url: "#{ Settings.rubrica }", page_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
 
   .columns.has-2{ data: { controller: 'events' } }
     #analisys-list.column
