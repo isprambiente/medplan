@@ -12,10 +12,6 @@ set :tmp_dir, '/home/medplan/shared/tmp'
 
 set :keep_releases, 5
 
-# after 'deploy:finishing',     'deploy:cleanup'
-before 'deploy:log_revision', 'puma:stop'
-before 'deploy:log_revision', 'puma:start'
-
 namespace :deploy do
   namespace :check do
     before :linked_files, :set_master_key do
