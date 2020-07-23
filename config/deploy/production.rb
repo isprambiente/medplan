@@ -5,3 +5,13 @@ set :deploy_to, '/home/medplan/production'
 set :rails_env, 'production'
 set :branch, 'master'
 set :rvm_ruby_version, '2.7.1@medplan'
+
+namespace :deploy do
+  namespace :check do
+    before :linked_files, :set_master_key do
+      on roles(:app), in: :sequence, wait: 10 do
+        upload! "config/settings/production.yml", "#{shared_path}/config/settings/production.yml"
+      end
+    end
+  end
+end
