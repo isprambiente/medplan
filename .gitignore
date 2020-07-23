@@ -46,3 +46,8 @@ yarn-debug.log*
 /config/credentials.yml.enc
 
 rubocop.html
+
+config/settings/*
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml
