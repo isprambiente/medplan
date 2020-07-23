@@ -63,6 +63,37 @@ export default class extends Controller
       layout: 'topCenter'
     ).show()
 
+  confirmation: (event) ->
+    target = event.target
+    confirmation = target.dataset.pageConfirmation
+    url = target.dataset.pageUrl
+    n = new Noty(
+      text: "#{confirmation}"
+      type: 'alert'
+      modal: true
+      theme: 'relax'
+      layout: 'center'
+      closeWith: 'button'
+      animation:
+        open: null
+        close: null
+      callbacks:
+        onTemplate: () ->
+          #console.log this.barDom.childNodes[]
+          buttonsContainer = this.barDom.querySelector('.noty_buttons')
+          buttonsContainer.classList.add('columns') if buttonsContainer
+      buttons: [
+        Noty.button("<%= I18n.t( 'yes', default: 'Yes' ) %>", 'button is-success is-focused column is-6', ( =>
+          window.location.href = url
+          return
+        ), id: 'button1', 'data-status': 'ok')
+        Noty.button("<%= I18n.t( 'no', default: 'No' ) %>", 'button is-danger column is-6', ->
+          n.close()
+          return
+        )
+      ])
+    n.show()
+
   deleyedInput: (event) =>
     callback = () =>
       this.sendForm(event)
