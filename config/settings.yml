@@ -18,6 +18,9 @@ bug:
   confirm: "Per problematiche relative ad appuntamenti o per contattare la segreteria medica, devi scrivere una e-mail a tuaemail@domain.com<br/><br/>Confermi di voler proseguire?"
 events:
   maxusers: 10
+  start_time: '07:30'
+  end_time: '20:00'
+  every_minutes: 10
   visit:
     description: "Inserisci una descrizione che comparirà sia nella mail della visita sia nel promemoria ical"
     location: "Inserisci l'indirizzo della visita"
