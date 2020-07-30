@@ -8,8 +8,7 @@
       .field
         %label.label.is-required= 'Ora inizio'
         .control.is-expanded
-          .select.is-fullwidth= f.select :start_at, ('08:00'.in_time_zone.to_datetime.to_i .. '20:00'.in_time_zone.to_datetime.to_i).step(30.minutes).map{|t| Time.at(t).strftime('%H:%M') }, default: '08:00', include_blank: false, include_hidden: false
-          =# f.text_field :start_at, type: :time, class: 'input timepiker', value: '08:00', data: { target: 'events.timepicker' }
+          .select.is-fullwidth= f.select :start_at, ('07:30'.in_time_zone.to_datetime.to_i .. '20:00'.in_time_zone.to_datetime.to_i).step(10.minutes).map{|t| Time.at(t).strftime('%H:%M') }, default: '07:30', include_blank: false, include_hidden: false
     .column.is-3-desktop
       .field
         %label.label.is-required= 'Tipologia'
