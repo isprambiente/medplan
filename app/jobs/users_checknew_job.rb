@@ -31,7 +31,7 @@ class UsersChecknewJob < ApplicationJob
   def set_data(user, data = {})
     return if data.blank?
 
-    user.username                 = data['login'] # if user.username.blank? && data['login'].present?
+    user.username                 = data['login'] if user.username.blank? && data['login'].present?
     user.label                    = data['nominativo']
     user.lastname                 = data['cognome']
     user.name                     = data['nome']
