@@ -62,8 +62,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
   end
 
   create_table "categories", id: :serial, force: :cascade do |t|
-    t.string "code", limit: 255
-    t.string "title", limit: 255, default: "", null: false
+    t.string "code"
+    t.string "title", default: "", null: false
     t.integer "months", default: 0, null: false
     t.text "protocol"
     t.boolean "active", default: true, null: false
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
   create_table "category_risks", id: :serial, force: :cascade do |t|
     t.integer "category_id", null: false
     t.integer "risk_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["category_id", "risk_id"], name: "index_category_risks_on_category_id_and_risk_id", unique: true
     t.index ["category_id"], name: "index_category_risks_on_category_id"
     t.index ["risk_id"], name: "index_category_risks_on_risk_id"
@@ -85,7 +87,7 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
     t.date "date_on", null: false
     t.integer "gender", null: false
     t.text "body"
-    t.string "city", limit: 255, null: false
+    t.string "city", null: false
     t.integer "max_users", default: 10, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -95,10 +97,10 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
 
   create_table "histories", id: :serial, force: :cascade do |t|
     t.integer "audit_id"
-    t.string "status", limit: 255, default: "", null: false
+    t.string "status", default: "", null: false
     t.date "revision_date"
     t.text "body"
-    t.string "lab", limit: 255
+    t.string "lab"
     t.integer "city"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -130,8 +132,8 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
   end
 
   create_table "risks", id: :serial, force: :cascade do |t|
-    t.string "code", limit: 255
-    t.string "title", limit: 255, default: "", null: false
+    t.string "code"
+    t.string "title", default: "", null: false
     t.boolean "printed", default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -142,10 +144,10 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip", limit: 255
-    t.string "last_sign_in_ip", limit: 255
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.datetime "locked_at"
-    t.string "username", limit: 255
+    t.string "username"
     t.citext "label", default: ""
     t.integer "city", null: false
     t.text "body", default: ""
@@ -155,13 +157,12 @@ ActiveRecord::Schema.define(version: 2020_03_27_232021) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "deleted", default: false
-    t.string "cf", limit: 255, default: "", null: false
-    t.string "tel", limit: 255, default: ""
+    t.string "cf", default: "", null: false
+    t.string "tel", default: ""
     t.integer "postazione", default: 1, null: false
     t.jsonb "metadata", default: {}, null: false
     t.index ["cf"], name: "index_users_on_cf", unique: true
     t.index ["city"], name: "index_users_on_city"
-    t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["metadata"], name: "index_users_on_metadata", using: :gin
     t.index ["username"], name: "index_users_on_username", unique: true
   end
