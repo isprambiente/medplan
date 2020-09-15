@@ -1,12 +1,14 @@
 = form_with scope: 'filter', url: list_users_path, method: :get, data: {action: "ajax:success->section#goPage"} do |f|
   %nav#cities.panel.filters
     %p.panel-heading= fas_icon('users', text: "Utenti" )
-    %label.control.has-icons-left.panel-block
-      = f.text_field :text , class: 'input', placeholder: 'Cerca un nominativo', data: {action: 'keyup->section#delayedSendForm' }
-      %span.icon.is-left= fas_icon 'search'
-    %label.panel-block
-      = f.check_box :invisible, data: {action: 'section#sendForm'}
-      Includi anche i disabilitati
+    .panel-block
+      %label.control.has-icons-left
+        = f.text_field :text , class: 'input', placeholder: 'Cerca un nominativo', data: {action: 'keyup->section#delayedSendForm' }
+        %span.icon.is-left= fas_icon 'search'
+    .panel-block
+      %label
+        = f.check_box :invisible, data: {action: 'section#sendForm'}
+        Includi anche i disabilitati
     .panel-block
       %a.button.is-link.is-fullwidth{ href: new_user_path, data: { remote: true, action: 'ajax:success->page#goPage' } }= fas_icon( 'plus', text: 'Nuovo utente esterno' )
 
