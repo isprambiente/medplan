@@ -1,4 +1,4 @@
-# This repository adheres to the publiccode.yml standard by including this 
+# This repository adheres to the publiccode.yml standard by including this
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
@@ -50,17 +50,17 @@ description:
 
       Nello specifico il sistema, rilasciato in riuso, permette:
 
-      * Una autenticazione SingleSignOn su sistema CAS Server; 
-      * Acquisizione automatica dei dipendenti da repository REST-API Json; 
-      * Creazione e gestione manuale dei dipendenti; 
-      * Gestione dei rischi sul lavoro; 
-      * Raggruppamento in categorie dei rischi sul lavoro; 
-      * Profilazione dei dipendenti in base alle categorie di rischio collegate; 
-      * Calendarizzazione delle analisi e delle visite; 
-      * Comunicazioni tramite e-mail con i dipendenti; 
-      * Gestione dello storico delle idoneità per ciascun dipendente; 
-      * Gestione delle scadenze delle idoneità per ciascuna categoria di rischio; 
-      * Generazione di reportistica riservata al medico competente; 
+      * Una autenticazione SingleSignOn su sistema CAS Server;
+      * Acquisizione automatica dei dipendenti da repository REST-API Json;
+      * Creazione e gestione manuale dei dipendenti;
+      * Gestione dei rischi sul lavoro;
+      * Raggruppamento in categorie dei rischi sul lavoro;
+      * Profilazione dei dipendenti in base alle categorie di rischio collegate;
+      * Calendarizzazione delle analisi e delle visite;
+      * Comunicazioni tramite e-mail con i dipendenti;
+      * Gestione dello storico delle idoneità per ciascun dipendente;
+      * Gestione delle scadenze delle idoneità per ciascuna categoria di rischio;
+      * Generazione di reportistica riservata al medico competente;
       * Manuali d'utilizzo per i tre profili utente: dipendente generico, segreteria e medico competente.
     shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
     screenshots:
@@ -120,7 +120,7 @@ platforms:
 roadmap: 'https://github.com/isprambiente/medplan/projects'
 releaseDate: '2020-06-08'
 softwareType: standalone/web
-softwareVersion: 1.0.5
+softwareVersion: 1.0.6
 url: 'https://github.com/isprambiente/medplan'
 usedBy:
   - ISPRA
