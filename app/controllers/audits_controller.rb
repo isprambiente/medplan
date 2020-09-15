@@ -32,7 +32,7 @@ class AuditsController < ApplicationController
     )
     @audit.category_id = params[:category_id]
     @audit.user_id = @user.id
-    @audit.expire = Time.zone.now + @audit.category.months.month
+    @audit.expire = Time.zone.now
     @audit.status = 'created'
     @audit.histories_attributes = [status: 'created', author_id: current_user.id]
     if @audit.save

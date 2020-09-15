@@ -99,7 +99,7 @@ class History < ApplicationRecord
   # preset some attributes before validation
   def prerequisite
     self.revision_date = Time.zone.now if revision_date.blank?
-    audit.expire = revision_date.to_date + audit.category.months.month
+    audit.expire = revision_date.to_date
     audit.status = status
   end
 
