@@ -45,23 +45,8 @@ history:
     - change_date_next_visit
 
 database:
-  development:
-    database: medplan_development
-    username: postgres
-    host: localhost
-    sslmode: prefer
-  test:
-    database: medplan_test
-    username: postgres
-    host: localhost
-    sslmode: prefer
   staging:
     database: medplan_staging
-    username: medplan
-    host: db.intranet.isprambiente.it
-    sslmode: require
-  production:
-    database: medplan_production
     username: medplan
     host: db.intranet.isprambiente.it
     sslmode: require
