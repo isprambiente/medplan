@@ -35,7 +35,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails',   require: false
   gem 'capistrano-rvm',     require: false
-  gem 'capistrano3-puma',   require: false
+  gem 'capistrano3-puma', '~> 4',   require: false
 end
 
 group :test do
