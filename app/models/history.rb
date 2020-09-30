@@ -99,7 +99,6 @@ class History < ApplicationRecord
   # preset some attributes before validation
   def prerequisite
     self.revision_date = Time.zone.now if revision_date.blank?
-    puts "aaaaaaaaaaaaaaaaaaaa #{audit.persisted?} #{audit.status_was}"
     audit.expire = if audit.new_record?
                     revision_date.to_date
                    elsif audit.persisted? && audit.status_was == 'deleted'
