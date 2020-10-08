@@ -4,7 +4,7 @@ server 'medplan.intranet.isprambiente.it', user: 'medplan', roles: %w[web app db
 set :deploy_to, '/home/medplan/production'
 set :rails_env, 'production'
 set :branch, 'master'
-set :rvm_ruby_version, '2.7.1@medplan'
+set :rvm_ruby_version, '2.7.2@medplan'
 
 namespace :deploy do
   namespace :check do
