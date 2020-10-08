@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.8] - 2020-10-08
+### Changed
+- Ruby version 2.7.2
+- Updated Rails libraries
+- Updated Javascript libraries
+
 ## [1.0.7] - 2020-09-30
 ### Changed
 - Fixed: next visit due date management in case a risk category was first added to an employee, then removed and re-added. In this case, the application entered the next useful date by adding X months to the current date. Instead now the added date is the same as the current date as if it were a first insertion.
