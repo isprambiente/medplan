@@ -14,7 +14,7 @@ it:
       locked: Il tuo account è bloccato.
       not_found_in_database: Email o password non validi.
       timeout: "La tua sessione è stata ripristinata."
-      unauthenticated: Devi accedere o registrarti per continuare.
+      unauthenticated: "La tua sessione è stata attiva."
       unconfirmed: Devi confermare il tuo account per continuare.
     mailer:
       confirmation_instructions:
