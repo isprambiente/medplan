@@ -7,7 +7,7 @@ email: medico-competente@isprambiente.it
 user_data_lib: nil_data
 domain: isprambiente.it
 cas: https://auth.isprambiente.it/cas/
-rubrica: https://rubrica.intranet.isprambiente.it/home/dettagli
+rubrica: https://rubrica.intranet.isprambiente.it
 tracker: piwik.intranet.isprambiente.it
 app:
   url: https://medplan.intranet.isprambiente.it
