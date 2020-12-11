@@ -1,4 +1,4 @@
-#users.columns.is-desktop{ data: { controller: 'section', section_url: home_list_path } }
+#users.columns.is-desktop{ data: { controller: 'section', section_url: home_list_path(filter: @filter_params) } }
   %a.button.is-medium.is-link.is-hidden-desktop.is-spaced{ data: { action: 'click->page#toggleMenu', id: 'filters' } }
     %span.icon{ style: 'margin-right:.5rem' }
       %i.fas.fa-bars{ data: { action: 'click->page#toggleMenu', id: 'filters' }, aria: { hidden: "true" } }
