@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.9] - 2020-12-11
+### Changed
+- Rails version 6.1
+- Updated Rails libraries
+- Updated Javascript libraries
+- Fix pagination with Pagy
+- Fix tooltip views
+
 ## [1.0.8] - 2020-10-08
 ### Changed
 - Ruby version 2.7.2
@@ -22,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Fixed sync job
 - Fixed user alert for change emergency's number
-- Fixed double start of Puma into deploy 
+- Fixed double start of Puma into deploy
 - Updated libraries
 
 ## [1.0.4] - 2020-07-01
