@@ -12,6 +12,18 @@ set :tmp_dir, '/home/medplan/shared/tmp'
 
 set :keep_releases, 5
 
+before "deploy:assets:precompile", "deploy:yarn_install"
+namespace :deploy do
+  desc "Run rake yarn install"
+  task :yarn_install do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path} && yarn install --silent --no-progress --no-audit --no-optional")
+      end
+    end
+  end
+end
+
 namespace :deploy do
   namespace :check do
     before :linked_files, :set_master_key do
