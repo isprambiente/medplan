@@ -36,7 +36,6 @@ class HomeController < ApplicationController
   # @return [Object] render partial /home/_index
   def list
     users
-    @pagy, @users = pagy(@users, link_extra: "data-remote='true' data-action='ajax:success->section#goPage'")
   end
 
   # GET /home/meetings
@@ -108,13 +107,15 @@ class HomeController < ApplicationController
   end
 
   def users
+    @filters = filter_params
     selected = {}
-    selected[:city] = filter_params[:city] if filter_params[:city].present?
-    selected[:postazione] = filter_params[:postazione] if filter_params[:postazione].present?
+    selected[:city] = @filters[:city] if @filters[:city].present?
+    selected[:postazione] = @filters[:postazione] if @filters[:postazione].present?
 
-    @postazione = filter_params[:postazione]
-    @city = filter_params[:city].try(:to_i)
-    @riepilogo = filter_params[:riepilogo]
+    @postazione = @filters[:postazione]
+    @city = @filters[:city].try(:to_i)
+    @riepilogo = @filters[:riepilogo] || 'expired'
+    @page = params[:page] || 1
 
     @start_at = Time.zone.today.at_beginning_of_month
     @stop_at = Time.zone.today.end_of_month
@@ -124,19 +125,25 @@ class HomeController < ApplicationController
     @next_2_stop_at = (Time.zone.today + 2.months).end_of_month.next_month
     filter, scope = case @riepilogo
                     when 'new' then [nil, :unassigned]
-                    when 'expired' then [['audits.expire < ? ', @start_at], :all]
-                    when 'nextmonth' then [['audits.expire Between ? And ?', @next_start_at, @next_stop_at], :all]
-                    when 'next2months' then [['audits.expire Between ? And ?', @next_2_start_at, @next_2_stop_at], :all]
+                    when 'expired' then [['audits.expire < ? ', @start_at], :syncable]
+                    when 'nextmonth' then [['audits.expire Between ? And ?', @next_start_at, @next_stop_at], :syncable]
+                    when 'next2months' then [['audits.expire Between ? And ?', @next_2_start_at, @next_2_stop_at], :syncable]
                     when 'locked' then [nil, :locked]
                     when 'blocked' then [nil, :blocked]
-                    else [['audits.expire Between ? And ?', @start_at, @stop_at], :all]
+                    else [['audits.expire Between ? And ?', @start_at, @stop_at], :syncable]
                     end
-    @users = User.left_outer_joins(:categories).distinct
-    @users = if %w[locked blocked new].include?(filter_params[:riepilogo])
-               @users.send(scope).group('users.label, users.id')
-             else
-               @users.send(scope).select('users.*, audits.expire').where(filter).group('audits.expire, users.label, users.id')
-             end
-    @users = @users.where(selected).reorder("#{'audits.expire, ' unless %w[locked blocked new].include?(filter_params[:riepilogo])}users.label")
+    users_list = User.left_outer_joins(:categories) #.distinct
+    users_list = if %w[locked blocked new].include?(@filters[:riepilogo])
+                   users_list.send(scope).group('users.label, users.id')
+                 else
+                   users_list.send(scope).select('users.*, audits.expire').where(filter).group('audits.expire, users.label, users.id')
+                 end
+    order = unless %w[locked blocked new].include?(@filters[:riepilogo])
+              'audits.expire, users.label'
+            else
+              'users.label'
+            end
+    users_list = users_list.where(selected).reorder(order)
+    @pagy, @users = pagy(users_list, page: @page, count: users_list.length, link_extra: "data-remote='true' data-action='ajax:success->section#goPage'")
   end
 end
