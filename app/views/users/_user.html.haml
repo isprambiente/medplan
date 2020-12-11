@@ -11,20 +11,23 @@
 .columns.is-mobile.user
   .column.first
     - if user.locked_at?
-      %span.tooltip.help.is-inline-flex{ data: { tooltip: "Utente disattivato manualmente il #{ l_date user.locked_at } #{ 'con contratto '+user.status.upcase if user.status.present? }. Per riattivarlo cliccare sul bottone 'Riattiva'", disable_hover: "false"} }= fas_icon('ban has-text-danger')
+      %span.tooltip.help.is-inline-flex{ data: { tooltip: "Utente disattivato manualmente il #{ l_date user.locked_at } #{ 'con contratto '+user.status.upcase if user.status.present? }. Per riattivarlo cliccare sul bottone 'Riattiva'", disable_hover: "false"} }
+        %i.fas.fa-ban.has-text-danger
     - elsif user.deleted?
-      %span.tooltip.help.is-inline-flex{ data: { tooltip: "Contratto scaduto il #{ l_date user.scadenza_rapporto.to_date }" } }= fas_icon( 'ban has-text-danger' )
+      %span.tooltip.help.is-inline-flex{ data: { tooltip: "Contratto scaduto il #{ l_date user.scadenza_rapporto.to_date }" } }
+        %i.fas.fa-ban.has-text-danger
     - unless user.postazione == "sede" || user.postazione == "altro"
       - text = "#{ user.postazione.try(:capitalize) }#{ ' presso ' + user.postazione_locazione.downcase  if user.postazione_locazione.present? }#{ ' dal ' + l( user.postazione_inizio.to_date )  if user.postazione_inizio.present? }#{ ' al ' + l( user.postazione_fine.to_date )  if user.postazione_fine.present? }"
-      %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }= fas_icon('circle has-text-warning' )
+      %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }
+        %i.fas.fa-circle.has-text-warning
     - unless user.body.blank?
-      %span.tooltip.help.is-inline-flex{ data: { tooltip: "#{t('note', scope: 'user')}: #{user.body}"} }= fas_icon( 'comment' )
-    -# if user.assegnazione.attached?
-      %span.tooltip.help.is-inline-flex{ data: { tooltip: t('has_file_assegnazione', scope: 'user') } }= fas_icon( 'paperclip' )
+      %span.tooltip.help.is-inline-flex{ data: { tooltip: "#{t('note', scope: 'user')}: #{user.body}"} }
+        %i.fas.fa-comment
     = user.label
     - if user.locked_at? && user.status == 'attivo'
       - text = "Utente con contratto #{ user.tipo_contratto } fino a #{ l_date user.scadenza_rapporto }"
-      %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }= fas_icon('circle has-text-success' )
+      %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }
+        %i.fas.fa-circle.has-text-success
   .column.last.categories.is-narrow.has-text-right
     - if user.audits.present?
       - arrAudits = []
