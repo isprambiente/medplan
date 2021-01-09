@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lock '3.14.1'
+lock '3.15.0'
 set :application, 'medplan'
 set :repo_url, 'https://github.com/isprambiente/medplan'
 set :deploy_to, '/home/medplan'
@@ -18,7 +18,6 @@ namespace :deploy do
   task :yarn_install do
     on roles(:web) do
       within release_path do
-        execute("cd #{release_path} && yarn install --silent --no-progress --no-audit --no-optional --production")
         execute("cd #{release_path} && chmod 755 bin/yarn")
       end
     end
