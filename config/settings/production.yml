@@ -23,7 +23,7 @@ events:
   maxusers: 10
   start_time: '07:30'
   end_time: '20:00'
-  every_minutes: 10
+  every_minutes: 5
   visit:
     description: "Presentati all'orario indicato presso l'Ambulatorio sito al piano terra di Via V. Brancati, 48 – lato Banca -"
     location: "Via Vitaliano Brancati 48, Roma, Italia"
