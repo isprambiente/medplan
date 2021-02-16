@@ -48,7 +48,7 @@ database:
   staging:
     database: medplan_staging
     username: medplan
-    host: db.intranet.isprambiente.it
+    host: pg.isprambiente.it
     sslmode: require
 
 api:

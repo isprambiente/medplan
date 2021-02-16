@@ -48,7 +48,7 @@ database:
   production:
     database: medplan_production
     username: medplan
-    host: db.intranet.isprambiente.it
+    host: pg.isprambiente.it
     sslmode: require
 
 api:
