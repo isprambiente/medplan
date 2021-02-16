@@ -10,6 +10,7 @@ class EventsController < ApplicationController
   before_action :set_event, only: %i[edit destroy confirmed confirmed_users]
   before_action :set_user, only: %i[new create reserve meeting_destroy meeting_sendmail confirmed]
   before_action :set_meetings, only: %i[reserve meeting_destroy meeting_sendmail]
+  before_action :set_timer, except: %i[index agenda]
 
   # GET /events
   #
@@ -42,6 +43,11 @@ class EventsController < ApplicationController
     @setdatevalue = params[:date] if params[:date].present?
     @event = Event.new
     @title = "Gestione eventi #{@user.label}"
+    timer = []
+    Settings.events.ranges.each do |range|
+      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.at(t).strftime('%H:%M') }
+    end
+    @timer = timer.uniq.sort
   end
 
   # GET /events/1/edit
@@ -49,6 +55,11 @@ class EventsController < ApplicationController
     @event = Event.find(@event.id)
     @meetings = @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }
     @title = "#{t @event.gender, scope: 'event.genders'} #{@event.city.capitalize} del #{l @event.date_on}"
+    timer = []
+    Settings.events.ranges.each do |range|
+      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.at(t).strftime('%H:%M') }
+    end
+    @timer = timer.uniq.sort
   end
 
   # POST /events
@@ -76,7 +87,7 @@ class EventsController < ApplicationController
       render partial: 'home/user_event', locals: { event: @event }
     else
       render partial: 'users/user_event', locals: { event: @event }
-    end      
+    end
   end
 
   # DELETE /events/1
@@ -173,5 +184,14 @@ class EventsController < ApplicationController
   # Set @user form many action
   def set_user
     @user = User.find(params[:user_id])
+  end
+
+  # Set @timer into form
+  def set_timer
+    timer = []
+    Settings.events.ranges.each do |range|
+      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.at(t).strftime('%H:%M') }
+    end
+    @timer = timer.uniq.sort
   end
 end

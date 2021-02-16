@@ -18,9 +18,15 @@ bug:
   confirm: "Per problematiche relative ad appuntamenti o per contattare la segreteria medica, devi scrivere una e-mail a tuaemail@domain.com<br/><br/>Confermi di voler proseguire?"
 events:
   maxusers: 10
-  start_time: '07:30'
-  end_time: '20:00'
-  every_minutes: 10
+  ranges:
+    -
+      start_time: '07:30'
+      end_time: '08:30'
+      interval: 10.minutes
+    -
+      start_time: '08:30'
+      end_time: '20:00'
+      interval: 15.minutes
   visit:
     description: "Inserisci una descrizione che comparirà sia nella mail della visita sia nel promemoria ical"
     location: "Inserisci l'indirizzo della visita"
@@ -76,7 +82,7 @@ excel:
   password: <password> # può essere configurata qui o nel file criptato credentials.yml
 
 action_mailer:
-  default_url_option: 
+  default_url_option:
     host: <server_host>
     protocol: 'https'
   smtp_settings:
@@ -90,4 +96,3 @@ action_mailer:
 
 deploy:
   host: 'test.yourserver.com'
-  

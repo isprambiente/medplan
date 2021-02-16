@@ -8,7 +8,7 @@
       .field
         %label.label.is-required= 'Ora inizio'
         .control.is-expanded
-          .select.is-fullwidth= f.select :start_at, (Settings.events.start_time.in_time_zone.to_datetime.to_i .. Settings.events.end_time.in_time_zone.to_datetime.to_i).step(Settings.events.every_minutes.minutes).map{|t| Time.at(t).strftime('%H:%M') }, default: Settings.events.start_time, include_blank: false, include_hidden: false
+          .select.is-fullwidth= f.select :start_at, @timer, selected: Settings.events.ranges[0].start_time, include_blank: false, include_hidden: false
     .column.is-3-desktop
       .field
         %label.label.is-required= 'Tipologia'
