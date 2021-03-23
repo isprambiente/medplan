@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lock '3.15.0'
+lock '~> 3.16'
 set :application, 'medplan'
 set :repo_url, 'https://github.com/isprambiente/medplan'
 set :deploy_to, '/home/medplan'
