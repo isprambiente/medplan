@@ -7,12 +7,12 @@ ruby '2.7.2'
 
 gem 'pg'
 gem 'puma', '~> 5.0'
-gem 'rails', '~> 6.1'
+gem 'rails', '~> 6.1.0'
 gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5.0'
 gem 'webpacker', '~> 5.0'
 
-gem 'bootsnap', require: false
+gem 'bootsnap', '< 1.7.2', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw]
 
 gem 'nokogiri', '~> 1.11', platforms: :ruby

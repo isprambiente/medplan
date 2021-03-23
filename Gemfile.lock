@@ -73,7 +73,7 @@ GEM
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
     bindex (0.8.1)
-    bootsnap (1.7.3)
+    bootsnap (1.7.1)
       msgpack (~> 1.0)
     builder (3.2.4)
     byebug (11.1.3)
@@ -365,7 +365,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_validations
   better_errors
-  bootsnap
+  bootsnap (< 1.7.2)
   byebug
   capistrano
   capistrano-bundler
@@ -388,7 +388,7 @@ DEPENDENCIES
   pagy
   pg
   puma (~> 5.0)
-  rails (~> 6.1)
+  rails (~> 6.1.0)
   route_translator
   rubocop
   rubocop-rails
