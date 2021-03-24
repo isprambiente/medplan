@@ -388,6 +388,7 @@ DEPENDENCIES
   pg
   puma (~> 5.0)
   rails (~> 6.1.0)
+  rexml (~> 3.2, >= 3.2.4)
   route_translator
   rubocop
   rubocop-rails

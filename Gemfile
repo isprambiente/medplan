@@ -16,6 +16,7 @@ gem 'bootsnap', '< 1.7.2', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw]
 
 gem 'nokogiri', '~> 1.11', platforms: :ruby
+gem 'rexml', '~> 3.2', '>= 3.2.4'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
