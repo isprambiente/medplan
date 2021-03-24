@@ -36,7 +36,7 @@ config/environments/*.local.yml
 /public/packs-test
 /node_modules
 
-# Ignore documents 
+# Ignore documents
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
@@ -47,7 +47,7 @@ yarn-debug.log*
 
 rubocop.html
 
-config/settings/*
+config/settings/*.yml
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
