@@ -45,7 +45,7 @@ class EventsController < ApplicationController
     @title = "Gestione eventi #{@user.label}"
     timer = []
     Settings.events.ranges.each do |range|
-      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.at(t).strftime('%H:%M') }
+      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.zone.at(t).strftime('%H:%M') }
     end
     @timer = timer.uniq.sort
   end
@@ -57,7 +57,7 @@ class EventsController < ApplicationController
     @title = "#{t @event.gender, scope: 'event.genders'} #{@event.city.capitalize} del #{l @event.date_on}"
     timer = []
     Settings.events.ranges.each do |range|
-      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.at(t).strftime('%H:%M') }
+      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.zone.at(t).strftime('%H:%M') }
     end
     @timer = timer.uniq.sort
   end
@@ -190,7 +190,7 @@ class EventsController < ApplicationController
   def set_timer
     timer = []
     Settings.events.ranges.each do |range|
-      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.at(t).strftime('%H:%M') }
+      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.zone.at(t).strftime('%H:%M') }
     end
     @timer = timer.uniq.sort
   end
