@@ -92,7 +92,7 @@ it:
     codiceIPA: ispra_rm
 legal:
   license: MIT
-  mainCopyrightOwner: 2020 Istituto Superiore per la Protezione e la Ricerca Ambientale
+  mainCopyrightOwner: 2021 Istituto Superiore per la Protezione e la Ricerca Ambientale
   repoOwner: Istituto Superiore per la Protezione e la Ricerca Ambientale
 localisation:
   availableLanguages:
@@ -118,7 +118,7 @@ platforms:
   - linux
   - windows
 roadmap: 'https://github.com/isprambiente/medplan/projects'
-releaseDate: '2020-06-08'
+releaseDate: '2021-03-24'
 softwareType: standalone/web
 softwareVersion: 1.0.11
 url: 'https://github.com/isprambiente/medplan'
