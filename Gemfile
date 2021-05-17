@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.0'
+ruby '3.0.1'
 
 gem 'pg'
 gem 'puma', '~> 5.0'
@@ -15,7 +15,6 @@ gem 'webpacker', '~> 5.0'
 gem 'bootsnap', '< 1.7.2', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw]
 
-gem 'nokogiri', '~> 1.11', platforms: :ruby
 gem 'rexml', '~> 3.2', '>= 3.2.4'
 
 group :development, :test do
