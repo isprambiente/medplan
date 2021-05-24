@@ -49,8 +49,9 @@ history:
 database:
   production:
     database: medplan_production
-    username: postgres
+    username: medplan
     host: pg.isprambiente.it
+    sslmode: require
 
 api:
   url: https://api.intranet.isprambiente.it/jpers/medplan.json
