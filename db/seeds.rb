@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+admin = User.new(username: 'admin', password: 'admin', password_confirmation: 'admin')
+admin.skip_confirmation!
+admin.save
 Category.create(code: 'cata', title: 'categoria a', months: 6)
 Category.create(code: 'catb', title: 'categoria b', months: 12)
 Category.create(code: '626chimici', title: 'chimici', months: 12)

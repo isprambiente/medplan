@@ -60,16 +60,17 @@ export default class extends PageController
               type: "GET"
               url: "/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/#{user_id}/<%= I18n.t( 'user', scope: 'routes', default: 'user' ) %>"
               success: (response, status, xhr) =>
-                container.outerHTML = xhr.response
+                container.outerHTML = xhr.response if container
           td = document.getElementById("td_audit_#{user_id}")
-          if (moment().diff(moment(newDate), 'days') >= 1)
-            container.classList.add('expired')
-            container.classList.remove('active')
-            link.closest("td").classList.add('expired')
-          else
-            container.classList.add('active')
-            container.classList.remove('expired')
-            link.closest("td").classList.remove('expired')
+          if container
+            if (moment().diff(moment(newDate), 'days') >= 1)
+              container.classList.add('expired')
+              container.classList.remove('active')
+              link.closest("td").classList.add('expired')
+            else
+              container.classList.add('active')
+              container.classList.remove('expired')
+              link.closest("td").classList.remove('expired')
         error: (error) =>
           this.send('Si è verificato un errore durante il salvataggio della data!', 'error')
 

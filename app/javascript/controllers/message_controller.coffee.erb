@@ -1,0 +1,10 @@
+import Swal from 'sweetalert2'
+import { Controller } from "stimulus"
+
+export default class extends Controller
+  connect: =>
+    options = {timerProgressBar: true, position: 'top-center'}
+    options['icon'] = this.data.get("type") || 'info'
+    options['text'] = this.element.innerHTML
+    options['timer'] = this.data.get("timeout") || false
+    Swal.fire(options)

@@ -1,6 +1,7 @@
 import { Controller } from "stimulus"
 import Rails from "@rails/ujs"
 import Timeout from 'smart-timeout'
+import Swal from 'sweetalert2'
 
 export default class extends Controller
   @targets = [ 'container', 'menu', 'navbar']
@@ -27,7 +28,7 @@ export default class extends Controller
       type: "GET"
       url: url
       success: (data, status, xhr) =>
-        target.outerHTML = xhr.response
+        target.outerHTML = xhr.response if target
 
   goElement: (event) =>
     [data, status, xhr] = event.detail
@@ -53,46 +54,51 @@ export default class extends Controller
             icon.classList.toggle('fa-bars')
             icon.classList.toggle('fa-times')
 
-  send: (message, level = "success", timeout = 1500) ->
-    new Noty(
-      type: "#{ level }"
+  send: (message, level = 'success', timeout = 2000, toast = true) ->
+    options = {
+      toast: if level == 'error' then false else toast
+      icon: level
+      timerProgressBar: true
+      position: if level == 'error' then 'center' else 'top-end'
       text: message
-      progressBar: true
-      timeout: timeout
-      theme: 'bulma'
-      layout: 'topCenter'
-    ).show()
+      timer: if level == 'error' then false else timeout
+      showConfirmButton: if level == 'error' then true else false
+      didOpen: (toast) =>
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      showClass:
+        popup: if level == 'error' then '' else 'animate__animated animate__bounceInRight'
+      hideClass:
+        popup: if level == 'error' then '' else 'animate__animated animate__bounceOutRight'
+    }
+    Swal.fire(options)
 
   confirmation: (event) ->
     target = event.target
-    confirmation = target.dataset.pageConfirmation
+    confirmation = target.dataset.pageConfirmation || ''
     url = target.dataset.pageUrl
-    n = new Noty(
-      text: "#{confirmation}"
-      type: 'alert'
-      modal: true
-      theme: 'relax'
-      layout: 'center'
-      closeWith: 'button'
-      animation:
-        open: null
-        close: null
-      callbacks:
-        onTemplate: () ->
-          #console.log this.barDom.childNodes[]
-          buttonsContainer = this.barDom.querySelector('.noty_buttons')
-          buttonsContainer.classList.add('columns') if buttonsContainer
-      buttons: [
-        Noty.button("<%= I18n.t( 'yes', default: 'Yes' ) %>", 'button is-success is-focused column is-6', ( =>
-          window.location.href = url
-          return
-        ), id: 'button1', 'data-status': 'ok')
-        Noty.button("<%= I18n.t( 'no', default: 'No' ) %>", 'button is-danger column is-6', ->
-          n.close()
-          return
-        )
-      ])
-    n.show()
+    icon = target.dataset.icon || 'question'
+    title = target.dataset.title || ''
+    deletable = target.dataset.deletable || false
+    form = target.closest('form')
+    options = {
+      icon: icon
+      timerProgressBar: false
+      position: 'center'
+      title: title
+      html: confirmation
+      showConfirmButton: true
+      showCancelButton: true
+      confirmButtonText: "<%= I18n.t( 'yes', default: 'Yes' ) %>"
+      cancelButtonText: "<%= I18n.t( 'no', default: 'No' ) %>"
+      showClass:
+        popup: 'swal2-noanimation'
+      hideClass:
+        popup: ''
+    }
+    Swal.fire(options).then (result) =>
+      if result.isConfirmed
+        window.location.href = url
 
   deleyedInput: (event) =>
     callback = () =>

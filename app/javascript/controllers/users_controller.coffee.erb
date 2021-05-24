@@ -15,7 +15,7 @@ export default class extends PageController
       type: "GET"
       url: "/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/#{user_id}/<%= I18n.t( 'user', scope: 'routes', default: 'user' ) %>"
       success: (response, status, xhr) =>
-        container.outerHTML = xhr.response
+        container.outerHTML = xhr.response if container
       error: ( error ) =>
         this.send "Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error"
 
@@ -75,7 +75,7 @@ export default class extends PageController
             el.setCustomValidity("")
       if target.dataset.hasOwnProperty('fieldRequired')
         el.required = 'required'
-      unless target.dataset.fieldType == 'file'  
+      unless target.dataset.fieldType == 'file'
         el.placeholder = target.dataset.fieldPlaceholder
         el.name = target.dataset.fieldName
         editDiv.appendChild(el)

@@ -31,6 +31,7 @@
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+config/credentials
 
 /public/packs
 /public/packs-test
@@ -51,3 +52,5 @@ config/settings/*.yml
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+/config/credentials/production.key

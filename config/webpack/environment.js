@@ -10,7 +10,6 @@ module.exports = environment
 environment.plugins.prepend(
   'Provide',
   new webpack.ProvidePlugin({
-    Noty: 'noty',
     Moment: 'moment'
   })
 )
