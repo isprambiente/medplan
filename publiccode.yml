@@ -9,7 +9,6 @@ categories:
   - office
 description:
   it:
-    documentation: 'https://rubydoc.info/github/isprambiente/medplan/master'
     features:
       - gestione dipendenti
       - gestione appuntamenti
