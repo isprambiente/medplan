@@ -21,6 +21,7 @@
     "bulma": "https://github.com/francesco-loreti/bulma#has-max-column",
     "bulma-extensions": "^6.2.5",
     "bulma-switch": "https://github.com/francesco-loreti/bulma-switch#add-text-to-switch",
+    "chokidar": "^3.5.0",
     "coffee-loader": "^1.0",
     "coffeescript": "^2.5.0",
     "core-js": "^3.2.0",
