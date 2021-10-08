@@ -380,6 +380,7 @@ DEPENDENCIES
   high_voltage
   icalendar
   letter_opener
+  nokogiri (>= 1.12.5)
   pagy
   pg
   puma (~> 5.0)
