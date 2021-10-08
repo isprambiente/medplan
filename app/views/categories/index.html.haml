@@ -3,4 +3,4 @@
     .level-left
       %h3.title.is-3= t('title', scope: 'category' )
     .level-right= link_to fas_icon('plus', text: t('new', scope: 'category')), new_category_path, class: 'button is-fullwidth is-link', data: { url: new_category_path, action: 'ajax:success->modal#open', title: "Nuova categoria di rischio" }, remote: true
-  #categories.box{ data: { target: 'categories.container' } }= render 'index'
+  #categories.box{ data: { categories_target: 'container' } }= render 'index'

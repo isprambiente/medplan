@@ -39,12 +39,12 @@ Il codice sorgente del sito progetto è rilasciato sotto licenza MIT License (co
 ## Repository
 Questo repository contiene il codice sorgente del programma per la gestione della sorveglianza sanitaria e della medicina sul lavoro del personale.
 
-Il sito è sviluppato in linguaggio Ruby 2.7, framework Rails 6.0 e webpacker StimulusJS.
+Il sito è sviluppato in linguaggio Ruby 3.0, framework Rails 6.1 e webpacker StimulusJS 2.
 
 ### Specifiche tecniche progetto
-* [Ruby 2.7.x](https://www.ruby-lang.org)
+* [Ruby 3.0.x](https://www.ruby-lang.org)
 * [RVM](https://rvm.io/)
-* [Ruby on Rais 6.0](https://rubyonrails.org/)
+* [Ruby on Rais 6.1](https://rubyonrails.org/)
 * [NodeJS](https://nodejs.org/)
 * [Yarn](https://yarnpkg.com/)
 * [Webpacker StimulusJS](https://stimulusjs.org/)
@@ -59,9 +59,9 @@ Il sito è sviluppato in linguaggio Ruby 2.7, framework Rails 6.0 e webpacker St
 ### Requisiti tecnici per ambiente server
 * Sistema operativo: Linux
 * Gestore pacchetto ruby: RVM
-* Linguaggio di programmazione: Ruby 2.7
-* Framework: Rais 6.0
-* Webpacker: StimulusJS
+* Linguaggio di programmazione: Ruby 3.0
+* Framework: Rails 6.1
+* Webpacker: StimulusJS 2.0
 * Database: PostgreSQL >= 12.2
 * NodeJS: JavaScript runtime >= v13.10
 * Package Manager: Yarn >= 1.22
@@ -70,15 +70,15 @@ Il sito è sviluppato in linguaggio Ruby 2.7, framework Rails 6.0 e webpacker St
 * Autenticazione utenti: CAS Server
 
 ### Requisiti minimi per i client
-* Mozilla Firefox 53, Chrome 58, Microsoft Edge, Internet Explorer 11, Safari 9.0 o altro browser compatibile con HTML 5, CSS 3;
-* Per Internet Explorer 11 la modalità di compatibilità deve essere disattivata;
+* Mozilla Firefox 80, Chrome 80, Microsoft Edge, Safari o altro browser compatibile con HTML 5, CSS 3;
+* Internet Explorer 11 non è supportato;
 * Javascript abilitato;
 * Cookie abilitati;
 * Supporto ai certificati SSL;
 * Risoluzione schermo 1024x768.
 
 ### Configurazione consigliata per i client
-* Mozilla Firefox >= 53, Chrome >= 58, Microsoft Edge, Safari 9.0 o altro browser compatibile con HTML 5 e CSS 3;
+* Mozilla Firefox 80, Chrome 80, Microsoft Edge, Safari o altro browser compatibile con HTML 5, CSS 3;
 * Javascript abilitato;
 * Cookie abilitati;
 * Supporto ai certificati SSL;

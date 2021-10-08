@@ -72,6 +72,6 @@ module ApplicationHelper
   # @param [DateTime,Date] obj
   # @return [String] localized and formatted date
   def l_date(obj = nil)
-    l(obj, format: :date) if obj.present?
+    l(obj.try(:to_date), format: :date) if obj.present?
   end
 end

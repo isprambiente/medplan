@@ -124,12 +124,14 @@ it:
     reactive: 'Riattiva'
     note: 'Note'
     deleted: 'Cancellato'
-    blocked: 'Bloccato e/o cancellato su JPERS'
-    deleted_and_blocked: 'Rimosso sia in Med.Plan. sia su JPERS'
+    blocked: 'Bloccato e/o cancellato'
+    deleted_and_blocked: 'Rimosso e bloccato in Med.Plan.'
     delete: 'Cancella utente'
     details: 'Dettagli utente'
     find: 'Cerca utente'
     modified: 'Utente modificato'
+    username: 'Nome utente'
+    label: 'Nominativo'
     fullname: 'Nominativo'
     cf: 'Codice fiscale'
     lastname: 'Cognome'
@@ -160,6 +162,11 @@ it:
     file_assegnazione: 'File assegnazione'
     has_file_assegnazione: 'Ha un file di assegnazione'
     alternative_confirm: "ATTENZIONE<br>Stai per essere reinderizzato al sito della rubrica nel quale, accedendo al tuo profilo(nel menù a tendina a destra che si apre passando con il mouse sopra al nome), potrai modificare il numero delle emergenze.<br>Una volta modificato, dovrai attendere fino a 3 ore affinché i sistemi si sincronizzino per vedere il nuovo numero sul sito di Med.Plan.<br><br>Confermi di voler procedere?"
+    password:
+      current: Password attuale
+      new: Nuova password
+      confirm: Conferma password
+      save: Salva
     cities:
       other: "Altro"
       chioggia: "Chioggia"

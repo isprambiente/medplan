@@ -68,12 +68,7 @@ export default class extends PageController
       plugins: [ interactionPlugin, dayGridPlugin ]
       selectable: target.classList.contains('editable')
       editable: target.classList.contains('editable')
-      defaultView: 'dayGridMonth'
       aspectRatio: 1.5
-      header:
-        left: 'title',
-        center: '',
-        right: 'today prev,next' # 'dayGridMonth, timeGridWeek, timeGridDay'
       locales: allLocales
       locale: document.getElementsByTagName('html')[0].lang
       events: "#{url}/agenda.json"

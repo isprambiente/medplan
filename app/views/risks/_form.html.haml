@@ -17,7 +17,7 @@
             = t('no')
     .columns
       .column
-        = f.select :category_ids, Category.all.map{|r| [ r.title, r.id ] }, { label: 'Categorie di rischio' }, { multiple: true, data: { target: 'risks.listbox' } }
+        = f.select :category_ids, Category.all.map{|r| [ r.title, r.id ] }, { label: 'Categorie di rischio' }, { multiple: true, data: { risks_target: 'listbox' } }
         %p.help.is-danger= @risk.errors.messages[:category_ids].join(', ')
   .form-actions
     .columns

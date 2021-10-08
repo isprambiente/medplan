@@ -5,7 +5,6 @@ const activate = (target) => { document.getElementById(target).classList.add('is
 document.addEventListener('ajax:beforeSend', function(event) { loading(event) })
 document.addEventListener('ajax:success', function(event) { loaded(event) })
 document.addEventListener('ajax:error', function(event) {
-   console.log(event);
    if (event.detail[1] == "Unauthorized") {
      loaded(event);
      activate('timeout');

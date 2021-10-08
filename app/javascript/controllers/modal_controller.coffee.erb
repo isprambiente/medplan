@@ -6,7 +6,6 @@ export default class extends PageController
 
   open: (event) =>
     [data, status, xhr] = event.detail
-    #if this.hasContainerTarget
     target = event.currentTarget
     modal = this.containerTarget
     if target
@@ -32,10 +31,15 @@ export default class extends PageController
     this.bodyTarget.innerHTML = xhr.response
 
   close: (event) =>
-    modal = event.currentTarget.closest('#modal.modal')
-    modal.querySelector('.modal-card-title').innerHTML = ''
-    modal.querySelector('.modal-card-menu').innerHTML = ''
-    modal.querySelector('.modal-card-body').innerHTML = ''
-    modal.querySelector('.modal-card-footer').innerHTML = ''
+    modal = event.currentTarget.closest('.modal-container')
+    erase = modal.dataset.erase || 'true'
+    if modal.querySelector('.modal-card-title') && erase == 'true'
+      modal.querySelector('.modal-card-title').innerHTML = ''
+    if modal.querySelector('.modal-card-menu') && erase == 'true'
+      modal.querySelector('.modal-card-menu').innerHTML = ''
+    if modal.querySelector('.modal-card-body') && erase == 'true'
+      modal.querySelector('.modal-card-body').innerHTML = ''
+    if modal.querySelector('.modal-card-footer') && erase == 'true'
+      modal.querySelector('.modal-card-footer').innerHTML = ''
     modal.classList.remove('is-active')
     modal.closest('html').classList.remove('is-clipped')

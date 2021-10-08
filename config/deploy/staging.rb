@@ -10,7 +10,7 @@ namespace :deploy do
   namespace :check do
     before :linked_files, :set_master_key do
       on roles(:app), in: :sequence, wait: 10 do
-        upload! "config/settings/staging.yml", "#{shared_path}/config/settings/staging.yml"
+        upload! "config/settings/staging.local.yml", "#{shared_path}/config/settings/staging.yml"
       end
     end
   end

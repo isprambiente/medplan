@@ -2,24 +2,51 @@
   %article.message
     .message-header= t('general_informations', scope: 'user')
     .message-body
-      %ul
-        %li.columns.is-mobile
-          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('user', text: t('fullname', scope: 'user')+': ')
-          .column= @user.label unless @user.label.blank?
-        %li.columns.is-mobile
-          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
-          .column= @user.cf unless @user.cf.blank?
-        %li.columns.is-mobile
-          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('credit-card', text: t('matr', scope: 'user')+': ')
-          .column= @user.matr unless @user.matr.blank?
-        %li.columns.is-mobile
-          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
-          .column= @user.structure unless @user.structure.blank?
-        %li.columns.is-mobile
-          .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('phone-volume', text: t('personal_tel', scope: 'user')+': ')
-          .column.is-3-desktop.is-5-tablet= @user.emergenze
-          .column
-            %a{ data: { action: 'click->page#confirmation', page_url: "#{ Settings.rubrica }", page_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
+      .columns
+        .column
+          %ul
+            %li.columns.is-mobile
+              .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('user', text: t('fullname', scope: 'user')+': ')
+              .column= @user.label unless @user.label.blank?
+            %li.columns.is-mobile
+              .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
+              .column= @user.cf unless @user.cf.blank?
+            %li.columns.is-mobile
+              .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('credit-card', text: t('matr', scope: 'user')+': ')
+              .column= @user.matr unless @user.matr.blank?
+            %li.columns.is-mobile
+              .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
+              .column= @user.structure unless @user.structure.blank?
+            %li.columns.is-mobile
+              .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('phone-volume', text: t('personal_tel', scope: 'user')+': ')
+              .column{ data: { controller: 'users' } }
+                - if Settings.users.tel_user_emergenze == 'internal'
+                  %span{ class: "#{ 'editable tooltip' }", data: { tooltip: "Clicca per #{ @user.user_emergenze.present? ? 'modificare' : 'inserire' } il recapito telefonico per le emergenze", action: 'click->users#edit', user_id: @user.id, field: { name: "user[user_emergenze]", type: 'tel', value: @user.user_emergenze.presence ||  '', placeholder: "Inserisci un recapito telefonico per le emergenze", pattern: "[+.\/\-\0-9]+", required: false } } }= ( @user.user_emergenze.presence || 'aggiungi numero per le emergenze' )
+                - elsif Settings.users.tel_user_emergenze == 'external'
+                  = @user.user_emergenze.presence || 'n.d.'
+                  %a{ data: { action: 'click->page#confirmation', page_url: "#{ Settings.rubrica }", page_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
+                - else
+                  = @user.user_emergenze.presence || 'n.d.'
+        - if Devise.mappings[:user].database_authenticatable?
+          .column.is-3
+            = form_with model: @user, url: reset_password_path, method: :put do |f|
+              .field
+                = f.label :current_password, t('current', scope: 'user.password', default: 'Current password')
+                .control= f.password_field :current_password, autofocus: true, autocomplete: 'current-password'
+                %p.help= f.error_message_for(:current_password)
+              .field
+                = f.label :password, t('new', scope: 'user.password', default: 'New password')
+                .control= f.password_field :password, autofocus: true, autocomplete: 'new-password'
+                %p.help= f.error_message_for(:password)
+              .field
+                = f.label :password_confirmation, t('confirm', scope: 'user.password', default: 'Confirm password')
+                .control= f.password_field :password_confirmation, autocomplete: 'new-password'
+                %p.help= f.error_message_for(:password_confirmation)
+              .actions
+                .field
+                  .control
+                    %button.is-link{ type: 'submit' }= t('save', scope: 'user.password', default: 'Cambia password')
+                    %p.help.is-danger Dopo il cambio password, sarà necessario effettuare una nuova autenticazione.
 
   .columns.has-2{ data: { controller: 'events' } }
     #analisys-list.column

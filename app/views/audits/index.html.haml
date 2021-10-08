@@ -1,1 +1,1 @@
-#audits.container{ data: { controller: 'audits', target: 'audits.container' } }= render(partial: 'category', collection: @categories, as: :category) || t('not_found', scope: 'audit')
+#audits.container{ data: { controller: 'audits', audits_target: 'container' } }= render(partial: 'category', collection: @categories, as: :category) || t('not_found', scope: 'audit')

@@ -7,6 +7,16 @@
 .box
   = form_with model: @user, :url => url, method: method do |f|
     .form-inputs
+      - if Devise.mappings[:user].database_authenticatable? && (current_user.admin? || current_user.secretary? || current_user.doctor?)
+        .columns.has-2
+          .column
+            .field
+              %label.label= t('username', scope: 'user')
+              .control.is-expanded= f.text_field :username, placeholder: t('username', scope: 'user'), class: 'input'
+          .column
+            .field
+              %label.label= t('new', scope: 'user.password')
+              .control.is-expanded= f.text_field :password, placeholder: t('new', scope: 'user.password'), class: 'input'
       .columns.has-2
         .column
           .field
@@ -47,12 +57,4 @@
 %article.message
   %h5.title.is-5.has-text-centered.message-header Attenzione
   .message-body
-    %p.has-text-justify
-      Un utente generato manualmente, non potendo essere sincronizzato con l'archivio del personale,
-      non avra' alcuni dati relativi alla locazione e al contratto bloccando le funzionalita' associate ai dati assenti.
-      Non potendo, inoltre, accedere al programma, l'utente non potrà confermare autonomamente le date delle visite e delle analisi e necessiterà di una comunicazione manuale.
-    %p.has-text-justify
-      Se l'utente, in futuro, dovesse essere assunto e/o gestito sul database del personale, le informazioni aggiornate verranno automaticamente sincronizzate sovrascrivendo quelle inserite manualmente.
-    %p.has-text-justify
-      La sincronizzazione avverra' tramite la ricerca del codice fiscale.
-
+    %p.has-text-justify= Settings.action_job.user.form_message.html_safe

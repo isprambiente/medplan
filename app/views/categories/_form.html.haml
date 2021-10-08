@@ -19,7 +19,7 @@
           %p.help.is-danger= @category.errors.messages[:protocol].join(', ')
     .columns
       .column
-        = f.select :risk_ids, Risk.all.map{|r| [ r.title, r.id ] }, {}, { multiple: true, data: { target: 'categories.listbox' } }
+        = f.select :risk_ids, Risk.all.map{|r| [ r.title, r.id ] }, {}, { multiple: true, data: { categories_target: 'listbox' } }
         %p.help.is-danger= @category.errors.messages[:risk_ids].join(', ')
   .form-actions
     .columns

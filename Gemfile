@@ -51,6 +51,7 @@ group :test do
 end
 
 gem 'active_storage_validations'
+gem 'caxlsx'
 gem 'caxlsx_rails'
 gem 'config'
 gem 'devise'

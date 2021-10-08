@@ -59,6 +59,8 @@ class Audit < ApplicationRecord
   has_many    :meetings, dependent: :destroy
   has_many    :events, through: :meetings, dependent: :destroy
 
+  store_accessor :metadata, :author, :revision_date
+
   validates :user_id, presence: true
   validates :category_id, presence: true, uniqueness: { scope: %i[user_id status] }
   validates :status, presence: true

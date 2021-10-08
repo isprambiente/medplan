@@ -1,0 +1,12 @@
+%p
+  Buongiorno #{@user.label},
+%p sono presenti nuovi eventi programmati per lei dalla Segreteria Medica.
+%p= Settings.events.analisys.description
+%p Si prega di indicare, direttamente sul sito di seguito indicato, un numero di telefono cellulare per eventuali comunicazioni urgenti.
+%p
+  Per visualizzare e confermare gli eventi seguire il seguente link:
+  %br/
+  %a{:href => "#{Settings.app.url}"}= Settings.app.url
+%p
+  Per qualunque problema contattare l'indirizzo e-mail:
+  %a{:href => "mail_to:#{Settings.email}"}= Settings.email

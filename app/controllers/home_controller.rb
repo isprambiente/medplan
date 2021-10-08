@@ -5,7 +5,7 @@
 # * before_action :doctor_in!, only: [:report] -> {doctor_in!}
 class HomeController < ApplicationController
   include Pagy::Backend
-  before_action :home_redirect, except: [:user]
+  before_action :home_redirect, except: [:user, :reset_password]
   before_action :doctor_in!, only: [:report]
 
   # GET /
@@ -18,7 +18,7 @@ class HomeController < ApplicationController
   # @return [Object] render /home/index
   def index
     @expire = ''
-    @users = User.all.left_outer_joins(:categories).distinct
+    @users = User.all.unsystem.left_outer_joins(:categories).distinct
     @start_at = Time.zone.today.at_beginning_of_month
     @stop_at = Time.zone.today.end_of_month
     @next_start_at = Time.zone.today.at_beginning_of_month.next_month
@@ -74,12 +74,39 @@ class HomeController < ApplicationController
   def report
     return if params[:report].blank?
 
-    @year = params[:report][:year]
+    @year = params[:report][:year].presence || Time.zone.today.year
     @range = 0
-    @city = params[:report][:city]
+    @city = params[:report][:city].presence || :roma
     get_dates_range(@range, @year)
     @users = History.unscoped.joins(:user, :risk).where('users.city=?', User.cities[@city])
     @filename = @city.blank? ? 'report-medicina.xlsx' : "#{@city}-#{@year}.xlsx"
+    respond_to do |format|
+      format.js
+      format.xlsx
+    end
+  end
+
+  # PUT /home/reset_password
+  #
+  # Is function for change the user password
+  # * set @user as current_user
+  # @return {Object} render /home/new_password
+  def reset_password
+    status = :ok
+    @user = current_user
+    if user_params[:password] != user_params[:password_confirmation]
+      @user.errors.add(:password, 'Not valid')
+      @user.errors.add(:current_password, 'Not valid')
+    else
+      @user.password = user_params[:password]
+      if @user.save
+        flash.now[:success] = 'Modifica avvenuta con successo'
+      else
+        status = 500
+        flash.now[:error] = 'Si è verificato un errore durante la modifica'
+      end
+    end
+    redirect_to new_user_session_path
   end
 
   private
@@ -100,6 +127,10 @@ class HomeController < ApplicationController
 
   def home_redirect
     redirect_to home_user_path unless current_user.doctor? || current_user.secretary?
+  end
+
+  def user_params
+    params.fetch(:user, {}).permit(:password, :current_password, :password_confirmation)
   end
 
   def filter_params
@@ -132,7 +163,7 @@ class HomeController < ApplicationController
                     when 'blocked' then [nil, :blocked]
                     else [['audits.expire Between ? And ?', @start_at, @stop_at], :syncable]
                     end
-    users_list = User.left_outer_joins(:categories) #.distinct
+    users_list = User.unsystem.left_outer_joins(:categories) #.distinct
     users_list = if %w[locked blocked new].include?(@filters[:riepilogo])
                    users_list.send(scope).group('users.label, users.id')
                  else

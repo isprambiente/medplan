@@ -32,8 +32,31 @@ export default class extends PageController
       if target.dataset.hasOwnProperty('fieldType')
         if target.dataset.fieldType == 'textarea'
           el = document.createElement("TEXTAREA")
-          el.className = "textarea editor is-radiusless has-fixed-size"
+          el.className = "textarea editor is-radiusless"
+          el.style = 'width:80%;'
           el.innerHTML = target.dataset.fieldValue
+        else if target.dataset.fieldType == 'select'
+          el = document.createElement("SELECT")
+          el.className = "select editor is-radiusless"
+          el.style = "width:60%;"
+          options = target.dataset.fieldOptions.split(',')
+          if target.dataset.fieldPrompt
+            opt = document.createElement("option")
+            opt.value = ""
+            opt.text = target.dataset.fieldPrompt
+            opt.selected = true if target.dataset.fieldValue == ""
+            el.appendChild(opt)
+          for option in options
+            opt = document.createElement("option")
+            if option.indexOf("||") >= 0
+              option_splitted = option.split("||")
+              opt.value = option_splitted[0]
+              opt.text = option_splitted[1]
+            else
+              opt.value = option
+              opt.text = option
+            opt.selected = true if option == target.dataset.fieldValue
+            el.appendChild(opt)
         else if target.dataset.fieldType == 'file'
           user_id = target.dataset.userId
           form = document.createElement("FORM")
@@ -52,6 +75,7 @@ export default class extends PageController
           el.name = target.dataset.fieldName
           el.type = target.dataset.fieldType
           el.className = "input #{ target.dataset.fieldType } editor is-radiusless"
+          el.style = "width:60%;"
           el.accept = target.dataset.fieldAccept || ''
           # el.dataset.directUpload = target.dataset.fieldDirectUpload || 'false'
           form.appendChild(el)
@@ -81,33 +105,36 @@ export default class extends PageController
         editDiv.appendChild(el)
         btnSave = document.createElement("BUTTON")
         btnSave.innerHTML = "<i class='fa fa-save' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Salva' else '' }"
-        btnSave.className = "button tooltip is-success is-radiusless"
+        btnSave.className = "button tooltip is-transparent is-borderless is-radiusless"
         btnSave.dataset.tooltip = "Salva"
         btnSave.dataset.action = "click->users#update"
         btnSave.dataset.userId = userId
         editDiv.appendChild(btnSave)
         btnCanc = document.createElement("BUTTON")
         btnCanc.innerHTML = "<i class='fa fa-times' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Annulla' else '' }"
-        btnCanc.className = "button tooltip is-danger is-radiusless"
+        btnCanc.className = "button tooltip is-transparent is-borderless is-radiusless"
         btnCanc.dataset.tooltip = "Annulla"
         btnCanc.dataset.action = "click->users#abort"
         editDiv.appendChild(btnCanc)
       else
         if form
+          buttons = document.createElement("DIV")
+          buttons.className = 'buttons'
           btnSave = document.createElement("BUTTON")
           btnSave.innerHTML = "<i class='fa fa-save' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Salva' else '' }"
-          btnSave.className = "button tooltip is-success is-radiusless"
+          btnSave.className = "button tooltip is-transparent is-borderless is-radiusless"
           btnSave.dataset.tooltip = "Salva"
           # btnSave.dataset.action = "click->users#update"
           btnSave.type = 'submit'
           btnSave.dataset.userId = userId
-          form.appendChild(btnSave)
+          buttons.appendChild(btnSave)
           btnCanc = document.createElement("BUTTON")
           btnCanc.innerHTML = "<i class='fa fa-times' style=#{ if target.dataset.fieldType == 'textarea' then '' else 'padding-right:0px' }></i>#{ if target.dataset.fieldType == 'textarea' then ' Annulla' else '' }"
-          btnCanc.className = "button tooltip is-danger is-radiusless"
+          btnCanc.className = "button tooltip is-transparent is-borderless is-radiusless"
           btnCanc.dataset.tooltip = "Annulla"
           btnCanc.dataset.action = "click->users#abort"
-          form.appendChild(btnCanc)
+          buttons.appendChild(btnCanc)
+          form.appendChild(buttons)
           editDiv.appendChild(form)
       target.classList.add('is-hidden')
 
@@ -128,11 +155,20 @@ export default class extends PageController
         success: (data, status, xhr) =>
           this.send('Salvataggio avvenuto correttamente!')
           this.removeElement target
-          link.innerHTML = if value != '' then value else 'aggiungi'
-          link.dataset.fieldValue = value
+          if link.dataset.fieldType == 'date'
+            value = new Date(value).toLocaleDateString(window.navigator.language || 'it', { day: '2-digit', month: '2-digit', year: 'numeric' })
+          else if link.dataset.fieldType == 'password'
+            value = '*********'
+          link.innerHTML = if value != '' then value else ( if link.dataset.fieldPlaceholder then link.dataset.fieldPlaceholder else 'aggiungi')
         error: (error) =>
+          text = error
+          try
+            text = text.error
+          if text
+            this.send(text, 'error')
+          else
+            this.send('Si è verificato un errore durante il salvataggio!', 'error')
           this.removeElement target
-          this.send('Si è verificato un errore durante il salvataggio della data!', 'error')
     else
       if input.hasAttribute('pattern')
         this.send "Immettere un valore compreso tra #{input.pattern}!", 'error'
@@ -143,8 +179,9 @@ export default class extends PageController
     this.removeElement event.currentTarget
 
   removeElement: (target) =>
-    editor = target.closest('.editor')
-    container = editor.parentNode
-    editor.remove()
-    link = container.querySelector('.editable.is-hidden')
-    link.classList.remove('is-hidden') if link
+    if target.closest('.editor')
+      editor = target.closest('.editor')
+      container = editor.parentNode
+      editor.remove()
+      link = container.querySelector('.editable.is-hidden') if container
+      link.classList.remove('is-hidden') if link

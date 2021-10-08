@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_185405) do
+ActiveRecord::Schema.define(version: 2021_09_30_173228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -61,9 +61,11 @@ ActiveRecord::Schema.define(version: 2020_12_10_185405) do
     t.date "expire", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.jsonb "metadata", default: {}, null: false
     t.index ["category_id", "user_id", "status"], name: "index_audits_on_category_id_and_user_id_and_status", unique: true
     t.index ["category_id"], name: "index_audits_on_category_id"
     t.index ["expire"], name: "index_audits_on_expire"
+    t.index ["metadata"], name: "index_audits_on_metadata", using: :gin
     t.index ["status"], name: "index_audits_on_status"
     t.index ["user_id"], name: "index_audits_on_user_id"
   end
@@ -168,9 +170,16 @@ ActiveRecord::Schema.define(version: 2020_12_10_185405) do
     t.string "tel", default: ""
     t.integer "postazione", default: 1, null: false
     t.jsonb "metadata", default: {}, null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "reset_password_sent_at"
+    t.boolean "system", default: false, null: false
     t.index ["cf"], name: "index_users_on_cf", unique: true
     t.index ["city"], name: "index_users_on_city"
     t.index ["metadata"], name: "index_users_on_metadata", using: :gin
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
+    t.index ["system"], name: "index_users_on_system"
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 

@@ -1,4 +1,4 @@
-.container
+.container.is-unselectable
   = render 'users/detail' , user: @user, response: true
   %br/
   - if @user.locked_at?
@@ -20,10 +20,4 @@
     %article.message.is-danger
       %h5.title.is-5.message-header Attenzione
       .message-body
-        .has-text-justify
-          Questo utente è stato generato manualmente e, non potendo essere sincronizzato con l'archivio del personale, non avra' alcuni dati relativi alla locazione e al contratto bloccando le funzionalita' associate ai dati assenti.
-          Non potendo, inoltre, accedere al programma, l'utente non potrà confermare autonomamente le date delle visite e delle analisi e necessiterà di una comunicazione manuale.
-        .has-text-justify
-          Se l'utente, in futuro, dovesse essere assunto e/o gestito sul database del personale, le informazioni aggiornate verranno automaticamente sincronizzate sovrascrivendo quelle inserite manualmente.
-        .has-text-justify
-          La sincronizzazione avverra' tramite la ricerca del codice fiscale.
+        .has-text-justify= Settings.action_job.user.form_message.html_safe

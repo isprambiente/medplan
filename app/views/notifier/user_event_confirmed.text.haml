@@ -1,0 +1,8 @@
+Buongiorno #{@user.label},
+
+la Segreteria Medica #{t @event.status(@user), scope: 'meeting.statuses'} l'evento del #{l @event.date_on}.
+
+Puoi verificare lo stato e l'orario collegandosi al sito:
+\#{Settings.app.url}
+
+Per qualunque problema contattare l'indirizzo e-mail: #{Settings.email}

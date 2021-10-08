@@ -1,0 +1,11 @@
+%p
+  Buongiorno #{@user.label},
+%p
+  la Segreteria Medica #{t @event.status(@user), scope: 'meeting.statuses'} l'evento del #{l @event.date_on}.
+%p
+  Puoi verificare lo stato e l'orario collegandosi al sito:
+  %br/
+  %a{:href => "#{Settings.app.url}"}= Settings.app.url
+%p
+  Per qualunque problema contattare l'indirizzo e-mail:
+  %a{:href => "mail_to:#{Settings.email}"}= Settings.email

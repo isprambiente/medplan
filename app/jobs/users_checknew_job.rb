@@ -76,9 +76,9 @@ class UsersChecknewJob < ApplicationJob
     user.postazione_updated_at    = data['postazione']['updated_at']
     user.data_aggiornamento       = data['updated_at']
     user.deleted                  = data['stato'] == 'scaduto'
-    user.prefix                   = '065007'
+    user.prefix                   = Settings.users.tel_prefix
     response = user.save
 
-    puts "#{user.username} - #{response}" unless response
+    Rails.logger.debug "#{user.username} - #{response}" unless response
   end
 end

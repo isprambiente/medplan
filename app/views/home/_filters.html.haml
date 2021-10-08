@@ -34,7 +34,7 @@
     %p.panel-heading= fas_icon('calendar', text: t('event_waiting', scope: 'event'))
     .panel-block
       %a.button.is-small.is-warning.is-fullwidth{ href: home_meetings_path, data: { remote: true, action: 'ajax:success->events#goPage' } }= fas_icon( 'spinner', text: t('refresh') )
-    %span{ data: { target: 'events.container' } }= render partial: 'meetings', collection: @meetings, as: :event
+    %span{ data: { events_target: 'container' } }= render partial: 'meetings', collection: @meetings, as: :event
 
   %nav#cities.panel.filters
     %p.panel-heading= fas_icon('map-marker', text: t('city', scope: 'user'))

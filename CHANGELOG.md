@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2021-10-08
+### Changed
+- Add move settings to Settings files
+- Add Devise views
+- Add differents authentication's systems
+- Add inline field update
+- Add new fields into User model
+- Add demo settings
+- Add user samples
+- Upgrade to Ruby 3
+- Update Manuals
+- Update Readme
+- Updated Rails libraries
+- Updated Javascript libraries
+- Update browser requirements
+- Remove compatibility with Internet Explorer 11
+
 ## [1.0.9] - 2020-12-11
 ### Changed
 - Rails version 6.1

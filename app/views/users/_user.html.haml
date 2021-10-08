@@ -8,7 +8,7 @@
 - if user.locked_at? || user.deleted?
   - row_class += ' is-light'
 - else  - row_class += ' reveal-modal'
-.columns.is-mobile.user
+.columns.is-mobile.user.is-unselectable
   .column.first
     - if user.locked_at?
       %span.tooltip.help.is-inline-flex{ data: { tooltip: "Utente disattivato manualmente il #{ l_date user.locked_at } #{ 'con contratto '+user.status.upcase if user.status.present? }. Per riattivarlo cliccare sul bottone 'Riattiva'", disable_hover: "false"} }
@@ -41,12 +41,12 @@
     .buttons.has-addons.is-right
       = link_to fas_icon('file'), user, class: 'button tooltip', data: { tooltip: t('details', scope: 'user'), action: 'ajax:success->modal#open', remote: true, title: "#{user.label} - #{t('details', scope: 'user')}" }
       = link_to fas_icon('exclamation-triangle'), user.locked_at? || user.deleted? ? '#' : user_audits_path(user), :class => if user.locked_at? || user.deleted? then 'button disabled tooltip' else 'button tooltip' end , data: { action: 'ajax:success->modal#open', remote: true, title: "#{user.label} - #{t('title', scope: 'risk')}", tooltip: t('title', scope: 'risk') }, disabled: user.locked_at? || user.deleted?
-      = link_to fas_icon('calendar'), user.locked_at? || user.deleted? ? '#' : new_user_event_path(user), class: "tooltip #{row_class}" , data: { action: 'ajax:success->modal#open', remote: true, title: "#{user.label} - #{t('manage', scope: 'event')}", tooltip: t('manage', scope: 'event') }, disabled: user.locked_at? || user.deleted? # || user.audits.blank?
+      = link_to fas_icon('calendar'), user.locked_at? || user.deleted? ? '#' : new_user_event_path(user), class: "tooltip #{row_class}" , data: { action: 'ajax:success->modal#open', remote: true, title: "#{user.label} - #{t('manage', scope: 'event')}", tooltip: t('manage', scope: 'event') }, disabled: user.locked_at? || user.deleted?
       - if user.locked_at?
         = link_to fas_icon("redo"), unlock_user_path(user), method: :patch, :class => 'button is-danger tooltip', remote: true, data: { confirm: t('reactive', scope: 'message.user'), tooltip: t('reactive', scope: 'user') }
       - elsif user.deleted?
         = link_to fas_icon('trash'), '#', :class => 'button tooltip', disabled: true, data: { tooltip: t('deleted', scope: 'user') }
-      - elsif !user.access_locked? && current_user == user
+      - elsif Devise.mappings[:user].lockable? && !user.access_locked? && current_user == user
         = link_to fas_icon('trash'), '#', :class => 'button is-light tooltip', disabled: true, data: { tooltip: t('same_user', scope: 'user') }
       - else
         %a{ href: user.locked_at? ? '#' : user_path(user), class: 'button is-danger tooltip', data: { method: :delete, remote: true, confirm: t('delete', scope: 'message.user'), tooltip: t('delete', scope: 'user') }, disabled: user.locked_at? }=  fas_icon('trash')

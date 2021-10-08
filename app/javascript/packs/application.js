@@ -8,7 +8,6 @@ import '../stylesheets/application';
 
 require.context("images", true, /\.(png|svg|jpg|gif|ico)$/);
 
-
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()

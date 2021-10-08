@@ -9,8 +9,10 @@ Rails.application.routes.draw do
     get 'home/list', to: 'home#list', as: :home_list
     get 'home/user' => 'home#user'
     get 'home/report' => 'home#report'
+    post 'home/report' => 'home#report'
     get 'home/meetings' => 'home#meetings', as: :home_meetings
     post 'home/update_user' => 'home#update_user'
+    put 'home/reset_password', to: 'home#reset_password', as: :reset_password
 
     resources :users, except: %i[index edit] do
       get :index, on: :collection, to: 'users#index'

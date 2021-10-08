@@ -1,7 +1,7 @@
 html, body
   margin: 0
-  overflow-y: auto
-  overflow-x: hidden
+  // overflow-y: auto
+  // overflow-x: hidden
 
 html
   font-family: 'Open Sans', sans-serif
@@ -13,6 +13,8 @@ body
 
 @media print
   table, .top-bar
+    display: none !important
+  .no-print, .no-print *
     display: none !important
 
 header
@@ -33,6 +35,17 @@ header
 
 .is-hidden-touch.is-active
   display: block !important
+
+.is-sticky
+  position: sticky
+  top: 0
+  z-index: 1
+
+.is-transparent
+  background: transparent !important
+
+.is-borderless
+  border: 0 !important
 
 i.fa
   padding-right: 0.5rem

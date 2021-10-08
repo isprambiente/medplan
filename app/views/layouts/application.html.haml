@@ -1,33 +1,50 @@
 !!! 5
 %html.no-js{lang: "#{I18n.locale || I18n.default_locale}"}
   %head
-    %meta{ charset: "utf-8" }
-    %meta{ "http-equiv": 'X-UA-Compatible', content: 'IE=edge' }
-    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    %meta{ charset: 'utf-8' }
+    %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     %meta{ name: 'description', content: "#{Settings.subtitle}" }
     = favicon_link_tag
-    %title= Settings.title
+    %title= "#{[Settings.title, Settings.status].join(' - ')}"
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-  %body{ data: { controller: "page" } }
+  %body{ data: { controller: 'page' } }
     #loader.is-hidden
       .is-loading
-    #error.modal
+    #error.modal.modal-container{ data: { modal_target: 'container', erase: 'false' } }
       .modal-background
-      .modal-content
-        .box.has-text-centered= fas_icon 'exclamation-triangle fa-4x has-text-danger is-large', text: '<br/><br/>ATTENZIONE e` stato rilevato un errore di trasmissione, recaricare la pagina e riprovare.'
-    %header
-      #remote-header{ data: {controller: 'section', section_url: Settings.header, target: 'section.container'}}
-      = render partial: 'nav_3'
-    = notifications.html_safe
-    = notify_status(@status) if @status
-    %section
-      <noscript><div class="callout alert radius">ATTENZIONE! questo sito richiede le funzioni javascript abilitate per funzionare correttamente.</div></noscript>
-    %section.section{ data: { controller: "modal" } }
-      %div{ data: { target: "page.container" } }= yield
-      #modal.modal{ data: { target: "modal.container" } }= render partial: 'modal'
-    = render partial: 'menu'
-    %footer{ data: {controller: 'section', section_url: Settings.footer, target: 'section.container'}}
+      .modal-card
+        %header.modal-card-head.has-background-danger
+          %p.modal-card-title.has-text-white
+            %i.fas.fa-exclamation-triangle.mr-3
+            ATTENZIONE
+          %button.delete{ data: { controller: 'modal', action: 'click->modal#close' }, aria: { label: 'close' } }
+        %section.modal-card-body E' stato rilevato un errore di trasmissione, ricaricare la pagina e riprovare.<br/>Se il problema persiste, contattare il supporto tecnico.
+    #timeout.modal.modal-container{ data: { modal_target: 'container', erase: 'false' } }
+      .modal-background
+      .modal-card
+        %header.modal-card-head.has-background-danger
+          %p.modal-card-title.has-text-white
+            %i.fas.fa-exclamation-triangle.mr-3
+            ATTENZIONE
+        %section.modal-card-body
+          La sessione e` scaduta. Ricaricare la pagina per continuare.
+          .buttons.is-centered.mt-5.is-uppercase= link_to t('reload'), root_path, class: 'button is-danger'
+    .hero.is-fullheight
+      .hero-head
+        %header.no-print
+          #remote-header{ data: {controller: 'section', section_url: Settings.header, section_target: 'container'}}
+          = render partial: 'nav_3' if user_signed_in?
+        = notifications.html_safe
+        = notify_status(@status) if @status
+        %section
+          <noscript><div class='callout alert radius'>ATTENZIONE! questo sito richiede le funzioni javascript abilitate per funzionare correttamente.</div></noscript>
+        %section.section{ data: { controller: 'modal' } }
+          %div{ data: { page_target: 'container' } }= yield
+          #modal.modal.modal-container.no-print{ data: { modal_target: 'container' } }= render partial: 'modal'
+        .no-print= render partial: 'menu' if user_signed_in?
+        %footer.no-print{ data: {controller: 'section', section_url: Settings.footer, section_target: 'container'}}
 

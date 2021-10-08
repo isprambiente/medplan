@@ -9,6 +9,7 @@
 # @raise [ActiveRecord::RecordNotFound] if a query can't be resolved
 #  execute {record_not_found!}
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception, prepend: true
   layout :set_layout
   before_action :authenticate_user!
   before_action :set_locale
@@ -40,6 +41,14 @@ class ApplicationController < ActionController::Base
   # @return [nil]
   def admin_in!
     access_denied! unless current_user.admin?
+  end
+
+  def translate_errors(errors = [], scope: '')
+    translated = []
+    errors.each do |e|
+      translated << "#{t(e.attribute, scope: scope, default: e.attribute)} #{e.message}"
+    end
+    return translated
   end
 
   private

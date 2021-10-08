@@ -163,15 +163,17 @@ class User < ApplicationRecord
   has_many :categories, through: :audits
   has_many :meetings, through: :audits
   has_many :events, through: :meetings
-  has_many :histories, through: :audits
+  has_many :histories, through: :audits, source: :histories
+  has_many :risks, through: :categories, source: :risks
 
-  store_accessor :metadata, :email, :sex, :lastname, :name, :matr, :status, :postazione_inizio, :postazione_fine, :postazione_locazione, :postazione_created_at, :postazione_updated_at, :data_nasc, :citta_nasc, :naz_nasc, :scadenza_rapporto, :tipo_contratto, :denominazione_contratto, :location, :floor, :room, :telephone, :emergenze, :structure, :structure_label, :responsabile, :data_aggiornamento, :prefix
+  store_accessor :metadata, :email, :sex, :lastname, :name, :matr, :status, :postazione_inizio, :postazione_fine, :postazione_locazione, :postazione_created_at, :postazione_updated_at, :data_nasc, :citta_nasc, :naz_nasc, :scadenza_rapporto, :tipo_contratto, :denominazione_contratto, :location, :floor, :room, :telephone, :emergenze, :user_emergenze, :structure, :structure_label, :responsabile, :data_aggiornamento, :prefix
   attr_accessor :author, :external, :data
 
-  enum city: { other: 0, chioggia: 1, livorno: 2, milazzo: 3, ozzano: 4, palermo: 5, roma: 6, venezia: 8 }
-  enum postazione: { altro: 0, sede: 1, telelavoro: 2, comando: 3, distacco: 4, aspettativa: 5 }
+  enum city: Settings.users.cities.to_h
+  enum postazione: Settings.users.positions.to_h
 
-  devise :cas_authenticatable, :trackable, :timeoutable, :lockable
+  devise Settings.auth.authenticator.present? ? Settings.auth.authenticator.to_sym : :database_authenticatable, :trackable, :timeoutable, :lockable
+
   after_update :check_disabled
   before_destroy :abort_destroy
 
@@ -179,9 +181,9 @@ class User < ApplicationRecord
 
   validates :username, uniqueness: true, allow_blank: true
   validates :label, presence: true
-  validates :name, presence: { message: 'non può essere lasciato in bianco' }
-  validates :lastname, presence: { message: 'non può essere lasciato in bianco' }
-  validates :cf, presence: { message: 'non può essere lasciato in bianco' }, uniqueness: { message: 'già esistente' }
+  validates :name, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
+  validates :lastname, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
+  validates :cf, presence: { message: 'non può essere lasciato in bianco' }, uniqueness: { message: 'già esistente' }, unless: -> { system? }
   validates :postazione, presence: true
   validates :assegnazione, content_type: { in: 'application/pdf', message: 'non è un file PDF' }
   validates :assegnazione, size: { less_than: 500.kilobytes, message: 'deve avere una dimensione massima di 500kb' }
@@ -191,9 +193,11 @@ class User < ApplicationRecord
   scope :unassigned, -> { where.not(id: Audit.select(:user_id).distinct.pluck(:user_id)) }
   scope :blocked, -> { unscoped.where(deleted: true).where(locked_at: nil) }
   scope :doctors, -> { where(doctor: true).order(:label) }
-  scope :male, -> { where("metadata->>'sex'=?", 'M') }
-  scope :female, -> { where("metadata->>'sex'=?", 'F') }
+  scope :male, -> { where("users.metadata->>'sex'=?", 'M') }
+  scope :female, -> { where("users.metadata->>'sex'=?", 'F') }
   scope :syncable, -> { where.not(username: nil).order(:label) }
+  scope :system, -> { where(system: true) }
+  scope :unsystem, -> { where(system: false) }
 
   # update self with {locked_at} as Time.zone.now
   # @return [Boolean] true if is updated
@@ -240,4 +244,5 @@ class User < ApplicationRecord
     errors.add :base, "Can't be destroyed"
     throw :abort
   end
+
 end

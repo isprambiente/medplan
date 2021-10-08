@@ -1,4 +1,4 @@
-= form_with scope: :report,  url: home_report_path+'.xlsx' , :method => :get, remote: true do |f|
+= form_with scope: :report,  url: home_report_path+'.xlsx', method: :post, local: true do |f|
   .columns
     .column.is-6-desktop
       .field
@@ -11,6 +11,4 @@
         .control.is-expanded
           .select.is-fullwidth= f.select :city, t_enum(User.cities,'user.cities').reject {|k,v| v == 'other'}, :require => true, include_blank: false
 
-  .columns
-    %br/
-    .column= f.submit value: 'Genera report', class: "button is-fullwidth is-medium is-link is-focused", data: { disable_with: 'Salvataggio in corso...' }
+  = f.submit value: 'Genera report', class: "button is-fullwidth is-medium is-link is-focused", data: {disable_with: false}

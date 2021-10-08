@@ -50,6 +50,7 @@ class UsersController < ApplicationController
   # @return [Object] redirect to /home/index
   def destroy
     current_user = @user
+    @user.author = current_user.label
     @user = User.unscoped.find(current_user.id) if @user.disable!
     redirect_to home_index_path(filter: { riepilogo: 'expired' })
   end
@@ -62,7 +63,7 @@ class UsersController < ApplicationController
   # render /users/show
   def unlock
     @user.enable!
-    render @user
+    redirect_to home_index_path(filter: { riepilogo: 'expired' })
   end
 
   # PATCH /users/:id
@@ -72,11 +73,10 @@ class UsersController < ApplicationController
   # * set @response true if @user is updated
   # @return [Object] render users/index if @response is true otherwise render users/edit
   def update
-    @response = @user.update(user_params)
-    if @response
-      render :show
+    if @user.update(user_params)
+      render :show, status: :ok
     else
-      render :edit
+      render json: { error: translate_errors(@user.errors, scope: 'user').join(', '), status: :unprocessable_entity }, status: 500
     end
   end
 
@@ -159,7 +159,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.fetch(:user, {}).permit(:body, :tel, :assegnazione)
+    params.fetch(:user, {}).permit(:username, :password, :label, :cf, :data_nasc, :citta_nasc, :email, :matr, :denominazione_contratto, :scadenza_rapporto, :body, :city, :location, :telephone, :emergenze, :user_emergenze, :structure, :responsabile, :tel, :assegnazione)
   end
 
   def external_user_params
@@ -178,6 +178,6 @@ class UsersController < ApplicationController
     search[:postazione] = filter_params[:postazione] if filter_params[:postazione].present?
     scope = filter_params[:invisible] == true ? :unscoped : :all
 
-    User.send(scope).left_outer_joins(:categories).distinct.where(@text).where(search).order('label asc')
+    User.send(scope).unsystem.left_outer_joins(:categories).distinct.where(@text).where(search).order('label asc')
   end
 end

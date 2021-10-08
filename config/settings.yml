@@ -1,21 +1,59 @@
 title: Med.Plan.
+status: demo
 group: tua_societa
+society:
+  short_name: ''
+  long_name: ''
+  piva: ''
+  address: ''
 header: /head.html
 footer: /footer.html
 subtitle: Programma per la gestione della segreteria medica
 email: medico-competente@domain.com
 user_data_lib: nil_data
 domain: domain.com
-cas: https://cas.domain.com/cas/
+auth:
+  cas: https://cas.domain.com/cas/
+  authenticator: 'database_authenticatable'
+  # Default in Devise is :email
+  # Check that column exist into Users table
+  field: :username
 rubrica: https://rubrica.domain.com
 tracker: tracker.domain.com
 app:
   url: https://tuo_sito.domain.com
+copyright:
+  title: Tua Soietà
+  link: https://domain.com
 bug:
   icon: bug
   title: Segnala un problema nel programma
   link: https://domain.com
   confirm: "Per problematiche relative ad appuntamenti o per contattare la segreteria medica, devi scrivere una e-mail a tuaemail@domain.com<br/><br/>Confermi di voler proseguire?"
+users:
+  permit_edit_user: true
+  permit_full_edit_user: true
+  tel_user_emergenze: 'internal'
+  tel_prefix: ''
+  contracts:
+    - Tempo indeterminato
+    - Tempo determinato
+  cities:
+    other: 0
+    chioggia: 1
+    livorno: 2
+    milazzo: 3
+    ozzano: 4
+    palermo: 5
+    roma: 6
+    venezia: 8
+  positions:
+    altro: 0
+    sede: 1
+    telelavoro: 2
+    comando: 3
+    distacco: 4
+    aspettativa: 5
 events:
   maxusers: 10
   ranges:
@@ -35,7 +73,9 @@ events:
     location: "Inserisci indirizzo delle analisi"
 audits:
   lab:
-    - Il tuo laboratorio
+    - Laboratorio 1
+    - Laboratorio 2
+    - Laboratorio 3
 history:
   status:
     - created
@@ -46,41 +86,37 @@ history:
     - unsuitable_permanent
     - deleted
     - change_date_next_visit
-
 database:
   development:
-    database: <database>
+    database: medplan_development
     username: <username>
     password: <password> # può essere configurata qui o nel file criptato credentials.yml
     host:     <host>
     sslmode:  'prefer'
   test:
-    database: <database>
+    database: medplan_test
     username: <username>
     password: <password> # può essere configurata qui o nel file criptato credentials.yml
     host:     <host>
     sslmode:  'prefer'
   staging:
-    database: <database>
+    database: medplan_staging
     username: <username>
     password: <password> # può essere configurata qui o nel file criptato credentials.yml
     host:     <host>
     sslmode:  'prefer'
   production:
-    database: <database>
+    database: medplan_production
     username: <username>
     password: <password> # può essere configurata qui o nel file criptato credentials.yml
     host:     <host>
     sslmode:  'prefer'
-
 api:
   url: <url_json>
   username: <username>
   secret_access_key: <password> # può essere configurata qui o nel file criptato credentials.yml
-
 excel:
-  password: <password> # può essere configurata qui o nel file criptato credentials.yml
-
+  password: nil # Default: nil = nessuna password. La password può essere configurata qui o nel file criptato credentials.yml.
 action_mailer:
   default_url_option:
     host: <server_host>
@@ -93,6 +129,6 @@ action_mailer:
    username: <username>
    password: <password> # può essere configurata qui o nel file criptato credentials.yml
    sender: <sender>
-
-deploy:
-  host: 'test.yourserver.com'
+action_job:
+  user:
+    form_message: "In questa sezione sono indicati i campi minimi necessari alla gestione del personale all'interno del programma.<br>Ulteriori informazioni saranno aggiunte con un processo automatizzato che, collegandosi al database del personale, verificherà la corrispondenza del codice fiscale e scaricherà le informazioni all'interno del profilo di ciascun utente trovato.<br>E' possibile modificare quali e quanti campi potranno essere valorizzati modificando lo script rails dedicato al JOB e nel model rails User."

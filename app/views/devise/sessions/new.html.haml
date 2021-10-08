@@ -1,0 +1,83 @@
+.container
+  .box.has-text-centered
+    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      .field
+        %label.label= f.label Settings.auth.field
+        .control= f.text_field Settings.auth.field, autofocus: true, autocomplete: Settings.auth.field
+      .field
+        %label.label= f.label :password
+        .control= f.password_field :password, autocomplete: "current-password"
+      - if devise_mapping.rememberable?
+        .field
+          %label.checkbox
+            = f.check_box :remember_me
+            = f.label :remember_me
+      .actions
+        = f.submit 'Accedi', class: 'button is-link'
+  // Rimuovere in produzione
+  - if Settings.status == 'demo'
+    .columns
+      .column
+        %fieldset.box
+          %legend.has-text-weight-bold.is-underlined Credenziali amministrative per la Demo:
+          .px-6
+            %ul
+              %li
+                .has-text-weight-bold Administrator:
+                %ul.pl-4
+                  %li
+                    %span.has-text-weight-bold utente:
+                    admin
+                  %li
+                    %span.has-text-weight-bold password:
+                    admin
+              %li
+                .has-text-weight-bold Utente con ruolo di dottore:
+                %ul.pl-4
+                  %li
+                    %span.has-text-weight-bold utente:
+                    dottore
+                  %li
+                    %span.has-text-weight-bold password:
+                    dottore
+              %li
+                .has-text-weight-bold Utente con ruolo di segretaria:
+                %ul.pl-4
+                  %li
+                    %span.has-text-weight-bold utente:
+                    segretaria
+                  %li
+                    %span.has-text-weight-bold password:
+                    segretaria
+      .column
+        %fieldset.box
+          %legend.has-text-weight-bold.is-underlined Credenziali generiche per la Demo:
+          .px-6
+            %ul
+              %li
+                .has-text-weight-bold Utente generico 1:
+                %ul.pl-4
+                  %li
+                    %span.has-text-weight-bold utente:
+                    mario.rossi
+                  %li
+                    %span.has-text-weight-bold password:
+                    mario
+              %li
+                .has-text-weight-bold Utente generico 2:
+                %ul.pl-4
+                  %li
+                    %span.has-text-weight-bold utente:
+                    giorgio.verdi
+                  %li
+                    %span.has-text-weight-bold password:
+                    giorgio
+              %li
+                .has-text-weight-bold Utente generico 3:
+                %ul.pl-4
+                  %li
+                    %span.has-text-weight-bold utente:
+                    grazia.bianchi
+                  %li
+                    %span.has-text-weight-bold password:
+                    grazia

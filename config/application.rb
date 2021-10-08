@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 module MedPlan
   # This class contain the configurations for all app
   class Application < Rails::Application
-    config.load_defaults 6.0
+    config.load_defaults 6.1
     config.encoding = 'utf-8'
     config.i18n.default_locale = :it
     config.i18n.available_locales = [:it]
