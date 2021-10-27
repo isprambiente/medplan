@@ -44,7 +44,7 @@ Il sito è sviluppato in linguaggio Ruby 3.0, framework Rails 6.1 e webpacker St
 ### Specifiche tecniche progetto
 * [Ruby 3.0.x](https://www.ruby-lang.org)
 * [RVM](https://rvm.io/)
-* [Ruby on Rais 6.1](https://rubyonrails.org/)
+* [Ruby on Rails 6.1](https://rubyonrails.org/)
 * [NodeJS](https://nodejs.org/)
 * [Yarn](https://yarnpkg.com/)
 * [Webpacker StimulusJS](https://stimulusjs.org/)
