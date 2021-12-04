@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-admin = User.new(username: 'admin', label: 'Admin', name: 'Admin', password: 'admin', password_confirmation: 'admin', cf: '-', city: :roma, admin: true, system: true)
-admin.save(validate: false)
 dottore = User.new(username: 'dottore', label: 'Dottore', name: 'Dottore', password: 'dottore', password_confirmation: 'dottore', city: :roma, doctor: true, cf: 'DOTTORE1', system: true)
 dottore.save(validate: false)
 segretaria = User.new(username: 'segretaria', label: 'Segretaria', name: 'Segretaria', password: 'segretaria', password_confirmation: 'segretaria', city: :roma, secretary: true, cf: 'SEGRETARIA1', system: true)
