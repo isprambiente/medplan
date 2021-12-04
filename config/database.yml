@@ -6,10 +6,10 @@ default: &default
 
 development:
   <<: *default
-  database: <%= Rails.application.credentials.development_db_name || Settings.database.development.database %>
-  username: <%= Rails.application.credentials.development_db_username || Settings.database.development.username %>
-  password: <%= Rails.application.credentials.development_db_password || Settings.database.development.password %>
-  host: <%= Rails.application.credentials.development_db_host || Settings.database.development.host %>
+  database: <%= ENV['RAILS_DATABASE_NAME'] || Rails.application.credentials.development_db_name || Settings.database.develop>
+  username: <%= ENV['RAILS_DATABASE_USERNAME'] || Rails.application.credentials.development_db_username || Settings.database>
+  password: <%= ENV['RAILS_DATABASE_PASSWD'] || Rails.application.credentials.development_db_password || Settings.database.d>
+  host: <%= ENV['RAILS_DATABASE_HOST'] || Rails.application.credentials.development_db_host || Settings.database.development>
   sslmode: <%= Settings.database.development.sslmode %>
 
 test:
