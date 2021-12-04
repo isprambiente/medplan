@@ -89,10 +89,10 @@ history:
 database:
   development:
     database: medplan_development
-    username: <username>
-    password: <password> # può essere configurata qui o nel file criptato credentials.yml
-    host:     <host>
-    sslmode:  'prefer'
+    username: medplan
+    password: MyPassword # può essere configurata qui o nel file criptato credentials.yml
+    host:     postgres
+    sslmode:
   test:
     database: medplan_test
     username: <username>
