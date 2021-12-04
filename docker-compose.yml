@@ -1,0 +1,34 @@
+version: "3.7"
+services:
+
+  postgres:
+    image: postgres:14.1-alpine
+    environment:
+      POSTGRES_DB: medplan_development
+      POSTGRES_USER: medplan
+      POSTGRES_PASSWORD: MyPassword
+  
+  redis:
+    image: redis:6.2.6-alpine
+  
+  web:
+    build:
+      context: .
+      args:
+        USER_ID: "${USER_ID:-1000}"
+        GROUP_ID: "${GROUP_ID:-1000}"
+    command: >
+        sh -c "bin/rails credentials:edit && 
+                bin/rails db:truncate db:migrate db:seed RAILS_ENV=development && 
+                ruby bin/rails s -p 8080 -b 0.0.0.0" 
+    ports:
+      - 8020:8080
+    environment:
+      RAILS_REDIS_URL: redis://redis:6379/1
+      RAILS_DATABASE_NAME: medplan_development
+      RAILS_DATABASE_USERNAME: medplan
+      RAILS_DATABASE_PASSWD: MyPassword
+      RAILS_DATABASE_HOST: postgres
+    links:
+      - postgres
+      - redis
