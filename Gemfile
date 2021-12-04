@@ -11,7 +11,7 @@ gem 'rails', '~> 6.1.0'
 gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5.0'
 gem 'webpacker', '~> 5.0'
-gem 'bootsnap', '< 1.7.2', require: false
+gem 'bootsnap', '~> 1.9.3', require: false
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw]
 
 gem 'rexml', '~> 3.2', '>= 3.2.4'
