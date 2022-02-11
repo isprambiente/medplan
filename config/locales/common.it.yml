@@ -206,7 +206,7 @@ it:
         nextmonth: "Utenti in scadenza tra 1 mese"
         next2months: "Utenti in scadenza tra 2 mesi"
         locked: "Utenti cancellati"
-        blocked: "Utenti bloccati e/o cessati su JPERS"
+        blocked: "Utenti bloccati e/o cessati"
     user:
       title: "Sorveglianza sanitaria"
       reserve: "Prenotazioni"
