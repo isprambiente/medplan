@@ -250,6 +250,19 @@ Installare l'ambiente di sviluppo e di produzione come indicato [qui](https://go
 
 Verificare e risolvere eventuali errori al riavvio di nginx.
 
+### Demo con docker / docker compose
+1. Clonare il progetto in sviluppo 
+
+    ```
+      git clone https://github.com/isprambiente/medplan.git
+    ```
+
+2. Eseguire la build del docker tramite compose
+    
+   ```
+   sudo docker-compose up --build -d
+   ```
+
 Cortesemente integrare la guida qualora fosse necessario.
 
 Grazie per la collaborazione.
