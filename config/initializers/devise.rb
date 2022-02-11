@@ -4,7 +4,7 @@
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   # cas authenticable
-  config.cas_base_url = ENV['RAILS_CAS_URL'] || Settings.auth.cas
+  # config.cas_base_url = ENV['RAILS_CAS_URL'] || Settings.auth.cas
 
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing

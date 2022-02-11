@@ -172,7 +172,7 @@ class User < ApplicationRecord
   enum city: Settings.users.cities.to_h
   enum postazione: Settings.users.positions.to_h
 
-  devise Settings.auth.authenticator.present? ? Settings.auth.authenticator.to_sym : :database_authenticatable, :trackable, :timeoutable, :lockable
+  devise Settings.auth.authenticator.present? ? Settings.auth.authenticator.to_sym : :database_authenticatable, :trackable, :timeoutable, :lockable, :recoverable
 
   after_update :check_disabled
   before_destroy :abort_destroy
@@ -182,7 +182,7 @@ class User < ApplicationRecord
   validates :username, uniqueness: true, allow_blank: true
   validates :label, presence: true
   validates :name, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
-  validates :lastname, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
+  # validates :lastname, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
   validates :cf, presence: { message: 'non può essere lasciato in bianco' }, uniqueness: { message: 'già esistente' }, unless: -> { system? }
   validates :postazione, presence: true
   validates :assegnazione, content_type: { in: 'application/pdf', message: 'non è un file PDF' }

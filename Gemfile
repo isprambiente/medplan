@@ -54,6 +54,7 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 gem 'config'
 gem 'devise'
+gem 'rack-cas'
 gem 'devise_cas_authenticatable'
 gem 'hamlit'
 gem 'high_voltage' # pagine statiche

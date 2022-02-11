@@ -385,6 +385,7 @@ DEPENDENCIES
   pagy
   pg
   puma (~> 5.5)
+  rack-cas
   rails (~> 6.1.0)
   rexml (~> 3.2, >= 3.2.4)
   route_translator
