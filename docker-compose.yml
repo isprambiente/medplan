@@ -19,7 +19,7 @@ services:
         GROUP_ID: "${GROUP_ID:-1000}"
     command: >
         sh -c "bin/rails credentials:edit && 
-                bin/rails db:truncate db:migrate db:seed RAILS_ENV=development && 
+                bin/rails db:reset db:migrate db:seed RAILS_ENV=development &&
                 ruby bin/rails s -p 8080 -b 0.0.0.0" 
     ports:
       - 8020:8080

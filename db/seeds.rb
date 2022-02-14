@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 
-admin = User.new(username: 'admin', label: 'Administrator', name: 'Administrator', city: :other, cf: 'Admin1', admin: true, system: true)
-admin.save(validate: false)
-admin.reset_password('admin','admin')
-dottore = User.new(username: 'dottore', label: 'Dottore', name: 'Dottore', city: :roma, doctor: true, cf: 'DOTTORE1', system: true)
-dottore.save(validate: false)
-dottore.reset_password('dottore','dottore')
-segretaria = User.new(username: 'segretaria', label: 'Segretaria', name: 'Segretaria', city: :roma, secretary: true, cf: 'SEGRETARIA1', system: true)
-segretaria.save(validate: false)
-segretaria.reset_password('segretaria','segretaria')
-mario = User.new(username: 'mario.rossi', label: 'Rossi Mario', name: 'Mario', lastname: 'Rossi', city: :roma, cf: 'RSSMRA69A01H501Z', system: true)
-mario.save(validate: false)
-mario.reset_password('mario','mario')
-utente = User.new(username: 'giorgio.verdi', label: 'Verdi Giorgio', name: 'Giorgio', lastname: 'Verdi', city: :venezia, cf: 'VRDGRG80A01L736Q')
-utente.save(validate: false)
-utente.reset_password('giorgio','giorgio')
-utente = User.new(username: 'grazia.bianchi', label: 'Bianchi Grazia', name: 'Grazia', lastname: 'Bianchi', cf: 'BNCGRZ63A41F205Z', city: :livorno)
-utente.save(validate: false)
-utente.reset_password('grazia','grazia')
-50.times do |n|
-  u = User.create(username: "user#{n}", label: "User ##{n}", name: "User ##{n}", cf: "user#{n}", city: :other  ); u.save(validate: false)
+if Rails.env.development?
+  admin = User.new(username: 'admin', label: 'Administrator', name: 'Administrator', city: :other, cf: 'Admin1', admin: true, system: true)
+  admin.save(validate: false)
+  admin.reset_password('admin','admin')
+  dottore = User.new(username: 'dottore', label: 'Dottore', name: 'Dottore', city: :roma, doctor: true, cf: 'DOTTORE1', system: true)
+  dottore.save(validate: false)
+  dottore.reset_password('dottore','dottore')
+  segretaria = User.new(username: 'segretaria', label: 'Segretaria', name: 'Segretaria', city: :roma, secretary: true, cf: 'SEGRETARIA1', system: true)
+  segretaria.save(validate: false)
+  segretaria.reset_password('segretaria','segretaria')
+  mario = User.new(username: 'mario.rossi', label: 'Rossi Mario', name: 'Mario', lastname: 'Rossi', city: :roma, cf: 'RSSMRA69A01H501Z', system: true)
+  mario.save(validate: false)
+  mario.reset_password('mario','mario')
+  utente = User.new(username: 'giorgio.verdi', label: 'Verdi Giorgio', name: 'Giorgio', lastname: 'Verdi', city: :venezia, cf: 'VRDGRG80A01L736Q')
+  utente.save(validate: false)
+  utente.reset_password('giorgio','giorgio')
+  utente = User.new(username: 'grazia.bianchi', label: 'Bianchi Grazia', name: 'Grazia', lastname: 'Bianchi', cf: 'BNCGRZ63A41F205Z', city: :livorno)
+  utente.save(validate: false)
+  utente.reset_password('grazia','grazia')
+  50.times do |n|
+    u = User.create(username: "user#{n}", label: "User ##{n}", name: "User ##{n}", cf: "user#{n}", city: :other  ); u.save(validate: false)
+  end
 end
 
 Category.create(code: 'cata', title: 'categoria a', months: 6)
