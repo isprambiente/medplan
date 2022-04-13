@@ -3,9 +3,9 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.3'
+ruby '3.1.1'
 
-gem 'pg', '1.3.0'
+gem 'pg', '1.3.4'
 gem 'puma', '~> 5.6'
 gem 'rails', '~> 6.1.0'
 gem 'sass-rails', '~> 6.0'
@@ -55,7 +55,7 @@ gem 'caxlsx_rails'
 gem 'config'
 gem 'devise'
 gem 'rack-cas'
-gem 'devise_cas_authenticatable'
+gem 'devise_cas_authenticatable', '~> 2.0'
 gem 'hamlit'
 gem 'high_voltage' # pagine statiche
 gem 'icalendar', require: false
