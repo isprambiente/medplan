@@ -7,14 +7,13 @@ ruby '3.1.1'
 
 gem 'pg', '1.3.4'
 gem 'puma', '~> 5.6'
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.0.0'
 gem 'sass-rails', '~> 6.0'
 gem 'turbolinks', '~> 5.0'
 gem 'webpacker', '~> 5.0'
 gem 'bootsnap', '~> 1.9.3', require: false
 gem 'tzinfo-data'
-
-gem 'rexml', '~> 3.2', '>= 3.2.4'
+gem "sprockets-rails"
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
