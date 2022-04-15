@@ -1,27 +1,28 @@
-#menu.quickview.is-left{ data: { target: "page.menu" } }
-  %header.quickview-header
-    %p.title.has-text-weight-bold= fas_icon('bars', text: 'Menù' )
-    %span.delete{ data: { dismiss: "quickview", target: 'page.close', action: "click->page#menu" } }
-  .quickview-body
-    .quickview-block
-      %aside.menu
-        %ul.menu-list
-          %li= link_to( fas_icon('home', text: 'Home'), home_user_path, remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-          - if current_user.secretary?
-            %p.menu-label= fas_icon('calendar', text: t('manage', scope: 'event'))
-            %ul.menu-list
-              %li= link_to( fas_icon('list-alt', text: t('summary', scope: 'event')), home_index_path, remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' } )
-              %li= link_to( fas_icon('calendar', text: t('calendar', scope: 'event')), events_path, remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-            %li= link_to( fas_icon('users', text: t('title', scope: 'user.index')), users_path, remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-            %p.menu-label= fas_icon('wrench', text: t('risk_and_category', scope: 'menu'))
-            %ul.menu-list
-              %li= link_to( fas_icon('exclamation-triangle', text: t('title', scope: 'category')), categories_path, remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-              %li= link_to( fas_icon('medkit', text: t('title', scope: 'risk')), risks_path, remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-            %p.menu-label= fas_icon('question-circle', text: 'Help')
-            %ul.menu-list
-              %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.user')), page_path('user_manual'), remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-              %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.editor')), page_path('secretary_manual'), remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' }) if current_user.secretary?
-              %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.admin')), page_path('doctor_manual'), remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' }) if current_user.doctor?
-              %li= link_to( fas_icon(Settings.bug.icon, text: Settings.bug.title), page_path('notifications'), remote: true, data: { page_target: 'navbar', action: 'click->page#setActive ajax:success->page#goPage' })
-    %footer.quickview-footer
-      %a{ href: destroy_user_session_path, data: { confirm: 'Sei sicuro di voler uscire?', method: :delete }  }= fas_icon('sign-out-alt', text: t('logout', default: 'Logout'))
+%turbo-frame#menu
+  #menu_col.quickview.is-left
+    %header.quickview-header
+      %p.title.has-text-weight-bold= fas_icon('bars', text: 'Menù' )
+      %span.delete{ data: { dismiss: "quickview", controller: 'menu', menu_id: 'menu_col', action: 'click->menu#close' } }
+    .quickview-body.pt-4
+      .quickview-block
+        %aside.menu
+          %ul.menu-list
+            %li= link_to( fas_icon('home', text: 'Home'), home_user_path, data: {turbo_frame: 'yield'})
+            - if current_user.secretary?
+              %p.menu-label= fas_icon('calendar', text: t('manage', scope: 'event'))
+              %ul.menu-list
+                %li= link_to( fas_icon('list-alt', text: t('summary', scope: 'event')), home_index_path, data: {turbo_frame: 'yield'} )
+                %li= link_to( fas_icon('calendar', text: t('calendar', scope: 'event')), events_path, data: {turbo_frame: 'yield'})
+              %li= link_to( fas_icon('users', text: t('title', scope: 'user.index')), users_path, data: {turbo_frame: 'yield'})
+              %p.menu-label= fas_icon('wrench', text: t('risk_and_category', scope: 'menu'))
+              %ul.menu-list
+                %li= link_to( fas_icon('exclamation-triangle', text: t('title', scope: 'category')), categories_path, data: {turbo_frame: 'yield'})
+                %li= link_to( fas_icon('medkit', text: t('title', scope: 'risk')), risks_path, data: {turbo_frame: 'yield'})
+              %p.menu-label= fas_icon('question-circle', text: 'Help')
+              %ul.menu-list
+                %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.user')), page_path('user_manual'), data: {turbo_frame: 'yield'})
+                %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.editor')), page_path('secretary_manual'), data: {turbo_frame: 'yield'}) if current_user.secretary?
+                %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.admin')), page_path('doctor_manual'), data: {turbo_frame: 'yield'}) if current_user.doctor?
+                %li= link_to( fas_icon(Settings.bug.icon, text: Settings.bug.title), page_path('notifications'), data: {turbo_frame: 'yield'})
+      %footer.quickview-footer
+        %a{ href: destroy_user_session_path, data: { confirm: 'Sei sicuro di voler uscire?', method: :delete }  }= fas_icon('sign-out-alt', text: t('logout', default: 'Logout'))

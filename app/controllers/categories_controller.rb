@@ -7,14 +7,22 @@ class CategoriesController < ApplicationController
   include Pagy::Backend
   before_action :powered_in!
   before_action :set_category, only: %i[edit update destroy]
+  before_action :set_view
 
   # GET /categories
   #
   # render categories index
   # set @pagy, @categories for the categorie pagination
   # @return [Object] render categories/index
-  def index
-    categories
+  def index; end
+
+  # GET /categories/list
+  #
+  # render the list the all {Audit}
+  # * set @pagy, @categories for the @categories pagination
+  # @return [Object] render categories/index
+  def list
+    @pagy, @categories = pagy(categories, link_extra: "data-turbo-frame='categories'")
   end
 
   # GET /categories/new
@@ -31,9 +39,7 @@ class CategoriesController < ApplicationController
   # Render the form for edit a category
   # {set_category} has set @category for edit
   # @return [Object] render categories/edit
-  def edit
-    # empty
-  end
+  def edit; end
 
   # POST /categories
   #
@@ -100,8 +106,18 @@ class CategoriesController < ApplicationController
     params.fetch(:category, {}).permit(:code, :title, :months, :protocol, risk_ids: [])
   end
 
+  # Set callback view
+  def set_view
+    @view = filter_params[:view] || ''
+  end
+
+  # Only allow a list of trusted parameters through.
+  def filter_params
+    params.fetch(:filter, {}).permit(:view)
+  end
+
   # Set @pagy, @categories for paginate all {Category}
   def categories
-    @pagy, @categories = pagy(Category.all, link_extra: "data-remote='true' data-action='ajax:success->application#goPage'")
+    Category.all
   end
 end

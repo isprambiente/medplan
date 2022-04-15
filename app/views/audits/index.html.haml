@@ -1,1 +1,2 @@
-#audits.container{ data: { controller: 'audits', audits_target: 'container' } }= render(partial: 'category', collection: @categories, as: :category) || t('not_found', scope: 'audit')
+= turbo_frame_tag "#{dom_id(@user)}_categories", data: {controller: @view} do
+  = render(partial: 'category', collection: @categories, as: :category) || t('not_found', scope: 'audit')

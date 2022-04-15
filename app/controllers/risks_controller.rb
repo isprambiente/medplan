@@ -7,14 +7,22 @@ class RisksController < ApplicationController
   include Pagy::Backend
   before_action :powered_in!
   before_action :set_risk, only: %i[edit update destroy]
+  before_action :set_view
 
   # GET /risks
   #
   # Show a list of {Risk}
   # * set @risks with {risks}
   # @return [Object] render risks/index
-  def index
-    risks
+  def index; end
+
+  # GET /audits/list
+  #
+  # render the list the all {Audit}
+  # * set @pagy, @audits for the @users pagination
+  # @return [Object] render users/index
+  def list
+    @pagy, @risks = pagy(risks, link_extra: "data-turbo-frame='risks'")
   end
 
   # GET /risks/new
@@ -102,10 +110,19 @@ class RisksController < ApplicationController
     params.fetch(:risk, {}).permit(:code, :title, :printed, category_ids: [])
   end
 
+  # Set callback view
+  def set_view
+    @view = filter_params[:view] || ''
+  end
+
+  # Only allow a list of trusted parameters through.
+  def filter_params
+    params.fetch(:filter, {}).permit(:view)
+  end
+
   # set the risks for the lists actions
   # * set @pagy, @risks with the pagination of all {Risk}
   def risks
     @risks = Risk.all
-    @pagy, @risks = pagy(@risks, link_extra: "data-remote='true' data-action='ajax:success->application#goPage'")
   end
 end

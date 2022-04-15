@@ -1,8 +1,9 @@
 .container.is-unselectable
-  = render 'users/detail' , user: @user, response: true
+  %h2.title.is-2.has-text-centered.is-capitalized #{user.label}
+  = render 'users/detail' , user: user, response: true
   %br/
-  - if @user.locked_at?
-    = link_to fas_icon("reply", text: t('reactive', scope: 'user')), unlock_user_path(@user), method: :patch, class: 'button is-danger is-fullwidth'
+  - if user.locked_at?
+    = link_to fas_icon("reply", text: t('reactive', scope: 'user')), unlock_user_path(user), method: :patch, class: 'button is-danger is-fullwidth'
   - else
     = render(partial: 'audits/audits') || t('not_found', scope: 'event')
     %h3.title.is-3.has-text-centered Appuntamenti programmati
@@ -10,12 +11,12 @@
       #analisys-list.column
         %article.message
           .message-header= t(:analisys, scope: 'event.gender')
-          .message-body= render(partial: 'user_event', collection: @analisys, as: :event) || t('not_found', scope: 'event')
+          .message-body= render(partial: 'user_event', collection: analisys, as: :event) || t('not_found', scope: 'event')
       #visit-list.column
         %article.message
           .message-header= t(:visit, scope: 'event.gender')
-          .message-body= render(partial: 'user_event', collection: @visits, as: :event) || t('not_found', scope: 'event')
-  - if @user.username.blank? # è un esterno
+          .message-body= render(partial: 'user_event', collection: visits, as: :event) || t('not_found', scope: 'event')
+  - if user.username.blank? # è un esterno
     %br/
     %article.message.is-danger
       %h5.title.is-5.message-header Attenzione

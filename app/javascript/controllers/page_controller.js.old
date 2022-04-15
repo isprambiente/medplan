@@ -1,0 +1,169 @@
+import { Controller } from "@hotwired/stimulus";
+import Rails from "@rails/ujs";
+import Timeout from 'smart-timeout';
+import Swal from 'sweetalert2';
+
+export default class extends Controller {
+  static targets = ['container', 'menu', 'navbar'];
+
+    connect() {
+      // Per disattivare l'evento click dei bottoni dopo il passaggio a Bulma
+      // che non ha la gestione eventi via Javascript
+      return document.querySelectorAll("[disabled]").forEach(function(obj) {
+        return obj.classList.add('is-disabled');
+      });
+    }
+
+    goPage(event) {
+      var data, status, xhr;
+      [data, status, xhr] = event.detail;
+      return this.containerTarget.innerHTML = xhr.response;
+    }
+
+    getPage(url) {
+      return Rails.ajax({
+        type: "GET",
+        url: url,
+        success: (data, status, xhr) => {
+          return this.containerTarget.innerHTML = xhr.response;
+        }
+      });
+    }
+
+    getElement(target, url) {
+      return Rails.ajax({
+        type: "GET",
+        url: url,
+        success: (data, status, xhr) => {
+          if (target) {
+            return target.outerHTML = xhr.response;
+          }
+        }
+      });
+    }
+
+    goElement(event) {
+      var data, status, xhr;
+      [data, status, xhr] = event.detail;
+      return event.currentTarget.outerHTML = xhr.response;
+    }
+
+    toggleMenu(event) {
+      return document.getElementById(event.target.dataset.id).classList.toggle('is-active');
+    }
+
+    toggleVisible(event) {
+      return document.getElementById(event.target.dataset.id).classList.toggle('is-hidden');
+    }
+
+    toggleVisibleSelf(event) {
+      return event.target.classList.toggle('is-hidden');
+    }
+
+    menu(event) {
+      var i, icon, len, menu, ref, results, t;
+      if (this.hasMenuTarget) {
+        menu = this.menuTarget;
+        menu.classList.toggle('is-active');
+        if (this.hasCloseTarget) {
+          ref = this.closeTargets;
+          results = [];
+          for (i = 0, len = ref.length; i < len; i++) {
+            t = ref[i];
+            icon = t.querySelector('i');
+            if (icon) {
+              icon.classList.toggle('fa-bars');
+              results.push(icon.classList.toggle('fa-times'));
+            } else {
+              results.push(void 0);
+            }
+          }
+          return results;
+        }
+      }
+    }
+
+    send(message, level = 'success', timeout = 2000, toast = true) {
+      var options;
+      options = {
+        toast: level === 'error' ? false : toast,
+        icon: level,
+        timerProgressBar: true,
+        position: level === 'error' ? 'center' : 'top-end',
+        text: message,
+        timer: level === 'error' ? false : timeout,
+        showConfirmButton: level === 'error' ? true : false,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          return toast.addEventListener('mouseleave', Swal.resumeTimer);
+        },
+        showClass: {
+          popup: level === 'error' ? '' : 'animate__animated animate__bounceInRight'
+        },
+        hideClass: {
+          popup: level === 'error' ? '' : 'animate__animated animate__bounceOutRight'
+        }
+      };
+      return Swal.fire(options);
+    }
+
+    confirmation(event) {
+      var confirmation, deletable, form, icon, options, target, title, url;
+      target = event.target;
+      confirmation = target.dataset.pageConfirmation || '';
+      url = target.dataset.pageUrl;
+      icon = target.dataset.icon || 'question';
+      title = target.dataset.title || '';
+      deletable = target.dataset.deletable || false;
+      form = target.closest('form');
+      options = {
+        icon: icon,
+        timerProgressBar: false,
+        position: 'center',
+        title: title,
+        html: confirmation,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "<%= I18n.t( 'yes', default: 'Yes' ) %>",
+        cancelButtonText: "<%= I18n.t( 'no', default: 'No' ) %>",
+        showClass: {
+          popup: 'swal2-noanimation'
+        },
+        hideClass: {
+          popup: ''
+        }
+      };
+      return Swal.fire(options).then((result) => {
+        if (result.isConfirmed) {
+          return window.location.href = url;
+        }
+      });
+    }
+
+    deleyedInput(event) {
+      var callback;
+      callback = () => {
+        return this.sendForm(event);
+      };
+      if (Timeout.exists('textDelay')) {
+        Timeout.clear('textDelay', true);
+      }
+      return Timeout.set('textDelay', callback, 750);
+    }
+
+    setActive(event) {
+      var target;
+      target = event.currentTarget;
+      if (target.dataset.target === 'page.navbar') {
+        this.navbarTargets.forEach((obj) => {
+          return obj.classList.remove('is-active');
+        });
+        return target.classList.add('is-active');
+      } else if (target.dataset.target === 'section.letter') {
+        this.letterTargets.forEach((obj) => {
+          return obj.closest('li').classList.remove('is-active');
+        });
+        return target.closest('li').classList.add('is-active');
+      }
+    }
+  }

@@ -1,0 +1,22 @@
+import Rails from "@rails/ujs";
+import PageController from './page_controller';
+import Timeout from 'smart-timeout';
+
+export default class extends PageController {
+
+  sendForm(event) {
+
+    return Rails.fire(event.target.closest('form'), 'submit');
+  }
+
+  delayedSendForm(event) {
+
+    if (Timeout.exists('textDelay')) {
+      Timeout.set('textDelay', true);
+    }
+    return Timeout.set('textDelay', (() => {
+      return this.sendForm(event);
+    }), 750);
+  }
+
+}

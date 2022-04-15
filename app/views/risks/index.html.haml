@@ -1,6 +1,7 @@
-.container{ data: { controller: 'risks' } }
+.container
   .level
     .level-left
       %h3.title.is-3= t('title', scope: 'risk' )
-    .level-right= link_to fas_icon('plus', text: t('new', scope: 'risk')), new_risk_path, class: 'button is-fullwidth is-link', data: { action: 'ajax:success->modal#open', title: "Nuovo rischio" }, remote: true
-  #risks.box{ data: { risks_target: 'container' } }= render 'index'
+    .level-right= link_to fas_icon('plus', text: t('new', scope: 'risk')), new_risk_path, class: 'button is-fullwidth is-link', data: { turbo_frame: 'yield', title: "Nuovo rischio" }
+  = turbo_frame_tag 'risks', class: 'rows', src: list_risks_path, alt: 'Nessuna riga trovata' do
+    .loading.has-text-centered= fas_icon 'cog fa-pulse', text: 'Caricamento in corso'

@@ -2,6 +2,6 @@
   .column= risk.title
   .column
     .buttons.has-addons.is-right
-      = link_to fas_icon('edit'), edit_risk_path(id: risk.id), class: 'button', data: { action: 'ajax:success->modal#open', remote:true , title: "Modifica #{ risk.title }" }
-      = link_to fas_icon('trash'), risk, class: 'button is-danger', method: :delete, data: { confirm: t('delete', scope: 'message.risk'), action: 'ajax:success->page#goPage', remote: true }
+      = link_to fas_icon('edit'), edit_risk_path(id: risk.id), class: 'button', data: { turbo_frame: 'yield', title: "Modifica #{ risk.title }" }
+      = link_to fas_icon('trash'), risk, class: 'button is-danger', method: :delete, data: { confirm: t('delete', scope: 'message.risk'), turbo_frame: 'yield', turbo_method: 'DELETE' }
 

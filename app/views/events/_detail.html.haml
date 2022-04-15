@@ -15,7 +15,7 @@
               .column.is-4-desktop.is-5-tablet= fas_icon('building', text: t('city', scope: 'event')+': ')
               .column= event.city.capitalize
             %li
-              %a{ href: event_path(@event), class: 'button is-fullwidth is-danger', data: { remote: true, method: :delete, confirm: t('event.delete', scope: 'message'), action: 'ajax:success->events#refreshCalendar ajax:success->modal#goPage' } }= fas_icon('trash', text: t('delete', scope: 'event') )
+              %a{ href: event_path(@event), class: 'button is-fullwidth is-danger', data: { method: :delete, confirm: t('event.delete', scope: 'message'), action: 'ajax:success->events#refreshCalendar', turbo_frame: 'modal' } }= fas_icon('trash', text: t('delete', scope: 'event') )
 
     #summary.column
       %article.message

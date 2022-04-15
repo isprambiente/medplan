@@ -5,4 +5,4 @@
     - pointer = response ? 'pointer' : 'default'
     %a{ class: "expire_date #{pointer}", data: { action: 'click->audits#editDateExpire', user_id: @user.id, audits_url: user_audit_path(user_id: @user.id, id: audit.id, log: true) } }= l_date audit.expire
   - if response
-    %td.has-text-right= link_to fas_icon('cog'), edit_user_audit_path(user_id: @user.id, id: audit.id), class: 'button is-link', data: { action: 'ajax:success->modal#goPage' }, remote: true
+    %td.has-text-right= link_to fas_icon('cog'), edit_user_audit_path(user_id: @user.id, id: audit.id), class: 'button is-link', data: { turbo_frame: 'model' }

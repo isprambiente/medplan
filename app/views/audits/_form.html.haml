@@ -1,4 +1,4 @@
-= form_with model: [@user,@audit], data: { action: 'ajax:success->audits#goPage ajax:error->audits#goPage' }, remote: true do |f|
+= form_with model: [@user,@audit], data: { turbo_frame: 'yield' } do |f|
   .form-inputs
     = f.fields_for :histories, @history do | h |
       = h.hidden_field :author_id, value: current_user.id
@@ -31,7 +31,7 @@
   .form-actions
     .has-text-right
       %button.button.is-link.is-medium.has-text-white{type: 'submit'}= fas_icon('save', text: t('save', scope: ''))
-      = link_to fas_icon('reply', text: t('abort', scope: '')), @user, remote: true, class: 'button is-danger is-medium', data: { action: 'ajax:success->modal#goPage' }
+      = link_to fas_icon('reply', text: t('abort', scope: '')), @user, remote: true, class: 'button is-danger is-medium', data: { turbo_frame: 'modal' }
 
 %section.section
   %table.table.is-fullwidth.is-narrow.is-striped

@@ -130,6 +130,8 @@ GEM
       deep_merge (~> 1.2, >= 1.2.1)
       dry-validation (~> 1.0, >= 1.0.0)
     crass (1.0.6)
+    cssbundling-rails (1.1.0)
+      railties (>= 6.0.0)
     database_cleaner (2.0.1)
       database_cleaner-active_record (~> 2.0.0)
     database_cleaner-active_record (2.0.1)
@@ -201,6 +203,8 @@ GEM
     icalendar (2.7.1)
       ice_cube (~> 0.16)
     ice_cube (0.16.4)
+    jsbundling-rails (1.0.2)
+      railties (>= 6.0.0)
     launchy (2.5.0)
       addressable (~> 2.7)
     letter_opener (1.8.1)
@@ -256,8 +260,6 @@ GEM
       addressable (~> 2.3)
       nokogiri (~> 1.5)
       rack (>= 1.3)
-    rack-proxy (0.7.2)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (7.0.2.3)
@@ -288,6 +290,7 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
+    redis (4.6.0)
     regexp_parser (2.3.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -330,7 +333,6 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    semantic_range (3.0.0)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
       shoulda-matchers (>= 1.4.1, < 3.0)
@@ -347,14 +349,16 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stimulus-rails (1.0.4)
+      railties (>= 6.0.0)
     strscan (3.0.1)
     temple (0.8.2)
     thor (1.2.1)
     tilt (2.0.10)
     timeout (0.2.0)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
+    turbo-rails (1.0.1)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.1)
@@ -371,11 +375,6 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (~> 4.0)
-    webpacker (5.4.3)
-      activesupport (>= 5.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 5.2)
-      semantic_range (>= 2.3.0)
     webrick (1.7.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -408,6 +407,7 @@ DEPENDENCIES
   caxlsx
   caxlsx_rails
   config
+  cssbundling-rails
   database_cleaner
   devise
   devise_cas_authenticatable (~> 2.0)
@@ -415,12 +415,14 @@ DEPENDENCIES
   hamlit
   high_voltage
   icalendar
+  jsbundling-rails
   letter_opener
   pagy
   pg (= 1.3.4)
-  puma (~> 5.6)
+  puma (~> 5.0)
   rack-cas
   rails (~> 7.0.0)
+  redis (~> 4.0)
   route_translator
   rubocop
   rubocop-rails
@@ -429,11 +431,11 @@ DEPENDENCIES
   shoulda (~> 3.5)
   shoulda-matchers (~> 2.0)
   sprockets-rails
-  turbolinks (~> 5.0)
+  stimulus-rails
+  turbo-rails (~> 1.0.0)
   tzinfo-data
   web-console
   webdrivers
-  webpacker (~> 5.0)
   whenever
   yard
 

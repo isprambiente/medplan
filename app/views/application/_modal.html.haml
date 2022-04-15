@@ -1,8 +1,0 @@
-.modal-background
-.modal-card.is-xlarge
-  %header.modal-card-head
-    %p.modal-card-title{ data: { modal_target: 'title' } }
-    %p.modal-card-menu{ data: { modal_target: 'menu' } }
-    %button.delete{ data: { controller: "modal", action: 'click->modal#close' }, aria: { label: "close" } }
-  %section.modal-card-body{ data: { modal_target: 'body' } }= yield
-  %section.modal-card-footer{ data: { modal_target: 'footer' } }

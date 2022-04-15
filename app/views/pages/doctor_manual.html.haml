@@ -1,77 +1,78 @@
-#manual.columns
-  .column.is-3
-    %aside.menu.manual-menu
-      %p.menu-label= t "home.books.admin.summary"
-      %ul.menu-list
+%turbo-frame#yield
+  #manual.columns
+    .column.is-3
+      %aside.menu.manual-menu
+        %p.menu-label= t "home.books.admin.summary"
+        %ul.menu-list
+          %li
+            = link_to fas_icon('book', text: t('Introduzione')), '#introduction', class: 'panel-block'
+            %ul
+              %li= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_editor'
+              %li= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement'
+              %li= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement'
+          %li= link_to fas_icon('download', text: 'Creazione report'), '#report'
+          %li= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug'
+    .column
+      %h1.title.is-1.has-text-centered= t('title', scope: 'home.books.admin')
+      %ul.manual-body
         %li
-          = link_to fas_icon('book', text: t('Introduzione')), '#introduction', class: 'panel-block'
-          %ul
-            %li= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_editor'
-            %li= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement'
-            %li= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement'
-        %li= link_to fas_icon('download', text: 'Creazione report'), '#report'
-        %li= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug'
-  .column
-    %h1.title.is-1.has-text-centered= t('title', scope: 'home.books.admin')
-    %ul.manual-body
-      %li
-        %h3.title.is-3= link_to fas_icon('book', text: t('Introduzione')), '#introduction', :name => 'introduction'
-        %p.has-text-justify
-          Il progetto <b>#{Settings.long_title.to_s}</b> nasce all’interno di una nuova linea di sviluppo perseguita dal Settore Sviluppo e
-          finalizzata al migliore utilizzo delle risorse interne contestualmente al miglioramento del livello di qualità dei servizi resi all’utenza.
-          Il programma si pone l’obiettivo di ottimizzare la gestione delle scadenze in maniera trasparente e chiara per l’utente finale.
-          %br
-          Agli utenti, infatti, saranno resi disponibili strumenti con i quali verificare il proprio stato medico e le future scadenze.
-          %br
-          Si sottolinea infine che il programma di #{Settings.long_title.to_s} è parte di una più capillare riprogettazione dei servizi offerti nella intranet aziendale.
-          %ul.child
-            %li
-              %h4.title.is-4= link_to fas_icon('user', text: t('A chi si rivolge il manuale intermedio?')), '#introduction_editor', :name => 'introduction_editor'
-              %p.has-text-justify
-                Questa parte del manuale è rivolta al Medico competente che deve gestire la reportistica del sistema.
-                %br
-                Si presuppone, pertanto, che non sia necessario a questi utenti un riepilogo delle funzioni già ampiamente descritte nel #{link_to fas_icon('book', text: t('home.books.user.title')), page_path('user_manual')}.
-            %li
-              %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement', :name => 'introduction_min_requirement'
-              %ul.circle.child
-                %li Browser compatibile con  HTML 5 e CSS 3;
-                %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
-                %li Javascript abilitato;
-                %li Cookie abilitati;
-                %li Supporto ai certificati SSL;
-                %li Accesso all’Intranet #{ Settings.group };
-                %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
-                %li Risoluzione schermo 1024x768.
-
-            %li
-              %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement', :name => 'introduction_requirement'
-              %ul.circle.child
-                %li Firefox >= 90 o Safari >= 5 o Chrome >= 90 o browser e comunque compatibile con HTML5 e CSS3;
-                %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
-                %li Javascript abilitato;
-                %li Cookie abilitati;
-                %li Supporto ai certificati SSL;
-                %li Accesso alla Intranet #{ Settings.group };
-                %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
-                %li Risoluzione schermo 1280x1024.
-
-        %li
-          %h3.title.is-3= link_to fas_icon('download', text: 'Creazione report'), '#report', :name => 'report'
-          %p.text-justify
-            Selezionando la voce "Creazione report", il dottore ha la possibilità di esportare i dati, acquisiti dal programma, in formato xlsx preformattato.
-            %br
-            Di seguito è possibile visualizzare l'elenco delle opzioni necessarie per l'esportazione:
-            %ul.child
-              %li.text-justify <b>Punto 1:</b> Filtro per anno. Selezionerà le informazioni relative all'anno indicato;
-              %li.text-justify <b>Punto 2:</b> Filtro per sede. Selezionerà le informazioni relative alla sede indicata;
-              %li.text-justify <b>Punto 3:</b> Bottone per la creazione e download del report.
-
-        %li
-          %h3.title.is-3= link_to fas_icon('question-circle', text: 'Help'), '#help', :name => 'help'
+          %h3.title.is-3= link_to fas_icon('book', text: t('Introduzione')), '#introduction', :name => 'introduction'
           %p.has-text-justify
-            Nella <i><b>SEZIONE DI HELP</b></i> sono presenti i link ai manuali, alla pagina che elenca le versioni rilasciate dal Settore Sviluppo e il link per segnalare direttamente al settore gli errori riscontrati.
+            Il progetto <b>#{Settings.long_title.to_s}</b> nasce all’interno di una nuova linea di sviluppo perseguita dal Settore Sviluppo e
+            finalizzata al migliore utilizzo delle risorse interne contestualmente al miglioramento del livello di qualità dei servizi resi all’utenza.
+            Il programma si pone l’obiettivo di ottimizzare la gestione delle scadenze in maniera trasparente e chiara per l’utente finale.
+            %br
+            Agli utenti, infatti, saranno resi disponibili strumenti con i quali verificare il proprio stato medico e le future scadenze.
+            %br
+            Si sottolinea infine che il programma di #{Settings.long_title.to_s} è parte di una più capillare riprogettazione dei servizi offerti nella intranet aziendale.
             %ul.child
               %li
-                %h4.title.is-4= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug', :name => 'help_bug'
+                %h4.title.is-4= link_to fas_icon('user', text: t('A chi si rivolge il manuale intermedio?')), '#introduction_editor', :name => 'introduction_editor'
                 %p.has-text-justify
-                  Cliccando sul link indicante la dicitura <i><b>#{t('home.help.title')}</b></i> sarai reindirizzato alla pagina del programma di assistenza GIRI per descrivere, in dettaglio, il problema riscontrato. Sarà considerata cosa gradita, dal Settore, se oltre a una descrizione il più dettagliata possibile venisse allegato anche un file contenente l'immagine dell'errore generato ove chiaramente possibile. Appena l'errore sarà risolto, verrà prontamente rilasciata una patch correttiva.<br />Grazie in anticipo per l'aiuto.
+                  Questa parte del manuale è rivolta al Medico competente che deve gestire la reportistica del sistema.
+                  %br
+                  Si presuppone, pertanto, che non sia necessario a questi utenti un riepilogo delle funzioni già ampiamente descritte nel #{link_to fas_icon('book', text: t('home.books.user.title')), page_path('user_manual')}.
+              %li
+                %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement', :name => 'introduction_min_requirement'
+                %ul.circle.child
+                  %li Browser compatibile con  HTML 5 e CSS 3;
+                  %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
+                  %li Javascript abilitato;
+                  %li Cookie abilitati;
+                  %li Supporto ai certificati SSL;
+                  %li Accesso all’Intranet #{ Settings.group };
+                  %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
+                  %li Risoluzione schermo 1024x768.
+
+              %li
+                %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement', :name => 'introduction_requirement'
+                %ul.circle.child
+                  %li Firefox >= 90 o Safari >= 5 o Chrome >= 90 o browser e comunque compatibile con HTML5 e CSS3;
+                  %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
+                  %li Javascript abilitato;
+                  %li Cookie abilitati;
+                  %li Supporto ai certificati SSL;
+                  %li Accesso alla Intranet #{ Settings.group };
+                  %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
+                  %li Risoluzione schermo 1280x1024.
+
+          %li
+            %h3.title.is-3= link_to fas_icon('download', text: 'Creazione report'), '#report', :name => 'report'
+            %p.text-justify
+              Selezionando la voce "Creazione report", il dottore ha la possibilità di esportare i dati, acquisiti dal programma, in formato xlsx preformattato.
+              %br
+              Di seguito è possibile visualizzare l'elenco delle opzioni necessarie per l'esportazione:
+              %ul.child
+                %li.text-justify <b>Punto 1:</b> Filtro per anno. Selezionerà le informazioni relative all'anno indicato;
+                %li.text-justify <b>Punto 2:</b> Filtro per sede. Selezionerà le informazioni relative alla sede indicata;
+                %li.text-justify <b>Punto 3:</b> Bottone per la creazione e download del report.
+
+          %li
+            %h3.title.is-3= link_to fas_icon('question-circle', text: 'Help'), '#help', :name => 'help'
+            %p.has-text-justify
+              Nella <i><b>SEZIONE DI HELP</b></i> sono presenti i link ai manuali, alla pagina che elenca le versioni rilasciate dal Settore Sviluppo e il link per segnalare direttamente al settore gli errori riscontrati.
+              %ul.child
+                %li
+                  %h4.title.is-4= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug', :name => 'help_bug'
+                  %p.has-text-justify
+                    Cliccando sul link indicante la dicitura <i><b>#{t('home.help.title')}</b></i> sarai reindirizzato alla pagina del programma di assistenza GIRI per descrivere, in dettaglio, il problema riscontrato. Sarà considerata cosa gradita, dal Settore, se oltre a una descrizione il più dettagliata possibile venisse allegato anche un file contenente l'immagine dell'errore generato ove chiaramente possibile. Appena l'errore sarà risolto, verrà prontamente rilasciata una patch correttiva.<br />Grazie in anticipo per l'aiuto.

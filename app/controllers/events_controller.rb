@@ -11,6 +11,7 @@ class EventsController < ApplicationController
   before_action :set_user, only: %i[new create reserve meeting_destroy meeting_sendmail confirmed]
   before_action :set_meetings, only: %i[reserve meeting_destroy meeting_sendmail]
   before_action :set_timer, except: %i[index agenda]
+  before_action :set_view
 
   # GET /events
   #
@@ -43,11 +44,7 @@ class EventsController < ApplicationController
     @setdatevalue = params[:date] if params[:date].present?
     @event = Event.new
     @title = "Gestione eventi #{@user.label}"
-    timer = []
-    Settings.events.ranges.each do |range|
-      timer += (range.start_time.in_time_zone.to_datetime.to_i .. range.end_time.in_time_zone.to_datetime.to_i).step(range.interval.minutes).map{|t| Time.zone.at(t).strftime('%H:%M') }
-    end
-    @timer = timer.uniq.sort
+    set_timer
   end
 
   # GET /events/1/edit
@@ -73,7 +70,19 @@ class EventsController < ApplicationController
       @message = t('select_one_category', scope: 'message.meeting').to_s
     end
     @event = @result ? Event.new : @current_event
-    render :new
+    if @result
+      set_timer
+      flash.now[:success] = 'Creazione avvenuta con successo'
+      render turbo_stream: [
+        turbo_stream.replace(:flashes, partial: "flashes"),
+        turbo_stream.update("user_#{@user.id}_event_form", partial: "events/form", locals: {user: @user, event: @event, timer: @timer}),
+        turbo_stream.update("user_#{@user.id}_events", partial: "events/events", locals: {user: @user}),
+        turbo_stream.update("user_#{@user.id}", partial: "users/user", locals: {user: @user})
+      ]
+    else
+      flash.now[:error] = write_errors(@message)
+      render turbo_stream: turbo_stream.replace(:flashes, partial: "flashes")
+    end
   end
 
   def reserve
@@ -184,6 +193,16 @@ class EventsController < ApplicationController
   # Set @user form many action
   def set_user
     @user = User.find(params[:user_id])
+  end
+
+  # Set callback view
+  def set_view
+    @view = filter_params[:view] || ''
+  end
+
+  # Only allow a list of trusted parameters through.
+  def filter_params
+    params.fetch(:filter, {}).permit(:view)
   end
 
   # Set @timer into form

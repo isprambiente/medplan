@@ -7,6 +7,7 @@ class HomeController < ApplicationController
   include Pagy::Backend
   before_action :home_redirect, except: [:user, :reset_password]
   before_action :doctor_in!, only: [:report]
+  before_action :set_view
 
   # GET /
   # GET /home/index
@@ -36,6 +37,7 @@ class HomeController < ApplicationController
   # @return [Object] render partial /home/_index
   def list
     users
+    flash.now[:success] = 'Caricamento completato'
   end
 
   # GET /home/meetings
@@ -134,7 +136,12 @@ class HomeController < ApplicationController
   end
 
   def filter_params
-    params.fetch(:filter, {}).permit(:riepilogo, :city, :postazione)
+    params.fetch(:filter, {}).permit(:riepilogo, :city, :postazione, :view)
+  end
+
+  # Set callback view
+  def set_view
+    @view = filter_params[:view] || ''
   end
 
   def users
@@ -175,6 +182,6 @@ class HomeController < ApplicationController
               'users.label'
             end
     users_list = users_list.where(selected).reorder(order)
-    @pagy, @users = pagy(users_list, page: @page, count: users_list.length, link_extra: "data-remote='true' data-action='ajax:success->section#goPage'")
+    @pagy, @users = pagy(users_list, page: @page, count: users_list.length, link_extra: "data-turbo-frame='users'")
   end
 end

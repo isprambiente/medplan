@@ -1,189 +1,190 @@
-#manual.columns
-  .column.is-3.no-print
-    %aside.menu.manual-menu.is-sticky
-      %p.menu-label= t "home.books.user.summary"
-      %ul.menu-list
+%turbo-frame#yield
+  #manual.columns
+    .column.is-3.no-print
+      %aside.menu.manual-menu.is-sticky
+        %p.menu-label= t "home.books.user.summary"
+        %ul.menu-list
+          %li
+            = link_to fas_icon('book', text: t('Introduzione')), '#introduction', class: 'panel-block'
+            %ul
+              %li= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_editor'
+              %li= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement'
+              %li= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement'
+          %li= link_to fas_icon('home', text: t('home.user.reserve')), '#home_user'
+          %li= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug'
+    .column
+      %h1.title.is-1.has-text-centered= t('title', scope: 'home.books.user')
+      %ul.manual-body
         %li
-          = link_to fas_icon('book', text: t('Introduzione')), '#introduction', class: 'panel-block'
-          %ul
-            %li= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_editor'
-            %li= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement'
-            %li= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement'
-        %li= link_to fas_icon('home', text: t('home.user.reserve')), '#home_user'
-        %li= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug'
-  .column
-    %h1.title.is-1.has-text-centered= t('title', scope: 'home.books.user')
-    %ul.manual-body
-      %li
-        %h3.title.is-3= link_to fas_icon('book', text: t('Introduzione')), '#introduction', :name => 'introduction'
-        %p.has-text-justify
-          Il progetto <b>#{Settings.long_title.to_s}</b> nasce all’interno di una nuova linea di sviluppo perseguita dal Settore Sviluppo e
-          finalizzata al migliore utilizzo delle risorse interne contestualmente al miglioramento del livello di qualità dei servizi resi all’utenza.
-          Il programma si pone l’obiettivo di ottimizzare la gestione delle scadenze in maniera trasparente e chiara per l’utente finale.
-          %br
-          Agli utenti, infatti, saranno resi disponibili strumenti con i quali verificare il proprio stato medico e le future scadenze.
-          %br
-          Si sottolinea infine che il programma di #{Settings.long_title.to_s} è parte di una più capillare riprogettazione dei servizi offerti nella intranet aziendale.
-          %ul.child
-            %li
-              %h4.title.is-4= link_to fas_icon('user', text: t('A chi si rivolge il manuale intermedio?')), '#introduction_editor', :name => 'introduction_editor'
-              %p.has-text-justify
-                Questa parte del manuale è rivolta ai Gestori di Segreteria Medica che devono gestire le scadenze e programmare nuovi appuntamenti.
-                %br
-                Si presuppone, pertanto, che non sia necessario a questi utenti un riepilogo delle funzioni già ampiamente descritte nel #{link_to fas_icon('book', text: t('home.books.user.title')), page_path('user_manual')}.
-            %li
-              %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement', :name => 'introduction_min_requirement'
-              %ul.circle.child
-                %li Browser compatibile con  HTML 5 e CSS 3;
-                %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
-                %li Javascript abilitato;
-                %li Cookie abilitati;
-                %li Supporto ai certificati SSL;
-                %li Accesso all’Intranet #{ Settings.group };
-                %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
-                %li Risoluzione schermo 1024x768.
-
-            %li
-              %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement', :name => 'introduction_requirement'
-              %ul.circle.child
-                %li Firefox >= 90 o Safari >= 5 o Chrome >= 90 o browser e comunque compatibile con HTML5 e CSS3;
-                %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
-                %li Javascript abilitato;
-                %li Cookie abilitati;
-                %li Supporto ai certificati SSL;
-                %li Accesso alla Intranet #{ Settings.group };
-                %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
-                %li Risoluzione schermo 1280x1024.
-      %li
-        %h3.title.is-3= link_to fas_icon('plus', text: t('home.user.reserve')), '#event_reserve', :name => 'event_reserve'
-        %p.has-text-justify
-          Ogni utente, che accede al programma, potrà visualizzare lo stato di sorveglianza sanitaria
-          e visualizzare le future scadenze. Inoltre, in caso di schedulazione di appuntamenti da parte della #{Settings.long_title.to_s},
-          potrà prenotare le date direttamente sul sito attendendo la validazione.
-          %ul.child
-            %li
-              %h4.title.is-4= link_to fas_icon('plus', text: t('home.user.reserve')), '#event_reserve', :name => 'event_reserve'
-              %p.has-text-justify
+          %h3.title.is-3= link_to fas_icon('book', text: t('Introduzione')), '#introduction', :name => 'introduction'
+          %p.has-text-justify
+            Il progetto <b>#{Settings.long_title.to_s}</b> nasce all’interno di una nuova linea di sviluppo perseguita dal Settore Sviluppo e
+            finalizzata al migliore utilizzo delle risorse interne contestualmente al miglioramento del livello di qualità dei servizi resi all’utenza.
+            Il programma si pone l’obiettivo di ottimizzare la gestione delle scadenze in maniera trasparente e chiara per l’utente finale.
+            %br
+            Agli utenti, infatti, saranno resi disponibili strumenti con i quali verificare il proprio stato medico e le future scadenze.
+            %br
+            Si sottolinea infine che il programma di #{Settings.long_title.to_s} è parte di una più capillare riprogettazione dei servizi offerti nella intranet aziendale.
+            %ul.child
+              %li
+                %h4.title.is-4= link_to fas_icon('user', text: t('A chi si rivolge il manuale intermedio?')), '#introduction_editor', :name => 'introduction_editor'
+                %p.has-text-justify
+                  Questa parte del manuale è rivolta ai Gestori di Segreteria Medica che devono gestire le scadenze e programmare nuovi appuntamenti.
+                  %br
+                  Si presuppone, pertanto, che non sia necessario a questi utenti un riepilogo delle funzioni già ampiamente descritte nel #{link_to fas_icon('book', text: t('home.books.user.title')), page_path('user_manual')}.
+              %li
+                %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement', :name => 'introduction_min_requirement'
                 %ul.circle.child
-                  %li <b>Punto 1:</b> Informazioni utente(Nome e Cognome, Codice Fiscale, Matricola e Struttura);
-                  %li <b>Punto 2:</b> Indica una o più classi di rischio a cui si è collegati e per cui si deve effettuare sorveglianza sanitaria;
-                  %li <b>Punto 3:</b> Indica l'ultimo stato rilevato per la classe di rischio collegata. Se vuota o riportante la dicitura "n.d.", significa che non è stata inserita alcuna valutazione per la classe di rischio indicata;
-                  %li <b>Punto 4:</b> Indica la data in cui approssimatamente si dovrebbe essere sottoposti a un nuovo controllo sanitario;
-                  %li <b>Punto 5:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare le analisi necessarie;
-                  %li <b>Punto 6:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare la visita necessarie;
-      %li
-        %h3.title.is-3= link_to fas_icon('question-circle', text: 'Help'), '#help', :name => 'help'
-        %p.has-text-justify
-          Nella <i><b>SEZIONE DI HELP</b></i> sono presenti i link ai manuali, alla pagina che elenca le versioni rilasciate dal Settore Sviluppo e il link per segnalare direttamente al settore gli errori riscontrati.
-          %ul.child
-            %li
-              %h4.title.is-4= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug', :name => 'help_bug'
-              %p.has-text-justify
+                  %li Browser compatibile con  HTML 5 e CSS 3;
+                  %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
+                  %li Javascript abilitato;
+                  %li Cookie abilitati;
+                  %li Supporto ai certificati SSL;
+                  %li Accesso all’Intranet #{ Settings.group };
+                  %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
+                  %li Risoluzione schermo 1024x768.
+
+              %li
+                %h4.title.is-4= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement', :name => 'introduction_requirement'
+                %ul.circle.child
+                  %li Firefox >= 90 o Safari >= 5 o Chrome >= 90 o browser e comunque compatibile con HTML5 e CSS3;
+                  %li Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
+                  %li Javascript abilitato;
+                  %li Cookie abilitati;
+                  %li Supporto ai certificati SSL;
+                  %li Accesso alla Intranet #{ Settings.group };
+                  %li Indirizzo di posta elettronica sul dominio #{ Settings.domain };
+                  %li Risoluzione schermo 1280x1024.
+        %li
+          %h3.title.is-3= link_to fas_icon('plus', text: t('home.user.reserve')), '#event_reserve', :name => 'event_reserve'
+          %p.has-text-justify
+            Ogni utente, che accede al programma, potrà visualizzare lo stato di sorveglianza sanitaria
+            e visualizzare le future scadenze. Inoltre, in caso di schedulazione di appuntamenti da parte della #{Settings.long_title.to_s},
+            potrà prenotare le date direttamente sul sito attendendo la validazione.
+            %ul.child
+              %li
+                %h4.title.is-4= link_to fas_icon('plus', text: t('home.user.reserve')), '#event_reserve', :name => 'event_reserve'
+                %p.has-text-justify
+                  %ul.circle.child
+                    %li <b>Punto 1:</b> Informazioni utente(Nome e Cognome, Codice Fiscale, Matricola e Struttura);
+                    %li <b>Punto 2:</b> Indica una o più classi di rischio a cui si è collegati e per cui si deve effettuare sorveglianza sanitaria;
+                    %li <b>Punto 3:</b> Indica l'ultimo stato rilevato per la classe di rischio collegata. Se vuota o riportante la dicitura "n.d.", significa che non è stata inserita alcuna valutazione per la classe di rischio indicata;
+                    %li <b>Punto 4:</b> Indica la data in cui approssimatamente si dovrebbe essere sottoposti a un nuovo controllo sanitario;
+                    %li <b>Punto 5:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare le analisi necessarie;
+                    %li <b>Punto 6:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare la visita necessarie;
+        %li
+          %h3.title.is-3= link_to fas_icon('question-circle', text: 'Help'), '#help', :name => 'help'
+          %p.has-text-justify
+            Nella <i><b>SEZIONE DI HELP</b></i> sono presenti i link ai manuali, alla pagina che elenca le versioni rilasciate dal Settore Sviluppo e il link per segnalare direttamente al settore gli errori riscontrati.
+            %ul.child
+              %li
+                %h4.title.is-4= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug', :name => 'help_bug'
+                %p.has-text-justify
+                  Cliccando sul link indicante la dicitura <i><b>#{t('home.help.title')}</b></i> sarai reindirizzato alla pagina del programma di assistenza GIRI per descrivere, in dettaglio, il problema riscontrato. Sarà considerata cosa gradita, dal Settore, se oltre a una descrizione il più dettagliata possibile venisse allegato anche un file contenente l'immagine dell'errore generato ove chiaramente possibile. Appena l'errore sarà risolto, verrà prontamente rilasciata una patch correttiva.<br />Grazie in anticipo per l'aiuto.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  -#
+    %h2.text-center Manuale Utente
+    %div.book
+      %ol.index
+        %li.index.first
+          %span.title{data: {magellan_destination: 'introduction'}}= link_to fas_icon('book', text: t('Introduzione')), '#introduction', :name => 'introduction'
+          %p.text-justify
+            Il progetto <b>#{Settings.long_title.to_s}</b> nasce all’interno di una nuova linea di sviluppo perseguita dal Settore Sviluppo e
+            finalizzata al migliore utilizzo delle risorse interne contestualmente al miglioramento del livello di qualità dei servizi resi all’utenza.
+            Il programma si pone l’obiettivo di ottimizzare la gestione delle scadenze in maniera trasparente e chiara per l’utente finale.
+            %br
+            Agli utenti, infatti, saranno resi disponibili strumenti con i quali verificare il proprio stato medico e le future scadenze.
+            %br
+            Si sottolinea infine che il programma di #{Settings.long_title.to_s} è parte di una più capillare riprogettazione dei servizi offerti nella intranet aziendale.
+          %ol.index
+            %li.index
+              %span.subtitle= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_user', :name => 'introduction_user'
+              %p.text-justify
+                Il Sistema è primariamente finalizzato per gli scopi indicati, ma allo stesso tempo potrà essere utilizzato da tutte le Unità Operative dell’Istituto che hanno come la #{Settings.long_title.to_s} la necessità di gestire scadenze.
+            %li.index
+              %span.subtitle= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement', :name => 'introduction_min_requirement'
+              %ul.circle
+                %li.noindex Internet Explorer >= 10.0 o altro browser compatibile con  HTML 5 e CSS 3;
+                %li.noindex Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
+                %li.noindex Javascript abilitato;
+                %li.noindex Cookie abilitati;
+                %li.noindex Supporto ai certificati SSL;
+                %li.noindex Accesso all’Intranet #{ Settings.group };
+                %li.noindex Indirizzo di posta elettronica sul dominio #{ Settings.domain };
+                %li.noindex Risoluzione schermo 1024x768.
+
+            %li.index
+              %span.subtitle= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement', :name => 'introduction_requirement'
+              %ul.circle
+                %li.noindex Internet Explorer >= 10 o Firefox >= 50 o Safari >= 5 o Chrome >= 50 o browser e comunque compatibile con HTML5 e CSS3;
+                %li.noindex Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
+                %li.noindex Javascript abilitato;
+                %li.noindex Cookie abilitati;
+                %li.noindex Supporto ai certificati SSL;
+                %li.noindex Accesso alla Intranet #{ Settings.group };
+                %li.noindex Indirizzo di posta elettronica sul dominio #{ Settings.domain };
+                %li.noindex Risoluzione schermo 1280x1024.
+
+        %li.index.first
+          %span.title= link_to fas_icon('home', text: t('home.user.title')), '#home_user', :name => 'home_user'
+          %p.text-justify
+            Ogni utente, che accede al programma, potrà visualizzare lo stato di sorveglianza sanitaria
+            e visualizzare le future scadenze. Inoltre, in caso di schedulazione di appuntamenti da parte della #{Settings.long_title.to_s},
+            potrà prenotare le date direttamente sul sito attendendo la validazione.
+          %ol.index
+            %li.index
+              %span.subtitle= link_to fas_icon('plus', text: t('home.user.reserve')), '#event_reserve', :name => 'event_reserve'
+              %p.text-justify
+                %ul.noindex
+                  %li.noindex.text-justify <b>Punto 1:</b> Informazioni utente(Nome e Cognome, Codice Fiscale, Matricola e Struttura);
+                  %li.noindex.text-justify <b>Punto 2:</b> Indica una o più classi di rischio a cui si è collegati e per cui si deve effettuare sorveglianza sanitaria;
+                  %li.noindex.text-justify <b>Punto 3:</b> Indica l'ultimo stato rilevato per la classe di rischio collegata. Se vuota o riportante la dicitura "n.d.", significa che non è stata inserita alcuna valutazione per la classe di rischio indicata;
+                  %li.noindex.text-justify <b>Punto 4:</b> Indica la data in cui approssimatamente si dovrebbe essere sottoposti a un nuovo controllo sanitario;
+                  %li.noindex.text-justify <b>Punto 5:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare le analisi necessarie;
+                  %li.noindex.text-justify <b>Punto 6:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare la visita necessarie;
+        %li.index.first
+          %span.title= link_to fas_icon('question-circle', text: 'Help'), '#help', :name => 'help'
+          %p.text-justify
+            Nella <i><b>SEZIONE DI HELP</b></i> sono presenti i link ai manuali, alla pagina che elenca le versioni rilasciate dal Settore Sviluppo e il link per segnalare direttamente al settore gli errori riscontrati.
+          %ol.index
+            %li.index
+              %span.subtitle= link_to fas_icon("github", text: t('home.versions.title')), '#help_versions', :name => 'help_versions'
+              %p.text-justify
+                Nella pagina delle versioni verranno indicate tutte le release del programma pubblicate nel tempo con il dettaglio delle maggiori modifiche e correzioni che sono state apportate.
+            %li.index
+              %span.subtitle= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug', :name => 'help_bug'
+              %p.text-justify
                 Cliccando sul link indicante la dicitura <i><b>#{t('home.help.title')}</b></i> sarai reindirizzato alla pagina del programma di assistenza GIRI per descrivere, in dettaglio, il problema riscontrato. Sarà considerata cosa gradita, dal Settore, se oltre a una descrizione il più dettagliata possibile venisse allegato anche un file contenente l'immagine dell'errore generato ove chiaramente possibile. Appena l'errore sarà risolto, verrà prontamente rilasciata una patch correttiva.<br />Grazie in anticipo per l'aiuto.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--#
-  %h2.text-center Manuale Utente
-  %div.book
-    %ol.index
-      %li.index.first
-        %span.title{data: {magellan_destination: 'introduction'}}= link_to fas_icon('book', text: t('Introduzione')), '#introduction', :name => 'introduction'
-        %p.text-justify
-          Il progetto <b>#{Settings.long_title.to_s}</b> nasce all’interno di una nuova linea di sviluppo perseguita dal Settore Sviluppo e
-          finalizzata al migliore utilizzo delle risorse interne contestualmente al miglioramento del livello di qualità dei servizi resi all’utenza.
-          Il programma si pone l’obiettivo di ottimizzare la gestione delle scadenze in maniera trasparente e chiara per l’utente finale.
-          %br
-          Agli utenti, infatti, saranno resi disponibili strumenti con i quali verificare il proprio stato medico e le future scadenze.
-          %br
-          Si sottolinea infine che il programma di #{Settings.long_title.to_s} è parte di una più capillare riprogettazione dei servizi offerti nella intranet aziendale.
-        %ol.index
-          %li.index
-            %span.subtitle= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_user', :name => 'introduction_user'
-            %p.text-justify
-              Il Sistema è primariamente finalizzato per gli scopi indicati, ma allo stesso tempo potrà essere utilizzato da tutte le Unità Operative dell’Istituto che hanno come la #{Settings.long_title.to_s} la necessità di gestire scadenze.
-          %li.index
-            %span.subtitle= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement', :name => 'introduction_min_requirement'
-            %ul.circle
-              %li.noindex Internet Explorer >= 10.0 o altro browser compatibile con  HTML 5 e CSS 3;
-              %li.noindex Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
-              %li.noindex Javascript abilitato;
-              %li.noindex Cookie abilitati;
-              %li.noindex Supporto ai certificati SSL;
-              %li.noindex Accesso all’Intranet #{ Settings.group };
-              %li.noindex Indirizzo di posta elettronica sul dominio #{ Settings.domain };
-              %li.noindex Risoluzione schermo 1024x768.
-
-          %li.index
-            %span.subtitle= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement', :name => 'introduction_requirement'
-            %ul.circle
-              %li.noindex Internet Explorer >= 10 o Firefox >= 50 o Safari >= 5 o Chrome >= 50 o browser e comunque compatibile con HTML5 e CSS3;
-              %li.noindex Per qualsiasi versione Internet Explorer la modalità di compatibilità deve essere disattivata;
-              %li.noindex Javascript abilitato;
-              %li.noindex Cookie abilitati;
-              %li.noindex Supporto ai certificati SSL;
-              %li.noindex Accesso alla Intranet #{ Settings.group };
-              %li.noindex Indirizzo di posta elettronica sul dominio #{ Settings.domain };
-              %li.noindex Risoluzione schermo 1280x1024.
-
-      %li.index.first
-        %span.title= link_to fas_icon('home', text: t('home.user.title')), '#home_user', :name => 'home_user'
-        %p.text-justify
-          Ogni utente, che accede al programma, potrà visualizzare lo stato di sorveglianza sanitaria
-          e visualizzare le future scadenze. Inoltre, in caso di schedulazione di appuntamenti da parte della #{Settings.long_title.to_s},
-          potrà prenotare le date direttamente sul sito attendendo la validazione.
-        %ol.index
-          %li.index
-            %span.subtitle= link_to fas_icon('plus', text: t('home.user.reserve')), '#event_reserve', :name => 'event_reserve'
-            %p.text-justify
-              %ul.noindex
-                %li.noindex.text-justify <b>Punto 1:</b> Informazioni utente(Nome e Cognome, Codice Fiscale, Matricola e Struttura);
-                %li.noindex.text-justify <b>Punto 2:</b> Indica una o più classi di rischio a cui si è collegati e per cui si deve effettuare sorveglianza sanitaria;
-                %li.noindex.text-justify <b>Punto 3:</b> Indica l'ultimo stato rilevato per la classe di rischio collegata. Se vuota o riportante la dicitura "n.d.", significa che non è stata inserita alcuna valutazione per la classe di rischio indicata;
-                %li.noindex.text-justify <b>Punto 4:</b> Indica la data in cui approssimatamente si dovrebbe essere sottoposti a un nuovo controllo sanitario;
-                %li.noindex.text-justify <b>Punto 5:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare le analisi necessarie;
-                %li.noindex.text-justify <b>Punto 6:</b> Indica l'elenco di date, inserite dalla segreteria medica, in cui è possibile prenotarsi per effettuare la visita necessarie;
-      %li.index.first
-        %span.title= link_to fas_icon('question-circle', text: 'Help'), '#help', :name => 'help'
-        %p.text-justify
-          Nella <i><b>SEZIONE DI HELP</b></i> sono presenti i link ai manuali, alla pagina che elenca le versioni rilasciate dal Settore Sviluppo e il link per segnalare direttamente al settore gli errori riscontrati.
-        %ol.index
-          %li.index
-            %span.subtitle= link_to fas_icon("github", text: t('home.versions.title')), '#help_versions', :name => 'help_versions'
-            %p.text-justify
-              Nella pagina delle versioni verranno indicate tutte le release del programma pubblicate nel tempo con il dettaglio delle maggiori modifiche e correzioni che sono state apportate.
-          %li.index
-            %span.subtitle= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug', :name => 'help_bug'
-            %p.text-justify
-              Cliccando sul link indicante la dicitura <i><b>#{t('home.help.title')}</b></i> sarai reindirizzato alla pagina del programma di assistenza GIRI per descrivere, in dettaglio, il problema riscontrato. Sarà considerata cosa gradita, dal Settore, se oltre a una descrizione il più dettagliata possibile venisse allegato anche un file contenente l'immagine dell'errore generato ove chiaramente possibile. Appena l'errore sarà risolto, verrà prontamente rilasciata una patch correttiva.<br />Grazie in anticipo per l'aiuto.
-  - content_for :left do
-    %ul.panel.like-side-nav.radius
-      %li.index.title= t "home.books.user.summary"
-      %li.index
-        %ol.index
-          %li.index
-            %span.subtitle{data: {magellan_arrival: 'introduction'}}= link_to fas_icon('book', text: t('Introduzione')), '#introduction'
-            %ol.index
-              %li.index= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_user'
-              %li.index= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement'
-              %li.index= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement'
-          %li.index
-            %span.subtitle= link_to fas_icon('home', text: t('home.user.reserve')), '#home_user'
-          %li.index
-            %span.subtitle= link_to fas_icon('question-circle', text: 'Help'), '#help'
-            %ol.index
-              %li.index= link_to fas_icon("github", text: t('home.versions.title')), '#help_versions'
-              %li.index= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug'
+    - content_for :left do
+      %ul.panel.like-side-nav.radius
+        %li.index.title= t "home.books.user.summary"
+        %li.index
+          %ol.index
+            %li.index
+              %span.subtitle{data: {magellan_arrival: 'introduction'}}= link_to fas_icon('book', text: t('Introduzione')), '#introduction'
+              %ol.index
+                %li.index= link_to fas_icon('user', text: t('A chi si rivolge')), '#introduction_user'
+                %li.index= link_to fas_icon('laptop', text: t('Configurazione minima')), '#introduction_min_requirement'
+                %li.index= link_to fas_icon('laptop', text: t('Configurazione consigliata')), '#introduction_requirement'
+            %li.index
+              %span.subtitle= link_to fas_icon('home', text: t('home.user.reserve')), '#home_user'
+            %li.index
+              %span.subtitle= link_to fas_icon('question-circle', text: 'Help'), '#help'
+              %ol.index
+                %li.index= link_to fas_icon("github", text: t('home.versions.title')), '#help_versions'
+                %li.index= link_to fas_icon("bug", text: t('home.help.title')), '#help_bug'

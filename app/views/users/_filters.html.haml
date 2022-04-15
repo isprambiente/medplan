@@ -1,43 +1,38 @@
-= form_with scope: 'filter', url: list_users_path, method: :get, data: {action: "ajax:success->section#goPage"} do |f|
+= form_with scope: 'filter', url: list_users_path, method: :get, data: { controller: 'form', turbo_frame: 'users' } do |f|
+  %a.button.is-danger.is-fullwidth.mb-4{ href: users_path, data: { turbo_frame: 'yield' } } Rimuovi tutti i filtri
+
   %nav#cities.panel.filters
     %p.panel-heading= fas_icon('users', text: "Utenti" )
     .panel-block
-      %label.control.has-icons-left
-        = f.text_field :text , class: 'input', placeholder: 'Cerca un nominativo', data: {action: 'keyup->section#delayedSendForm' }
-        %span.icon.is-left= fas_icon 'search'
-    .panel-block
       %label
-        = f.check_box :invisible, data: {action: 'section#sendForm'}
+        = f.check_box :invisible, data: {action: 'form#send'}
         Includi anche i disabilitati
-    .panel-block
-      %a.button.is-link.is-fullwidth{ href: new_user_path, data: { remote: true, action: 'ajax:success->page#goPage' } }= fas_icon( 'plus', text: 'Nuovo utente esterno' )
-
   %nav#cities.panel.filters
     %p.panel-heading= fas_icon('map-marker', text: t('city', scope: 'user'))
     %label.panel-block
-      = f.radio_button :city, '', data: {action: "section#sendForm"}
+      = f.radio_button :city, '', data: {action: 'form#send'}
       %span= t('all', scope: '')
     - User.cities.each do |city|
       %label.panel-block{class: [city[0],'sedi']}
-        = f.radio_button :city, city[0], data: {action: "section#sendForm"}
+        = f.radio_button :city, city[0], data: {action: 'form#send'}
         %span= t(city[0], scope: 'user.cities')
 
   %nav#positions.panel.filters
     %p.panel-heading= fas_icon('building', text: t('position', scope: 'user'))
     %label.panel-block{class: 'sedi'}
-      = f.radio_button :postazione, '', selected: 'selected', data: {action: "section#sendForm"}
+      = f.radio_button :postazione, '', selected: 'selected', data: {action: 'form#send'}
       %span= t('all')
     - User.postaziones.each do |postazione|
       %label.panel-block{class: [postazione[0],'sedi']}
-        = f.radio_button :postazione, postazione[0], data: {action: "section#sendForm"}
+        = f.radio_button :postazione, postazione[0], data: {action: 'form#send'}
         %span= t(postazione[0], scope: 'user.positions')
 
   %nav#categories.panel.filters
     %p.panel-heading= fas_icon('exclamation-triangle', text: t('title', scope: 'category') )
     %label.panel-block{class: 'sedi'}
-      = f.radio_button :category, '', selected: 'selected', data: {action: "section#sendForm"}
+      = f.radio_button :category, '', selected: 'selected', data: {action: 'form#send'}
       %span= t 'all'
     - Category.all.each do |category|
       %label.panel-block
-        = f.radio_button :category, category.id, data: {action: "section#sendForm"}
+        = f.radio_button :category, category.id, data: {action: 'form#send'}
         %span= category.title

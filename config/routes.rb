@@ -40,7 +40,11 @@ Rails.application.routes.draw do
       get :agenda, on: :collection
       put :confirmed_users, on: :member, to: 'events#confirmed_users'
     end
-    resources :categories, except: [:show]
-    resources :risks, except: [:show]
+    resources :categories, except: [:show] do
+      get :list, on: :collection, to: 'categories#list'
+    end
+    resources :risks, except: [:show] do
+      get :list, on: :collection, to: 'risks#list'
+    end
   end
 end

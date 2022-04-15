@@ -54,3 +54,7 @@ config/settings/*.local.yml
 config/environments/*.local.yml
 
 /config/credentials/production.key
+/app/assets/builds/*
+!/app/assets/builds/.keep
+/app/assets/builds/application.css
+/app/assets/builds/application.js

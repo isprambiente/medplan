@@ -1,0 +1,103 @@
+// @charset "utf-8";
+
+// Import a Google Font
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
+// Colors
+$black:        hsl(0, 0%, 4%) !default;
+$black-bis:    hsl(0, 0%, 7%) !default;
+$black-ter:    hsl(0, 0%, 14%) !default;
+
+$grey-darker:  hsl(0, 0%, 21%) !default;
+$grey-dark:    hsl(0, 0%, 29%) !default;
+$grey:         hsl(0, 0%, 48%) !default;
+$grey-light:   hsl(0, 0%, 71%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+
+$white-ter:    hsl(0, 0%, 96%) !default;
+$white-bis:    hsl(0, 0%, 98%) !default;
+$white:        hsl(0, 0%, 100%) !default;
+
+$orange:       hsl(37, 100%, 60%) !default;
+$orange-light: hsl(37, 100%, 71%) !default;
+$orange-darker: hsl(37, 100%, 21%) !default;
+$orange-dark:  hsl(37, 100%, 35%) !default;
+$yellow:       hsl(60,  100%, 66%) !default;
+$yellow-light: hsl(60,  100%, 80%) !default;
+$yellow-lighter: hsl(60,  100%, 93%) !default;
+$yellow-darker: hsl(60,  100%, 21%) !default;
+$yellow-dark:  hsl(60,  100%, 35%) !default;
+$green:        hsl(140, 52%, 66%) !default;
+$green-darker: hsl(140, 52%, 21%) !default;
+$green-dark:   hsl(140, 52%, 35%) !default;
+$turquoise:    hsl(171, 100%, 41%) !default;
+$cyan:         hsl(204, 86%,  53%) !default;
+$blue:         hsl(217, 71%,  53%) !default;
+$purple:       hsl(271, 100%, 11%) !default;
+$red:          hsl(8, 59%, 51%) !default;
+
+// Colori pannello
+$subtitle-color: hsl(0, 0%, 48%) !default;
+$panel-heading-background-color: hsl(0, 0%, 50%) !default;
+$panel-heading-color: #fff !default;
+$panel-heading-size: 1rem !default;
+
+// Typography
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
+$family-monospace: monospace !default;
+
+$rgba-primary-0: rgba(135, 38, 67,1); // Main Primary color */
+$rgba-primary-1: rgba(209,125,151,1);
+$rgba-primary-2: rgba(169, 72,101,1);
+$rgba-primary-3: rgba( 98, 12, 38,1);
+$rgba-primary-4: rgba( 62,  0, 19,1);
+
+$rgba-secondary-1-0: rgba(151,101, 43,1); // Main Secondary color (1); */
+$rgba-secondary-1-1: rgba(233,190,140,1);
+$rgba-secondary-1-2: rgba(189,139, 81,1);
+$rgba-secondary-1-3: rgba(110, 65, 13,1);
+$rgba-secondary-1-4: rgba( 69, 37,  0,1);
+
+$rgba-secondary-2-0: rgba( 30, 74, 96,1); // Main Secondary color (2); */
+$rgba-secondary-2-1: rgba( 92,129,148,1);
+$rgba-secondary-2-2: rgba( 55, 98,119,1);
+$rgba-secondary-2-3: rgba( 11, 50, 69,1);
+$rgba-secondary-2-4: rgba(  2, 30, 44,1);
+
+$rgba-complement-0: rgba( 82,134, 38,1);  // Main Complement color */
+$rgba-complement-1: rgba(162,208,125,1);
+$rgba-complement-2: rgba(116,168, 72,1);
+$rgba-complement-3: rgba( 51, 98, 12,1);
+$rgba-complement-4: rgba( 28, 62,  0,1);
+
+// Variabili globali
+$primary: rgba(135, 38, 67,1);
+$primary-darker: rgb(102, 18, 36);
+$primary-dark: rgb(102, 18, 36);
+$link: rgb(30, 74, 96);
+$info: $cyan;
+$success: $green;
+$warning: $orange;
+$danger: $red;
+$dark: $grey-darker;
+$text: $grey-dark;
+$background: $white-ter;
+$family-primary: 'Titillium Web', sans-serif;
+$family-sans-serif: 'Titillium Web', sans-serif;  // 'Roboto Mono', monospace
+$ispra-darker: rgb(102, 18, 36); // rgb(0, 49, 131)
+
+// Import only what you need from Bulma
+// @import "bulma/sass/utilities/_all.sass";
+// @import "bulma/sass/base/_all.sass";
+// @import "bulma/sass/elements/button.sass";
+// @import "bulma/sass/elements/container.sass";
+// @import "bulma/sass/elements/title.sass";
+// @import "bulma/sass/form/_all.sass";
+// @import "bulma/sass/components/navbar.sass";
+// @import "bulma/sass/layout/hero.sass";
+// @import "bulma/sass/layout/section.sass";
+
+@import 'bulma/bulma.sass';
+@import './application.sass';
+
+.pagy-bulma-nav {margin-top: 0.5rem; padding-top: 0.5rem; border-top: 2px solid #f5f5f5;}

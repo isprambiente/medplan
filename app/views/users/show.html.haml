@@ -1,1 +1,2 @@
-#user{ data: { controller: 'users', users_target: 'container' } }= render 'show'
+= turbo_frame_tag dom_id(@user), data: {controller: @view} do
+  = render 'show', user: @user, analisys: @analisys, visits: @visits, view: @view

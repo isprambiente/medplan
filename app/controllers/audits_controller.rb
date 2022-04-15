@@ -9,17 +9,26 @@ class AuditsController < ApplicationController
   before_action :powered_in!
   before_action :set_user
   before_action :set_audit, except: %i[index create destroy]
+  before_action :set_view
 
   # GET /users/:user_id/audits
   #
   # render autits index
   #
   # @return [Object] audits/index.haml
-  def index
-    @categories = Category.all
+  def index; end
+
+  # GET /audits/list
+  #
+  # render the list the all {Audit}
+  # * set @pagy, @audits for the @users pagination
+  # @return [Object] render users/index
+  def list
+    categories = Category.all
+    @pagy, @categories = pagy(categories, link_extra: "data-turbo-frame='categories'")
   end
 
-  # POST /users/user_id/autits
+  # POST /users/user_id/audits
   #
   # Try to make a new audit.
   # * set @audit as new audit
@@ -53,7 +62,7 @@ class AuditsController < ApplicationController
   # @return [Object] render audits/edit
   def edit
     @history = @audit.histories.new
-    @pagy, @histories = pagy(@audit.histories.availables.order('id DESC').limit(5), link_extra: "data-remote='true' data-action='ajax:success->audits#goPage'")
+    @pagy, @histories = pagy(@audit.histories.availables.order('id DESC').limit(5), link_extra: "data-turbo-frame='audits'")
   end
 
   # PATCH /user/:user_id/audits/:id
@@ -66,7 +75,7 @@ class AuditsController < ApplicationController
   # @return [Object] render audits/edit
   def update
     if @audit.update(audit_params)
-      @pagy, @histories = pagy(@audit.histories.availables.order('id DESC').limit(5), link_extra: "data-remote='true' data-action='ajax:success->audits#goPage'")
+      @pagy, @histories = pagy(@audit.histories.availables.order('id DESC').limit(5), link_extra: "data-turbo-frame='audits'")
       @categories = Category.all
       @history = @audit.histories.new
       flash.now[:success] = 'Aggiornamento avvenuto con successo'
@@ -107,6 +116,16 @@ class AuditsController < ApplicationController
   # @return [Object] Audit istance
   def set_audit
     @audit = @user.audits.find(params[:id])
+  end
+
+  # Set callback view
+  def set_view
+    @view = filter_params[:view] || ''
+  end
+
+  # Only allow a list of trusted parameters through.
+  def filter_params
+    params.fetch(:filter, {}).permit(:view)
   end
 
   # filter request params for update audits

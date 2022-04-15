@@ -2,5 +2,5 @@
   .column= category.title
   .column
     .buttons.has-addons.is-right
-      = link_to fas_icon('edit'), edit_category_path(id: category.id), class: 'button', data: { action: 'ajax:success->modal#open', title: "Modifica #{ category.title }" }, remote: true
-      = link_to fas_icon('trash'), category, class: 'button is-danger', method: :delete, data: { confirm: t('delete', scope: 'message.category'), action: 'ajax:success->page#goPage' }, remote: true
+      = link_to fas_icon('edit'), edit_category_path(id: category.id), class: 'button', data: { turbo_frame: 'yield', title: "Modifica #{ category.title }" }
+      = link_to fas_icon('trash'), category, class: 'button is-danger', method: :delete, data: { confirm: t('delete', scope: 'message.category'), turbo_frame: 'yield', turbo_method: 'DELETE' }

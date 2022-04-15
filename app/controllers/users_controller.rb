@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   include Pagy::Backend
   before_action :powered_in!
   before_action :set_user, except: %i[index list new create]
+  before_action :set_view
 
   # GET /users
   #
@@ -25,7 +26,7 @@ class UsersController < ApplicationController
   # * set @pagy, @user for the @users pagination
   # @return [Object] render users/index
   def list
-    @pagy, @users = pagy(users, link_extra: "data-remote='true' data-action='ajax:success->section#goPage'")
+    @pagy, @users = pagy(users, link_extra: "data-turbo-frame='users'")
   end
 
   # GET /users/:id
@@ -51,8 +52,16 @@ class UsersController < ApplicationController
   def destroy
     current_user = @user
     @user.author = current_user.label
-    @user = User.unscoped.find(current_user.id) if @user.disable!
-    redirect_to home_index_path(filter: { riepilogo: 'expired' })
+    if @user.disable!
+      flash.now[:success] = 'Disattivazione avvenuta con successo'
+      render turbo_stream: [
+        turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
+        turbo_stream.replace(:flashes, partial: "flashes")
+      ]
+    else
+      flash.now[:error] = write_errors(@user)
+      render turbo_stream: turbo_stream.replace(:flashes, partial: "flashes")
+    end
   end
 
   # PATCH /users/:id/unlock
@@ -62,8 +71,16 @@ class UsersController < ApplicationController
   # * use {User.enable!} method for unlock the {User}
   # render /users/show
   def unlock
-    @user.enable!
-    redirect_to home_index_path(filter: { riepilogo: 'expired' })
+    if @user.enable!
+      flash.now[:success] = 'Attivazione avvenuta con successo'
+      render turbo_stream: [
+        turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
+        turbo_stream.replace(:flashes, partial: "flashes")
+      ]
+    else
+      flash.now[:error] = write_errors(@user)
+      render turbo_stream: turbo_stream.replace(:flashes, partial: "flashes")
+    end
   end
 
   # PATCH /users/:id
@@ -130,7 +147,7 @@ class UsersController < ApplicationController
     @user.label = "#{external_user_params[:lastname]} #{external_user_params[:name]}"
     if @user.save
       @users = User.where('label ilike ?', "%#{@user.label}%").order('label asc')
-      @pagy, @users = pagy(@users, link_extra: "data-remote='true' data-action='ajax:success->users#goPage'")
+      @pagy, @users = pagy(@users, link_extra: "data-turbo-frame='users'")
       redirect_to users_url
     else
       render :new
@@ -167,7 +184,12 @@ class UsersController < ApplicationController
   end
 
   def filter_params
-    params.fetch(:filter, {}).permit(:text, :invisible, :city, :category, :postazione)
+    params.fetch(:filter, {}).permit(:text, :invisible, :city, :category, :postazione, :view)
+  end
+
+  # Set callback view
+  def set_view
+    @view = filter_params[:view] || ''
   end
 
   def users

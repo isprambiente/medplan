@@ -1,4 +1,4 @@
-= form_with model: @risk, data: { action: 'ajax:success->page#goPage ajax:success->modal#close ajax:error->modal#goPage' }, remote: true do |f|
+= form_with model: @risk, data: { turbo_frame: 'yield' } do |f|
   .form-inputs
     .columns
       .column.is-9-desktop.is-8-tablet

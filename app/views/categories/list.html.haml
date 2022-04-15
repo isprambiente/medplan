@@ -1,0 +1,8 @@
+= turbo_frame_tag 'categories', class: 'rows' do
+  - unless @categories.blank?
+    = render @categories
+    .columns
+      .column.is-full= "#{pagy_bulma_nav(@pagy)}".html_safe
+  - else
+    .columns
+      .column.is-full.has-text-centered Nessuna categoria trovata

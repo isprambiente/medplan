@@ -1,7 +1,28 @@
-#users.columns.is-desktop{ data: { controller: 'section', section_url: list_users_path } }
-  %a.button.is-medium.is-link.is-hidden-desktop.is-spaced{ data: { action: 'click->page#toggleMenu', id: 'filters' } }
-    %span.icon{ style: 'margin-right:.5rem' }
-      %i.fas.fa-bars{ data: { action: 'click->page#toggleMenu', id: 'filters' }, aria: { hidden: "true" } }
-    Filtri di ricerca
-  #filters.column.is-3-desktop.is-hidden-touch=  render partial: 'filters'
-  .column{ data: { section_target: 'container' } }
+#filters_col.quickview
+  %header.quickview-header.has-shadow{style: 'min-height: 50px !important;'}
+    %p.title.has-text-weight-bold Filtri la ricerca
+    %span.delete{ data: { dismiss: "quickview", controller: 'menu', menu_id: 'filters_col', action: 'click->menu#close' } }
+  .quickview-body.pt-4.px-4= render partial: 'users/filters'
+.container
+  %h2.title.is-2.has-text-centered= t('title', scope: 'user.index')
+  .box
+    = form_with scope: :filter, url: list_users_path, method: :get, data: { turbo_frame: 'users' } do |f|
+      .level
+        .level-left
+          .level-item
+            %label.label.mr-4.mb-5 Sede
+            .select.mb-5= f.select :city, User.cities.map{|k,v| [t(k, scope: 'user.cities'),k] }, {prompt: 'Tutti'}, { data: {controller: 'form', action: "change->form#send"} }
+        .level-right
+          .level-item
+            %a.button.is-link.mb-5{ href: new_user_path, data: { turbo_frame: 'yield' } }= fas_icon( 'plus', text: 'Nuovo utente esterno' )
+          .level-item
+            %p.control.has-icons-left
+              = f.text_field :text, placeholder: 'Ricerca veloce', class: 'input', data: {controller: 'form', action: "keyup->form#delayedSend"}
+              %span.icon.is-left
+                %i.fas.fa-search{ aria: { hidden: 'true' } }
+              %span.helper
+                %a{data: {controller: 'menu', action: 'click->menu#open', menu_id: 'filters_col'}}
+                  Ricerca avanzata
+    %hr
+    = turbo_frame_tag 'users', class: 'rows', src: list_users_path, alt: 'Nessuna riga trovata' do
+      .loading.has-text-centered= fas_icon 'cog fa-pulse', text: 'Caricamento in corso'

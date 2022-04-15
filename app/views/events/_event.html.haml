@@ -1,17 +1,18 @@
-%tr.event{id: "#{event.div}-event"}
-  %td= fas_icon('calendar', text: l(event.date_on))
-  %td= event.time(@user)
-  %td= t(event.gender, scope: 'event.gender')
-  %td= t(event.city, scope: 'user.cities', default: event.city)
-  %td= t(event.status(@user), scope: 'event.status')
-  %td= event.categories(@user)
-  %td
-    .columns.is-mobile.is-gapless
-      - meetings = @user.meetings.where(event: event)
-      - classes = 'is-link'
-      - title = "Invia una e-mail di notifica"
-      - if meetings.first.sended_at?
-        - classes = ''
-        - title = "Inviata il #{ l_long meetings.first.sended_at }"
-      .column.is-6= link_to fas_icon('envelope'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button is-fullwidth is-radiusless #{ classes }", data: { confirm: t('confirm', scope: 'message.email'), tooltip: title, action: 'ajax:success->modal#goPage'}
-      .column.is-6= link_to fas_icon('trash'), user_event_meeting_destroy_path(@user, event, zone:'users'), method: :delete, remote: true, class: 'button is-fullwidth is-radiusless tooltip is-danger', data: {disable_with: fas_icon( 'spinner pulse' ), confirm: t('delete', scope: 'message.meeting'), tooltip: 'Cancella evento', controller: 'users', action: 'ajax:success->modal#goPage ajax:success->users#renderUser', user_id: @user.id }
+= turbo_frame_tag "#{dom_id(event)}" do
+  .columns.row.is-mobile
+    .column.is-2.is-vcentered.has-text-centered= fas_icon('calendar', text: l(event.date_on))
+    .column.is-1.is-vcentered.has-text-centered= event.time(@user)
+    .column.is-1.is-vcentered.has-text-centered= t(event.gender, scope: 'event.gender')
+    .column.is-2.is-vcentered.has-text-centered= t(event.city, scope: 'user.cities', default: event.city)
+    .column.is-2.is-vcentered.has-text-centered= t(event.status(@user), scope: 'event.status')
+    .column.is-2.is-vcentered.has-text-centered= event.categories(@user)
+    .column.is-2
+      .buttons.has-addons.is-right
+        - meetings = @user.meetings.where(event: event)
+        - classes = 'is-link'
+        - title = "Invia una e-mail di notifica"
+        - if meetings.first.sended_at?
+          - classes = ''
+          - title = "Inviata il #{ l_long meetings.first.sended_at }"
+        = link_to fas_icon('envelope'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button is-borderless #{ classes }", data: { confirm: t('confirm', scope: 'message.email'), tooltip: title}
+        = link_to fas_icon('trash'), user_event_meeting_destroy_path(@user, event, zone:'users'), method: :delete, class: 'button is-borderless tooltip is-danger', data: {disable_with: fas_icon( 'spinner pulse' ), confirm: t('delete', scope: 'message.meeting'), tooltip: 'Cancella evento', turbo_method: 'DELETE' }
