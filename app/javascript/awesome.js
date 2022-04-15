@@ -1,4 +1,3 @@
-//import '@fortawesome/fontawesome-free/js/solid'
 import { config, library, dom } from '@fortawesome/fontawesome-svg-core'
 
 // Change the config to fix the flicker

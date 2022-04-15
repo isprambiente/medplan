@@ -1,0 +1,5 @@
+- if (flash.now[:success].present? || flash.now[:error].present?)
+  %article.message{ class: "#{flash.now[:error].present? ? 'is-danger' : 'is-success'}" }
+    .is-pulled-right.mt-4.mr-3
+      %button.delete{ aria_label: "delete", data: {controller: 'message', action: 'click->message#hidden'} }
+    .message-body.has-text-justified= flash.now[:success] || flash.now[:error]

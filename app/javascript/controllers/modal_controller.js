@@ -52,9 +52,6 @@ export default class extends Controller {
     } else {
       Swal.fire(options);
     }
-    if (Swal.getPopup().querySelector('.is-formula')) {
-      return MathJax.typeset();
-    }
   }
 
 }

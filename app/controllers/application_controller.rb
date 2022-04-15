@@ -53,6 +53,14 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Create callback with class error messages
+  # @param [Class] obj
+  # @param [Text] scope
+  # @return [String] errors localized messages
+  def write_errors(obj, scope: false)
+    obj.errors.map { |e| "#{t_field(e.attribute, scope || obj.class.table_name.singularize)} #{e.message}" }.join(', ')
+  end
+
   # Set locale from `params[:locale]`.
   # If params[:locale] is unset or is not available,
   # the method set the default locale

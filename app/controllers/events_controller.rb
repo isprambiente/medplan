@@ -69,19 +69,23 @@ class EventsController < ApplicationController
       @result = false
       @message = t('select_one_category', scope: 'message.meeting').to_s
     end
-    @event = @result ? Event.new : @current_event
+    @event = Event.new
     if @result
       set_timer
       flash.now[:success] = 'Creazione avvenuta con successo'
       render turbo_stream: [
         turbo_stream.replace(:flashes, partial: "flashes"),
-        turbo_stream.update("user_#{@user.id}_event_form", partial: "events/form", locals: {user: @user, event: @event, timer: @timer}),
+        turbo_stream.replace("user_#{@user.id}_event_form", partial: "events/form", locals: {user: @user, event: @event, timer: @timer, view: @view}),
         turbo_stream.update("user_#{@user.id}_events", partial: "events/events", locals: {user: @user}),
         turbo_stream.update("user_#{@user.id}", partial: "users/user", locals: {user: @user})
       ]
     else
-      flash.now[:error] = write_errors(@message)
-      render turbo_stream: turbo_stream.replace(:flashes, partial: "flashes")
+      set_timer
+      flash.now[:error] = @message
+      render turbo_stream: [
+        turbo_stream.replace(:flashes, partial: "flashes"),
+        turbo_stream.replace("user_#{@user.id}_event_form", partial: "events/form", locals: {user: @user, event: @event, timer: @timer, view: @view})
+      ]
     end
   end
 
@@ -118,11 +122,15 @@ class EventsController < ApplicationController
     @destroyed = !Event.exists?(@event.id)
     if @zone == 'users' # && !@destroyed
       @event = Event.new
-      render partial: 'new', status: :ok
+      flash.now[:success] = 'Cancellazione avvenuta con successo'
     elsif @zone != 'users' && !@destroyed
-      @meetings = @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }
-      render partial: 'edit', status: :ok
+      flash.now[:success] = 'Modifica avvenuta con successo'
     end
+    render turbo_stream: [
+      turbo_stream.replace(:flashes, partial: "flashes"),
+      turbo_stream.update("user_#{@user.id}_events", partial: "events/events", locals: {user: @user}),
+      turbo_stream.update("user_#{@user.id}", partial: "users/user", locals: {user: @user})
+    ]
   end
 
   def meeting_sendmail

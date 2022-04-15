@@ -15,6 +15,11 @@ export default class extends Controller {
     return this.outerHTML = '';
   }
 
+  hidden(event) {
+    var container = event.target.closest('article.message');
+    if (container) { container.remove(); }
+  }
+
   send(message, level = 'success', timeout = 2000, toast = true) {
     var options;
     options = {
@@ -36,6 +41,8 @@ export default class extends Controller {
         popup: level === 'error' ? '' : 'animate__animated animate__bounceOutRight'
       }
     };
-    return Swal.fire(options);
+    if (!Swal.isVisible()) {
+      Swal.fire(options);
+    }
   }
 }

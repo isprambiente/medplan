@@ -1,8 +1,8 @@
+import { Controller } from "@hotwired/stimulus";
 import Rails from "@rails/ujs";
 import moment from 'moment';
-import PageController from './page_controller';
 
-export default class extends PageController {
+export default class extends Controller {
   static targets = [ "container", "auditExpire" ]
 
   editDateExpire(event) {

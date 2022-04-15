@@ -1,15 +1,15 @@
 = turbo_frame_tag "#{dom_id(user)}_events", class: 'rows' do
   - events = user.events.future.distinct
+  .list
+    .columns.head.is-mobile
+      .column.is-2.is-vcentered.has-text-centered= t('date', scope: 'event')
+      .column.is-1.is-vcentered.has-text-centered Inizio
+      .column.is-1.is-vcentered.has-text-centered Tipologia
+      .column.is-2.is-vcentered.has-text-centered= t('city', scope: 'event')
+      .column.is-2.is-vcentered.has-text-centered Stato
+      .column.is-2.is-vcentered.has-text-centered= t('category', scope: 'audit')
+      .column.is-2
   - unless events.blank?
-    .list
-      .columns.head.is-mobile
-        .column.is-2.is-vcentered.has-text-centered= t('date', scope: 'event')
-        .column.is-1.is-vcentered.has-text-centered Inizio
-        .column.is-1.is-vcentered.has-text-centered Tipologia
-        .column.is-2.is-vcentered.has-text-centered= t('city', scope: 'event')
-        .column.is-2.is-vcentered.has-text-centered Stato
-        .column.is-2.is-vcentered.has-text-centered= t('category', scope: 'audit')
-        .column.is-2
     = render events
   - else
     .column.is-full.has-text-centered Nessun evento programmato

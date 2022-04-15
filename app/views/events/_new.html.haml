@@ -1,7 +1,7 @@
 = turbo_frame_tag "#{dom_id(user)}_calendar", data: {controller: view} do
   %h3.title.is-3 #{t('manage', scope: 'event')}
   %h4.subtitle.is-4 #{user.label}
-  = render 'form', user: user, event: event, timer: timer
+  = render 'form', user: user, event: event, timer: timer, view: view
   %br/
   .box= render 'events', user: user
 
