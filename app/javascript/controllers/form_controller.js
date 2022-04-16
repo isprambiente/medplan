@@ -63,6 +63,39 @@ export default class extends Controller {
     }
   }
 
+  details(event) {
+    var target, icon, container, info;
+
+    target = event.currentTarget;
+    if (target) {
+      container = target.closest('.event')
+      if (container) {
+        info = container.querySelector('span.info');
+        if (info) {
+          status = target.dataset.status;
+          console.log(status);
+          if (status == 'close') {
+            icon = target.querySelector('.fa-circle-plus')
+            if (icon) {
+              icon.classList.add('fa-circle-minus');
+              icon.classList.remove('fa-circle-plus');
+            }
+            info.classList.remove('is-hidden');
+            target.dataset.status = 'open';
+          } else {
+            icon = target.querySelector('.fa-circle-minus')
+            if (icon) {
+              icon.classList.add('fa-circle-plus');
+              icon.classList.remove('fa-circle-minus');
+            }
+            info.classList.add('is-hidden');
+            target.dataset.status = 'close'
+          }
+        }
+      }
+    }
+  }
+
   sendValue(event) {
     var param_data, target, url;
     target = event.target;
@@ -86,57 +119,6 @@ export default class extends Controller {
         return target.scrollIntoView();
       }
     }
-  }
-
-  selectText(event) {
-    return event.target.select();
-  }
-
-  changeCategory(event) {
-    var target, url;
-    target = event.target;
-    url = target.dataset.formUrl;
-    return Rails.ajax({
-      type: 'GET',
-      url: url,
-      data: `product[category]=${target.value}`,
-      success: (data, status, xhr) => {
-        var container;
-        container = document.getElementById(target.dataset.turboFrame);
-        return container.innerHTML = xhr.response;
-      }
-    });
-  }
-
-  changeStore(event) {
-    var select, target, url;
-    target = event.target;
-    select = document.getElementById(target.dataset.selectTargetId);
-    url = target.dataset.formUrl;
-    return Rails.ajax({
-      type: 'GET',
-      url: url,
-      data: `product_request[store_from_id]=${target.value}`,
-      success: (data, status, xhr) => {
-        var json_data, option;
-        json_data = JSON.parse(xhr.response);
-        select.innerHTML = '';
-        if (json_data.length > 0) {
-          return json_data.forEach((row) => {
-            var option;
-            option = document.createElement("option");
-            option.value = row.product_id;
-            option.text = `${row.product_code} - ${row.product_name}`;
-            return select.add(option);
-          });
-        } else {
-          option = document.createElement("option");
-          option.value = '';
-          option.text = "Nessun prodotto trovato";
-          return select.add(option);
-        }
-      }
-    });
   }
 
   getSlimSelect(container) {

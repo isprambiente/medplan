@@ -19,9 +19,9 @@
               .column= @user.structure unless @user.structure.blank?
             %li.columns.is-mobile
               .column.is-2-desktop.is-4-tablet.is-nowrap= fas_icon('phone-volume', text: t('personal_tel', scope: 'user')+': ')
-              .column{ data: { controller: 'users' } }
+              .column
                 - if Settings.users.tel_user_emergenze == 'internal'
-                  %span{ class: "#{ 'editable tooltip' }", data: { tooltip: "Clicca per #{ @user.user_emergenze.present? ? 'modificare' : 'inserire' } il recapito telefonico per le emergenze", action: 'click->users#edit', user_id: @user.id, field: { name: "user[user_emergenze]", type: 'tel', value: @user.user_emergenze.presence ||  '', placeholder: "Inserisci un recapito telefonico per le emergenze", pattern: "[+.\/\-\0-9]+", required: false } } }= ( @user.user_emergenze.presence || 'aggiungi numero per le emergenze' )
+                  %span{ class: "#{ 'editable tooltip' }", data: { tooltip: "Clicca per #{ @user.user_emergenze.present? ? 'modificare' : 'inserire' } il recapito telefonico per le emergenze", controller: 'users', action: 'click->users#edit', user_id: @user.id, field: { name: "user[user_emergenze]", type: 'tel', value: @user.user_emergenze.presence ||  '', placeholder: "Inserisci un recapito telefonico per le emergenze", pattern: "[+.\/\-\0-9]+", required: false } } }= ( @user.user_emergenze.presence || 'aggiungi numero per le emergenze' )
                 - elsif Settings.users.tel_user_emergenze == 'external'
                   = @user.user_emergenze.presence || 'n.d.'
                   %a{ data: { action: 'click->page#confirmation', page_url: "#{ Settings.rubrica }", page_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
@@ -53,9 +53,9 @@
       %article.message
         .message-header= t(:analisys, scope: 'event.gender')
         .message-body
-          %ul= render(partial: 'user_event', collection: @analisys.distinct, as: :event) || t('not_found', scope: 'event')
+          %ul= render(partial: 'user_event', collection: @analisys.distinct, as: :event, locals: {user: @user}) || t('not_found', scope: 'event')
     #visit-list.column
       %article.message
         .message-header= t(:visit, scope: 'event.gender')
         .message-body
-          %ul= render(partial: 'user_event', collection: @visits.distinct, as: :event) || t('not_found', scope: 'event')
+          %ul= render(partial: 'user_event', collection: @visits.distinct, as: :event, locals: {user: @user}) || t('not_found', scope: 'event')

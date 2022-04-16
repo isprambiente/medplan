@@ -1,0 +1,5 @@
+= turbo_frame_tag 'meetings', class: 'rows' do
+  - if @meetings.present?
+    = render partial: 'home/meetings', collection: @meetings, as: :event
+  - else
+    .has-text-centered Nessun appuntamento fissato

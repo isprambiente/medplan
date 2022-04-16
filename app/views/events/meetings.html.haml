@@ -1,0 +1,5 @@
+= turbo_frame_tag "#{dom_id(@event)}_meetings", class: 'rows' do
+  - if @meetings.present?
+    = render partial: 'events/meeting', collection: @meetings, as: :meeting, locals: {event: @event}
+  - else
+    .has-text-centered= t('not_found', scope: 'meeting')

@@ -48,7 +48,7 @@ class HomeController < ApplicationController
   # @return [Object] render partial /home/_meetings
   def meetings
     @meetings = Event.future.where(id: Meeting.waiting.distinct(:event_id).pluck(:event_id))
-    render partial: 'meetings', collection: @meetings, as: :event
+    # render partial: 'meetings', collection: @meetings, as: :event
   end
 
   # GET /home/user

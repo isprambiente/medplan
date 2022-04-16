@@ -1,9 +1,10 @@
-.columns.is-mobile.event{id: event.div, class: ['list', cycle('dark', 'light', name: 'meeting')]}
-  .column.is-3-desktop= l event.date_on
-  .column.is-2-desktop= event.time(@user)
-  .column
-  .column.is-3-desktop
-    - if event.status(@user) == 'proposed'
-      = link_to t(:proposed, scope: 'event.status'), user_event_reserve_path(@user, event, template: 'user'), method: :put, remote: true, class: 'button is-fullwidth proposed status', data: { action: 'ajax:success->events#renderEvent' }
-    - else
-      = link_to t(event.status(@user), scope: 'event.status'), '#', class: ['button is-fullwidth disabled status', event.status(@user)], disabled: true
+= turbo_frame_tag dom_id(event), class: 'rows' do
+  .columns.is-mobile.event.row
+    .column.is-3-desktop= l event.date_on
+    .column.is-2-desktop= event.time(user)
+    .column
+    .column.is-3-desktop
+      - if event.status(user) == 'proposed'
+        = link_to t(:proposed, scope: 'event.status'), user_event_reserve_path(user, event, template: 'user'), method: :put, remote: true, class: 'button is-fullwidth proposed status', data: { turbo_frame: dom_id(event), turbo_method: 'PUT' }
+      - else
+        = link_to t(event.status(user), scope: 'event.status'), '#', class: ['button is-fullwidth disabled status', event.status(user)], disabled: true

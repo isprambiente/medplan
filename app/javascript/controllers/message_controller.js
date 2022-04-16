@@ -6,7 +6,7 @@ export default class extends Controller {
 
   connect() {
     if (this.hasTextTarget) {
-      this.send(this.textTarget.innerHTML, this.element.dataset.messageStatus || 'success');
+      this.send(this.textTarget.innerHTML, this.element.dataset.messageStatus || 'success', this.element.dataset.messageForce || false);
       return this.element.outerHTML = '';
     }
   }
@@ -20,7 +20,7 @@ export default class extends Controller {
     if (container) { container.remove(); }
   }
 
-  send(message, level = 'success', timeout = 2000, toast = true) {
+  send(message, level = 'success', force = false, timeout = 2000, toast = true) {
     var options;
     options = {
       toast: level === 'error' ? false : toast,
@@ -41,7 +41,10 @@ export default class extends Controller {
         popup: level === 'error' ? '' : 'animate__animated animate__bounceOutRight'
       }
     };
-    if (!Swal.isVisible()) {
+    console.log(force);
+    if (Swal.isVisible() && force == 'true') {
+      Swal.fire(options);
+    } else if (!Swal.isVisible()) {
       Swal.fire(options);
     }
   }

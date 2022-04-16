@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
     resources :events, except: %i[new create update reserve meeting_destroy confirmed] do
       get :meetings, on: :collection
+      get :meetings, on: :member
       put :print, on: :collection
       get :agenda, on: :collection
       put :confirmed_users, on: :member, to: 'events#confirmed_users'

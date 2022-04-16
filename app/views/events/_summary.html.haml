@@ -1,0 +1,17 @@
+= turbo_frame_tag "#{dom_id(event)}_summary" do
+  %article.message
+    .message-header= t('summary', scope: 'event')
+    .message-body
+      %ul
+        %li.columns.is-mobile
+          .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('calendar', text: t('scheduled', scope: 'event.status')+': ')
+          .column.has-text-left= event.users.distinct.count
+        %li.columns.is-mobile
+          .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('circle', text: t('confirmed', scope: 'event.status')+': ', style: 'color:green')
+          .column.has-text-left= event.meetings.confirmed.joins(:audit).group(:user_id).count.count
+        %li.columns.is-mobile
+          .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('circle', text: t('waiting', scope: 'event.status')+': ', style: 'color:orange')
+          .column.has-text-left= event.meetings.waiting.joins(:audit).group(:user_id).count.count
+        %li.columns.is-mobile
+          .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('circle', text: t('blocked', scope: 'event.status')+': ', style: 'color:grey')
+          .column.has-text-left= event.meetings.blocked.joins(:audit).group(:user_id).count.count

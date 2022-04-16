@@ -7,7 +7,7 @@
 # * before_action :set_meetings, only: [:reserve, :meeting_destroy, :meeting_sendmail]
 class EventsController < ApplicationController
   before_action :powered_in!, except: %i[reserve]
-  before_action :set_event, only: %i[edit destroy confirmed confirmed_users]
+  before_action :set_event, only: %i[edit meetings destroy confirmed confirmed_users]
   before_action :set_user, only: %i[new create reserve meeting_destroy meeting_sendmail confirmed]
   before_action :set_meetings, only: %i[reserve meeting_destroy meeting_sendmail]
   before_action :set_timer, except: %i[index agenda]
@@ -19,7 +19,7 @@ class EventsController < ApplicationController
   # * set @meetings with all future events
   # @return [Object] render events/index
   def index
-    @meetings = Event.future.where(id: Meeting.waiting.distinct(:event_id).pluck(:event_id))
+    # @meetings = Event.future.where(id: Meeting.waiting.distinct(:event_id).pluck(:event_id))
   end
 
   # GET /events/agenda
@@ -97,9 +97,13 @@ class EventsController < ApplicationController
     @meeting = @user.meetings.find_by(event: @event)
     @response = Notifier.user_event_confirmed(@user, @event).deliver_now if @result && current_user.secretary? && (@event.status(@user) != old_status)
     if @template == 'user'
-      render partial: 'home/user_event', locals: { event: @event }
+      render partial: 'home/user_event', locals: { meeting: @meeting, event: @event, user: @user }
     else
-      render partial: 'users/user_event', locals: { event: @event }
+      render turbo_stream: [
+        turbo_stream.replace("meeting_#{@meeting.id}", partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }),
+        turbo_stream.replace("event_#{@event.id}_summary", partial: 'events/summary', locals: { meeting: @meeting, event: @event, user: @user }),
+        turbo_stream.update('yield', partial: "events/index")
+      ]
     end
   end
 
@@ -108,10 +112,15 @@ class EventsController < ApplicationController
   def destroy
     old_event = @event
     old_event.destroy
+    flash.now[:success] = 'Cancellazione avvenuta con successo'
+    render turbo_stream: [
+      turbo_stream.replace(:flashes, partial: "flashes", locals: {force: 'true'}),
+      turbo_stream.update('yield', partial: "events/index")
+    ]
   end
 
   def meetings
-    @meetings = Event.future.where(id: Meeting.waiting.distinct(:event_id).pluck(:event_id))
+    @meetings = @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }
   end
 
   # DELETE /events/1
@@ -129,7 +138,8 @@ class EventsController < ApplicationController
     render turbo_stream: [
       turbo_stream.replace(:flashes, partial: "flashes"),
       turbo_stream.update("user_#{@user.id}_events", partial: "events/events", locals: {user: @user}),
-      turbo_stream.update("user_#{@user.id}", partial: "users/user", locals: {user: @user})
+      turbo_stream.update("user_#{@user.id}", partial: "users/user", locals: {user: @user}),
+      turbo_stream.update("event_#{event.id}_meetings", partial: 'events/meeting', collection: @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }, as: :meeting, locals: {event: @event}),
     ]
   end
 
@@ -163,7 +173,7 @@ class EventsController < ApplicationController
       @event = Event.new
       render partial: 'new', status: :ok
     elsif @zone == 'events'
-      render partial: 'events/meeting', locals: { meeting: @meeting }, status: :ok
+      render partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }, status: :ok
     end
   end
 
@@ -177,7 +187,9 @@ class EventsController < ApplicationController
         meeting.save
       end
     end
-    head :ok
+    render turbo_stream: [
+      turbo_stream.update("event_#{@event.id}_meetings", partial: 'events/meeting', collection: @meetings, as: :meeting, locals: { event: @event })
+    ]
   end
 
   private

@@ -1,4 +1,4 @@
-#event.container
+.container
   .columns.has-2-tablet
     #informations.column
       %article.message
@@ -6,31 +6,14 @@
         .message-body
           %ul
             %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('calendar', text: t('date', scope: 'event')+': ')
-              .column= l event.date_on
+              .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('calendar', text: t('date', scope: 'event')+': ')
+              .column.has-text-left= l event.date_on
             %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('medkit', text: t('type', scope: 'event')+': ')
-              .column= t(event.gender, scope: 'event.gender')
+              .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('medkit', text: t('type', scope: 'event')+': ')
+              .column.has-text-left= t(event.gender, scope: 'event.gender')
             %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('building', text: t('city', scope: 'event')+': ')
-              .column= event.city.capitalize
+              .column.is-4-desktop.is-5-tablet.has-text-left= fas_icon('building', text: t('city', scope: 'event')+': ')
+              .column.has-text-left= event.city.capitalize
             %li
-              %a{ href: event_path(@event), class: 'button is-fullwidth is-danger', data: { method: :delete, confirm: t('event.delete', scope: 'message'), action: 'ajax:success->events#refreshCalendar', turbo_frame: 'modal' } }= fas_icon('trash', text: t('delete', scope: 'event') )
-
-    #summary.column
-      %article.message
-        .message-header= t('summary', scope: 'event')
-        .message-body
-          %ul
-            %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('calendar', text: t('scheduled', scope: 'event.status')+': ')
-              .column= event.users.distinct.count
-            %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('circle', text: t('confirmed', scope: 'event.status')+': ', style: 'color:green')
-              .column= event.meetings.confirmed.joins(:audit).group(:user_id).count.count
-            %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('circle', text: t('waiting', scope: 'event.status')+': ', style: 'color:orange')
-              .column= event.meetings.waiting.joins(:audit).group(:user_id).count.count
-            %li.columns.is-mobile
-              .column.is-4-desktop.is-5-tablet= fas_icon('circle', text: t('blocked', scope: 'event.status')+': ', style: 'color:grey')
-              .column= event.meetings.blocked.joins(:audit).group(:user_id).count.count
+              %a{ href: event_path(event), class: 'button is-fullwidth is-danger', data: { method: :delete, confirm: t('event.delete', scope: 'message'), turbo_frame: 'yield', turbo_method: 'DELETE' } }= fas_icon('trash', text: t('delete', scope: 'event') )
+    .column= render 'events/summary', event: event

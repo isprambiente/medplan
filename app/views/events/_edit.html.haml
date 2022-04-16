@@ -1,6 +1,11 @@
-= render 'detail', event: @event
-%nav.level
-  .level-left
-  .level-right
-    %p.level-item= link_to fas_icon('envelope', text: 'Invia a tutti'), confirmed_users_event_path(@event), remote: true, method: :put, class: 'button is-fullwidth is-link tooltip', data: {confirm: "Confermi l'invio di una mail unica a tutti i dipendenti di questa lista? Ogni dipendente riceverà una email solo con i suoi dati.", tooltip: "Invio di una mail a tutti i dipendenti", action: 'ajax:success->events#refreshMeeting', event_id: @event.id }
-#meetings-edit{ data: { events_target: 'meetings' } }= render partial: "events/meeting", collection: @meetings
+= turbo_frame_tag "#{dom_id(event)}", data: {controller: view} do
+  %h3.title.is-3 #{t('manage', scope: 'event')}
+  %h4.subtitle.is-4 #{l event.date_on}
+  = render 'detail', event: event
+  %nav.level
+    .level-left
+    .level-right
+      %p.level-item
+        %a.button{ href: confirmed_users_event_path(event), class: 'button is-fullwidth is-link tooltip', data: { method: :put, turbo_method: 'PUT', turbo_frame: "#{dom_id(event)}_meetings", confirm: "Confermi l'invio di una mail unica a tutti i dipendenti di questa lista? Ogni dipendente riceverà una email solo con i suoi dati.", tooltip: "Invio di una mail a tutti i dipendenti" } }= fas_icon('envelope', text: 'Invia a tutti')
+  = turbo_frame_tag "#{dom_id(event)}_meetings", class: 'rows', src: meetings_event_path(event), alt: 'Nessuna riga trovata' do
+    .loading.has-text-centered= fas_icon 'cog fa-pulse', text: 'Caricamento in corso'

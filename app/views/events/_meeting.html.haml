@@ -1,25 +1,26 @@
 - classes = 'is-link'
 - title = "Invia una e-mail di notifica"
-- confirm = "Confermi #{ 're-' if  meeting.sended_at? }invio e-mail a #{ meeting.user.label } per l'evento #{ t(@event.gender, scope: 'event.gender') } del #{ @event.date_on.to_datetime.strftime("%d/%m/%Y") } #{ l_time meeting.start_at }?"
+- confirm = "Confermi #{ 're-' if  meeting.sended_at? }invio e-mail a #{ meeting.user.label } per l'evento #{ t(event.gender, scope: 'event.gender') } del #{ event.date_on.to_datetime.strftime("%d/%m/%Y") } #{ l_time meeting.start_at }?"
 - if meeting.sended_at?
   - classes = 'is-outlined is-link'
   - title = "Inviata il #{ l_long meeting.sended_at }"
 
-.columns.event.is-mobile.container{id: "#{meeting.user.div}-event", class: cycle('dark', 'light', name: 'meeting') }
-  .column.is-1.has-text-centered= l_time  meeting.start_at
-  .column.parent-info
-    .columns.is-mobile
-      .column.is-0
-        %a.is-link.tooltip{ data: { tooltip: "Dettagli di #{ meeting.user.label }", action: 'events#openDetails' } }= fas_icon('plus-circle')
-      .column= meeting.user.label
-    .columns
-      %span.info.box.is-hidden.column= render 'users/detail_rid' , user: meeting.user
-  .column.is-2-desktop.is-3-tablet.has-text-right= @event.categories(meeting.user)
-  .column.is-2-desktop.is-3-tablet
-    .columns.is-mobile.is-gapless
-      .column.is-6
-        %a.button.column.is-fullwidth.is-radiusless{ href: user_event_reserve_path(meeting.user, @event, template: 'secretary'), class: @event.status(meeting.user), data: { method: :put, remote: true, action: 'ajax:success->events#refreshCalendar ajax:success->events#refreshMeeting', event_id: @event.id } }= t( @event.status(meeting.user), scope: 'event.status' )
-      .column.is-3
-        %a.button.tooltip.is-fullwidth.is-radiusless{ href: confirmed_user_event_path(meeting.user, @event), class: "#{classes} #{'disabled' if meeting.user.email.blank?}", id: meeting.div, data: { method: :put, action: 'ajax:success->events#refreshMeeting', event_id: @event.id, remote: true, tooltip: title, confirm: confirm } }= fas_icon('envelope')
-      .column.is-3
-        %a.button.is-danger.is-fullwidth.is-radiusless{ href: user_event_meeting_destroy_path(meeting.user, @event, zone: 'events'), data: { method: :delete, remote: true, confirm: t('delete', scope: 'message.meeting'), action: 'ajax:success->events#refreshCalendar ajax:success->modal#goPage', event_id: @event.id } }= fas_icon('trash')
+= turbo_frame_tag "#{dom_id(meeting)}" do
+  .columns.event.is-mobile.container{id: "#{meeting.user.div}-event", class: cycle('dark', 'light', name: 'meeting') }
+    .column.is-1.has-text-centered= l_time  meeting.start_at
+    .column.parent-info
+      .columns.is-mobile
+        .column.is-0
+          %a.is-link.tooltip{ data: { tooltip: "Dettagli di #{ meeting.user.label }", controller: 'form', action: 'form#details', status: 'close' } }= fas_icon('plus-circle')
+        .column.has-text-left.pl-4= meeting.user.label
+      .columns
+        %span.info.box.is-hidden.column= render 'users/detail_rid' , user: meeting.user
+    .column.is-2-desktop.is-3-tablet.has-text-right= event.categories(meeting.user)
+    .column.is-2-desktop.is-3-tablet
+      .columns.is-mobile.is-gapless
+        .column.is-6
+          %a.button.column.is-fullwidth.is-radiusless{ href: user_event_reserve_path(meeting.user, event, template: 'secretary'), class: event.status(meeting.user), data: { method: :put, turbo_method: 'PUT', turbo_frame: dom_id(event) } }= t( event.status(meeting.user), scope: 'event.status' )
+        .column.is-3
+          %a.button.tooltip.is-fullwidth.is-radiusless{ href: confirmed_user_event_path(meeting.user, event, zone: 'events'), class: "#{classes} #{'disabled' if meeting.user.email.blank?}", id: meeting.div, data: { method: :put, turbo_method: 'PUT', turbo_frame: dom_id(meeting) } }= fas_icon('envelope')
+        .column.is-3
+          %a.button.is-danger.is-fullwidth.is-radiusless{ href: user_event_meeting_destroy_path(meeting.user, event, zone: 'events'), data: { method: :delete, turbo_method: 'DELETE', turbo_frame: dom_id(meeting) } }= fas_icon('trash')
