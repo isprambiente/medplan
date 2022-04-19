@@ -7,15 +7,15 @@
   - else
     = render(partial: 'audits/audits') || t('not_found', scope: 'event')
     %h3.title.is-3.has-text-centered Appuntamenti programmati
-    .columns.has-2-tablet{ data: { controller: 'events users' } }
+    .columns.has-2-tablet
       #analisys-list.column
         %article.message
           .message-header= t(:analisys, scope: 'event.gender')
-          .message-body= render(partial: 'user_event', collection: analisys, as: :event) || t('not_found', scope: 'event')
+          .message-body= render(partial: 'user_event', collection: analisys, as: :event, locals: {user: user}) || t('not_found', scope: 'event')
       #visit-list.column
         %article.message
           .message-header= t(:visit, scope: 'event.gender')
-          .message-body= render(partial: 'user_event', collection: visits, as: :event) || t('not_found', scope: 'event')
+          .message-body= render(partial: 'user_event', collection: visits, as: :event, locals: {user: user}) || t('not_found', scope: 'event')
   - if user.username.blank? # è un esterno
     %br/
     %article.message.is-danger

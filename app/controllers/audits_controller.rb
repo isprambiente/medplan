@@ -16,7 +16,9 @@ class AuditsController < ApplicationController
   # render autits index
   #
   # @return [Object] audits/index.haml
-  def index; end
+  def index
+    @categories = Category.all
+  end
 
   # GET /audits/list
   #
@@ -36,21 +38,26 @@ class AuditsController < ApplicationController
   # otherwise status :500
   def create
     @audit = Audit.unscoped.find_or_initialize_by(
-      category_id: params[:category_id],
+      category_id: audit_params[:category_id],
       user_id: @user.id
     )
-    @audit.category_id = params[:category_id]
+    @audit.category_id = audit_params[:category_id]
     @audit.user_id = @user.id
     @audit.expire = Time.zone.now
     @audit.status = 'created'
     @audit.histories_attributes = [status: 'created', author_id: current_user.id]
     if @audit.save
       flash.now[:success] = 'Creazione avvenuta con successo'
-      render partial: 'audits/category', locals: { category: @audit.category }, status: :ok
     else
-      flash.now[:error] = @audit.errors.map { |k, v| "#{I18n.t k} #{v}" }.join(', ')
-      head status: 500
+      flash.now[:error] = write_errors @audit
     end
+    category = Category.find(audit_params[:category_id])
+    render turbo_stream: [
+      turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
+      turbo_stream.replace("user_#{@user.id}_category_#{category.id}", partial: 'audits/category', locals: {user: @user, category: category}),
+      turbo_stream.replace(:flashes, partial: "flashes")
+    ]
+    # render partial: 'audits/category', locals: { category: @audit.category, user: @user }
   end
 
   # GET /user/:user_id/audits/:id/edit
@@ -100,8 +107,12 @@ class AuditsController < ApplicationController
       flash.now[:success] = 'Cancellazione avvenuta con successo'
       @audit.meetings.delete_all
     end
-    @categories = Category.all
-    render partial: 'audits/category', locals: { category: @audit.category }
+    category = Category.find(audit_params[:category_id])
+    render turbo_stream: [
+      turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
+      turbo_stream.replace("user_#{@user.id}_category_#{category.id}", partial: 'audits/category', locals: {user: @user, category: category}),
+      turbo_stream.replace(:flashes, partial: "flashes")
+    ]
   end
 
   private
@@ -130,6 +141,6 @@ class AuditsController < ApplicationController
 
   # filter request params for update audits
   def audit_params
-    params.fetch(:audit, {}).permit(:expire, histories_attributes: %i[author_id status doctor_id body lab revision_date])
+    params.fetch(:audit, {}).permit(:expire, :category_id, histories_attributes: %i[author_id status doctor_id body lab revision_date])
   end
 end

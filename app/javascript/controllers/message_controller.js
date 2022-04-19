@@ -41,7 +41,6 @@ export default class extends Controller {
         popup: level === 'error' ? '' : 'animate__animated animate__bounceOutRight'
       }
     };
-    console.log(force);
     if (Swal.isVisible() && force == 'true') {
       Swal.fire(options);
     } else if (!Swal.isVisible()) {

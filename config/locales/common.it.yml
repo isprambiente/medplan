@@ -86,6 +86,7 @@ it:
         create: "Crea appuntamento"
         update: "Aggiorna appuntamento"
   audit:
+    title: Valutazioni
     category: 'Categorie'
     category_available: 'Categorie disponibili'
     not_found: 'Nessuna categoria disponibile'

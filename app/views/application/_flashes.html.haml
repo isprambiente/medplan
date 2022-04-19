@@ -1,5 +1,5 @@
 %turbo-frame#flashes
-  .container.is-hidden{data: {controller: 'message', message_force: force.presence || false, message_status: flash.now[:error].present? ? 'error' : 'success'}}
+  .container.is-hidden{data: {controller: 'message', message_force: defined?(force) ? force : false, message_status: flash.now[:error].present? ? 'error' : 'success'}}
     - if flash.now[:error].present?
       %span{data: {message_target: 'text'}}= flash.now[:error]
     - elsif flash.now[:success].present?

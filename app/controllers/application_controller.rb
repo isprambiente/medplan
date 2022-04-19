@@ -92,4 +92,21 @@ class ApplicationController < ActionController::Base
   def xhr_required!
     access_denied! unless request.xhr?
   end
+
+  # Localize a fieldName if #obj is present
+  # @param [Text] field_label
+  # @param [Text] obj
+  # @return [String] localized
+  def t_field(field_label = nil, obj = '')
+    return '' if field_label.blank?
+
+    case obj
+    when Class
+      I18n.t(field_label, scope: "activerecord.attributes.#{obj.class}", default: field_label).try(:capitalize)
+    when String
+      I18n.t(field_label, scope: "activerecord.attributes.#{obj}", default: field_label).try(:capitalize)
+    else
+      I18n.t(field_label, default: field_label).try(:capitalize)
+    end
+  end
 end

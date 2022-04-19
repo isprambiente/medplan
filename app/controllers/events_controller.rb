@@ -99,11 +99,19 @@ class EventsController < ApplicationController
     if @template == 'user'
       render partial: 'home/user_event', locals: { meeting: @meeting, event: @event, user: @user }
     else
-      render turbo_stream: [
-        turbo_stream.replace("meeting_#{@meeting.id}", partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }),
-        turbo_stream.replace("event_#{@event.id}_summary", partial: 'events/summary', locals: { meeting: @meeting, event: @event, user: @user }),
-        turbo_stream.update('yield', partial: "events/index")
-      ]
+      if @template == 'secretary'
+        set_timer
+        render turbo_stream: [
+          turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: { meeting: @meeting, event: @event, user: @user, timer: @timer }),
+          turbo_stream.replace("user_#{@user.id}_event_#{@event.id}", partial: 'users/user_event', locals: { event: @event, user: @user })
+        ]
+      else
+        render turbo_stream: [
+          turbo_stream.replace("meeting_#{@meeting.id}", partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }),
+          turbo_stream.replace("event_#{@event.id}_summary", partial: 'events/summary', locals: { meeting: @meeting, event: @event, user: @user }),
+          turbo_stream.update('yield', partial: "events/index")
+        ]
+      end
     end
   end
 
@@ -171,9 +179,10 @@ class EventsController < ApplicationController
     @zone = params[:zone].presence || 'users'
     if @zone == 'users'
       @event = Event.new
-      render partial: 'new', status: :ok
+      set_timer
+      render partial: 'new', locals: { meeting: @meeting, event: @event, user: @user, view: @view, timer: @timer }, status: :ok
     elsif @zone == 'events'
-      render partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }, status: :ok
+      render partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user, timer: @timer }, status: :ok
     end
   end
 

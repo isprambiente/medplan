@@ -1,2 +1,5 @@
-= turbo_frame_tag "#{dom_id(@user)}_categories", data: {controller: @view} do
-  = render(partial: 'category', collection: @categories, as: :category) || t('not_found', scope: 'audit')
+= turbo_frame_tag "#{dom_id(@user)}_categories", class: 'rows', data: {controller: @view} do
+  %h3.title.is-3 #{t('title', scope: 'risk')}
+  %h4.subtitle.is-4 #{@user.label}
+  %hr/
+  .rows= render(partial: 'category', collection: @categories, as: :category, locals: {user: @user}) || t('not_found', scope: 'audit')

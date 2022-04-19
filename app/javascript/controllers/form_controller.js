@@ -143,6 +143,39 @@ export default class extends Controller {
     }
   }
 
+  confirmation(event) {
+      var confirmation, deletable, form, icon, options, target, title, url;
+      target = event.target;
+      confirmation = target.dataset.formConfirmation || '';
+      url = target.dataset.formUrl;
+      icon = target.dataset.icon || 'question';
+      title = target.dataset.title || '';
+      deletable = target.dataset.deletable || false;
+      form = target.closest('form');
+      options = {
+        icon: icon,
+        timerProgressBar: false,
+        position: 'center',
+        title: title,
+        html: confirmation,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+        showClass: {
+          popup: 'swal2-noanimation'
+        },
+        hideClass: {
+          popup: ''
+        }
+      };
+      return Swal.fire(options).then((result) => {
+        if (result.isConfirmed) {
+          return window.location.href = url;
+        }
+      });
+    }
+
   slimSelect(select) {
     var slim;
     if (select.dataset.formAddable === 'true') {

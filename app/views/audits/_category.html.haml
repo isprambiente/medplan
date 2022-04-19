@@ -1,9 +1,13 @@
-- audit = Audit.where('category_id = ? AND user_id = ?', category.id, @user.id).first
-.columns.is-mobile{class: cycle('dark','light')  }
-  .column.is-10-desktop.is-8-tablet= category.title.capitalize
-  .column= fas_icon 'calendar', text: category.months
-  .column
-    %input.switch.is-success.is-unchecked-danger{ id: category.div, type: "checkbox", checked: audit.blank? ? false : "checked" }
-    %label.has-text-inside.has-text-white{ for: category.div, data: { action: 'click->audits#manageAudit', audits_url: audit.blank? ? user_audits_path(@user, {category_id: category.id}) : user_audit_path(@user, audit.id), audits_method: audit.blank? ? 'POST' : 'DELETE', user_id: @user.id } }
-      %span.switch-active{ aria: { hidden: "true" } }= t('yes')
-      %span.switch-inactive{ aria: { hidden: "true" } }= t('no')
+- audit = Audit.where('category_id = ? AND user_id = ?', category.id, user.id).first
+- audit = Audit.new(category_id: category.id, user_id: user.id) if audit.blank?
+= turbo_frame_tag "#{dom_id(user)}_#{dom_id(category)}" do
+  = form_with model: audit, url: url_for([user,audit]), method: audit.new_record? ? 'POST' : 'DELETE', data: { turbo_method: audit.new_record? ? 'POST' : 'DELETE' } do |f|
+    = f.hidden_field :category_id, value: category.id
+    .columns.row.is-mobile
+      .column.is-10-desktop.is-8-tablet.has-text-left= category.title.capitalize
+      .column= fas_icon 'calendar', text: category.months
+      .column
+        %input.switch.is-success.is-unchecked-danger{ id: dom_id(category), type: "checkbox", checked: audit.new_record? ? false : "checked" }
+        %label.has-text-inside.has-text-white{ for: dom_id(category), data: { controller: 'form', action: 'click->form#send' } }
+          %span.switch-active{ aria: { hidden: "true" } }= t('yes')
+          %span.switch-inactive{ aria: { hidden: "true" } }= t('no')

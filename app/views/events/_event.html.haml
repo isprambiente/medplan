@@ -14,5 +14,5 @@
         - if meetings.first.sended_at?
           - classes = ''
           - title = "Inviata il #{ l_long meetings.first.sended_at }"
-        = link_to fas_icon('envelope'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button is-borderless #{ classes }", data: { confirm: t('confirm', scope: 'message.email'), tooltip: title}
+        = link_to fas_icon('envelope'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button #{ classes }", data: { confirm: t('confirm', scope: 'message.email'), tooltip: title, turbo_method: 'PUT'}
         = link_to fas_icon('trash'), user_event_meeting_destroy_path(@user, event, zone:'users'), method: :delete, class: 'button is-borderless tooltip is-danger', data: {disable_with: fas_icon( 'spinner pulse' ), confirm: t('delete', scope: 'message.meeting'), tooltip: 'Cancella evento', turbo_method: 'DELETE' }

@@ -24,7 +24,7 @@
                   %span{ class: "#{ 'editable tooltip' }", data: { tooltip: "Clicca per #{ @user.user_emergenze.present? ? 'modificare' : 'inserire' } il recapito telefonico per le emergenze", controller: 'users', action: 'click->users#edit', user_id: @user.id, field: { name: "user[user_emergenze]", type: 'tel', value: @user.user_emergenze.presence ||  '', placeholder: "Inserisci un recapito telefonico per le emergenze", pattern: "[+.\/\-\0-9]+", required: false } } }= ( @user.user_emergenze.presence || 'aggiungi numero per le emergenze' )
                 - elsif Settings.users.tel_user_emergenze == 'external'
                   = @user.user_emergenze.presence || 'n.d.'
-                  %a{ data: { action: 'click->page#confirmation', page_url: "#{ Settings.rubrica }", page_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
+                  %a{ data: { controller: 'form', action: 'click->form#confirmation', form_url: "#{ Settings.rubrica }", form_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
                 - else
                   = @user.user_emergenze.presence || 'n.d.'
         - if Devise.mappings[:user].database_authenticatable?

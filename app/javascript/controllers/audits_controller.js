@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import Rails from "@rails/ujs";
 import moment from 'moment';
+import Swal from 'sweetalert2';
 
 export default class extends Controller {
   static targets = [ "container", "auditExpire" ]
@@ -24,6 +25,7 @@ export default class extends Controller {
     btnSave.innerHTML = "<i class='fa fa-save' style='padding-right:0px'></i>";
     btnSave.className = "button tooltip is-success is-radiusless";
     btnSave.dataset.tooltip = "Salva";
+    btnSave.dataset.controller = 'audits';
     btnSave.dataset.action = "click->audits#updateDateExpire";
     btnSave.dataset.userId = target.dataset.userId;
     editDiv.appendChild(btnSave);
@@ -31,6 +33,7 @@ export default class extends Controller {
     btnCanc.innerHTML = "<i class='fa fa-times' style='padding-right:0px'></i>";
     btnCanc.className = "button tooltip is-danger is-radiusless";
     btnCanc.dataset.tooltip = "Annulla";
+    btnCanc.dataset.controller = 'audits';
     btnCanc.dataset.action = "click->audits#abortDateExpire";
     editDiv.appendChild(btnCanc);
     return target.classList.add('is-hidden');
@@ -60,7 +63,7 @@ export default class extends Controller {
             container = document.getElementById(`user_${user_id}`);
             Rails.ajax({
               type: "GET",
-              url: `/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/${user_id}/<%= I18n.t( 'user', scope: 'routes', default: 'user' ) %>`,
+              url: `/utenti/${user_id}/utente`,
               success: (response, status, xhr) => {
                 if (container) {
                   return container.outerHTML = xhr.response;
@@ -119,7 +122,7 @@ export default class extends Controller {
         target.closest('.columns').outerHTML = xhr.response;
         if (user_id) {
           element = document.getElementById(`user_${user_id}`);
-          url = `/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/${user_id}/<%= I18n.t( 'user', scope: 'routes', default: 'user' ) %>`;
+          url = `/utenti/${user_id}/utente`;
           this.getElement(element, url);
         }
         return this.send('Salvataggio avvenuto correttamente!');
@@ -128,6 +131,34 @@ export default class extends Controller {
         return this.send('Si è verificato un errore durante il salvataggio!', 'error');
       }
     });
+  }
+
+  send(message, level = 'success', force = false, timeout = 2000, toast = true) {
+    var options;
+    options = {
+      toast: level === 'error' ? false : toast,
+      icon: level,
+      timerProgressBar: true,
+      position: level === 'error' ? 'center' : 'top-end',
+      text: message,
+      timer: level === 'error' ? false : timeout,
+      showConfirmButton: level === 'error' ? true : false,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        return toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+      showClass: {
+        popup: level === 'error' ? '' : 'animate__animated animate__bounceInRight'
+      },
+      hideClass: {
+        popup: level === 'error' ? '' : 'animate__animated animate__bounceOutRight'
+      }
+    };
+    if (Swal.isVisible() && force == 'true') {
+      Swal.fire(options);
+    } else if (!Swal.isVisible()) {
+      Swal.fire(options);
+    }
   }
 
 }

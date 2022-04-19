@@ -1,5 +1,6 @@
-.columns.event.has-4-tablet.has-3-mobile{id: event.div, class: cycle('dark', 'light', name: 'meeting') }
-  .column.is-2.tablet= l event.date_on
-  .column.is-2.tablet= event.time(@user)
-  .column.has-text-right= event.categories(@user)
-  .column.is-fullwidth-mobile.has-text-right= link_to t(event.status(@user), scope: 'event.status'), user_event_reserve_path(@user, event, template: 'secretary'), method: :put, remote: true, class: ['button is-fullwidth status', event.status(@user)], data: { action: 'ajax:success->users#renderUser ajax:success->events#renderEvent', user_id: @user.id }
+= turbo_frame_tag "#{dom_id(user)}_#{dom_id(event)}", class: 'rows' do
+  .columns.event.has-4-tablet.has-3-mobile{id: event.div, class: cycle('dark', 'light', name: 'meeting') }
+    .column.is-2.tablet= l event.date_on
+    .column.is-2.tablet= event.time(user)
+    .column.has-text-right= event.categories(user)
+    .column.is-fullwidth-mobile.has-text-right= link_to t(event.status(user), scope: 'event.status'), user_event_reserve_path(@user, event, template: 'secretary'), method: :put, class: ['button is-fullwidth status', event.status(user)], data: { turbo_frame: "#{dom_id(user)}_#{dom_id(event)}", turbo_method: 'PUT' }

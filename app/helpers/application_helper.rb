@@ -74,4 +74,21 @@ module ApplicationHelper
   def l_date(obj = nil)
     l(obj.try(:to_date), format: :date) if obj.present?
   end
+
+  # Localize a fieldName if #obj is present
+  # @param [Text] field_label
+  # @param [Text] obj
+  # @return [String] localized
+  def t_field(field_label = nil, obj = '')
+    return '' if field_label.blank?
+
+    case obj
+    when Class
+      t(field_label, scope: "activerecord.attributes.#{obj.class}")
+    when String
+      t(field_label, scope: "activerecord.attributes.#{obj}")
+    else
+      t(field_label, default: field_label)
+    end
+  end
 end

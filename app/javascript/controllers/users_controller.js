@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 import Rails from "@rails/ujs";
 import Timeout from 'smart-timeout';
+import Swal from 'sweetalert2';
 
 export default class extends Controller {
   static targets = ["container"];
@@ -15,7 +16,7 @@ export default class extends Controller {
     container = document.getElementById(`user_${user_id}`);
     return Rails.ajax({
       type: "GET",
-      url: `/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/${user_id}/<%= I18n.t( 'user', scope: 'routes', default: 'user' ) %>`,
+      url: `/utenti/${user_id}/utente`,
       success: (response, status, xhr) => {
         if (container) {
           return container.outerHTML = xhr.response;
@@ -79,10 +80,12 @@ export default class extends Controller {
           user_id = target.dataset.userId;
           form = document.createElement("FORM");
           form.method = 'post';
-          form.action = `/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/${user_id}`;
+          form.action = `/utenti/${user_id}`;
           form.dataset.multipart = 'true';
           form.dataset.remote = '';
           form.acceptCharset = 'UTF-8';
+          form.dataset.action = 'users';
+          form.dataset.controller = "users";
           form.dataset.action = 'ajax:success->users#abort';
           el = document.createElement("INPUT");
           el.type = 'hidden';
@@ -131,6 +134,7 @@ export default class extends Controller {
         btnSave.innerHTML = `<i class='fa fa-save' style=${target.dataset.fieldType === 'textarea' ? '' : 'padding-right:0px'}></i>${target.dataset.fieldType === 'textarea' ? ' Salva' : ''}`;
         btnSave.className = "button tooltip is-transparent is-borderless is-radiusless";
         btnSave.dataset.tooltip = "Salva";
+        btnSave.dataset.controller = "users";
         btnSave.dataset.action = "click->users#update";
         btnSave.dataset.userId = userId;
         editDiv.appendChild(btnSave);
@@ -138,6 +142,7 @@ export default class extends Controller {
         btnCanc.innerHTML = `<i class='fa fa-times' style=${target.dataset.fieldType === 'textarea' ? '' : 'padding-right:0px'}></i>${target.dataset.fieldType === 'textarea' ? ' Annulla' : ''}`;
         btnCanc.className = "button tooltip is-transparent is-borderless is-radiusless";
         btnCanc.dataset.tooltip = "Annulla";
+        btnCanc.dataset.controller = "users";
         btnCanc.dataset.action = "click->users#abort";
         editDiv.appendChild(btnCanc);
       } else {
@@ -155,6 +160,7 @@ export default class extends Controller {
           btnCanc.innerHTML = `<i class='fa fa-times' style=${target.dataset.fieldType === 'textarea' ? '' : 'padding-right:0px'}></i>${target.dataset.fieldType === 'textarea' ? ' Annulla' : ''}`;
           btnCanc.className = "button tooltip is-transparent is-borderless is-radiusless";
           btnCanc.dataset.tooltip = "Annulla";
+          btnCanc.dataset.controller = "users";
           btnCanc.dataset.action = "click->users#abort";
           buttons.appendChild(btnCanc);
           form.appendChild(buttons);
@@ -175,7 +181,7 @@ export default class extends Controller {
     input = editor.querySelector(".editor");
     value = input.value;
     user_id = target.dataset.userId;
-    url = `/<%= I18n.t( 'users', scope: 'routes', default: 'users' ) %>/${user_id}`;
+    url = `/utenti/${user_id}`;
     if (input.checkValidity()) {
       return Rails.ajax({
         type: "PUT",
@@ -236,6 +242,34 @@ export default class extends Controller {
       if (link) {
         return link.classList.remove('is-hidden');
       }
+    }
+  }
+
+  send(message, level = 'success', force = false, timeout = 2000, toast = true) {
+    var options;
+    options = {
+      toast: level === 'error' ? false : toast,
+      icon: level,
+      timerProgressBar: true,
+      position: level === 'error' ? 'center' : 'top-end',
+      text: message,
+      timer: level === 'error' ? false : timeout,
+      showConfirmButton: level === 'error' ? true : false,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        return toast.addEventListener('mouseleave', Swal.resumeTimer);
+      },
+      showClass: {
+        popup: level === 'error' ? '' : 'animate__animated animate__bounceInRight'
+      },
+      hideClass: {
+        popup: level === 'error' ? '' : 'animate__animated animate__bounceOutRight'
+      }
+    };
+    if (Swal.isVisible() && force == 'true') {
+      Swal.fire(options);
+    } else if (!Swal.isVisible()) {
+      Swal.fire(options);
     }
   }
 }
