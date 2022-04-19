@@ -38,6 +38,11 @@ users:
   contracts:
     - Tempo indeterminato
     - Tempo determinato
+    - Co.Co.Co.
+    - Assegno di ricerca
+    - Borsa di studio
+    - Stage
+    - Tirocinio
   cities:
     other: 0
     chioggia: 1
