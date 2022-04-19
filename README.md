@@ -59,9 +59,8 @@ Il sito è sviluppato in linguaggio Ruby 3.0, framework Rails 6.1 e webpacker St
 ### Requisiti tecnici per ambiente server
 * Sistema operativo: Linux
 * Gestore pacchetto ruby: RVM
-* Linguaggio di programmazione: Ruby 3.0
-* Framework: Rails 6.1
-* Webpacker: StimulusJS 2.0
+* Linguaggio di programmazione: Ruby 3.1
+* Framework: Rails 7
 * Database: PostgreSQL >= 12.2
 * NodeJS: JavaScript runtime >= v13.10
 * Package Manager: Yarn >= 1.22
