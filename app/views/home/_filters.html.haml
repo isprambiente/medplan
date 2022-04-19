@@ -1,4 +1,6 @@
 = form_with scope: 'filter', url: home_list_path, method: :get, data: { turbo_frame: 'users', controller: 'form' } do |f|
+  %a.button.is-danger.is-fullwidth.mb-4{ href: root_path, data: { turbo_frame: 'yield' } } Rimuovi tutti i filtri
+
   %nav.panel.filters
     %p.panel-heading= fas_icon('list', text: t('box', scope: 'home.index'))
     %label.panel-block
@@ -30,11 +32,12 @@
       %span= t('blocked', scope: 'home.index.filter')
       %span.tag.is-rounded.is-to-right= @users.blocked.count
 
-  %nav#meetings.panel.filters{ data: { controller: 'events' } }
+  %nav.panel.filters
     %p.panel-heading= fas_icon('calendar', text: t('event_waiting', scope: 'event'))
     .panel-block
-      %a.button.is-small.is-warning.is-fullwidth{ href: home_meetings_path, data: { turbo_frame: 'yield' }}= fas_icon( 'spinner', text: t('refresh') )
-    %span{ data: { events_target: 'container' } }= render partial: 'meetings', collection: @meetings, as: :event
+      %a.button.is-small.is-warning.is-fullwidth{ href: home_meetings_path, data: { turbo_frame: 'meetings' }}= fas_icon( 'spinner', text: t('refresh') )
+    = turbo_frame_tag 'meetings', class: 'rows', src: home_meetings_path, alt: 'Nessuna riga trovata' do
+      .loading.has-text-centered= fas_icon 'cog fa-pulse', text: 'Caricamento in corso'
 
   %nav#cities.panel.filters
     %p.panel-heading= fas_icon('map-marker', text: t('city', scope: 'user'))

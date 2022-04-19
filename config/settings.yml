@@ -54,6 +54,13 @@ users:
     comando: 3
     distacco: 4
     aspettativa: 5
+  statuses:
+    - new
+    - expired
+    - nextmonth
+    - next2months
+    - locked
+    - blocked
 events:
   maxusers: 10
   ranges:

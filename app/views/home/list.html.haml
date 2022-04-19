@@ -1,12 +1,12 @@
 = turbo_frame_tag 'users', class: 'rows' do
+  .has-text-right.mb-2= t('found', scope: 'user', default: 'Found %{users} users', users: @users_list.count(&:id))
   - if @users.present?
-    #users
-      - @users.each do |user|
-        - if ['expired','thismonth','nextmonth','next2months'].include?(@riepilogo)
-          - if @old_expire != user.expire
-            %h5.title.is-5= user.expire.strftime('%d/%m/%Y')
-            - @old_expire = user.expire
-        = render user
+    - @users.each do |user|
+      - if ['expired','thismonth','nextmonth','next2months'].include?(@riepilogo)
+        - if @old_expire != user.expire
+          %h5.title.is-5.mt-3.mb-1= user.expire.strftime('%d/%m/%Y')
+          - @old_expire = user.expire
+      = render user
     %hr
     .has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe
   - else

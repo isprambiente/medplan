@@ -1,14 +1,34 @@
-.columns.is-desktop
-  .is-hidden-tablet
-    #filters_col.quickview.is-left
-      %header.quickview-header.has-shadow{style: 'min-height: 50px !important;'}
-        %p.title.has-text-weight-bold Filtri la ricerca
-        %span.delete{ data: { dismiss: "quickview", controller: 'menu', menu_id: 'filters_col', action: 'click->menu#close' } }
-      .quickview-body.pt-4.px-4= render partial: 'home/filters'
-  .column.is-3-desktop.is-hidden-touch= render partial: 'home/filters'
-  .column
-    %p.helper.is-hidden-desktop.is-right
-      %a.button{data: {controller: 'menu', action: 'click->menu#open', menu_id: 'filters_col'}}
-        Ricerca avanzata
-    = turbo_frame_tag 'users', class: 'rows', src: home_list_path(filter: @filter_params), alt: 'Nessuna riga trovata' do
+#filters_col.quickview
+  %header.quickview-header.has-shadow{style: 'min-height: 50px !important;'}
+    %p.title.has-text-weight-bold Filtri la ricerca
+    %span.delete{ data: { dismiss: "quickview", controller: 'menu', menu_id: 'filters_col', action: 'click->menu#close' } }
+  .quickview-body.pt-4.px-4= render partial: 'home/filters'
+.container
+  %h2.title.is-2.has-text-centered= t('title', scope: 'user.index')
+  .box
+    = form_with scope: :filter, url: home_list_path, method: :get, data: { turbo_frame: 'users' } do |f|
+      .level
+        .level-left
+          .level-item
+            .columns
+              .column
+                .field.is-horizontal
+                  %label.label.mr-4 Stato
+                  .control
+                    .select.is-small= f.select :riepilogo, Settings.users.statuses.map{|k| [t(k, scope: 'home.index.filter'),k] }, { selected: @riepilogo }, { data: {controller: 'form', action: "change->form#send"} }
+                .field.is-horizontal
+                  %label.label.mr-4 Sede
+                  .control
+                    .select.is-small= f.select :city, User.cities.map{|k,v| [t(k, scope: 'user.cities'),k] }, {prompt: 'Tutti'}, { data: {controller: 'form', action: "change->form#send"} }
+        .level-right
+          .level-item
+            %p.control.has-icons-left
+              = f.text_field :text, placeholder: 'Ricerca veloce', class: 'input', data: {controller: 'form', action: "keyup->form#delayedSend"}
+              %span.icon.is-left
+                %i.fas.fa-search{ aria: { hidden: 'true' } }
+              %span.helper
+                %a{data: {controller: 'menu', action: 'click->menu#open', menu_id: 'filters_col'}}
+                  Ricerca avanzata
+    %hr.my-0.mb-3
+    = turbo_frame_tag 'users', class: 'rows', src: home_list_path, alt: 'Nessuna riga trovata' do
       .loading.has-text-centered= fas_icon 'cog fa-pulse', text: 'Caricamento in corso'

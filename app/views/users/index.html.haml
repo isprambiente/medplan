@@ -14,8 +14,6 @@
             .select.mb-5= f.select :city, User.cities.map{|k,v| [t(k, scope: 'user.cities'),k] }, {prompt: 'Tutti'}, { data: {controller: 'form', action: "change->form#send"} }
         .level-right
           .level-item
-            %a.button.is-link.mb-5{ href: new_user_path, data: { turbo_frame: 'yield' } }= fas_icon( 'plus', text: 'Nuovo utente esterno' )
-          .level-item
             %p.control.has-icons-left
               = f.text_field :text, placeholder: 'Ricerca veloce', class: 'input', data: {controller: 'form', action: "keyup->form#delayedSend"}
               %span.icon.is-left

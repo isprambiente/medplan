@@ -163,6 +163,7 @@ it:
     file_assegnazione: 'File assegnazione'
     has_file_assegnazione: 'Ha un file di assegnazione'
     alternative_confirm: "ATTENZIONE<br>Stai per essere reinderizzato al sito della rubrica nel quale, accedendo al tuo profilo(nel menù a tendina a destra che si apre passando con il mouse sopra al nome), potrai modificare il numero delle emergenze.<br>Una volta modificato, dovrai attendere fino a 3 ore affinché i sistemi si sincronizzino per vedere il nuovo numero sul sito di Med.Plan.<br><br>Confermi di voler procedere?"
+    found: Trovati %{users} utenti
     password:
       current: Password attuale
       new: Nuova password

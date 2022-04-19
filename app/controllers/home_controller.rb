@@ -18,6 +18,7 @@ class HomeController < ApplicationController
   # * preset @users with all {User}
   # @return [Object] render /home/index
   def index
+    @riepilogo ||= 'expired'
     @expire = ''
     @users = User.all.unsystem.left_outer_joins(:categories).distinct
     @start_at = Time.zone.today.at_beginning_of_month
@@ -136,7 +137,7 @@ class HomeController < ApplicationController
   end
 
   def filter_params
-    params.fetch(:filter, {}).permit(:riepilogo, :city, :postazione, :view)
+    params.fetch(:filter, {}).permit(:riepilogo, :city, :postazione, :text, :view)
   end
 
   # Set callback view
@@ -150,6 +151,7 @@ class HomeController < ApplicationController
     selected[:city] = @filters[:city] if @filters[:city].present?
     selected[:postazione] = @filters[:postazione] if @filters[:postazione].present?
 
+    @text = ['label ilike ?', "%#{@filters[:text]}%"] if @filters[:text].present?
     @postazione = @filters[:postazione]
     @city = @filters[:city].try(:to_i)
     @riepilogo = @filters[:riepilogo] || 'expired'
@@ -181,7 +183,8 @@ class HomeController < ApplicationController
             else
               'users.label'
             end
-    users_list = users_list.where(selected).reorder(order)
+    users_list = users_list.where(selected).where(@text).reorder(order)
+    @users_list = users_list
     @pagy, @users = pagy(users_list, page: @page, count: users_list.length, link_extra: "data-turbo-frame='users'")
   end
 end
