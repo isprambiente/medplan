@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     record_not_found!
   end
 
+  rescue_from ActiveRecord::DeleteRestrictionError do
+    destroy_restricted!
+  end
+
   # Execute {access_denied!} unless current_user.secretary == TRUE
   # @return [nil]
   def secretary_in!
@@ -91,6 +95,18 @@ class ApplicationController < ActionController::Base
   # @return [nil]
   def xhr_required!
     access_denied! unless request.xhr?
+  end
+
+  # Render message and stop the work
+  # @return [nil]
+  def destroy_restricted!
+    flash.now[:error] = "Non è possibile cancellare questo record poichè è collegato ad altre informazioni!"
+    respond_to do |format|
+      format.html { render partial: 'errors/401', status: 401 && return }
+      format.turbo_stream {
+        render turbo_stream: [ turbo_stream.replace(:flashes, partial: "flashes") ]
+      }
+    end
   end
 
   # Localize a fieldName if #obj is present

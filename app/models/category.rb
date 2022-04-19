@@ -61,7 +61,7 @@ class Category < ApplicationRecord
 
   # @return [Boolean] if category is unused and can be destroyed run Super, otherwise update for set active as false.
   def check_destroy
-    update(active: false) if users.present?
+    update(active: false) if users.present? || risks.present?
     false
   end
 end

@@ -83,13 +83,14 @@ class CategoriesController < ApplicationController
   # @return [Object] render categories/index
   def destroy
     if @category.destroy
-      categories
       flash.now[:success] = 'Cancellazione avvenuta con successo'
-      render :index, status: :ok
     else
       flash.now[:error] = 'Si è verificato un errore durante la cancellazione'
-      render :index, status: :error
     end
+    render turbo_stream: [
+      turbo_stream.replace(:flashes, partial: "flashes"),
+      turbo_stream.remove("category_#{@category.id}")
+    ]
   end
 
   private

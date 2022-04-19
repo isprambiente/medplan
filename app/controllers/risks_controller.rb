@@ -85,14 +85,15 @@ class RisksController < ApplicationController
   # * try to destroy @risk
   # @return [Object] render
   def destroy
-    risks
     if @risk.destroy
       flash.now[:success] = 'Cancellazione avvenuta con successo'
-      render :index, status: :ok
     else
       flash.now[:error] = 'Si è verificato un errore durante la cancellazione'
-      render :index, status: :error
     end
+    render turbo_stream: [
+      turbo_stream.replace(:flashes, partial: "flashes"),
+      turbo_stream.remove("risk_#{@risk.id}")
+    ]
   end
 
   private
