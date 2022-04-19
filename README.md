@@ -42,12 +42,12 @@ Questo repository contiene il codice sorgente del programma per la gestione dell
 Il sito è sviluppato in linguaggio Ruby 3.0, framework Rails 6.1 e webpacker StimulusJS 2.
 
 ### Specifiche tecniche progetto
-* [Ruby 3.0.x](https://www.ruby-lang.org)
+* [Ruby 3.1.x](https://www.ruby-lang.org)
 * [RVM](https://rvm.io/)
-* [Ruby on Rails 6.1](https://rubyonrails.org/)
+* [Ruby on Rails 7.0](https://rubyonrails.org/)
 * [NodeJS](https://nodejs.org/)
 * [Yarn](https://yarnpkg.com/)
-* [Webpacker StimulusJS](https://stimulusjs.org/)
+* [Hotwire](https://hotwired.dev/)
 * [Postgresql](https://www.postgresql.org/)
 * HTML5 + CSS3
 * no jQuery
