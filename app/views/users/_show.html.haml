@@ -1,24 +1,25 @@
-.container.is-unselectable
-  %h2.title.is-2.has-text-centered.is-capitalized #{user.label}
-  = render 'users/detail' , user: user, response: true
-  %br/
-  - if user.locked_at?
-    = link_to fas_icon("reply", text: t('reactive', scope: 'user')), unlock_user_path(user), method: :patch, class: 'button is-danger is-fullwidth'
-  - else
-    = render(partial: 'audits/audits') || t('not_found', scope: 'event')
-    %h3.title.is-3.has-text-centered Appuntamenti programmati
-    .columns.has-2-tablet
-      #analisys-list.column
-        %article.message
-          .message-header= t(:analisys, scope: 'event.gender')
-          .message-body= render(partial: 'user_event', collection: analisys, as: :event, locals: {user: user}) || t('not_found', scope: 'event')
-      #visit-list.column
-        %article.message
-          .message-header= t(:visit, scope: 'event.gender')
-          .message-body= render(partial: 'user_event', collection: visits, as: :event, locals: {user: user}) || t('not_found', scope: 'event')
-  - if user.username.blank? # è un esterno
+= turbo_frame_tag "#{dom_id(user)}_show" do
+  .container.is-unselectable
+    %h2.title.is-2.has-text-centered.is-capitalized #{user.label}
+    = render 'users/detail' , user: user, response: true
     %br/
-    %article.message.is-danger
-      %h5.title.is-5.message-header Attenzione
-      .message-body
-        .has-text-justify= Settings.action_job.user.form_message.html_safe
+    - if user.locked_at?
+      = link_to fas_icon("reply", text: t('reactive', scope: 'user')), unlock_user_path(user), method: :patch, class: 'button is-danger is-fullwidth', data: { turbo_method: 'PATCH' }
+    - else
+      = render(partial: 'audits/audits') || t('not_found', scope: 'event')
+      %h3.title.is-3.has-text-centered Appuntamenti programmati
+      .columns.has-2-tablet
+        #analisys-list.column
+          %article.message
+            .message-header= t(:analisys, scope: 'event.gender')
+            .message-body= render(partial: 'user_event', collection: analisys, as: :event, locals: {user: user}) || t('not_found', scope: 'event')
+        #visit-list.column
+          %article.message
+            .message-header= t(:visit, scope: 'event.gender')
+            .message-body= render(partial: 'user_event', collection: visits, as: :event, locals: {user: user}) || t('not_found', scope: 'event')
+    - if user.username.blank? # è un esterno
+      %br/
+      %article.message.is-danger
+        %h5.title.is-5.message-header Attenzione
+        .message-body
+          .has-text-justify= Settings.action_job.user.form_message.html_safe

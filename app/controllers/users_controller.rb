@@ -75,6 +75,7 @@ class UsersController < ApplicationController
       flash.now[:success] = 'Attivazione avvenuta con successo'
       render turbo_stream: [
         turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
+        turbo_stream.replace("user_#{@user.id}_show", partial: 'users/show', locals: {user: @user, analisys: @user.events.analisys.future.to_a.uniq(&:id), visits: @user.events.visit.future.to_a.uniq(&:id), view: @view}),
         turbo_stream.replace(:flashes, partial: "flashes")
       ]
     else
