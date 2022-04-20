@@ -7,7 +7,7 @@
     %meta{ name: 'description', content: "#{Settings.subtitle}" }
     %meta{ name: 'turbo-visit-control', content: 'reload' }
     =# favicon_link_tag image_path('favicon.ico')
-    %title= "#{["#{Settings.title} #{Settings.version}", Settings.status].join(' - ')}"
+    %title= "#{["#{Settings.title} #{Settings.version}", Settings.status].reject(&:blank?).join(' - ')}"
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'application', 'data-turbo-track': 'reload'
