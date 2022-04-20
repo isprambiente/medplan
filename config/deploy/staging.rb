@@ -4,7 +4,7 @@ server 'test.yourserver.com', user: 'medplan', roles: %w[web app db]
 set :deploy_to, '/home/medplan/staging'
 set :rails_env, 'staging'
 set :branch, 'staging'
-set :rvm_ruby_version, '3.0.3@medplan'
+set :rvm_ruby_version, '3.1.1@medplan'
 
 namespace :deploy do
   namespace :check do
