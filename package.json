@@ -27,10 +27,10 @@
     "esbuild-rails": "^1.0.3",
     "flatpickr": "^4.6.13",
     "moment": "^2.29.3",
-    "sass": "^1.50.1",
+    "sass": "^1.51.0",
     "slim-select": "^1.27.0",
     "smart-timeout": "^2.5.0",
-    "sweetalert2": "^11.4.9",
+    "sweetalert2": "^11.4.10",
     "trix": "^2.0.0-beta.0"
   },
   "scripts": {
