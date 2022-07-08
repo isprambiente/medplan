@@ -1,27 +1,27 @@
 .columns.has-2
   .column
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
       .column= user.cf unless user.cf.blank?
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('calendar', text: t('born_date', scope: 'user')+': ')
       .column= user.data_nasc.blank? ? 'n.d.' : user.data_nasc.to_date.strftime('%d/%m/%Y')
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('map-marker', text: t('born_city', scope: 'user')+': ')
       .column= user.citta_nasc.blank? ? 'n.d.' : user.citta_nasc
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('phone', text: t('personal_tel', scope: 'user')+': ')
       .column= user.tel.blank? ? 'n.d.' : user.tel
   .column
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('building', text: t('office', scope: 'user')+': ')
       .column= user.location.blank? ? 'n.d.' : user.location
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('phone', text: t('telephone', scope: 'user')+': ')
       .column= user.telephone.blank? ? 'n.d.' : user.telephone
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
       .column= user.structure.blank? ? 'n.d.' : user.structure
-    .columns.is-gapless.is-paddingless.is-marginless
+    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
       .column.has-text-weight-bold= fas_icon('pen-square', text: t('note', scope: 'user')+': ')
       .column= user.body

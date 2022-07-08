@@ -2,16 +2,14 @@
 %article#audits.message
   .message-header Idoneità
   .message-body.is-paddingless
-    %table.audits.table.is-striped.is-narrow.is-fullwidth
-      %thead
-        %tr
-          %th= t('title', scope: 'category')
-          %th{ width: "150" }= t('state', scope: 'audit')
-          %th.has-text-centered{ width: "250" }= t('next_visit', scope: 'audit')
-          %th{ width: "100" }
-      %tbody
-        - if @audits.present?
-          = render @audits
-        - else
-          %tr
-            %td.has-text-centered{ colspan: 4 } Nessuna categoria di rischio selezionata
+    .list
+      .columns.head.is-mobile
+        .column.is-6.has-text-left= t('title', scope: 'category')
+        .column.is-3.has-text-left.is-hidden-mobile= t('state', scope: 'audit')
+        .column.is-2.has-text-left.is-hidden-mobile= t('next_visit', scope: 'audit')
+        - if response
+          .column.is-1-desktop.is-2-touch.has-text-left.is-hidden-mobile
+    - if @audits.present?
+      %turbo-frame.rows= render @audits
+    - else
+      .column.is-full.has-text-centered  Nessuna categoria di rischio selezionata

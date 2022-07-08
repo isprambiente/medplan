@@ -2,12 +2,12 @@
   - events = user.events.future.distinct
   .list
     .columns.head.is-mobile
-      .column.is-2.is-vcentered.has-text-centered= t('date', scope: 'event')
-      .column.is-1.is-vcentered.has-text-centered Inizio
-      .column.is-1.is-vcentered.has-text-centered Tipologia
-      .column.is-2.is-vcentered.has-text-centered= t('city', scope: 'event')
-      .column.is-2.is-vcentered.has-text-centered Stato
-      .column.is-2.is-vcentered.has-text-centered= t('category', scope: 'audit')
+      .column.is-2.is-vcentered.has-text-left= t('date', scope: 'event')
+      .column.is-1.is-vcentered.has-text-left.is-hidden-mobile Inizio
+      .column.is-1.is-vcentered.has-text-left.is-hidden-mobile Tipologia
+      .column.is-2.is-vcentered.has-text-left.is-hidden-mobile= t('city', scope: 'event')
+      .column.is-2.is-vcentered.has-text-left.is-hidden-mobile Stato
+      .column.is-2.is-vcentered.has-text-left.is-hidden-mobile= t('category', scope: 'audit')
       .column.is-2
   - unless events.blank?
     = render events

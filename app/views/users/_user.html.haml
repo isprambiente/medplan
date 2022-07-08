@@ -9,7 +9,7 @@
   - row_class += ' is-light'
 - else  - row_class += ' reveal-modal'
 = turbo_frame_tag dom_id(user) do
-  .columns.row.is-mobile.user.is-unselectable
+  .columns.row.user.is-unselectable
     .column.first
       - if user.locked_at?
         %span.tooltip.help.is-inline-flex{ data: { tooltip: "Utente disattivato manualmente il #{ l_date user.locked_at } #{ 'con contratto '+user.status.upcase if user.status.present? }. Per riattivarlo cliccare sul bottone 'Riattiva'", disable_hover: "false"} }
