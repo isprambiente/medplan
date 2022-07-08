@@ -23,6 +23,7 @@ rubrica: https://rubrica.domain.com
 tracker: tracker.domain.com
 app:
   url: https://tuo_sito.domain.com
+  favicon: ''
 copyright:
   title: Tua Soietà
   link: https://domain.com

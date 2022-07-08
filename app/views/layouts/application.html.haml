@@ -6,7 +6,7 @@
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     %meta{ name: 'description', content: "#{Settings.subtitle}" }
     %meta{ name: 'turbo-visit-control', content: 'reload' }
-    =# favicon_link_tag image_path('favicon.ico')
+    = favicon_link_tag Settings.app.favicon
     %title= "#{["#{Settings.title} #{Settings.version}", Settings.status].reject(&:blank?).join(' - ')}"
     = csrf_meta_tags
     = csp_meta_tag
