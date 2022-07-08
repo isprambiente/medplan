@@ -25,4 +25,4 @@
                 %li= link_to( fas_icon('book', text: t('title', scope: 'home.books.admin')), page_path('doctor_manual'), data: {turbo_frame: 'yield'}) if current_user.doctor?
                 %li= link_to( fas_icon(Settings.bug.icon, text: Settings.bug.title), page_path('notifications'), data: {turbo_frame: 'yield'})
       %footer.quickview-footer
-        %a{ href: destroy_user_session_path, data: { confirm: 'Sei sicuro di voler uscire?', method: :delete }  }= fas_icon('sign-out-alt', text: t('logout', default: 'Logout'))
+        = button_to fas_icon('sign-out-alt', text: t('logout', default: 'Logout')), destroy_user_session_path, class: '', method: :delete, data: { turbo: false }

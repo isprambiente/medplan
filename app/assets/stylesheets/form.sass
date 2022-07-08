@@ -1,4 +1,18 @@
 form
+  &.button_to
+    button
+      background: none !important
+      border: none
+      color: $grey-dark
+      text-decoration: none
+      cursor: pointer
+      &.navbar-item
+        @extend .navbar-item
+        color: white
+        font-size: 0.85rem
+        span.icon
+          margin-right: 0.5rem
+
   nav.panel
     label.panel-block
       input[type="radio"]

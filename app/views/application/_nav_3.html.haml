@@ -42,4 +42,4 @@
                 = link_to( fas_icon('user-lock', text: 'Cambio password'), home_user_path, class: "navbar-item", data: {turbo_frame: 'yield'})
               = link_to( fas_icon(Settings.bug.icon, text: Settings.bug.title), page_path('notifications'), class: "navbar-item", data: {turbo_frame: 'yield'})
               %hr.navbar-divider
-              %a.navbar-item{ href: destroy_user_session_path, data: { confirm: 'Sei sicuro di voler uscire?', method: :delete }  }= fas_icon('sign-out-alt', text: t('logout', default: 'Logout'))
+              = button_to fas_icon('sign-out-alt', text: t('logout', default: 'Logout')), destroy_user_session_path, class: 'navbar-item', method: :delete, data: { turbo: false }
