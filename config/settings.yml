@@ -74,11 +74,11 @@ events:
     -
       start_time: '07:30'
       end_time: '08:30'
-      interval: 10
+      interval: 15
     -
       start_time: '08:30'
       end_time: '20:00'
-      interval: 20
+      interval: 10
   visit:
     description: "Inserisci una descrizione che comparirà sia nella mail della visita sia nel promemoria ical"
     location: "Inserisci l'indirizzo della visita"
