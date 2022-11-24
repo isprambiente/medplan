@@ -8,7 +8,7 @@ form
       cursor: pointer
       &.navbar-item
         @extend .navbar-item
-        color: white
+        color: $navbar-item-color
         font-size: 0.85rem
         span.icon
           margin-right: 0.5rem
@@ -21,3 +21,7 @@ form
   span.helper
     font-size: 0.75rem !important
     cursor: default !important
+
+  p.helper
+    @extend .help
+    cursor: default
