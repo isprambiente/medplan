@@ -2,7 +2,10 @@ $nav3-font-size: 1.2em
 $nav3-text-color: $white
 $nav3-background-color: $ispra-darker
 $nav3-background-color-hover: $primary
-$nav3-dropdown-font-size: 0.9rem
+$nav3-dropdown-font-size: 0.85rem
+$nav3-dropdown-submenu-font-size: 0.75rem
+$nav3-dropdown-submenu-max-width: 180px
+$nav3-dropdown-submenu-margin-left: calc( -100% + ( #{$nav3-dropdown-submenu-max-width} ) )
 
 #nav3
   background: $nav3-background-color
@@ -12,6 +15,9 @@ $nav3-dropdown-font-size: 0.9rem
       font-size: calc(#{$nav3-font-size} - 0.1em)
       .icon
         margin: 0
+      a.navbar-item
+        span
+          color: #74a848
       a.button
         &:not(.is-textless)
           width: 6rem !important
@@ -53,4 +59,44 @@ $nav3-dropdown-font-size: 0.9rem
         background: transparent
       &.is-active
         background: $nav3-background-color-hover
+
+  .nested.dropdown
+    font-size: .75rem
+    &:hover
+      background: $nav3-background-color-hover
+    &:hover > .dropdown-menu
+      display: block
+    .dropdown-trigger
+      a, button
+        color: $nav3-text-color
+        font-size: $nav3-dropdown-font-size
+        &:not(.is-arrowless):hover::after
+          content: ' >'
+        .icon
+          margin-right: 0.3rem
+    .dropdown-menu
+      top: -15px
+      margin-left: 100%
+      max-width: $nav3-dropdown-submenu-max-width
+      .dropdown-content
+        background: $nav3-background-color
+        margin-top: 0.4rem
+        .dropdown-item
+          font-size: $nav3-dropdown-submenu-font-size
+          color: $nav3-text-color
+          background: $nav3-background-color
+          &:hover
+            background: $nav3-background-color-hover
+    &.has-menu-left
+      .dropdown-trigger
+        a, button
+          color: $nav3-text-color
+          font-size: $nav3-dropdown-font-size
+          &:not(.is-arrowless):hover
+            &::before
+              content: '< '
+            &::after
+              content: ''
+      .dropdown-menu
+        margin-left: $nav3-dropdown-submenu-margin-left
 
