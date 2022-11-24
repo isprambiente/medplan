@@ -8,4 +8,3 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 
 require("./awesome.js")
-require("trix")
