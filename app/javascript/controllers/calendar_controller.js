@@ -1,9 +1,9 @@
 import { Controller } from "@hotwired/stimulus";
 import Rails from "@rails/ujs";
 import {Calendar} from '@fullcalendar/core';
+import allLocales from '@fullcalendar/core/locales-all';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import allLocales from '@fullcalendar/core/locales-all';
 import Swal from 'sweetalert2';
 
 export default class extends Controller {

@@ -1,12 +1,11 @@
 import { Controller } from "@hotwired/stimulus";
 import Rails from '@rails/ujs';
 import Timeout from 'smart-timeout';
-import SlimSelect from 'slim-select';
 import Swal from 'sweetalert2';
-import DualListbox from 'dual-listbox/dist/dual-listbox';
+import DualListbox from 'dual-listbox/src/dual-listbox';
 
 export default class extends Controller {
-  static targets = ['slimselect', 'listbox']
+  static targets = ['listbox']
 
   connect() {
     // Per disattivare l'evento click dei bottoni dopo il passaggio a Bulma
@@ -14,11 +13,6 @@ export default class extends Controller {
     document.querySelectorAll('[disabled]').forEach(function(obj) {
       return obj.classList.add('is-disabled');
     });
-    if (this.hasSlimselectTarget) {
-      return this.slimselectTargets.forEach((slim) => {
-        return this.slimSelect(slim);
-      });
-    }
     if (this.hasListboxTarget) {
       var select;
       select = this.listboxTarget;
@@ -121,119 +115,37 @@ export default class extends Controller {
     }
   }
 
-  getSlimSelect(container) {
-    var slimselects;
-    slimselects = container.querySelectorAll('.slimselect');
-    if (slimselects) {
-      return slimselects.forEach(function(slim) {
-        return this.slimselect(slim);
-      });
-    }
-  }
-
-  toggleSelect(event) {
-    if (this.hasSlimselectTarget) {
-      if (this.slimselectTarget.querySelector('.ss-main') !== null) {
-        this.slimselectTarget.querySelector('.ss-main').remove();
-        this.slimselectTarget.querySelector('select').classList.remove('is-hidden');
-        this.slimselectTarget.querySelector('select').removeAttribute('style');
-      }
-      this.slimselectTarget.classList.toggle('is-hidden');
-      return this.slimSelect(this.slimselectTarget.querySelector('select'));
-    }
-  }
-
   confirmation(event) {
-      var confirmation, deletable, form, icon, options, target, title, url;
-      target = event.target;
-      confirmation = target.dataset.formConfirmation || '';
-      url = target.dataset.formUrl;
-      icon = target.dataset.icon || 'question';
-      title = target.dataset.title || '';
-      deletable = target.dataset.deletable || false;
-      form = target.closest('form');
-      options = {
-        icon: icon,
-        timerProgressBar: false,
-        position: 'center',
-        title: title,
-        html: confirmation,
-        showConfirmButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-        showClass: {
-          popup: 'swal2-noanimation'
-        },
-        hideClass: {
-          popup: ''
-        }
-      };
-      return Swal.fire(options).then((result) => {
-        if (result.isConfirmed) {
-          return window.location.href = url;
-        }
-      });
-    }
-
-  slimSelect(select) {
-    var slim;
-    if (select.dataset.formAddable === 'true') {
-      var url = ((select.dataset.formLink == undefined) ? '' : select.dataset.formLink);
-      var field = ((select.dataset.formField == undefined) ? '' : select.dataset.formField);
-      var opened = ((select.dataset.formLeaveOpened === 'true') ? false : true)
-      return slim = new SlimSelect({
-        addToBody: true,
-        closeOnSelect: opened,
-        select: `#${select.id}`,
-        searchingText: 'Ricerca in corso...',
-        searchText: 'Nessun record trovato',
-        searchPlaceholder: 'Cerca',
-        placeholder: 'Seleziona uno o più valori',
-        text: 'Seleziona uno o più valori',
-        addable: (value) => {
-          var displayData;
-          displayData = [];
-          if (value === '') {
-            return this.send('Inserire un valore prima di cliccare sul bottone', 'error');
-          } else if (value != '' && url == '') {
-            return value;
-          } else if (url !='' && confirm(`Stai per inserire '${value}' nel sistema, confermi di voler proseguire?`)) {
-            return Rails.ajax({
-              type: 'PUT',
-              url: url,
-              data: `${field}=${value}`,
-              success: (data, status, xhr) => {
-                var response;
-                response = xhr.response;
-                data = JSON.parse(response);
-                slim.setData(data.rows);
-                slim.set(data.id);
-                this.send(`Inserimento del valore ${value} avvenuto con successo!`);
-                return true;
-              },
-              error: (data, status, xhr) => {
-                var response;
-                response = xhr.response;
-                data = JSON.parse(response);
-                this.send(data.error, 'error');
-                return false;
-              }
-            });
-          }
-        }
-      });
-    } else {
-      return slim = new SlimSelect({
-        addToBody: true,
-        select: `#${select.id}`,
-        searchingText: 'Ricerca in corso...',
-        searchText: 'Nessun record trovato',
-        searchPlaceholder: 'Cerca',
-        placeholder: 'Seleziona uno o più valori',
-        text: 'Seleziona uno o più valori'
-      });
-    }
+    var confirmation, deletable, form, icon, options, target, title, url;
+    target = event.target;
+    confirmation = target.dataset.formConfirmation || '';
+    url = target.dataset.formUrl;
+    icon = target.dataset.icon || 'question';
+    title = target.dataset.title || '';
+    deletable = target.dataset.deletable || false;
+    form = target.closest('form');
+    options = {
+      icon: icon,
+      timerProgressBar: false,
+      position: 'center',
+      title: title,
+      html: confirmation,
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Si",
+      cancelButtonText: "No",
+      showClass: {
+        popup: 'swal2-noanimation'
+      },
+      hideClass: {
+        popup: ''
+      }
+    };
+    return Swal.fire(options).then((result) => {
+      if (result.isConfirmed) {
+        return window.location.href = url;
+      }
+    });
   }
 
   confirm_before_send(event) {
