@@ -1,5 +1,5 @@
 = turbo_frame_tag "#{dom_id(user)}_show" do
-  .container.is-unselectable
+  .container
     %h2.title.is-2.has-text-centered.is-capitalized #{user.label}
     = render 'users/detail' , user: user, response: true
     %br/

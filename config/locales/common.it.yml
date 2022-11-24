@@ -190,6 +190,7 @@ it:
   category:
     title: Categorie di rischio
     new: 'Nuova Categoria'
+    protocol: 'Protocollo'
   risk:
     title: 'Rischi lavorativi'
     connected: 'Rischi collegati'

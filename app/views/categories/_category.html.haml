@@ -1,6 +1,7 @@
 .columns.is-mobile.is-hoverable{id: category.div, class: cycle('dark', 'light', name: 'categories') }
-  .column= category.title
-  .column
+  .column.is-3-tablet= category.title
+  .column.is-hidden-mobile= category.protocol
+  .column.is-2-tablet
     .buttons.has-addons.is-right
       = link_to fas_icon('edit'), edit_category_path(id: category.id), class: 'button', data: { turbo_frame: 'yield', title: "Modifica #{ category.title }" }
       = link_to fas_icon('trash'), category, class: 'button is-danger', method: :delete, data: { confirm: t('delete', scope: 'message.category'), turbo_frame: 'yield', turbo_method: 'DELETE' }

@@ -4,11 +4,12 @@
   .message-body.is-paddingless
     .list
       .columns.head.is-mobile
-        .column.is-6.has-text-left= t('title', scope: 'category')
-        .column.is-3.has-text-left.is-hidden-mobile= t('state', scope: 'audit')
+        .column.is-3.has-text-left= t('title', scope: 'category')
+        .column.is-4-desktop.is-3-touch.has-text-left= t('protocol', scope: 'category')
+        .column.is-2.has-text-left.is-hidden-mobile= t('state', scope: 'audit')
         .column.is-2.has-text-left.is-hidden-mobile= t('next_visit', scope: 'audit')
         - if response
-          .column.is-1-desktop.is-2-touch.has-text-left.is-hidden-mobile
+          .column.is-1-desktop.is-2-touch.has-text-left
     - if @audits.present?
       %turbo-frame.rows= render @audits
     - else
