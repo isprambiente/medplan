@@ -118,9 +118,9 @@ platforms:
   - linux
   - windows
 roadmap: 'https://github.com/isprambiente/medplan/projects'
-releaseDate: '2022-11-24'
+releaseDate: '2022-12-13'
 softwareType: standalone/web
-softwareVersion: 1.7.0
+softwareVersion: 1.8.0
 url: 'https://github.com/isprambiente/medplan'
 usedBy:
   - ISPRA
