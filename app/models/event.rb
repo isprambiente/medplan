@@ -75,6 +75,7 @@ class Event < ApplicationRecord
   default_scope -> { order('date_on asc') }
   scope :between, ->(start_on: Time.zone.today - 1.month, stop_on: Time.zone.today) { where('date_on >= :start_on and date_on <= :stop_on', start_on: start_on, stop_on: stop_on) }
   scope :future, ->(date: Time.zone.today) { where('date_on >= ?', date) }
+  scope :confirmed, -> { joins(:meetings).where(meetings: {status: :confirmed}) }
 
   # @return [String] {start_at} to string if present
   # @return [Null] if {start_at} is null

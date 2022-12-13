@@ -12,6 +12,7 @@ gem 'rails', '~> 7.0.0'
 gem 'sass-rails', '~> 6.0'
 gem 'sprockets-rails'
 gem 'tzinfo-data'
+gem 'jbuilder'
 
 gem 'jsbundling-rails'
 gem "cssbundling-rails"

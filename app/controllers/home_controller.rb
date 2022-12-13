@@ -63,6 +63,7 @@ class HomeController < ApplicationController
     @user = current_user
     @analisys = @user.events.analisys.future
     @visits = @user.events.visit.future
+    respond_to :html, :json
   end
 
   # GET /home/report

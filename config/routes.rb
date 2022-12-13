@@ -14,6 +14,10 @@ Rails.application.routes.draw do
     post 'home/update_user' => 'home#update_user'
     put 'home/reset_password', to: 'home#reset_password', as: :reset_password
 
+    scope :api do
+      get :agenda, to: 'home#user', format: :json
+    end
+
     resources :users, except: %i[index edit] do
       get :index, on: :collection, to: 'users#index'
       get :list, on: :collection, to: 'users#list'
