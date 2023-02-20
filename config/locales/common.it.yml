@@ -29,6 +29,7 @@ it:
       confirm: 'Confermi invio e-mail?'
       sendok: 'Invio eseguito'
       blank: "E-mail non configurata per questo utente"
+      expire: "Si informa che la proposta resterà valida per 10 giorni fino al giorno %{date}."
     meeting:
       select_one_category: 'Devi selezionare almeno una Categoria'
       delete: "Sicuro di voler cancellare l'appuntamento?"

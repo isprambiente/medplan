@@ -7,5 +7,7 @@ Si prega di indicare, direttamente sul sito di seguito indicato, un numero di te
 
 Per visualizzare e confermare gli eventi seguire il seguente link:
 \#{Settings.app.url}
+- if @meeting.proposed?
+  = t('expire', scope: 'message.email', default: 'This alert expire at %{date}', date: l(@event.date_on+10.days))
 
 Per qualunque problema contattare l'indirizzo e-mail: #{Settings.email}

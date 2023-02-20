@@ -153,7 +153,7 @@ class EventsController < ApplicationController
 
   def meeting_sendmail
     @zone = params[:zone].presence || 'users'
-    Notifier.user_event(@user).deliver_now
+    Notifier.user_event(@user, @event).deliver_now
     @meetings.update(sended_at: Time.zone.now)
   end
 

@@ -5,6 +5,9 @@
   Per visualizzare e confermare gli eventi seguire il link:
   %br/
   %a{:href => "#{Settings.app.url}"}= Settings.app.url
+  - if @meeting.proposed?
+    %br/
+    = t('expire', scope: 'message.email', default: 'This alert expire at %{date}', date: l(Time.zone.today+10.days))
 %p
   Comparira' l'indicazione circa la data e l'ora di effettuazione delle Analisi (
   %u> si precisa che il giorno della settimana stabilito per l'esecuzione degli esami è SEMPRE il MARTEDI'
