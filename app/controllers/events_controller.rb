@@ -147,7 +147,7 @@ class EventsController < ApplicationController
       turbo_stream.replace(:flashes, partial: "flashes"),
       turbo_stream.update("user_#{@user.id}_events", partial: "events/events", locals: {user: @user}),
       turbo_stream.update("user_#{@user.id}", partial: "users/user", locals: {user: @user}),
-      turbo_stream.update("event_#{event.id}_meetings", partial: 'events/meeting', collection: @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }, as: :meeting, locals: {event: @event}),
+      turbo_stream.update("event_#{@event.id}_meetings", partial: 'events/meeting', collection: @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }, as: :meeting, locals: {event: @event}),
     ]
   end
 
@@ -168,9 +168,9 @@ class EventsController < ApplicationController
     if @meeting.save && @user.email.present?
       if @event.status(@user) == 'proposed'
         if @event.analisys?
-          @response = Notifier.user_event_analisys(@user).deliver_now
+          @response = Notifier.user_event_analisys(@user, @event).deliver_now
         elsif @event.visit?
-          @response = Notifier.user_event_visit(@user).deliver_now
+          @response = Notifier.user_event_visit(@user, @event).deliver_now
         end
       else
         @response = Notifier.user_event_confirmed(@user, @event).deliver_now

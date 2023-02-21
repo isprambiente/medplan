@@ -105,8 +105,8 @@ class UsersController < ApplicationController
   def notify
     return if @user.email.blank?
 
-    Notifier.user_event_analisys(@user).deliver_now if @user.events.future.analisys.present?
-    Notifier.user_event_visit(@user).deliver_now if @user.events.future.visit.present?
+    Notifier.user_event_analisys(@user, @user.events.future.analisys.first).deliver_now if @user.events.future.analisys.present?
+    Notifier.user_event_visit(@user, @user.events.future.visits.first).deliver_now if @user.events.future.visits.present?
   end
 
   # GET /users/new
