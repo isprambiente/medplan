@@ -85,6 +85,9 @@ events:
   analisys:
     description: "Inserisci una descrizione che comparirà sia nella mail delle analisi sia nel promemoria ical"
     location: "Inserisci indirizzo delle analisi"
+  meetings:
+    deletable:
+      days: 10
 audits:
   lab:
     - Laboratorio 1

@@ -5,7 +5,7 @@ sono presenti nuovi eventi programmati per Lei dalla Segreteria Medica.
 Per visualizzare e confermare gli eventi seguire il link:
 \#{Settings.app.url}
 - if @meeting.proposed?
-  = t('expire', scope: 'message.email', default: 'This alert expire at %{date}', date: l(Time.zone.today+10.days))
+  = t('expire', scope: 'message.email', default: 'This alert expire at %{date}', date: l(@event.date_on+(Settings.events.meetings.deletable.days).days))
 
 Comparira' l'indicazione circa la data e l'ora di effettuazione della visita.
 \#{Settings.events.visit.description}
