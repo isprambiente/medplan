@@ -13,7 +13,7 @@
     "@fullcalendar/daygrid": "6.1.4",
     "@fullcalendar/interaction": "6.1.4",
     "@hotwired/stimulus": "^3.2.1",
-    "@hotwired/turbo-rails": "^7.2.5",
+    "@hotwired/turbo-rails": "^7.3.0",
     "@rails/actioncable": "^7.0.4",
     "@rails/activestorage": "^7.0.4",
     "@rails/ujs": "^7.0.4",
@@ -21,12 +21,12 @@
     "bulma-quickview": "^2.0.0",
     "bulma-switch": "^2.0.0",
     "dual-listbox": "^2.0.0",
-    "esbuild": "^0.17.10",
+    "esbuild": "^0.17.12",
     "flatpickr": "^4.6.13",
     "moment": "^2.29.4",
-    "sass": "^1.58.3",
+    "sass": "^1.59.3",
     "smart-timeout": "^2.7.1",
-    "sweetalert2": "^11.7.2"
+    "sweetalert2": "^11.7.3"
   },
   "scripts": {
     "build": "esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
