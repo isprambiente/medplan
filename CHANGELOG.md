@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2023-03-20
+### Changed
+- Upgrade to Ruby 3.2.0
+- Update Manuals
+- Update Readme
+- Updated Rails libraries
+- Updated Javascript libraries
+- Update browser requirements
+
 ## [1.1.0] - 2021-10-08
 ### Changed
 - Add move settings to Settings files
