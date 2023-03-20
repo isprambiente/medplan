@@ -1,4 +1,4 @@
-# This repository adheres to the publiccode.yml standard by including this
+# This repository adheres to the publiccode.yml standard by including this 
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
@@ -19,7 +19,7 @@ description:
       - gestione scadenze idoneità
       - generazione reportistica
     genericName: Segreteria medica
-    longDescription: >
+    longDescription: |
       Il programma, interamente sviluppato all'interno del settore Sviluppo di
       AGP-INF, nasce da una specifica necessità di
       [I.S.P.R.A.](http://www.isprambiente.gov.it) nel gestire la sorveglianza
@@ -50,23 +50,23 @@ description:
 
       Nello specifico il sistema, rilasciato in riuso, permette:
 
-      * Una autenticazione SingleSignOn su sistema CAS Server;
-      * Acquisizione automatica dei dipendenti da repository REST-API Json;
-      * Creazione e gestione manuale dei dipendenti;
-      * Gestione dei rischi sul lavoro;
-      * Raggruppamento in categorie dei rischi sul lavoro;
-      * Profilazione dei dipendenti in base alle categorie di rischio collegate;
-      * Calendarizzazione delle analisi e delle visite;
-      * Comunicazioni tramite e-mail con i dipendenti;
-      * Gestione dello storico delle idoneità per ciascun dipendente;
-      * Gestione delle scadenze delle idoneità per ciascuna categoria di rischio;
-      * Generazione di reportistica riservata al medico competente;
-      * Manuali d'utilizzo per i tre profili utente: dipendente generico, segreteria e medico competente.
-    shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
+      * Una autenticazione SingleSignOn su sistema CAS Server; * Acquisizione
+      automatica dei dipendenti da repository REST-API Json; * Creazione e
+      gestione manuale dei dipendenti; * Gestione dei rischi sul lavoro; *
+      Raggruppamento in categorie dei rischi sul lavoro; * Profilazione dei
+      dipendenti in base alle categorie di rischio collegate; *
+      Calendarizzazione delle analisi e delle visite; * Comunicazioni tramite
+      e-mail con i dipendenti; * Gestione dello storico delle idoneità per
+      ciascun dipendente; * Gestione delle scadenze delle idoneità per ciascuna
+      categoria di rischio; * Generazione di reportistica riservata al medico
+      competente; * Manuali d'utilizzo per i tre profili utente: dipendente
+      generico, segreteria e medico competente.
     screenshots:
-      - doc/screen-1.png
-      - doc/screen-2.png
-logo: 'doc/logo.svg'
+      - |-
+        https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-1.png
+      - |-
+        https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-2.png
+    shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
 developmentStatus: stable
 inputTypes:
   - text/plain
@@ -92,13 +92,14 @@ it:
     codiceIPA: ispra_rm
 legal:
   license: MIT
-  mainCopyrightOwner: 2021 Istituto Superiore per la Protezione e la Ricerca Ambientale
+  mainCopyrightOwner: 2023 Istituto Superiore per la Protezione e la Ricerca Ambientale
   repoOwner: Istituto Superiore per la Protezione e la Ricerca Ambientale
 localisation:
   availableLanguages:
     - it
     - en
   localisationReady: true
+logo: 'https://raw.githubusercontent.com/isprambiente/medplan/master/doc/logo.svg'
 maintenance:
   contacts:
     - affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
@@ -118,10 +119,10 @@ platforms:
   - web
   - linux
   - windows
+releaseDate: '2023-03-20'
 roadmap: 'https://github.com/isprambiente/medplan/projects'
-releaseDate: '2023-02-21'
 softwareType: standalone/web
-softwareVersion: 1.9.0
+softwareVersion: 1.9.1
 url: 'https://github.com/isprambiente/medplan'
 usedBy:
   - ISPRA
