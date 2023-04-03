@@ -62,7 +62,7 @@ class Event < ApplicationRecord
   has_many :meetings, dependent: :destroy
   has_many :audits, through: :meetings
   has_many :users, through: :audits
-  has_many :user_meetings, ->(e) { where(audit_id: e.user.audits.ids) }, class_name: 'Meeting', inverse_of: :event
+  has_many :user_meetings, ->(e) { where(audit_id: e.user.audit_ids) }, class_name: 'Meeting', inverse_of: :event
   attr_accessor :start_at, :state, :ids, :user
 
   validates :date_on, presence: true, uniqueness: { scope: %i[city gender] }
@@ -86,18 +86,18 @@ class Event < ApplicationRecord
   # @return [Symbol] {audit.status} of first {Audit}
   # @return [Symbol] :not_assigned if no any {Audit} is present
   def status(user)
-    meetings.find_by(audit_id: user.audits.ids).try(:status) || :not_assigned
+    meetings.find_by(audit_id: user.audit_ids).try(:status) || :not_assigned
   end
 
   # @return [String] strftime of {meeting.start_at} from first related {Meeting}
   def time(user)
-    meeting = meetings.find_by(audit_id: user.audits.ids)
+    meeting = meetings.find_by(audit_id: user.audit_ids)
     meeting.start_at.strftime('%H:%M')
   end
 
   # @return [String] All {category.title} planed for this event for a {User}
   def categories(user)
-    meetings.where(audit_id: user.audits.ids).map { |m| m.category.title }.join(', ')
+    meetings.where(audit_id: user.audit_ids).map { |m| m.category.title }.join(', ')
   end
 
   # Update the status of the {Meeting} related to an User
