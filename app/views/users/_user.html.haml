@@ -25,6 +25,8 @@
         %span.tooltip.help.is-inline-flex{ data: { tooltip: "#{t('note', scope: 'user')}: #{user.body}"} }
           %i.fas.fa-comment
       = user.label
+      - if user.require_visit?
+        %span.help.is-inline-flex.has-text-danger deve fare la visita
       - if user.locked_at? && user.status == 'attivo'
         - text = "Utente con contratto #{ user.tipo_contratto } fino a #{ l_date user.scadenza_rapporto }"
         %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }

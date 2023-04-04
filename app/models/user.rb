@@ -217,6 +217,12 @@ class User < ApplicationRecord
     metadata['sex'].blank? ? 'n.d.' : super
   end
 
+  # check if user have done analisy and require to do the visit
+  # @return [Boolean] true if is required
+  def require_visit?
+    events.confirmed.analisys.between(start_on: (histories.active.order(revision_date: :asc).last.present? ? (histories.active.order(revision_date: :asc).last.revision_date) : Time.zone.now), stop_on: Time.zone.now).present? && events.confirmed.visit.future.blank?
+  end
+
   private
 
   # this method is called for check data befor make/update {Audit}
