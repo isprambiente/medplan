@@ -2,14 +2,14 @@ version: "3.7"
 services:
 
   postgres:
-    image: postgres:15.2-alpine
+    image: postgres:15.2
     environment:
       POSTGRES_DB: medplan_development
       POSTGRES_USER: medplan
       POSTGRES_PASSWORD: MyPassword
 
   redis:
-    image: redis:6.2.6-alpine
+    image: redis:6.2.6
 
   cas-mock-server:
     image: apereo/cas
@@ -29,7 +29,7 @@ services:
         USER_ID: "${USER_ID:-1000}"
         GROUP_ID: "${GROUP_ID:-1000}"
     command: >
-      sh -c "EDITOR='cat' bin/rails credentials:edit ; bin/rails db:migrate db:seed assets:precompile && ruby bin/rails s -p 8020 -b 0.0.0.0"
+      sh -c "EDITOR='cat' bin/rails credentials:edit ; bin/rails db:migrate db:seed assets:precompile && bin/rails s -p 8020 -b 0.0.0.0"
     ports:
       - 8020:8020
     environment:
