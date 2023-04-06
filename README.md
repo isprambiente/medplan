@@ -256,12 +256,30 @@ Verificare e risolvere eventuali errori al riavvio di nginx.
       git clone https://github.com/isprambiente/medplan.git
     ```
 
-2. Eseguire la build del docker tramite compose
-    
+2. Configurare il DNS o modificare il proprio file hosts per risolvere il nome cas-mock-server sull'indirizzo del server docker.
+
+   Nel seguente esempio il docker viene eseguito localmente e viene modificato il file `/etc/hosts` del computer locale.
+
+   ```
+    127.0.0.1       localhost cas-mock-server
+   ```
+   la modifica è necessaria per raggiungere con un nome condiviso il server CAS
+
+3. Eseguire la build del docker tramite compose
+
    ```
    sudo docker-compose up --build -d
    ```
 
-Cortesemente integrare la guida qualora fosse necessario.
+4. Per accedere utilizzare le seguenti credenziali:
+  * mario.rossi     - password   # per utente standard
+  * editor          - password   # per utente editor
+  * dottore         - password   # per utente dottore
+  * admin           - password   # per utente admin
 
-Grazie per la collaborazione.
+### Partecipa!
+Puoi collaborare allo sviluppo dell'applicazione e della documentazione tramite [github](https://github.com/isprambiente/medplan).
+
+Tramite [Github discussions](https://github.com/isprambiente/medplan/discussions) è possibile richiedere e offrire aiuto.
+
+Se riscontrate errori e bug potete segnalarli nella paggina delle [Issues](https://github.com/isprambiente/medplan/issues)
