@@ -2,17 +2,17 @@ version: "3.7"
 services:
 
   postgres:
-    image: postgres:15.2
+    image: postgres:15.2-alpine
     environment:
       POSTGRES_DB: medplan_development
       POSTGRES_USER: medplan
       POSTGRES_PASSWORD: MyPassword
 
   redis:
-    image: redis:6.2.6
+    image: redis:7-alpine
 
   cas-mock-server:
-    image: apereo/cas
+    image: apereo/cas:6.6.6
     volumes:
       - ./docker/cas:/etc/cas/
     ports:
@@ -29,16 +29,16 @@ services:
         USER_ID: "${USER_ID:-1000}"
         GROUP_ID: "${GROUP_ID:-1000}"
     command: >
-      sh -c "EDITOR='cat' bin/rails credentials:edit ; bin/rails db:migrate db:seed assets:precompile && bin/rails s -p 8020 -b 0.0.0.0"
+      bash -c "EDITOR='cat' && bin/rails credentials:edit && bundle exec rails db:migrate db:truncate db:seed assets:precompile && bundle exec rails s -p 8020 -b 0.0.0.0"
     ports:
       - 8020:8020
     environment:
       RAILS_CAS_URL: http://cas-mock-server:8080/cas
       RAILS_DATABASE_URL: postgres://medplan:MyPassword@postgres/medplan_development
       RAILS_ENV: production
+      RAILS_AUTHENTICATOR: cas_authenticatable
       RAILS_GROUP_MENU: true
       RAILS_REDIS_URL: redis://redis:6379/1
-
     links:
       - postgres
       - redis

@@ -1,5 +1,5 @@
 # Dockerfile.rails
-FROM ruby:3.2.2 AS rails-toolbox
+FROM ruby:3.2.2-slim AS rails-toolbox
 MAINTAINER Marco Spasiano <marco.spasiano@cnr.it>
 
 ARG USER_ID
@@ -8,7 +8,6 @@ ENV INSTALL_PATH /opt/app
 
 RUN addgroup --gid $GROUP_ID user
 RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
-
 
 # add repositories and install dependencies
 RUN set -eux; \
@@ -26,6 +25,7 @@ RUN set -eux; \
       libpq-dev \
       nodejs \
       yarn \
+      git \
       libvips-dev ;\
     rm -rf /var/lib/apt/lists/*
 
@@ -38,7 +38,7 @@ COPY . .
 RUN rm -rf node_modules vendor ;\
     gem install bundler ;\
     bundle install ;\
-    yarn install ;\
+    yarn install --ignore-engines ;\
     chown -R user:user /opt/app
 
 USER $USER_ID

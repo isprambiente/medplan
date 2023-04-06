@@ -15,7 +15,8 @@ module MedPlan
   class Application < Rails::Application
     config.load_defaults 7.0
     config.rack_cas.session_store = RackCAS::ActiveRecordStore
-    config.rack_cas.server_url = Settings.auth.cas || ENV['RAILS_CAS_URL']
+    config.rack_cas.server_url = ENV['RAILS_CAS_URL'] || Settings.auth.cas
+    config.rack_cas.service = '/users/service' # If your user model isn't called User, change this
     config.encoding = 'utf-8'
     config.i18n.default_locale = :it
     config.i18n.available_locales = [:it]

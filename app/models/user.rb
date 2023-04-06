@@ -172,7 +172,7 @@ class User < ApplicationRecord
   enum city: Settings.users.cities.to_h
   enum postazione: Settings.users.positions.to_h
 
-  devise Settings.auth.authenticator.present? ? Settings.auth.authenticator.to_sym : :database_authenticatable, :trackable, :timeoutable, :lockable, :recoverable
+  devise ENV['RAILS_AUTHENTICATOR'] || Settings.auth.authenticator || :database_authenticatable, :trackable, :timeoutable, :lockable, :recoverable
 
   after_update :check_disabled
   before_destroy :abort_destroy

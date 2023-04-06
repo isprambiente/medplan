@@ -105,29 +105,13 @@ history:
     - change_date_next_visit
 database:
   development:
-    database: medplan_development
-    username: medplan
-    password: MyPassword # può essere configurata qui o nel file criptato credentials.yml
-    host:     postgres
-    sslmode:
+    url: 'postgres://myuser:mypass@localhost/somedatabase'
   test:
-    database: medplan_test
-    username: <username>
-    password: <password> # può essere configurata qui o nel file criptato credentials.yml
-    host:     <host>
-    sslmode:  'prefer'
+    url: 'postgres://myuser:mypass@localhost/somedatabase'
   staging:
-    database: medplan_staging
-    username: <username>
-    password: <password> # può essere configurata qui o nel file criptato credentials.yml
-    host:     <host>
-    sslmode:  'prefer'
+    url: 'postgres://myuser:mypass@localhost/somedatabase'
   production:
-    database: medplan_production
-    username: <username>
-    password: <password> # può essere configurata qui o nel file criptato credentials.yml
-    host:     <host>
-    sslmode:  'prefer'
+    url: 'postgres://myuser:mypass@localhost/somedatabase'
 api:
   url: <url_json>
   username: <username>
