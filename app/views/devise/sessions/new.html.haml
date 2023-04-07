@@ -15,7 +15,7 @@
       .actions
         = f.submit 'Accedi', class: 'button is-link'
   // Rimuovere in produzione
-  - if Settings.status == 'demo'
+  - if ENV['RAILS_ENV'] == 'production'
     .columns
       .column
         %fieldset.box
@@ -49,35 +49,3 @@
                   %li
                     %span.has-text-weight-bold password:
                     segretaria
-      .column
-        %fieldset.box
-          %legend.has-text-weight-bold.is-underlined Credenziali generiche per la Demo:
-          .px-6
-            %ul
-              %li
-                .has-text-weight-bold Utente generico 1:
-                %ul.pl-4
-                  %li
-                    %span.has-text-weight-bold utente:
-                    mario.rossi
-                  %li
-                    %span.has-text-weight-bold password:
-                    mario
-              %li
-                .has-text-weight-bold Utente generico 2:
-                %ul.pl-4
-                  %li
-                    %span.has-text-weight-bold utente:
-                    giorgio.verdi
-                  %li
-                    %span.has-text-weight-bold password:
-                    giorgio
-              %li
-                .has-text-weight-bold Utente generico 3:
-                %ul.pl-4
-                  %li
-                    %span.has-text-weight-bold utente:
-                    grazia.bianchi
-                  %li
-                    %span.has-text-weight-bold password:
-                    grazia

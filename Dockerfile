@@ -1,6 +1,5 @@
 # Dockerfile.rails
 FROM ruby:3.2.2-slim AS rails-toolbox
-MAINTAINER Marco Spasiano <marco.spasiano@cnr.it>
 
 ARG USER_ID
 ARG GROUP_ID

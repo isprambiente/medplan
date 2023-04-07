@@ -1,26 +1,16 @@
 # frozen_string_literal: true
 
-
-admin = User.new(username: 'admin', label: 'Administrator', name: 'Administrator', city: :other, cf: 'Admin1', admin: true)
+admin = User.new(username: 'admin', label: 'Administrator', name: 'Administrator', city: :other, cf: 'Admin1', admin: true, system: true)
 admin.save(validate: false)
-dottore = User.new(username: 'dottore', label: 'Dottore', name: 'Dottore', city: :roma, doctor: true, cf: 'DOTTORE1')
-dottore.save(validate: false)
-editor = User.new(username: 'editor', label: 'Editor', name: 'Eeditor', city: :roma, secretary: true, cf: 'SEGRETARIA1')
-editor.save(validate: false)
-mario = User.new(username: 'mario.rossi', label: 'Rossi Mario', name: 'Mario', lastname: 'Rossi', city: :roma, cf: 'RSSMRA69A01H501Z')
-mario.save(validate: false)
-utente = User.new(username: 'giorgio.verdi', label: 'Verdi Giorgio', name: 'Giorgio', lastname: 'Verdi', city: :venezia, cf: 'VRDGRG80A01L736Q')
-utente.save(validate: false)
-utente = User.new(username: 'grazia.bianchi', label: 'Bianchi Grazia', name: 'Grazia', lastname: 'Bianchi', cf: 'BNCGRZ63A41F205Z', city: :livorno)
-utente.save(validate: false)
+doctor = User.new(username: 'doctor', label: 'Doctor', name: 'Doctor', city: :roma, doctor: true, cf: 'DOCTOR', system: true)
+doctor.save(validate: false)
+secretary = User.new(username: 'secretary', label: 'Secretary', name: 'Secretary', city: :roma, secretary: true, cf: 'SECRETARY', system: true)
+secretary.save(validate: false)
 
-if Settings.auth.authenticator == 'database_authenticatable'
-  admin.reset_password('admin','password')
-  dottore.reset_password('dottore','password')
-  editor.reset_password('editor','password')
-  mario.reset_password('mario','password')
-  utente.reset_password('giorgio','password')
-  utente.reset_password('grazia','password')
+if ENV['RAILS_AUTHENTICATOR'] == 'database_authenticatable'
+  User.find_by(username: 'admin').reset_password('admin','password')
+  User.find_by(username: 'doctor').reset_password('doctor','password')
+  User.find_by(username: 'secretary').reset_password('secretary','password')
 end
 
 if Rails.env.development?
