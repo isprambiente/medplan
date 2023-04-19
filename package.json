@@ -21,7 +21,7 @@
     "bulma-quickview": "^2.0.0",
     "bulma-switch": "^2.0.0",
     "dual-listbox": "^2.0.0",
-    "esbuild": "^0.17.16",
+    "esbuild": "^0.17.17",
     "flatpickr": "^4.6.13",
     "moment": "^2.29.4",
     "sass": "^1.62.0",
