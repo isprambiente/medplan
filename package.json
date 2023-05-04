@@ -9,9 +9,9 @@
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
-    "@fullcalendar/core": "6.1.5",
-    "@fullcalendar/daygrid": "6.1.5",
-    "@fullcalendar/interaction": "6.1.5",
+    "@fullcalendar/core": "6.1.6",
+    "@fullcalendar/daygrid": "6.1.6",
+    "@fullcalendar/interaction": "6.1.6",
     "@hotwired/stimulus": "^3.2.1",
     "@hotwired/turbo-rails": "^7.3.0",
     "@rails/actioncable": "^7.0.4",
@@ -21,12 +21,12 @@
     "bulma-quickview": "^2.0.0",
     "bulma-switch": "^2.0.0",
     "dual-listbox": "^2.0.0",
-    "esbuild": "^0.17.17",
+    "esbuild": "^0.17.18",
     "flatpickr": "^4.6.13",
     "moment": "^2.29.4",
-    "sass": "^1.62.0",
+    "sass": "^1.62.1",
     "smart-timeout": "^2.7.1",
-    "sweetalert2": "^11.7.3"
+    "sweetalert2": "^11.7.5"
   },
   "scripts": {
     "build": "esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
