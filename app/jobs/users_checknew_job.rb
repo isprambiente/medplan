@@ -8,14 +8,17 @@ class UsersChecknewJob < ApplicationJob
   # get users data from remote api.
   # For each user received run {set_data}
   def perform(*)
+    url = Rails.application.credentials.api[:url] || Settings.api.url.to_s
+
     json_parsed = JSON.parse(URI.open(
-      URI.parse(Rails.application.credentials.api[:url] || Settings.api.url.to_s),
+      URI.parse(url),
       http_basic_authentication: [
         Rails.application.credentials.api[:user] || Settings.api.username.to_s,
         Rails.application.credentials.api[:secret_access_key] || Settings.api.secret_access_key.to_s
       ],
       ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
     ).read)
+    json_parsed << json_parsed unless json_parsed.is_a?(Array)
     json_parsed.each do |user_data|
       if user_data['cf'].present?
         u = User.unscoped.find_or_initialize_by(cf: user_data['cf'].upcase)
