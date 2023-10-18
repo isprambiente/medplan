@@ -5,6 +5,8 @@
 Devise.setup do |config|
   # cas authenticable
   # config.cas_base_url = ENV['RAILS_CAS_URL'] || Settings.auth.cas
+  config.responder.error_status = :unprocessable_entity
+  config.responder.redirect_status = :see_other
 
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
