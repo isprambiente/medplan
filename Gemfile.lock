@@ -430,7 +430,7 @@ PLATFORMS
 DEPENDENCIES
   active_storage_validations
   better_errors
-  bootsnap (>= 1.12.0)
+  bootsnap (>= 1.16.0)
   byebug
   capistrano
   capistrano-bundler
