@@ -8,4 +8,4 @@
 // We need to override trix.css’s image gallery styles to accommodate the
 // <action-text-attachment> element we wrap around attachments. Otherwise,
 // images in galleries will be squished by the max-width: 33%; rule.
-@import 'dual-listbox/dist/dual-listbox';
+@import 'dual-listbox/dist/dual-listbox.css';

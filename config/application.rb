@@ -1,19 +1,16 @@
-# frozen_string_literal: true
+require_relative "boot"
 
-require_relative 'boot'
-
-require 'rails/all'
+require "rails/all"
 require 'rack-cas/session_store/active_record'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# This module contain the configurations for all app
 module MedPlan
-  # This class contain the configurations for all app
   class Application < Rails::Application
-    config.load_defaults 7.0
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.1
     config.rack_cas.session_store = RackCAS::ActiveRecordStore
     config.rack_cas.server_url = ENV['RAILS_CAS_URL'] || Settings.auth.cas
     config.rack_cas.service = '/users/service' # If your user model isn't called User, change this
@@ -26,5 +23,9 @@ module MedPlan
     config.generators do |g|
       g.template_engine :haml
     end
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w(assets tasks))
   end
 end

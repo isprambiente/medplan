@@ -14,7 +14,7 @@ services:
   cas-mock-server:
     image: apereo/cas-initializr:0.0.36
     volumes:
-      - ./docker/cas:/etc/cas/
+      - ./.docker/cas:/etc/cas/
     ports:
       - 8080:8080
 

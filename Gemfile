@@ -7,9 +7,9 @@ ruby '3.2.2'
 
 gem 'bootsnap', '>= 1.12.0', require: false
 gem 'pg'
-gem 'puma', '~> 5.0'
-gem 'rails', '~> 7.0.0'
-gem 'sass-rails', '~> 6.0'
+gem 'puma', '~> 6.0'
+gem 'rails', '~> 7.1'
+gem 'sass-rails'
 gem 'sprockets-rails'
 gem 'tzinfo-data'
 gem 'jbuilder'
@@ -40,7 +40,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails',   require: false
   gem 'capistrano-rvm',     require: false
-  gem 'capistrano3-puma',   require: false
+  # gem 'capistrano3-puma',   require: false
   gem 'capistrano-yarn',    require: false
 end
 

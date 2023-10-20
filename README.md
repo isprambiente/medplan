@@ -39,12 +39,12 @@ Il codice sorgente del sito progetto è rilasciato sotto licenza MIT License (co
 ## Repository
 Questo repository contiene il codice sorgente del programma per la gestione della sorveglianza sanitaria e della medicina sul lavoro del personale.
 
-Il sito è sviluppato in linguaggio Ruby 3.0, framework Rails 6.1 e webpacker StimulusJS 2.
+Il sito è sviluppato in linguaggio Ruby 3.2, framework Rails 7.1 e webpacker StimulusJS 2.
 
 ### Specifiche tecniche progetto
-* [Ruby 3.1.x](https://www.ruby-lang.org)
+* [Ruby 3.2.x](https://www.ruby-lang.org)
 * [RVM](https://rvm.io/)
-* [Ruby on Rails 7.0](https://rubyonrails.org/)
+* [Ruby on Rails 7.1](https://rubyonrails.org/)
 * [NodeJS](https://nodejs.org/)
 * [Yarn](https://yarnpkg.com/)
 * [Hotwire](https://hotwired.dev/)
@@ -59,9 +59,9 @@ Il sito è sviluppato in linguaggio Ruby 3.0, framework Rails 6.1 e webpacker St
 ### Requisiti tecnici per ambiente server
 * Sistema operativo: Linux
 * Gestore pacchetto ruby: RVM
-* Linguaggio di programmazione: Ruby 3.1
+* Linguaggio di programmazione: Ruby 3.2
 * Framework: Rails 7
-* Database: PostgreSQL >= 12.2
+* Database: PostgreSQL >= 13.2
 * NodeJS: JavaScript runtime >= v13.10
 * Package Manager: Yarn >= 1.22
 * Deploy applicazione: Accesso ssh per deploy applicazione via Capistrano

@@ -14,9 +14,9 @@
     "@fullcalendar/interaction": "6.1.9",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo-rails": "^7.3.0",
-    "@rails/actioncable": "^7.0.8",
-    "@rails/activestorage": "^7.0.8",
-    "@rails/ujs": "^7.0.8",
+    "@rails/actioncable": "^7.1",
+    "@rails/activestorage": "^7.1",
+    "@rails/ujs": "^7.1",
     "bulma": "https://github.com/francesco-loreti/bulma#has-max-column",
     "bulma-quickview": "^2.0.0",
     "bulma-switch": "^2.0.0",
@@ -24,12 +24,11 @@
     "esbuild": "^0.19.3",
     "flatpickr": "^4.6.13",
     "moment": "^2.29.4",
-    "sass": "^1.67.0",
     "smart-timeout": "^2.7.1",
     "sweetalert2": "^11.7.28"
   },
   "scripts": {
     "build": "esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
-    "build:css": "sass ./app/assets/stylesheets/application.bulma.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass --watch ./app/assets/stylesheets/application.bulma.scss:./app/assets/builds/application.css --no-cache --load-path=node_modules"
   }
 }
