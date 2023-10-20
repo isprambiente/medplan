@@ -9,6 +9,7 @@ gem 'bootsnap', '>= 1.12.0', require: false
 gem 'pg'
 gem 'puma', '~> 6.0'
 gem 'rails', '~> 7.1'
+gem 'sass'
 gem 'sass-rails'
 gem 'sprockets-rails'
 gem 'tzinfo-data'
