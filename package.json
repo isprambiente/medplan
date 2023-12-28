@@ -21,11 +21,11 @@
     "bulma-quickview": "^2.0.0",
     "bulma-switch": "^2.0.0",
     "dual-listbox": "^2.0.0",
-    "esbuild": "^0.19.8",
+    "esbuild": "^0.19.10",
     "flatpickr": "^4.6.13",
-    "moment": "^2.29.4",
+    "moment": "^2.30.1",
     "smart-timeout": "^2.7.1",
-    "sweetalert2": "^11.10.1"
+    "sweetalert2": "^11.10.2"
   },
   "scripts": {
     "build": "esbuild app/javascript/application.js --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
