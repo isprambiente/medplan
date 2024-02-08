@@ -20,6 +20,7 @@ class UsersChecknewJob < ApplicationJob
     ).read)
     json_parsed << json_parsed unless json_parsed.is_a?(Array)
     json_parsed.each do |user_data|
+      user_data = user_data.first if user_data.is_a?(Array)
       if user_data['cf'].present?
         u = User.unscoped.find_or_initialize_by(cf: user_data['cf'].upcase)
         set_data(u, user_data) # if user_data['login'].present?
