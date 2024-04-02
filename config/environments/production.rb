@@ -102,8 +102,10 @@ Rails.application.configure do
     address: Rails.application.credentials.smtp_address || Settings.action_mailer.smtp_settings.address,
     port: Rails.application.credentials.smtp_port || Settings.action_mailer.smtp_settings.port,
     domain: Rails.application.credentials.smtp_domain || Settings.action_mailer.smtp_settings.domain,
-    ssl: Rails.application.credentials.smtp_ssl || Settings.action_mailer.smtp_settings.ssl,
+    # ssl: Rails.application.credentials.smtp_ssl || Settings.action_mailer.smtp_settings.ssl,
     user_name: Rails.application.credentials.smtp_username || Settings.action_mailer.smtp_settings.username,
-    password: Rails.application.credentials.smtp_password || Settings.action_mailer.smtp_settings.password
+    password: Rails.application.credentials.smtp_password || Settings.action_mailer.smtp_settings.password,
+    authentication: Settings.action_mailer.smtp_settings.authentication,
+    enable_starttls_auto: Settings.action_mailer.smtp_settings.enable_starttls_auto
   }
 end

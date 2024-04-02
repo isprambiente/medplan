@@ -129,6 +129,8 @@ action_mailer:
    ssl: <true|false>
    username: <username>
    password: <password> # può essere configurata qui o nel file criptato credentials.yml
+   authentication: <authentication>
+   enable_starttls_auto: <enable_starttls_auto>
    sender: <sender>
 action_job:
   user:
