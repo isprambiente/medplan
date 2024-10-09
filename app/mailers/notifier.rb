@@ -40,7 +40,7 @@ class Notifier < ApplicationMailer
     @user = user
     @event = event
     meeting = user.meetings.find_by(event: event)
-    attachments.inline['prenotazione.ics'] = meeting.ical.to_ical if meeting.confirmed?
+    attachments.inline['prenotazione.ics'] = meeting.ical.to_ical if meeting.present? && meeting.confirmed?
     mail(to: @user.email, subject: t('user_event_modified', scope: 'message.email.subjects') + ' ' + (l event.date_on)) if user.email.present?
   end
 end
