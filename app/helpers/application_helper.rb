@@ -14,16 +14,16 @@ module ApplicationHelper
   end
 
   # make a div for the font-awesome icons
-  def fas_icon(fa_style, span_style: nil, style: false, text: '', tooltip: false)
+  def fas_icon(fa_style, span_style: nil, style: false, text: '', html: '', tooltip: false)
     content_tag_i = tag.i('', class: "fas fa-#{fa_style}", aria: { hidden: 'true' })
     span = if tooltip.present?
              tag.span(content_tag_i, class: "icon #{span_style}", style: style, data: { tooltip: tooltip })
            else
              tag.span(content_tag_i, class: "icon #{span_style}", style: style)
            end
-    return span if text.blank?
+    return span if text.blank? && html.blank?
 
-    span + tag.span(text)
+    span + tag.span(text) + tag.span(html.html_safe)
   end
 
   # map of flash and rub notify() for each flash

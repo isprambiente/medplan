@@ -4,7 +4,7 @@
     %span.delete{ data: { dismiss: "quickview", controller: 'menu', menu_id: 'filters_col', action: 'click->menu#close' } }
   .quickview-body.pt-4.px-4= render partial: 'home/filters'
 .container
-  %h2.title.is-2.has-text-centered= t('title', scope: 'user.index')
+  %h2.title.is-2.has-text-centered= t('title', scope: 'home.index')
   .box
     = form_with scope: :filter, url: home_list_path, method: :get, data: { turbo_frame: 'users' } do |f|
       .level
@@ -21,6 +21,8 @@
                   .control
                     .select.is-small= f.select :city, User.cities.map{|k,v| [t(k, scope: 'user.cities'),k] }, {prompt: 'Tutti'}, { data: {controller: 'form', action: "change->form#send"} }
         .level-right
+          - if Settings.users.permit_export_users
+            .level-item= link_to fas_icon('file-excel has-text-success-dark', text: 'Esporta elenco', html: "<i class='pl-2 fa-solid fa-circle-info' title='Utenti attivi e con protocollo'></i>"), export_home_path(format: :xlsx), class: 'button mb-5', data: { turbo: false }
           .level-item
             %p.control.has-icons-left
               = f.text_field :text, placeholder: 'Ricerca veloce', class: 'input', data: {controller: 'form', action: "keyup->form#delayedSend"}

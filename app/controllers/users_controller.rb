@@ -6,7 +6,7 @@
 class UsersController < ApplicationController
   include Pagy::Backend
   before_action :powered_in!
-  before_action :set_user, except: %i[index list new create]
+  before_action :set_user, except: %i[index list new create export]
   before_action :set_view
 
   # GET /users
@@ -167,6 +167,16 @@ class UsersController < ApplicationController
   def remove_attachment
     @user.assegnazione.purge if @user.assegnazione.attached?
     render :show
+  end
+
+  # GET /users/export
+  #
+  # export all users to excel
+  # @return [Object] render /users/export
+  def export
+    @users = User.unsystem.reorder(:label)
+    @filename = "utenti_attivi_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+    response.headers['Content-Disposition'] = %(attachment; filename="#{ @filename }")
   end
 
   private

@@ -1,0 +1,45 @@
+# frozen_string_literal: true
+
+year = Time.zone.now.strftime('%Y')
+password = Rails.application.credentials.excel[:password]
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Utenti #{year}") do |sheet|
+  # Stili
+  style_title = wb.styles.add_style sz: 10, b: true, alignment: { horizontal: :center, vertical: :center, wrap_text: true }, fg_color: 'ffffff', bg_color: '0B6436', border: { style: :thin, color: '000000' }
+  style_cols_string = wb.styles.add_style sz: 10, b: false, alignment: { horizontal: :left, vertical: :center, wrap_text: true }, border: { style: :thin, color: '000000' }
+  style_cols_number = wb.styles.add_style sz: 10, b: false, alignment: { horizontal: :center, vertical: :center }, width: 2, border: { style: :thin, color: '000000' }
+  style_cols_date = wb.styles.add_style sz: 10, b: false, alignment: { horizontal: :center, vertical: :center, wrap_text: true }, border: { style: :thin, color: '000000' }
+
+  # TITOLO
+  sheet.add_row [
+    'Cognome', 'Nome', 'Codice Fiscale', 'E-Mail', 
+    'Postazione', 'Sede', 'Città', 'Categorie di rischio', 
+    'Data ultima visita', 'Data prossima visita', 'Ultima verifica', 'Stato'
+  ], style: [style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title]
+
+  # DATI UTENTI
+  @audits.each do |audit|
+    last_status = ''
+    dottore = ''
+    stato = ''
+    revision_date = ''
+    last_visit_date = ''
+    next_visit_date = ''
+    user = audit.user
+    expire_at = audit.expire
+    category = audit.category
+    next_visit_date = audit.expire
+    last_visit = audit.histories.active.availables.last
+    stato = 'scaduto' if next_visit_date < Time.zone.now.to_date
+    if last_visit.present?
+      last_visit_date = last_visit.revision_date
+      last_status = t(last_visit.status, scope: 'audit.status')
+    end
+    sheet.add_row [
+      user.lastname, user.name, user.cf, user.email, 
+      user.postazione, user.location, user.city, category.title, 
+      last_visit_date, next_visit_date, last_status, stato
+    ]
+  end
+
+end

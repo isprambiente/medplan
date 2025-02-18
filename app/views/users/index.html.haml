@@ -12,7 +12,11 @@
           .level-item
             %label.label.mr-4.mb-5 Sede
             .select.mb-5= f.select :city, User.cities.map{|k,v| [t(k, scope: 'user.cities'),k] }, {prompt: 'Tutti'}, { data: {controller: 'form', action: "change->form#send"} }
+          - if Settings.users.permit_new_user
+            .level-item= link_to fas_icon('plus', text: 'Aggiungi utente'), new_user_path, class: 'button mb-5'
         .level-right
+          - if Settings.users.permit_export_users
+            .level-item= link_to fas_icon('file-excel has-text-success-dark', text: 'Esporta utenti', html: "<i class='pl-2 fa-solid fa-circle-info' title='Utenti attivi'></i>"), export_users_path(format: :xlsx), class: 'button mb-5', data: { turbo: false }
           .level-item
             %p.control.has-icons-left
               = f.text_field :text, placeholder: 'Ricerca veloce', class: 'input', data: {controller: 'form', action: "keyup->form#delayedSend"}

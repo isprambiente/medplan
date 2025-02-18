@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     get 'home/meetings' => 'home#meetings', as: :home_meetings
     post 'home/update_user' => 'home#update_user'
     put 'home/reset_password', to: 'home#reset_password', as: :reset_password
+    get 'home/export', to: 'home#export', as: :export_home, defaults: { format: :xlsx }
+
 
     scope :api do
       get :agenda, to: 'home#user', format: :json
@@ -21,6 +23,7 @@ Rails.application.routes.draw do
     resources :users, except: %i[index edit] do
       get :index, on: :collection, to: 'users#index'
       get :list, on: :collection, to: 'users#list'
+      get :export, on: :collection, to: 'users#export', defaults: { format: :xlsx }
       put   :notify, on: :member
       patch :unlock, on: :member
       get   :edit_external, on: :member, to: 'users#edit_external_user'

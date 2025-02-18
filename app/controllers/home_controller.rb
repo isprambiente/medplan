@@ -113,6 +113,16 @@ class HomeController < ApplicationController
     redirect_to new_user_session_path
   end
 
+  # GET /home/export
+  #
+  # export all users to excel
+  # @return [Object] render /home/export
+  def export
+    @audits = Audit.joins(:user).joins(:category).reorder(users: { label: :asc }, categories: { title: :asc })
+    @filename = "riepilogo_utenti_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+    response.headers['Content-Disposition'] = %(attachment; filename="#{ @filename }")
+  end
+
   private
 
   def get_dates_range(range, year)

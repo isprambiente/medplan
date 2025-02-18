@@ -169,8 +169,8 @@ class User < ApplicationRecord
   store_accessor :metadata, :email, :sex, :lastname, :name, :matr, :status, :postazione_inizio, :postazione_fine, :postazione_locazione, :postazione_created_at, :postazione_updated_at, :data_nasc, :citta_nasc, :naz_nasc, :scadenza_rapporto, :tipo_contratto, :denominazione_contratto, :location, :floor, :room, :telephone, :emergenze, :user_emergenze, :structure, :structure_label, :responsabile, :data_aggiornamento, :prefix
   attr_accessor :author, :external, :data
 
-  enum city: Settings.users.cities.to_h
-  enum postazione: Settings.users.positions.to_h
+  enum :city, Settings.users.cities.to_hash
+  enum :postazione, Settings.users.positions.to_hash
 
   devise ENV['RAILS_AUTHENTICATOR'] || Settings.auth.authenticator || :database_authenticatable, :trackable, :timeoutable, :lockable, :recoverable
 
