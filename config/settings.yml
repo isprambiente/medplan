@@ -1,5 +1,5 @@
 title: Med.Plan.
-version: 2.1.1
+version: 2.2.0
 status: demo
 group: tua_societa
 society:
@@ -33,8 +33,10 @@ bug:
   link: https://domain.com
   confirm: "Per problematiche relative ad appuntamenti o per contattare la segreteria medica, devi scrivere una e-mail a tuaemail@domain.com<br/><br/>Confermi di voler proseguire?"
 users:
+  permit_new_user: true
   permit_edit_user: true
   permit_full_edit_user: true
+  permit_export_users: true
   tel_user_emergenze: 'internal'
   tel_prefix: ''
   contracts:
