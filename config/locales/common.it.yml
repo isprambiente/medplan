@@ -75,7 +75,7 @@ it:
       analisys: 'Analisi'
     status:
       scheduled: 'Schedulate'
-      proposed: 'Proposta'
+      proposed: 'presa visione'
       waiting: 'In validazione'
       confirmed: 'Confermata'
       blocked: 'Non disponibile'
@@ -244,7 +244,7 @@ it:
       analisys: Analisi
     status:
       blocked: "Bloccato"
-      proposed: "Proposta"
+      proposed: "presa visione"
       waiting: "In validazione"
       confirmed: "Confermato"
     statuses:
