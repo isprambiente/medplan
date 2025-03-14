@@ -66,7 +66,7 @@ class Meeting < ApplicationRecord
 
   attr_accessor :active
 
-  enum status: { blocked: 0, proposed: 1, waiting: 2, confirmed: 3 }
+  enum :status, { blocked: 0, proposed: 1, waiting: 2, confirmed: 3 }
 
   scope :deletables, ->(date: Time.zone.today-(Settings.events.meetings.deletable.days).days) { proposed.where('sended_at < ?', date) }
 

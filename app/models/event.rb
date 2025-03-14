@@ -70,7 +70,7 @@ class Event < ApplicationRecord
 
   after_save :add_meetings
 
-  enum gender: { analisys: 0, visit: 1 }
+  enum :gender, { analisys: 0, visit: 1 }
 
   default_scope -> { order('date_on asc') }
   scope :between, ->(start_on: Time.zone.today - 1.month, stop_on: Time.zone.today) { where('date_on >= :start_on and date_on <= :stop_on', start_on: start_on, stop_on: stop_on) }

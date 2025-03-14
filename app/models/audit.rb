@@ -66,7 +66,7 @@ class Audit < ApplicationRecord
   validates :status, presence: true
   validates :expire, presence: true
 
-  enum status: {
+  enum :status, {
     deleted: 0,
     created: 1,
     suitable: 2,
