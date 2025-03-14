@@ -2,13 +2,11 @@
   Buongiorno #{@user.label},
 %p la Segreteria Medica ha programmato un nuovo appuntamento per il Suo controllo sanitario.
 %p
-  Per visualizzare e confermare l'appuntamento, deve seguire questo 
-  %br/
-  link
+  Per visualizzare e confermare l'appuntamento, deve seguire questo link
   %a{href: "#{Settings.app.url}"}= Settings.app.url
 %p Nella pagina saranno indicate la data e l'ora della visita.
 %p Per confermare l'appuntamento, clicca su "PRESA VISIONE".
-%p Si presenti presso l'Ambulatorio, situato al secondo piano, stanza 210, di Via V. Brancati, 48 - lato bancomat.
+%p Per le sedi di Roma, presentarsi presso l'Ambulatorio situato al secondo piano, stanza 210, di Via V. Brancati, 48 - lato bancomat.
 %p 
   In casi eccezionali, se ha bisogno di modificare la data dell'appuntamento, può scrivere  a: 
   %a{:href => "mail_to:#{Settings.email}"}= Settings.email
