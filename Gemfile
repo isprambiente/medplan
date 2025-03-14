@@ -3,20 +3,17 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.4.1'
+ruby '3.4.2'
 
 gem 'bootsnap', '>= 1.16.0', require: false
 gem 'pg'
 gem 'puma', '~> 6.0'
 gem 'rails', '~> 7.1'
-gem 'sass'
-gem 'sass-rails'
+gem 'sass-embedded', '~> 1.85'
 gem 'sprockets-rails'
 gem 'tzinfo-data'
 gem 'jbuilder'
-
-gem 'jsbundling-rails'
-gem "cssbundling-rails"
+gem 'fiddle'
 
 # Use Redis for Action Cable
 gem 'redis', '~> 4.0'
