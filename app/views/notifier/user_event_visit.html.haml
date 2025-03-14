@@ -1,16 +1,18 @@
 %p
   Buongiorno #{@user.label},
-%p sono presenti nuovi eventi programmati per Lei dalla Segreteria Medica.
+%p la Segreteria Medica ha programmato un nuovo appuntamento per il Suo controllo sanitario.
 %p
-  Per visualizzare e confermare gli eventi seguire il link:
+  Per visualizzare e confermare l'appuntamento, deve seguire questo 
   %br/
-  %a{:href => "#{Settings.app.url}"}= Settings.app.url
-%p Comparira' l'indicazione circa la data e l'ora di effettuazione della visita.
-%p= Settings.events.visit.description
-%p
-  Cliccando su "PROPOSTA" si
-  %b
-    %u convalida
-  l'appuntamento, in caso fosse necessario programmare una data alternativa, si prega invece di scrivere all'indirizzo e-mail:
+  link
+  %a{href: "#{Settings.app.url}"}= Settings.app.url
+%p Nella pagina saranno indicate la data e l'ora della visita.
+%p Per confermare l'appuntamento, clicca su "PRESA VISIONE".
+%p Si presenti presso l'Ambulatorio, situato al secondo piano, stanza 210, di Via V. Brancati, 48 - lato bancomat.
+%p 
+  In casi eccezionali, se ha bisogno di modificare la data dell'appuntamento, può scrivere  a: 
   %a{:href => "mail_to:#{Settings.email}"}= Settings.email
-%p Si prega, infine di indicare nello spazio "Emergenze" che compare nel box Informazioni Generali un numero di telefono cellulare per eventuali comunicazioni urgenti.
+%p Per favore, inserisca un numero di cellulare per eventuali comunicazioni urgenti nello spazio "Emergenze" del box "Informazioni Generali".
+%br/
+%p Si ricorda che sottoporsi ai controlli sanitari previsti dal D.Lgs 81/2008 è un obbligo di legge (art. 20, c.2, let. i, D.Lgs n. 81/08).
+%p La mancata presentazione all’appuntamento senza giustificato motivo comporta la segnalazione al Suo Dirigente. 

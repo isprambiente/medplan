@@ -21,11 +21,11 @@ it:
     email:
       sendto: 'Invia e-mail di notifica'
       subjects:
-        user_event: '[Sorveglianza Sanitaria] Creati prossimi appuntamenti'
-        user_event_analisys: '[Sorveglianza Sanitaria] Creati prossimi appuntamenti per analisi'
-        user_event_visit: '[Sorveglianza Sanitaria] Creati prossimi appuntamenti per visita'
-        user_event_confirmed: '[Sorveglianza Sanitaria] Conferma appuntamento per il '
-        user_event_modified: '[Sorveglianza Sanitaria] Aggiornamento appuntamento del '
+        user_event: 'Creati prossimi appuntamenti'
+        user_event_analisys: 'Nuovo appuntamento analisi di laboratorio per controllo sanitario'
+        user_event_visit: 'Nuovo appuntamento visita controllo sanitario'
+        user_event_confirmed: 'Conferma appuntamento per il '
+        user_event_modified: 'Aggiornamento appuntamento del '
       confirm: 'Confermi invio e-mail?'
       sendok: 'Invio eseguito'
       blank: "E-mail non configurata per questo utente"
