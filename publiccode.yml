@@ -2,7 +2,7 @@
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
-publiccodeYmlVersion: '0.2'
+publiccodeYmlVersion: '0.4.0'
 categories:
   - employee-management
   - document-management
@@ -18,7 +18,6 @@ description:
       - gestione rischi lavorativi
       - gestione scadenze idoneità
       - generazione reportistica
-    genericName: Segreteria medica
     longDescription: |
       Il programma, interamente sviluppato all'interno del settore Sviluppo di
       AGP-INF, nasce da una specifica necessità di
@@ -68,9 +67,6 @@ description:
         https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-2.png
     shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
 developmentStatus: stable
-inputTypes:
-  - text/plain
-  - application/json
 intendedAudience:
   countries:
     - it
@@ -112,9 +108,6 @@ maintenance:
       phone: '+390650072358'
   type: internal
 name: Med.Plan.
-outputTypes:
-  - application/vnd.ms-excel
-  - application/json
 platforms:
   - web
   - linux
