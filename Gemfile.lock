@@ -167,6 +167,9 @@ GEM
     google-protobuf (4.30.2-x64-mingw-ucrt)
       bigdecimal
       rake (>= 13)
+    google-protobuf (4.30.2-x86_64-linux)
+      bigdecimal
+      rake (>= 13)
     hamlit (3.0.3)
       temple (>= 0.8.2)
       thor
@@ -226,6 +229,8 @@ GEM
     net-ssh (7.3.0)
     nio4r (2.7.4)
     nokogiri (1.18.7-x64-mingw-ucrt)
+      racc (~> 1.4)
+    nokogiri (1.18.7-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.1)
@@ -327,6 +332,8 @@ GEM
     rubyzip (2.4.1)
     sass-embedded (1.86.1-x64-mingw-ucrt)
       google-protobuf (~> 4.30)
+    sass-embedded (1.86.1-x86_64-linux-gnu)
+      google-protobuf (~> 4.30)
     securerandom (0.4.1)
     selenium-webdriver (4.10.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -395,6 +402,7 @@ GEM
 
 PLATFORMS
   x64-mingw-ucrt
+  x86_64-linux
 
 DEPENDENCIES
   active_storage_validations
