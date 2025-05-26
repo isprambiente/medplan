@@ -1,14 +1,15 @@
-= turbo_frame_tag dom_id(audit) do
-  .columns.row.audit
-    .column.is-3.has-text-left= audit.category.title.to_s.titleize
-    .column.is-4-desktop.is-3-touch.has-text-left= audit.category.protocol
-    .column.is-2.has-text-left.is-hidden-mobile= t audit.status, scope: 'audit.status'
-    .column.is-2.has-text-left.is-hidden-mobile
-      - pointer = response ? 'pointer' : 'default'
-      %a{ class: "expire_date #{pointer}", data: { controller: 'audits', action: 'click->audits#editDateExpire', user_id: @user.id, audits_url: user_audit_path(user_id: @user.id, id: audit.id, log: true) } }= l_date audit.expire
-    - if response
-      .column.is-1-desktop.is-2-touch.has-text-left
-        .is-hidden-mobile
-          = link_to fas_icon('cog'), edit_user_audit_path(user_id: @user.id, id: audit.id, filter: {view: 'modal'}), class: 'button is-link', data: { turbo_frame: 'modal' }
-        .is-hidden-tablet
-          = link_to fas_icon('cog', text: 'Gestisci idoneità'), edit_user_audit_path(user_id: @user.id, id: audit.id, filter: {view: 'modal'}), class: 'button is-link', data: { turbo_frame: 'modal' }
+- if audit.category.present?
+  = turbo_frame_tag dom_id(audit) do
+    .columns.row.audit
+      .column.is-3.has-text-left= audit.category.title.to_s.titleize
+      .column.is-4-desktop.is-3-touch.has-text-left= audit.category.protocol
+      .column.is-2.has-text-left.is-hidden-mobile= t audit.status, scope: 'audit.status'
+      .column.is-2.has-text-left.is-hidden-mobile
+        - pointer = response ? 'pointer' : 'default'
+        %a{ class: "expire_date #{pointer}", data: { controller: 'audits', action: 'click->audits#editDateExpire', user_id: @user.id, audits_url: user_audit_path(user_id: @user.id, id: audit.id, log: true) } }= l_date audit.expire
+      - if response
+        .column.is-1-desktop.is-2-touch.has-text-left
+          .is-hidden-mobile
+            = link_to fas_icon('cog'), edit_user_audit_path(user_id: @user.id, id: audit.id, filter: {view: 'modal'}), class: 'button is-link', data: { turbo_frame: 'modal' }
+          .is-hidden-tablet
+            = link_to fas_icon('cog', text: 'Gestisci idoneità'), edit_user_audit_path(user_id: @user.id, id: audit.id, filter: {view: 'modal'}), class: 'button is-link', data: { turbo_frame: 'modal' }
