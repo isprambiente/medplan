@@ -27,7 +27,7 @@
           .control.is-expanded
             .select.is-fullwidth= f.select :state, t_enum(Meeting.statuses, 'meeting.status'), selected: 'proposed', include_blank: false
     .columns{ data: { controller: 'events' } }
-      .column= f.select :ids, user.audits.map{|a| ["#{a.category.title} (#{l a.expire})", a.id ]}, {selected: user.audits.expired.ids}, {multiple: true, size: 4, data: { controller: 'form', form_target: 'listbox' }}
+      .column= f.select :ids, user.audits.map{|a| ["#{a.category.title} (#{l a.expire})", a.id ] if a.category.present? }.compact, {selected: user.audits.expired.ids}, {multiple: true, size: 4, data: { controller: 'form', form_target: 'listbox' }}
     .columns
       %br/
       .column= f.submit value: 'Salva', class: "button is-fullwidth is-medium is-link is-focused", data: { disable_with: 'Salvataggio in corso...' }
