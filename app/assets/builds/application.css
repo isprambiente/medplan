@@ -14671,7 +14671,7 @@ nav.breadcrumb li a, nav.breadcrumb li a:link, nav.breadcrumb li a:visited, nav.
   background: hsl(8, 59%, 51%);
 }
 
-.is-hoverable tbody:hover {
+.is-hoverable tbody:hover, .is-hoverable.columns:hover, .dual-listbox .is-hoverable.dual-listbox__container:hover {
   background-color: hsl(0, 0%, 86%);
 }
 
@@ -14857,7 +14857,7 @@ input[pattern]:invalid {
 }
 
 .is-scrollable {
-  max-height: 10rem;
+  max-height: 16rem;
   overflow-y: auto;
 }
 
