@@ -46,13 +46,12 @@ class Category < ApplicationRecord
   has_many :risks, through: :category_risks
   has_many :users, through: :audits
 
-  validates :title, presence: true, uniqueness: true
+  validates :title, presence: true
+  validates_uniqueness_of :title, conditions: -> { where(active: true) }
   validates :months, presence: true, numericality: { only_integer: true }
 
   default_scope { order('title asc').where(active: true) }
-  scope :disabled, -> { unscoped.where(active: false) }
-
-  before_destroy :check_destroy
+  scope :disabled, -> { unscoped.where(active: false).order('title asc') }
 
   # for security reason is an alias of {destroy}
   def delete
@@ -60,8 +59,11 @@ class Category < ApplicationRecord
   end
 
   # @return [Boolean] if category is unused and can be destroyed run Super, otherwise update for set active as false.
-  def check_destroy
-    update(active: false) if users.present? || risks.present?
-    false
+  def destroy
+    if users.present? || risks.present?
+      update(active: false)
+    else
+      super
+    end
   end
 end

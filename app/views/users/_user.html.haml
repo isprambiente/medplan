@@ -35,7 +35,8 @@
       - if user.audits.present?
         - arrAudits = []
         - user.audits.map do |audit|
-          - arrAudits << content_tag( :span, audit.category.title, class: "#{audit.status_class} tooltip help is-inline-flex", data: { tooltip: "#{ audit.expired? ? 'Scaduto' : 'Scade' } il #{l( audit.expire ) unless audit.expire.blank?}" } )
+          - if audit.category.present?
+            - arrAudits << content_tag( :span, audit.category.title, class: "#{audit.status_class} tooltip help is-inline-flex", data: { tooltip: "#{ audit.expired? ? 'Scaduto' : 'Scade' } il #{l( audit.expire ) unless audit.expire.blank?}" } )
         = arrAudits.join(',&nbsp;').html_safe
       - else
         %small.has-text-danger Nessun rischio lavorativo configurato

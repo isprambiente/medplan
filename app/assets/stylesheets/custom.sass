@@ -70,7 +70,7 @@ nav.breadcrumb
   background: $danger
 
 .is-hoverable
-  tbody
+  tbody, &.columns
     &:hover
       background-color: $grey-lighter
 
@@ -209,3 +209,7 @@ input[pattern]:invalid
           margin-top: 0.3rem !important
         .list
           background-color: #faebd7
+
+.is-scrollable
+  max-height: 17rem
+  overflow-y: auto

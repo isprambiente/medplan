@@ -97,7 +97,7 @@ class Event < ApplicationRecord
 
   # @return [String] All {category.title} planed for this event for a {User}
   def categories(user)
-    meetings.where(audit_id: user.audit_ids).map { |m| m.category.title }.join(', ')
+    meetings.where(audit_id: user.audit_ids).map { |m| m.category.title if m.category.present? }.compact.join(', ')
   end
 
   # Update the status of the {Meeting} related to an User
