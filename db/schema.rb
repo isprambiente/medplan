@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2022_04_13_104803) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_23_181631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
-  enable_extension "plpgsql"
+  enable_extension "pg_catalog.plpgsql"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -145,6 +145,8 @@ ActiveRecord::Schema[7.2].define(version: 2022_04_13_104803) do
     t.boolean "printed", default: true, null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.boolean "active", default: true, null: false
+    t.index ["active"], name: "index_risks_on_active"
     t.index ["title"], name: "index_risks_on_title", unique: true
   end
 

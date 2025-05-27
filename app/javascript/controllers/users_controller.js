@@ -1,31 +1,30 @@
 import { Controller } from "@hotwired/stimulus";
-import Rails from "@rails/ujs";
-import Timeout from 'smart-timeout';
+import { get } from "@rails/request.js";
 import Swal from 'sweetalert2';
 
 export default class extends Controller {
   static targets = ["container"];
 
-  renderUser(event, user_id = '') {
-    var container, target;
+  async renderUser(event, user_id = "") {
+    let target, container;
 
-    if (user_id === '') {
+    if (!user_id) {
       target = event.currentTarget;
       user_id = target.dataset.userId;
     }
+
     container = document.getElementById(`user_${user_id}`);
-    return Rails.ajax({
-      type: "GET",
-      url: `/utenti/${user_id}/utente`,
-      success: (response, status, xhr) => {
-        if (container) {
-          return container.outerHTML = xhr.response;
-        }
-      },
-      error: (error) => {
-        return this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
+
+    try {
+      const response = await get(`/utenti/${user_id}/utente`);
+      if (!response.ok) throw new Error("Errore nella richiesta");
+
+      if (container) {
+        container.outerHTML = await response.text();
       }
-    });
+    } catch (error) {
+      this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
+    }
   }
 
   edit(event) {

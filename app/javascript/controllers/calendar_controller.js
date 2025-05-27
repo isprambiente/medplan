@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
-import Rails from "@rails/ujs";
-import {Calendar} from '@fullcalendar/core';
+import { get } from "@rails/request.js";
+import { Calendar } from '@fullcalendar/core';
 import allLocales from '@fullcalendar/core/locales-all';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -17,34 +17,30 @@ export default class extends Controller {
   }
 
   Calendar(target = this.calendarTarget) {
-    var cal, url;
+    const url = target.dataset.calendarUrl;
 
-    url = target.dataset.calendarUrl;
-    cal = new Calendar(target, {
+    const cal = new Calendar(target, {
       plugins: [interactionPlugin, dayGridPlugin],
-      selectable: target.classList.contains('editable'),
-      editable: target.classList.contains('editable'),
+      selectable: target.classList.contains("editable"),
+      editable: target.classList.contains("editable"),
       aspectRatio: 1.5,
       locales: allLocales,
-      locale: document.getElementsByTagName('html')[0].lang,
+      locale: document.documentElement.lang,
       events: `${url}/agenda.json`,
-      eventClick: (info) => {
+      eventClick: async (info) => {
         info.jsEvent.preventDefault();
         if (info.event.url) {
-          url = info.event.url;
-          return Rails.ajax({
-            type: "GET",
-            url: `${url}/modifica`,
-            success: (response, status, xhr) => {
-              this.send(xhr.response);
-            },
-            error: (error) => {
-              return this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
-            }
-          });
+          try {
+            const response = await get(`${info.event.url}/modifica`);
+            if (!response.ok) throw new Error("Errore nella richiesta");
+            this.send(await response.text());
+          } catch (error) {
+            this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
+          }
         }
-      }
+      },
     });
+
     return cal;
   }
 

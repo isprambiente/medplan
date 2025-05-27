@@ -8,7 +8,7 @@ ruby '3.4.2'
 gem 'bootsnap', '>= 1.16.0', require: false
 gem 'pg'
 gem 'puma', '~> 6.0'
-gem 'rails', '~> 7.1'
+gem 'rails', '~> 8.0'
 gem 'sass-embedded', '~> 1.85'
 gem 'sprockets-rails'
 gem 'tzinfo-data'

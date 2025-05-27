@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
+
   localized do
     devise_for :users, path: 'auth', path_names: { sign_in: 'login', sign_out: 'logout' }
     root 'home#index'
@@ -33,7 +35,7 @@ Rails.application.routes.draw do
       get   :user,     on: :member, to: 'users#user'
       delete :delete_attachment, on: :member, to: 'users#remove_attachment', as: :delete_attachment
       resources :audits, except: %i[show new]
-      resources :events, only: %i[new create meeting_destroy reserve confirmed] do
+      resources :events, only: %i[new create] do
         put 'reserve'
         put :confirmed, on: :member, to: 'events#confirmed'
         put :meeting_sendmail, to: 'events#meeting_sendmail'
@@ -41,7 +43,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :events, except: %i[new create update reserve meeting_destroy confirmed] do
+    resources :events, except: %i[new create update] do
       get :meetings, on: :collection
       get :meetings, on: :member
       put :print, on: :collection

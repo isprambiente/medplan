@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
-import Rails from '@rails/ujs';
+import { get } from "@rails/request.js";
 import Timeout from 'smart-timeout';
 import Swal from 'sweetalert2';
 import DualListbox from 'dual-listbox/src/dual-listbox';
@@ -41,8 +41,9 @@ export default class extends Controller {
   }
 
   reset(event) {
-    return Rails.fire(event.target.closest('form'), 'reset');
+    event.target.closest("form").reset();
   }
+
 
   close() {
     if (Swal.isVisible()) {
@@ -90,19 +91,22 @@ export default class extends Controller {
     }
   }
 
-  sendValue(event) {
-    var param_data, target, url;
-    target = event.target;
-    url = target.dataset.formUrl;
-    param_data = `${target.name}=${target.value}`;
-    return Rails.ajax({
-      type: 'GET',
-      url: url,
-      data: param_data,
-      success: (data, status, xhr) => {
-        return event.target.closest('.container').outerHTML = xhr.response;
+  async sendValue(event) {
+    const target = event.target;
+    const url = target.dataset.formUrl;
+    const param_data = new URLSearchParams({ [target.name]: target.value });
+
+    try {
+      const response = await get(`${url}?${param_data}`);
+
+      if (!response.ok) {
+        throw new Error("Errore nella richiesta");
       }
-    });
+
+      target.closest(".container").outerHTML = await response.text();
+    } catch (error) {
+      console.error("Si è verificato un errore:", error);
+    }
   }
 
   focus(event) {
