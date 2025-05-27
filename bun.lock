@@ -17,7 +17,7 @@
         "@rails/actioncable": "^8.0.200",
         "@rails/activestorage": "^8.0.200",
         "@rails/request.js": "^0.0.12",
-        "bulma": "https://github.com/francesco-loreti/bulma#has-max-column",
+        "bulma": "francesco-loreti/bulma#has-max-column",
         "bulma-quickview": "^2.0.0",
         "bulma-switch": "^2.0.4",
         "dual-listbox": "^2.0.0",

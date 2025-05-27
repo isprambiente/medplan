@@ -20,7 +20,7 @@ export default class extends Controller {
       if (!response.ok) throw new Error("Errore nella richiesta");
 
       if (container) {
-        container.outerHTML = await response.text();
+        container.outerHTML = await response.text;
       }
     } catch (error) {
       this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");

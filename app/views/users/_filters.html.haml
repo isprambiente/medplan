@@ -1,4 +1,4 @@
-= form_with scope: 'filter', url: list_users_path, method: :get, data: { controller: 'form', turbo_frame: 'users' } do |f|
+= form_with scope: 'filter', url: list_users_path, method: :get, data: { turbo_method: 'GET', controller: 'form', turbo_frame: 'users' } do |f|
   %a.button.is-danger.is-fullwidth.mb-4{ href: users_path, data: { turbo_frame: 'yield' } } Rimuovi tutti i filtri
 
   %nav#cities.panel.filters

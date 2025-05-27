@@ -63,7 +63,7 @@ export default class extends Controller {
           let userContainer = document.getElementById(`user_${user_id}`);
           const response = await get(`/utenti/${user_id}/utente`);
           if (userContainer) {
-            userContainer.outerHTML = await response.text();
+            userContainer.outerHTML = await response.text;
           }
         }
 
@@ -116,7 +116,7 @@ export default class extends Controller {
         throw new Error("Errore nella richiesta");
       }
 
-      target.closest(".columns").outerHTML = await response.text();
+      target.closest(".columns").outerHTML = await response.text;
 
       if (user_id) {
         const element = document.getElementById(`user_${user_id}`);
@@ -124,7 +124,7 @@ export default class extends Controller {
         const userResponse = await userRequest.perform();
 
         if (element) {
-          element.outerHTML = await userResponse.text();
+          element.outerHTML = await userResponse.text;
         }
       }
 

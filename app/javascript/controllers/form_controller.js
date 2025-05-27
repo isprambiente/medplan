@@ -28,7 +28,11 @@ export default class extends Controller {
   }
 
   send(event) {
-    return Rails.fire(event.target.closest('form'), 'submit');
+    const form = event.target.closest('form');
+    if (form) {
+      var filter_url = new URLSearchParams(new FormData(form)).toString();
+      Turbo.visit(`${form.action}?${filter_url}`, { frame: "users" });
+    }
   }
 
   delayedSend(event) {
@@ -103,7 +107,7 @@ export default class extends Controller {
         throw new Error("Errore nella richiesta");
       }
 
-      target.closest(".container").outerHTML = await response.text();
+      target.closest(".container").outerHTML = await response.text;
     } catch (error) {
       console.error("Si è verificato un errore:", error);
     }

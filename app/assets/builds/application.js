@@ -12034,7 +12034,7 @@ function setFormMode(mode) {
   console.warn("Please replace `Turbo.setFormMode(mode)` with `Turbo.config.forms.mode = mode`. The top-level function is deprecated and will be removed in a future version of Turbo.`");
   config.forms.mode = mode;
 }
-var Turbo = /* @__PURE__ */ Object.freeze({
+var Turbo2 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   navigator: navigator$1,
   session,
@@ -12700,7 +12700,7 @@ if (customElements.get("turbo-stream-source") === undefined) {
     element = element.parentElement;
   }
 })();
-window.Turbo = { ...Turbo, StreamActions };
+window.Turbo = { ...Turbo2, StreamActions };
 start();
 
 // node_modules/@hotwired/turbo-rails/app/javascript/turbo/cable.js
@@ -20339,7 +20339,7 @@ class audits_controller_default extends Controller {
           let userContainer = document.getElementById(`user_${user_id}`);
           const response = await get(`/utenti/${user_id}/utente`);
           if (userContainer) {
-            userContainer.outerHTML = await response.text();
+            userContainer.outerHTML = await response.text;
           }
         }
         let td = document.getElementById(`td_audit_${user_id}`);
@@ -20385,13 +20385,13 @@ class audits_controller_default extends Controller {
       if (!response.ok) {
         throw new Error("Errore nella richiesta");
       }
-      target.closest(".columns").outerHTML = await response.text();
+      target.closest(".columns").outerHTML = await response.text;
       if (user_id) {
         const element = document.getElementById(`user_${user_id}`);
         const userRequest = new FetchRequest2("GET", `/utenti/${user_id}/utente`);
         const userResponse = await userRequest.perform();
         if (element) {
-          element.outerHTML = await userResponse.text();
+          element.outerHTML = await userResponse.text;
         }
       }
       this.send("Salvataggio avvenuto correttamente!");
@@ -33847,14 +33847,10 @@ class calendar_controller_default extends Controller {
       eventClick: async (info) => {
         info.jsEvent.preventDefault();
         if (info.event.url) {
-          try {
-            const response = await get(`${info.event.url}/modifica`);
-            if (!response.ok)
-              throw new Error("Errore nella richiesta");
-            this.send(await response.text());
-          } catch (error2) {
-            this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
-          }
+          const response = await get(`${info.event.url}`);
+          if (!response.ok)
+            throw new Error("Errore nella richiesta");
+          this.send(await response.text);
         }
       }
     });
@@ -34369,7 +34365,11 @@ class form_controller_default extends Controller {
     }
   }
   send(event) {
-    return Rails.fire(event.target.closest("form"), "submit");
+    const form = event.target.closest("form");
+    if (form) {
+      var filter_url = new URLSearchParams(new FormData(form)).toString();
+      Turbo.visit(`${form.action}?${filter_url}`, { frame: "users" });
+    }
   }
   delayedSend(event) {
     if (import_smart_timeout.default.exists("textDelay")) {
@@ -34433,7 +34433,7 @@ class form_controller_default extends Controller {
       if (!response.ok) {
         throw new Error("Errore nella richiesta");
       }
-      target.closest(".container").outerHTML = await response.text();
+      target.closest(".container").outerHTML = await response.text;
     } catch (error2) {
       console.error("Si è verificato un errore:", error2);
     }
@@ -34664,7 +34664,7 @@ class users_controller_default extends Controller {
       if (!response.ok)
         throw new Error("Errore nella richiesta");
       if (container) {
-        container.outerHTML = await response.text();
+        container.outerHTML = await response.text;
       }
     } catch (error2) {
       this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
@@ -34920,4 +34920,4 @@ application.register("users", users_controller_default);
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=8DFA8D9ECC903E3B64756E2164756E21
+//# debugId=AE1C5FD4A5A9B52D64756E2164756E21

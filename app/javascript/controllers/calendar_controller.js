@@ -30,13 +30,9 @@ export default class extends Controller {
       eventClick: async (info) => {
         info.jsEvent.preventDefault();
         if (info.event.url) {
-          try {
-            const response = await get(`${info.event.url}/modifica`);
-            if (!response.ok) throw new Error("Errore nella richiesta");
-            this.send(await response.text());
-          } catch (error) {
-            this.send("Si è verificato un errore durante il caricamento! Si prega di provare più tardi.", "error");
-          }
+          const response = await get(`${info.event.url}`);
+          if (!response.ok) throw new Error("Errore nella richiesta");
+          this.send(await response.text);
         }
       },
     });
