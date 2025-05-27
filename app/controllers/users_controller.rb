@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   def show
     @analisys = @user.events.analisys.future.to_a.uniq(&:id)
     @visits   = @user.events.visit.future.to_a.uniq(&:id)
-    @audits   = @user.audits
+    @audits   = @user.audits.unscoped
   end
 
   # DELETE /users/:id

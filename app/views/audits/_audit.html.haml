@@ -1,8 +1,10 @@
-- if audit.category.present?
+-# if audit.category.present?
+- category = audit.category_id.present? ? Category.unscoped.find(audit.category_id) : :nil
+- if category.present?
   = turbo_frame_tag dom_id(audit) do
     .columns.row.audit
-      .column.is-3.has-text-left= audit.category.title.to_s.titleize
-      .column.is-4-desktop.is-3-touch.has-text-left= audit.category.protocol
+      .column.is-3.has-text-left= category.title.to_s.titleize
+      .column.is-4-desktop.is-3-touch.has-text-left= category.protocol
       .column.is-2.has-text-left.is-hidden-mobile= t audit.status, scope: 'audit.status'
       .column.is-2.has-text-left.is-hidden-mobile
         - pointer = response ? 'pointer' : 'default'

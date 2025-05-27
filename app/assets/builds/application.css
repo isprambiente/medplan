@@ -14856,6 +14856,11 @@ input[pattern]:invalid {
   background-color: #faebd7;
 }
 
+.is-scrollable {
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
 #manual .manual-body a, #manual .manual-body a:link, #manual .manual-body a:visited, #manual .manual-body a:hover {
   color: #4a4a4a;
 }
