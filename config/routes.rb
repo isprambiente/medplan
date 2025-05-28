@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       post  :external, on: :member, to: 'users#external_user'
       put   :external, on: :member, to: 'users#external_user'
       get   :user,     on: :member, to: 'users#user'
+      get    :delete_attachment, on: :member, to: 'users#remove_attachment', as: :delete_attachment
       delete :delete_attachment, on: :member, to: 'users#remove_attachment', as: :delete_attachment
       resources :audits, except: %i[show new]
       resources :events, only: %i[new create] do

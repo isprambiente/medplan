@@ -9,7 +9,7 @@
   - status_class = 'success'
 
 - editable = Settings.users.permit_edit_user && user.username.blank? && !user.locked_at?
-- editable = true if Settings.users.permit_full_edit_user 
+- editable = true if Settings.users.permit_full_edit_user
 #user.container
   .columns.has-2-tablet
     .column
@@ -152,14 +152,14 @@
                   %span.tooltip{ style: 'cursor: help', data: { tooltip: "Inserito dall'utente e non modificabile" } }= user.emergenze.presence || 'n.d.'
             %li.columns
               .column.is-4.has-text-left.has-text-weight-bold= fas_icon('file-pdf', text: t('file_assegnazione', scope: 'user')+': ')
-              .column.has-text-left
+              .column.has-text-left{ data: { controller: 'form' } }
                 - if user.assegnazione.attached?
                   .columns
                     .column.is-10-desktop= link_to user.assegnazione.filename, url_for(user.assegnazione), target: :blank
                     .column= link_to fas_icon('trash', tooltip: 'Cancella'), delete_attachment_user_path(id: user.id), class: 'button tiny is-transparent is-borderless', remote: true, method: :delete, data: { action: 'ajax:success->users#goPage', confirm: 'Confermi la cancellazione del file?' }
                 - else
                   - if !user.locked_at?
-                    %a{ data: { action: 'click->users#toggleVisible click->users#toggleVisibleSelf', id: 'assegnazione' } } aggiungi file pdf
+                    %a{ data: { action: 'click->form#toggleVisible click->form#toggleVisibleSelf', id: 'assegnazione' } } aggiungi file pdf
                   - else
                     n.d.
                 - if !user.locked_at?
