@@ -10,7 +10,7 @@ Bundler.require(*Rails.groups)
 module MedPlan
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 8.0
     config.rack_cas.session_store = RackCAS::ActiveRecordStore
     config.rack_cas.server_url = ENV['RAILS_CAS_URL'] || Settings.auth.cas
     config.rack_cas.service = '/users/service' # If your user model isn't called User, change this

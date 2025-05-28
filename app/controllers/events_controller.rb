@@ -33,7 +33,7 @@ class EventsController < ApplicationController
     start = params[:start].presence || Time.zone.today.at_beginning_of_month
     stop = params[:end].presence || Time.zone.today.at_end_of_month
     @events = Event.between(start_on: start, stop_on: stop)
-    render json: @events.map { |event| { id: "event-#{event.id}", title: "#{event.city} (#{event.meetings.confirmed.joins(:audit).group(:user_id).count.count}/#{event.users.distinct.count})", start: event.date_on, allDay: true, date_on: event.date_on, gender: event.gender, city: I18n.t(event.city, scope: 'user.cities', default: event.city), className: [event.gender.to_s], url: event_path(id: event.id) } }
+    render json: @events.map { |event| { id: "event-#{event.id}", title: "#{event.city} (#{event.meetings.confirmed.joins(:audit).group(:user_id).count.count}/#{event.users.distinct.count})", start: event.date_on, allDay: true, date_on: event.date_on, gender: event.gender, city: I18n.t(event.city, scope: 'user.cities', default: event.city), className: [event.gender.to_s], url: edit_event_path(id: event.id) } }
   end
 
   # GET /events/new

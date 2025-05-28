@@ -39,37 +39,37 @@ Il codice sorgente del sito progetto è rilasciato sotto licenza MIT License (co
 ## Repository
 Questo repository contiene il codice sorgente del programma per la gestione della sorveglianza sanitaria e della medicina sul lavoro del personale.
 
-Il sito è sviluppato in linguaggio Ruby 3.2, framework Rails 7.1 e webpacker StimulusJS 2.
+Il sito è sviluppato in linguaggio Ruby 3.4, framework Rails 8.0.
 
 ### Specifiche tecniche progetto
-* [Ruby 3.3.x](https://www.ruby-lang.org)
+* [Ruby 3.4.x](https://www.ruby-lang.org)
 * [RVM](https://rvm.io/)
-* [Ruby on Rails 7.2](https://rubyonrails.org/)
+* [Ruby on Rails 8.0](https://rubyonrails.org/)
 * [NodeJS](https://nodejs.org/)
-* [Yarn](https://yarnpkg.com/)
+* [Bun](https://bun.sh/)
 * [Hotwire](https://hotwired.dev/)
 * [Postgresql](https://www.postgresql.org/)
 * HTML5 + CSS3
 * no jQuery
 * [Server CAS](https://rubycas.github.io/) - autenticazione SingleSignOn
-* [Openssl](https://www.openssl.org/) - 
+* [Openssl](https://www.openssl.org/) -
 
 \* In alternativa al server CAS e` necessario sviluppare altri sistemi di autenticazione come ldap
 
 ### Requisiti tecnici per ambiente server
 * Sistema operativo: Linux
 * Gestore pacchetto ruby: RVM
-* Linguaggio di programmazione: Ruby 3.2
-* Framework: Rails 7
-* Database: PostgreSQL >= 13.2
+* Linguaggio di programmazione: Ruby 3.4
+* Framework: Rails 8
+* Database: PostgreSQL >= 17
 * NodeJS: JavaScript runtime >= v13.10
-* Package Manager: Yarn >= 1.22
+* Package Manager: Bun >= 1.2
 * Deploy applicazione: Accesso ssh per deploy applicazione via Capistrano
 * Webserver: Nginx + Puma
 * Autenticazione utenti: CAS Server
 
 ### Requisiti minimi per i client
-* Mozilla Firefox 80, Chrome 80, Microsoft Edge, Safari o altro browser compatibile con HTML 5, CSS 3;
+* Mozilla Firefox 110, Chrome 110, Microsoft Edge, Safari o altro browser compatibile con HTML 5, CSS 3;
 * Internet Explorer 11 non è supportato;
 * Javascript abilitato;
 * Cookie abilitati;
@@ -77,7 +77,7 @@ Il sito è sviluppato in linguaggio Ruby 3.2, framework Rails 7.1 e webpacker St
 * Risoluzione schermo 1024x768.
 
 ### Configurazione consigliata per i client
-* Mozilla Firefox 80, Chrome 80, Microsoft Edge, Safari o altro browser compatibile con HTML 5, CSS 3;
+* Mozilla Firefox 110, Chrome 110, Microsoft Edge, Safari o altro browser compatibile con HTML 5, CSS 3;
 * Javascript abilitato;
 * Cookie abilitati;
 * Supporto ai certificati SSL;
@@ -90,7 +90,7 @@ Installare l'ambiente di sviluppo e di produzione come indicato [qui](https://go
 
 ### In sviluppo
 
-1. Clonare il progetto in sviluppo 
+1. Clonare il progetto in sviluppo
 
     ```
       git clone https://github.com/isprambiente/medplan.git
@@ -101,15 +101,15 @@ Installare l'ambiente di sviluppo e di produzione come indicato [qui](https://go
     ```
       gem install bundle
       bundle install
-      yarn install
+      bun install
     ```
 
 3. Generare la propria master.key
     ```
-      rails secret 
+      rails secret
     ```
 4. Editare il file delle credenziali
-    ``` 
+    ```
       rails credentials:edit
     ```
 5. Inserire il testo indicato di seguito aggiornandolo con i propri parametri:
@@ -250,7 +250,7 @@ Installare l'ambiente di sviluppo e di produzione come indicato [qui](https://go
 Verificare e risolvere eventuali errori al riavvio di nginx.
 
 ### Demo con docker / docker compose
-1. Clonare il progetto in sviluppo 
+1. Clonare il progetto in sviluppo
 
     ```
       git clone https://github.com/isprambiente/medplan.git
