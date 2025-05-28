@@ -34366,9 +34366,10 @@ class form_controller_default extends Controller {
   }
   send(event) {
     const form = event.target.closest("form");
+    const frame = form.dataset.turboFrame || "yield";
     if (form) {
       var filter_url = new URLSearchParams(new FormData(form)).toString();
-      Turbo.visit(`${form.action}?${filter_url}`, { frame: "users" });
+      Turbo.visit(`${form.action}?${filter_url}`, { frame });
     }
   }
   delayedSend(event) {
@@ -34920,4 +34921,4 @@ application.register("users", users_controller_default);
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=AE1C5FD4A5A9B52D64756E2164756E21
+//# debugId=37CEEAF846F72D8A64756E2164756E21

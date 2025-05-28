@@ -29,9 +29,10 @@ export default class extends Controller {
 
   send(event) {
     const form = event.target.closest('form');
+    const frame = form.dataset.turboFrame || 'yield';
     if (form) {
       var filter_url = new URLSearchParams(new FormData(form)).toString();
-      Turbo.visit(`${form.action}?${filter_url}`, { frame: "users" });
+      Turbo.visit(`${form.action}?${filter_url}`, { frame: frame });
     }
   }
 
@@ -71,8 +72,7 @@ export default class extends Controller {
       if (container) {
         info = container.querySelector('span.info');
         if (info) {
-          status = target.dataset.status;
-          console.log(status);
+          const status = target.dataset.status;
           if (status == 'close') {
             icon = target.querySelector('.fa-circle-plus')
             if (icon) {
