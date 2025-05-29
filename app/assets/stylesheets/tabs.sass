@@ -1,0 +1,14 @@
+@charset "utf-8"
+
+@use "bulma/sass/utilities/initial-variables.scss" as iv
+@use "bulma/sass/utilities/derived-variables.scss" as dv
+
+.tabs-content 
+  ul
+    li
+      display: none
+      list-style: none
+      &.is-active
+        display: block
+        border: 1px solid dv.$link
+        border-top-left-radius: 0px !important

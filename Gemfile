@@ -64,3 +64,5 @@ gem 'icalendar', require: false
 gem 'pagy'
 gem 'route_translator'
 gem 'whenever', require: false
+
+gem "image_processing", "~> 1.14"

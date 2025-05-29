@@ -24,6 +24,7 @@ export default class extends Controller {
     var options;
     options = {
       toast: level === 'error' ? false : toast,
+      theme: 'bulma',
       icon: level,
       timerProgressBar: true,
       position: level === 'error' ? 'center' : 'top-end',

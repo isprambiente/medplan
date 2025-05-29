@@ -63,3 +63,6 @@ config/environments/*.local.yml
 /app/javascript/controllers/*.js.old
 
 
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

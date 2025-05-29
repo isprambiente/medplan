@@ -1,9 +1,14 @@
+@charset "utf-8"
+
+@use 'sass:list'
+@use "bulma/sass/utilities/mixins" as mixins
+
 .modal
   .modal-card
-    +mobile
+    @include mixins.mobile
       &.is-small, &.is-medium, &.is-large, &.is-xlarge, &.is-full
         max-width: 100%
-    +tablet
+    @include mixins.tablet
       &.is-small
         max-width: 768px
       &.is-medium, &.is-large, &.is-xlarge
@@ -11,7 +16,7 @@
         max-width: 1023px
       &.is-full
         min-width: 100%
-    +desktop
+    @include mixins.desktop
       &.is-small
         max-width: 768px
       &.is-medium

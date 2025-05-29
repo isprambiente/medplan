@@ -2,6 +2,12 @@
 // Modifiche grafiche partendo dal CSS in versione FullCalendar v2.2.6
 // Sovrascrivo classi esistenti nel CSS originale
 
+@use "bulma/sass/utilities/css-variables" as cv
+
+:root
+  --bulma-day-past: #E6E6E6
+  --bulma-day-past-dark: #333131
+
 #calendar
   margin: 0 auto
   .fc-theme-standard td, .fc-theme-standard th
@@ -9,4 +15,9 @@
   td.fc-day-today
     background-color: #ffa
   td.fc-day-past
-    background-color: #E6E6E6
+    background-color: var(--bulma-day-past)
+
+@include cv.system-theme($name: "dark")
+  #calendar
+    td.fc-day-past
+      background-color: var(--bulma-day-past-dark)

@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus";
 import { get } from "@rails/request.js";
 import Timeout from 'smart-timeout';
 import Swal from 'sweetalert2';
-import DualListbox from 'dual-listbox/src/dual-listbox';
+import DualListbox from 'dual-listbox/dist/dual-listbox';
 
 export default class extends Controller {
   static targets = ['listbox']

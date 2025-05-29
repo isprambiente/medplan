@@ -17,10 +17,7 @@
         %span.info.box.is-hidden.column= render 'users/detail_rid' , user: meeting.user
     .column.is-2-desktop.is-3-tablet.has-text-right= event.categories(meeting.user)
     .column.is-2-desktop.is-3-tablet
-      .columns.is-mobile.is-gapless
-        .column.is-6
-          %a.button.column.is-fullwidth.is-radiusless{ href: user_event_reserve_path(meeting.user, event, template: 'calendar'), class: event.status(meeting.user), data: { method: :put, turbo_method: 'PUT', turbo_frame: dom_id(event), turbo_confirm: "Confermi la variazione di stato dell'appuntamento?" } }= t( event.status(meeting.user), scope: 'event.status' )
-        .column.is-3
-          %a.button.tooltip.is-fullwidth.is-radiusless{ href: confirmed_user_event_path(meeting.user, event, zone: 'events'), class: "#{classes} #{'disabled' if meeting.user.email.blank?}", id: meeting.div, data: { method: :put, turbo_method: 'PUT', turbo_frame: dom_id(meeting), turbo_confirm: "Confermi l'invio della e-mail?" } }= fas_icon('envelope')
-        .column.is-3
-          %a.button.is-danger.is-fullwidth.is-radiusless{ href: user_event_meeting_destroy_path(meeting.user, event, zone: 'events'), data: { method: :delete, turbo_method: 'DELETE', turbo_frame: dom_id(meeting), turbo_confirm: "Confermi la cancellazione dell'appuntamento?" } }= fas_icon('trash')
+      .buttons.has-addons.is-right
+        %a.button{ href: user_event_reserve_path(meeting.user, event, template: 'calendar'), class: event.status(meeting.user), data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi la variazione di stato dell'appuntamento?" } }= t( event.status(meeting.user), scope: 'event.status' )
+        %a.button.tooltip{ href: confirmed_user_event_path(meeting.user, event, zone: 'events'), class: "#{classes} #{'disabled' if meeting.user.email.blank?}", id: meeting.div, data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi l'invio della e-mail?" } }= fas_icon('envelope')
+        %a.button.is-danger{ href: user_event_meeting_destroy_path(meeting.user, event, zone: 'events'), data: { method: :delete, turbo_method: 'DELETE', turbo_frame: dom_id(meeting), turbo_confirm: "Confermi la cancellazione dell'appuntamento?" } }= fas_icon('trash')

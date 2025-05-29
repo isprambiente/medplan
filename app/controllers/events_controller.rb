@@ -107,8 +107,7 @@ class EventsController < ApplicationController
         ]
       else
         render turbo_stream: [
-          turbo_stream.replace("meeting_#{@meeting.id}", partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }),
-          turbo_stream.replace("event_#{@event.id}_summary", partial: 'events/summary', locals: { meeting: @meeting, event: @event, user: @user }),
+          turbo_stream.replace("event_#{@event.id}", partial: 'events/edit', locals: { meeting: @meeting, event: @event, user: @user, view: @view }),
           turbo_stream.update('yield', partial: "events/index")
         ]
       end
@@ -182,7 +181,19 @@ class EventsController < ApplicationController
       set_timer
       render partial: 'new', locals: { meeting: @meeting, event: @event, user: @user, view: @view, timer: @timer }, status: :ok
     elsif @zone == 'events'
-      render partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user, timer: @timer }, status: :ok
+      flash.now[:success] = 'Notifica inviata con successo'
+      respond_to do |format|
+        format.html do
+          render partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user, timer: @timer }, status: :ok
+        end
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.replace("meeting_#{@meeting.id}", partial: 'events/meeting', locals: { meeting: @meeting, event: @event, user: @user }),
+            turbo_stream.replace("event_#{@event.id}_summary", partial: 'events/summary', locals: { meeting: @meeting, event: @event, user: @user }),
+            turbo_stream.update('yield', partial: "events/index")
+          ]
+        end
+      end
     end
   end
 
@@ -197,7 +208,7 @@ class EventsController < ApplicationController
       end
     end
     render turbo_stream: [
-      turbo_stream.update("event_#{@event.id}_meetings", partial: 'events/meeting', collection: @meetings, as: :meeting, locals: { event: @event })
+      turbo_stream.replace("event_#{@event.id}", partial: 'events/edit', locals: { meeting: @meeting, event: @event, user: @user, view: @view }),
     ]
   end
 

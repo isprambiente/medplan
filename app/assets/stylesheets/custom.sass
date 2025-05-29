@@ -1,3 +1,9 @@
+@charset "utf-8"
+
+@use 'sass:list'
+@use "bulma/sass/utilities/css-variables" as cv
+@use "bulma/sass/utilities/mixins" as mixins
+
 html, body
   margin: 0
   // overflow-y: auto
@@ -6,7 +12,7 @@ html, body
 html
   font-family: 'Open Sans', sans-serif
   font-size: 13px
-  color: $black
+  color: var(--bulma-black)
 
 body
   line-height: 1.6
@@ -67,18 +73,18 @@ nav.breadcrumb
 
 .turbolinks-progress-bar
   height: 5px
-  background: $danger
+  background: var(--bulma-danger)
 
 .is-hoverable
   tbody, &.columns
     &:hover
-      background-color: $grey-lighter
+      background-color: var(--bulma-grey-lighter)
 
 label.is-required
   &:after
     content: '*'
     margin-left: 0.1rem
-    color: $danger
+    color: var(--bulma-danger)
     &:hover
       content: 'required'
       cursor: 'help'
@@ -128,49 +134,49 @@ nav.panel.filters
   margin: 0 2px
 
 .analisys, a.analisys
-  background: $success
+  background: var(--bulma-success)
   color: #fff
   margin: 0 2px
 
 a.proposed:link, a.proposed:visited, a.proposed:active
-  background: $info
-  color: $white
+  background: var(--bulma-info)
+  color: var(--bulma-white)
 a.proposed:hover
-  background: darken($info, 10%)
+  background: var(--bulma-info-dark)
 a.proposed.disabled:hover
-  background: $info
+  background: var(--bulma-info)
 a.waiting:link, a.waiting:visited, a.waiting:active
-  background: $warning
+  background: var(--bulma-warning)
 a.waiting:hover
-  background: darken($warning, 10%)
+  background: var(--bulma-warning-dark)
 a.waiting.disabled:hover, a.waiting.disabled:visited, a.waiting.disabled:link
-  background: $warning
+  background: var(--bulma-warning)
 a.confirmed:link, a.confirmed:visited, a.confirmed:active
-  background: $success
-  color: $white
+  background: var(--bulma-success)
+  color: var(--bulma-white)
 a.confirmed:hover
-  background: darken($success, 10%)
+  background: var(--bulma-success-dark)
 a.confirmed.disabled:hover, a.confirmed.disabled:visited, a.confirmed.disabled:link
-  background: $success
+  background: var(--bulma-success)
 a.blocked:link, a.blocked:visited, a.blocked:active
-  background: $grey-lighter
-  color: $white
+  background: var(--bulma-grey-lighter)
+  color: var(--bulma-white)
 a.blocked:hover
-  background: darken($grey-lighter, 10%)
+  background: var(--bulma-grey-dark)
 a.blocked.disabled:hover, a.blocked.disabled:visited, a.blocked.disabled:link
-  background: $grey-lighter
+  background: var(--bulma-grey-lighter)
 
 .expired
-  color: $danger
+  color: var(--bulma-danger)
 
 
 // Test
-+mobile
+@include mixins.mobile
   .column
     max-width: 100% !important
 
 input[pattern]:invalid
-  box-shadow: 0 0 5px 1px $danger
+  box-shadow: 0 0 5px 1px var(--bulma-danger)
 
 .editable
   cursor: url('../images/edit.gif') 0 0, pointer
@@ -179,37 +185,43 @@ input[pattern]:invalid
   overflow: hidden !important
 
 .swal2-popup
-  +desktop
+  @include mixins.desktop
     width: 70% !important
-  +tablet
+  @include mixins.tablet
     width: 90% !important
-  +mobile
+  @include mixins.mobile
     width: 100% !important
 
 .rows
   margin-bottom: 1rem
   turbo-frame
-    &:nth-child(even)
-      .row, .has-background-parent
-        background: $white
+    .row, .has-background-parent
+      background: var(--bulma-scheme-main) !important
     &:nth-child(odd)
       .row, .has-background-parent
-        background: #fafafa
+        background: var(--bulma-grey-lighter)
     .row
       margin: 0rem 0
       border: 1px solid #f5f5f5
-      background: $white
+      background: var(--bulma-white)
       &:hover
-        background: $yellow-lighter
+        background: var(--bulma-warning-light) !important
+        color: var(--bulma-black) !important
       &.is-newer
-        background: $yellow-lighter !important
-        border: 1px solid $red !important
+        background: var(--bulma-warning-light) !important
+        border: 1px solid var(--bulma-danger) !important
       .column
         & > a.button, & > form
           margin-top: 0.3rem !important
         .list
           background-color: #faebd7
+      .has-alert, .expired
+        color: var(--bulma-danger)
 
 .is-scrollable
   max-height: 17rem
   overflow-y: auto
+
+@include cv.system-theme($name: "dark")
+  .has-alert, .expired
+    color: var(--bulma-danger-invert) !important

@@ -1,0 +1,53 @@
+// Colori sito
+$ispra:                   rgb(135, 38, 67);
+$ispra-darker:            rgb(66, 12, 24);
+$ispra-secondary:         rgb(30, 74, 96);
+$ispra-secondary-darker:  rgb(2, 30, 44);
+$ispra-tertiary:          rgb(151, 101, 43);
+$ispra-tertiary-darker:   rgb(69, 37, 0);
+$ispra-opposite:          rgb(82, 134, 38);
+$ispra-opposite-darker:   rgb(28, 62, 0);
+$ispra-link: #5083D4;
+$ispra-danger: rgb(148, 40, 64);
+$ispra-dark: rgb(102, 18, 36);
+$ispra-success: #518626;
+$ispra-warning: #FFBF50;
+$ispra-grey-lighter: #dbdbdb;
+$white: #fff;
+$ispra-grey: #3f3e3eda;
+$ispra-grey-light: #7a7878da;
+
+@use 'bulma/sass' with (
+  $primary: $ispra,
+  $success: $ispra-success,
+  $link: $ispra-link,
+  $dark: $ispra-dark,
+  $warning: $ispra-warning,
+  $danger: $ispra,
+  $grey-lighter: $ispra-grey-lighter,
+  $family-primary: '"Titillium Web", sans-serif',
+  $tabs-boxed-link-active-background-color: $ispra-link,
+  $tabs-link-active-color: $white,
+  $breadcrumb-item-color: $ispra-grey,
+  $breadcrumb-item-active-color: $ispra-grey-light,
+  $breadcrumb-item-separator-color: $ispra-grey,
+  $dropdown-menu-min-width: 17rem,
+  $panel-heading-line-height: .5rem
+);
+
+@forward 'bulma-quickview/index';
+@forward 'loader';
+@forward 'audits';
+@forward 'cities';
+@forward 'custom';
+@forward 'dual-listbox/src/dual-listbox';
+@forward 'dual-listbox.custom';
+@forward 'fullcalendar.custom';
+@forward 'form';
+@forward 'menu';
+@forward 'navbar';
+@forward 'swal2_custom';
+@forward 'table';
+@forward 'tabs';
+
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@400;700&display=swap');

@@ -1,0 +1,133 @@
+@charset "utf-8"
+
+@use "bulma/sass/utilities/initial-variables.scss" as iv
+@use "bulma/sass/utilities/derived-variables.scss" as dv
+
+$nav3-font-size: 1rem
+$nav3-dropdown-font-size: 0.75rem
+$nav3-dropdown-margin-left: var(--bulma-navbar-padding-horizontal)
+$nav3-dropdown-submenu-font-size: 0.65rem
+$nav3-dropdown-submenu-margin-left: calc( -100% + ( $nav3-dropdown-margin-left ) )
+$nav3-font-color: var(--bulma-white)
+$nav3-body-color: var(--bulma-label-color)
+$nav3-background-color: var(--bulma-primary)
+$nav3-tab-active-color: var(--bulma-white)
+$nav3-tab-active-background-color: var(--bulma-primary)
+$nav3-background-hover-color: var(--bulma-primary-dark)
+$nav3-navbar-dropdown-width: 17rem
+
+#nav3
+  background-color: $nav3-background-color
+  font-size: $nav3-font-size !important
+  nav.navbar
+    background: $nav3-background-color
+    .navbar-brand
+      font-size: calc(#{$nav3-font-size} - 0.1em)
+      .icon
+        margin: 0
+      a.navbar-item
+        color: $nav3-font-color
+        gap: 0
+        span
+          color: var(--bulma-success)
+      a.button
+        &:not(.is-textless)
+          width: 6rem !important
+          &:after
+            content: 'Menù'
+    a.navbar-item
+      white-space: initial
+      color: $nav3-font-color
+      background: $nav3-background-color
+      &:hover
+        background: $nav3-background-hover-color
+      &.no-item:hover
+        background: $nav3-background-color !important
+        cursor: default !important
+      span.icon
+        margin-right: .1rem
+        &.is-right
+          margin-left: .1rem
+          margin-right: 0
+      select.theme
+        background-color: transparent !important
+        border: 0px !important
+        box-shadow: none !important
+        color: $nav3-font-color !important
+        option
+          color: $nav3-body-color !important
+    .button_to
+      .navbar-item
+        color: $nav3-font-color
+    div.navbar-dropdown
+      background: $nav3-background-color
+      border-top: .5rem
+      min-width: $nav3-navbar-dropdown-width
+      a.navbar-item, button.navbar-item
+        // font-size: $nav3-dropdown-font-size
+        color: $nav3-font-color
+        background: $nav3-background-color
+        &:hover
+          background: $nav3-background-hover-color
+      hr.navbar-divider
+        background-color: $nav3-font-color
+        height: 1px
+    a.navbar-link
+      white-space: initial
+      color: $nav3-font-color
+      font-size: $nav3-font-size
+      background: $nav3-background-color
+      &:not(.is-arrowless)::after
+        border-color: $nav3-font-color !important
+      &:hover
+        background: $nav3-background-color
+      &.is-active
+        background: $nav3-background-color
+      &:link, &:visited, &:active
+        color: $nav3-font-color
+  .nested.dropdown
+    font-size: $nav3-dropdown-submenu-font-size !important
+    &:hover
+      background: $nav3-tab-active-background-color
+    &:hover > .dropdown-menu
+      display: block
+    .dropdown-trigger
+      a, button
+        color: $nav3-font-color
+        &:not(.is-arrowless):hover::after
+          content: ' >'
+        .icon
+          margin-right: 0.1rem
+    .dropdown-menu
+      top: -15px
+      margin-left: 100%
+      max-width: $nav3-dropdown-margin-left
+      .dropdown-content
+        background: $nav3-background-color
+        margin-top: 0.4rem
+        .navbar-item
+          color: $nav3-font-color !important
+        .dropdown-item
+          font-size: $nav3-dropdown-submenu-font-size !important
+          color: $nav3-font-color
+          background: $nav3-background-color
+          &:hover
+            background: var(--bulma-primary-dark)
+    &.has-menu-left
+      .dropdown-trigger
+        a, button
+          color: $nav3-font-color
+          // font-size: $nav3-dropdown-font-size
+          &:not(.is-arrowless):hover
+            &::before
+              content: '< '
+            &::after
+              content: ''
+      .dropdown-menu
+        margin-left: $nav3-dropdown-submenu-margin-left
+  form.button_to
+    background: $nav3-background-color
+    &:hover
+      background: var(--bulma-primary-dark)
+    .navbar-item
+      background: transparent !important

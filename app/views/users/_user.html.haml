@@ -26,7 +26,7 @@
           %i.fas.fa-comment
       = user.label
       - if user.require_visit?
-        %span.help.is-inline-flex.has-text-danger deve fare la visita
+        %span.help.is-inline-flex.has-alert deve fare la visita
       - if user.locked_at? && user.status == 'attivo'
         - text = "Utente con contratto #{ user.tipo_contratto } fino a #{ l_date user.scadenza_rapporto }"
         %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }
@@ -39,7 +39,7 @@
             - arrAudits << content_tag( :span, audit.category.title, class: "#{audit.status_class} tooltip help is-inline-flex", data: { tooltip: "#{ audit.expired? ? 'Scaduto' : 'Scade' } il #{l( audit.expire ) unless audit.expire.blank?}" } )
         = arrAudits.join(',&nbsp;').html_safe
       - else
-        %small.has-text-danger Nessun rischio lavorativo configurato
+        %small.no-risk Nessun rischio lavorativo configurato
       %span.tag{class: user.city}= user.city.capitalize
     .column.tool.is-narrow
       .buttons.has-addons.is-right
