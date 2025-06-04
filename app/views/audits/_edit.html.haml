@@ -1,5 +1,7 @@
 = turbo_frame_tag "#{dom_id(audit)}", data: {controller: view} do
-  %h3.title.is-3 #{t('title', scope: 'audit')}
-  %h4.subtitle.is-4 #{user.label}
-  %hr/
-  = render 'form', user: user, audit: audit, history: history, histories: histories, current_user: current_user, view: view, pagy: pagy
+  %section.section
+    %h3.title.is-3.has-text-centered #{t('title', scope: 'audit')}
+    %h4.subtitle.is-4.has-text-centered.mb-2 #{user.label}
+    .has-text-centered.is-uppercase= link_to t('return', scope: ''), user_path(id: user.id, filter: {view: view}), class: 'button is-ghost', data: { turbo_frame: 'modal' }
+    %hr/
+    = render 'form', user: user, audit: audit, history: history, histories: histories, current_user: current_user, view: view, pagy: pagy

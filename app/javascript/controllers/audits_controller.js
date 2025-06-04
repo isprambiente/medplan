@@ -7,41 +7,49 @@ export default class extends Controller {
   static targets = [ "container", "auditExpire" ]
 
   editDateExpire(event) {
-    var btnCanc, btnSave, container, editDiv, el, oldDate, target;
+    var btnCanc, btnSave, container, editDiv, el, oldDate, target, control;
     target = event.target;
     container = target.parentNode;
     editDiv = document.createElement("DIV");
     editDiv.id = `${container.id}_editor`;
-    editDiv.className = "editor";
+    editDiv.className = "editor field has-addons";
     container.appendChild(editDiv);
     oldDate = target.text;
     el = document.createElement("INPUT");
     el.type = "date";
-    el.className = "input is-radiusless";
-    el.style = "width:60%;";
+    el.className = "input";
     el.value = moment(oldDate, "DD/MM/YYYY").format("YYYY-MM-DD");
-    editDiv.appendChild(el);
+    control = document.createElement("DIV");
+    control.className = "control is-expanded";
+    control.appendChild(el);
+    editDiv.appendChild(control);
     btnSave = document.createElement("BUTTON");
-    btnSave.innerHTML = "<i class='fa fa-save' style='padding-right:0px'></i>";
-    btnSave.className = "button tooltip is-success is-radiusless";
+    btnSave.innerHTML = "<i class='fa fa-save'></i>";
+    btnSave.className = "button tooltip is-success";
     btnSave.dataset.tooltip = "Salva";
     btnSave.dataset.controller = 'audits';
     btnSave.dataset.action = "click->audits#updateDateExpire";
     btnSave.dataset.userId = target.dataset.userId;
-    editDiv.appendChild(btnSave);
+    control = document.createElement("DIV");
+    control.className = "control py-0";
+    control.appendChild(btnSave);
+    editDiv.appendChild(control);
     btnCanc = document.createElement("BUTTON");
-    btnCanc.innerHTML = "<i class='fa fa-times' style='padding-right:0px'></i>";
-    btnCanc.className = "button tooltip is-danger is-radiusless";
+    btnCanc.innerHTML = "<i class='fa fa-times'></i>";
+    btnCanc.className = "button tooltip is-danger my-0";
     btnCanc.dataset.tooltip = "Annulla";
     btnCanc.dataset.controller = 'audits';
     btnCanc.dataset.action = "click->audits#abortDateExpire";
-    editDiv.appendChild(btnCanc);
+    control = document.createElement("DIV");
+    control.className = "control";
+    control.appendChild(btnCanc);
+    editDiv.appendChild(control);
     return target.classList.add('is-hidden');
   }
 
   async updateDateExpire(event) {
     const target = event.currentTarget;
-    const editor = target.parentNode;
+    const editor = target.closest('.editor');
     const container = editor.parentNode;
     const inputDate = container.querySelector("input[type=date]");
     const newDate = inputDate.value;
@@ -93,7 +101,7 @@ export default class extends Controller {
 
   removeElement(target) {
     var container, editor, link;
-    editor = target.parentNode;
+    editor = target.closest('.editor');
     container = editor.parentNode;
     editor.remove();
     link = container.querySelector('a.is-hidden');

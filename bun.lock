@@ -2,32 +2,32 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "Med.Plan.",
+      "name": "medplan",
       "dependencies": {
         "@creativebulma/bulma-tooltip": "francesco-loreti/bulma-tooltip",
-        "@fortawesome/fontawesome-free": "latest",
-        "@fortawesome/fontawesome-svg-core": "latest",
-        "@fortawesome/free-brands-svg-icons": "latest",
-        "@fortawesome/free-solid-svg-icons": "latest",
-        "@fullcalendar/core": "latest",
-        "@fullcalendar/daygrid": "latest",
-        "@fullcalendar/interaction": "latest",
-        "@hotwired/stimulus": "latest",
-        "@hotwired/turbo-rails": "latest",
-        "@rails/actioncable": "latest",
-        "@rails/actiontext": "latest",
-        "@rails/activestorage": "latest",
-        "@rails/request.js": "latest",
-        "@samlam140330/bulma-switch": "latest",
-        "@sweetalert2/themes": "latest",
-        "bulma": "latest",
+        "@fortawesome/fontawesome-free": "^6.7.2",
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
+        "@fullcalendar/core": "6.1.17",
+        "@fullcalendar/daygrid": "6.1.17",
+        "@fullcalendar/interaction": "6.1.17",
+        "@hotwired/stimulus": "^3.2.2",
+        "@hotwired/turbo-rails": "^8.0.16",
+        "@rails/actioncable": "^8.0.200",
+        "@rails/actiontext": "^8.0.200",
+        "@rails/activestorage": "^8.0.200",
+        "@rails/request.js": "^0.0.12",
+        "@samlam140330/bulma-switch": "^1.0.2",
+        "@sweetalert2/themes": "^5.0.27",
+        "bulma": "^1.0.4",
         "bulma-quickview": "francesco-loreti/bulma-quickview",
         "dual-listbox": "francesco-loreti/dual-listbox",
-        "flatpickr": "latest",
-        "moment": "latest",
-        "smart-timeout": "latest",
-        "sweetalert2": "latest",
-        "trix": "latest",
+        "flatpickr": "^4.6.13",
+        "moment": "^2.30.1",
+        "smart-timeout": "^2.7.1",
+        "sweetalert2": "^11.22.0",
+        "trix": "^2.1.15",
       },
     },
   },
@@ -54,7 +54,7 @@
 
     "@hotwired/turbo": ["@hotwired/turbo@8.0.13", "", {}, "sha512-M7qXUqcGab6G5PKOiwhgbByTtrPgKPFCTMNQ52QhzUEXEqmp0/ApEguUesh/FPiUjrmFec+3lq98KsWnYY2C7g=="],
 
-    "@hotwired/turbo-rails": ["@hotwired/turbo-rails@8.0.13", "", { "dependencies": { "@hotwired/turbo": "^8.0.13", "@rails/actioncable": "^7.0" } }, "sha512-6SCnnOSzhtaJ0pNkAjncZxjtKsK3sP/vPEkCnTXBXSHkr+vF7DTZkOlwjhms1DbbQNTsjCsBoKvzSMbh/omSCQ=="],
+    "@hotwired/turbo-rails": ["@hotwired/turbo-rails@8.0.16", "", { "dependencies": { "@hotwired/turbo": "^8.0.13", "@rails/actioncable": ">=7.0" } }, "sha512-Yxiy2x+N3eOIEDokvLzSrd08aI5RDKnFYDQFl2J/LuMEWTtPdY7oNP0F/gv/sSe5AV23Lwz4FitG/uNFXNM5tA=="],
 
     "@rails/actioncable": ["@rails/actioncable@8.0.200", "", {}, "sha512-EDqWyxck22BHmv1e+mD8Kl6GmtNkhEPdRfGFT7kvsv1yoXd9iYrqHDVAaR8bKmU/syC5eEZ2I5aWWxtB73ukMw=="],
 
@@ -153,8 +153,6 @@
     "trix": ["trix@2.1.15", "", { "dependencies": { "dompurify": "^3.2.5" } }, "sha512-LoaXWczdTUV8+3Box92B9b1iaDVbxD14dYemZRxi3PwY+AuDm97BUJV2aHLBUFPuDABhxp0wzcbf0CxHCVmXiw=="],
 
     "undefsafe": ["undefsafe@2.0.5", "", {}, "sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA=="],
-
-    "@hotwired/turbo-rails/@rails/actioncable": ["@rails/actioncable@7.2.201", "", {}, "sha512-wsTdWoZ5EfG5k3t7ORdyQF0ZmDEgN4aVPCanHAiNEwCROqibSZMXXmCbH7IDJUVri4FOeAVwwbPINI7HVHPKBw=="],
 
     "simple-update-notifier/semver": ["semver@7.0.0", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A=="],
   }

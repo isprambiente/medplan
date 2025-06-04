@@ -29,10 +29,8 @@ export default class extends Controller {
 
   send(event) {
     const form = event.target.closest('form');
-    const frame = form.dataset.turboFrame || 'yield';
     if (form) {
-      var filter_url = new URLSearchParams(new FormData(form)).toString();
-      Turbo.visit(`${form.action}?${filter_url}`, { frame: frame });
+      form.requestSubmit();
     }
   }
 

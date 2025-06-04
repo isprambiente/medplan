@@ -48,7 +48,7 @@ var __require = /* @__PURE__ */ ((x) => typeof require !== "undefined" ? require
   throw Error('Dynamic require of "' + x + '" is not supported');
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/adapters.js
+// node_modules/@rails/actioncable/src/adapters.js
 var adapters_default;
 var init_adapters = __esm(() => {
   adapters_default = {
@@ -57,7 +57,7 @@ var init_adapters = __esm(() => {
   };
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/logger.js
+// node_modules/@rails/actioncable/src/logger.js
 var logger_default;
 var init_logger = __esm(() => {
   init_adapters();
@@ -71,7 +71,7 @@ var init_logger = __esm(() => {
   };
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/connection_monitor.js
+// node_modules/@rails/actioncable/src/connection_monitor.js
 class ConnectionMonitor {
   constructor(connection) {
     this.visibilityDidChange = this.visibilityDidChange.bind(this);
@@ -170,7 +170,7 @@ var init_connection_monitor = __esm(() => {
   connection_monitor_default = ConnectionMonitor;
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/internal.js
+// node_modules/@rails/actioncable/src/internal.js
 var internal_default;
 var init_internal = __esm(() => {
   internal_default = {
@@ -195,7 +195,7 @@ var init_internal = __esm(() => {
   };
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/connection.js
+// node_modules/@rails/actioncable/src/connection.js
 class Connection {
   constructor(consumer) {
     this.open = this.open.bind(this);
@@ -360,7 +360,7 @@ var init_connection = __esm(() => {
   connection_default = Connection;
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/subscription.js
+// node_modules/@rails/actioncable/src/subscription.js
 class Subscription {
   constructor(consumer, params = {}, mixin) {
     this.consumer = consumer;
@@ -388,7 +388,7 @@ var extend = function(object, properties) {
   return object;
 };
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/subscription_guarantor.js
+// node_modules/@rails/actioncable/src/subscription_guarantor.js
 class SubscriptionGuarantor {
   constructor(subscriptions) {
     this.subscriptions = subscriptions;
@@ -431,7 +431,7 @@ var init_subscription_guarantor = __esm(() => {
   subscription_guarantor_default = SubscriptionGuarantor;
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/subscriptions.js
+// node_modules/@rails/actioncable/src/subscriptions.js
 class Subscriptions {
   constructor(consumer) {
     this.consumer = consumer;
@@ -507,7 +507,7 @@ var init_subscriptions = __esm(() => {
   init_logger();
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/consumer.js
+// node_modules/@rails/actioncable/src/consumer.js
 class Consumer {
   constructor(url) {
     this._url = url;
@@ -555,7 +555,7 @@ var init_consumer = __esm(() => {
   init_subscriptions();
 });
 
-// node_modules/@hotwired/turbo-rails/node_modules/@rails/actioncable/src/index.js
+// node_modules/@rails/actioncable/src/index.js
 var exports_src = {};
 __export(exports_src, {
   logger: () => logger_default,
@@ -12034,7 +12034,7 @@ function setFormMode(mode) {
   console.warn("Please replace `Turbo.setFormMode(mode)` with `Turbo.config.forms.mode = mode`. The top-level function is deprecated and will be removed in a future version of Turbo.`");
   config.forms.mode = mode;
 }
-var Turbo2 = /* @__PURE__ */ Object.freeze({
+var Turbo = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   navigator: navigator$1,
   session,
@@ -12700,7 +12700,7 @@ if (customElements.get("turbo-stream-source") === undefined) {
     element = element.parentElement;
   }
 })();
-window.Turbo = { ...Turbo2, StreamActions };
+window.Turbo = { ...Turbo, StreamActions };
 start();
 
 // node_modules/@hotwired/turbo-rails/app/javascript/turbo/cable.js
@@ -20292,40 +20292,48 @@ var import_sweetalert2 = __toESM(require_sweetalert2_all(), 1);
 class audits_controller_default extends Controller {
   static targets = ["container", "auditExpire"];
   editDateExpire(event) {
-    var btnCanc, btnSave, container, editDiv, el, oldDate, target;
+    var btnCanc, btnSave, container, editDiv, el, oldDate, target, control;
     target = event.target;
     container = target.parentNode;
     editDiv = document.createElement("DIV");
     editDiv.id = `${container.id}_editor`;
-    editDiv.className = "editor";
+    editDiv.className = "editor field has-addons";
     container.appendChild(editDiv);
     oldDate = target.text;
     el = document.createElement("INPUT");
     el.type = "date";
-    el.className = "input is-radiusless";
-    el.style = "width:60%;";
+    el.className = "input";
     el.value = moment_default(oldDate, "DD/MM/YYYY").format("YYYY-MM-DD");
-    editDiv.appendChild(el);
+    control = document.createElement("DIV");
+    control.className = "control is-expanded";
+    control.appendChild(el);
+    editDiv.appendChild(control);
     btnSave = document.createElement("BUTTON");
-    btnSave.innerHTML = "<i class='fa fa-save' style='padding-right:0px'></i>";
-    btnSave.className = "button tooltip is-success is-radiusless";
+    btnSave.innerHTML = "<i class='fa fa-save'></i>";
+    btnSave.className = "button tooltip is-success";
     btnSave.dataset.tooltip = "Salva";
     btnSave.dataset.controller = "audits";
     btnSave.dataset.action = "click->audits#updateDateExpire";
     btnSave.dataset.userId = target.dataset.userId;
-    editDiv.appendChild(btnSave);
+    control = document.createElement("DIV");
+    control.className = "control py-0";
+    control.appendChild(btnSave);
+    editDiv.appendChild(control);
     btnCanc = document.createElement("BUTTON");
-    btnCanc.innerHTML = "<i class='fa fa-times' style='padding-right:0px'></i>";
-    btnCanc.className = "button tooltip is-danger is-radiusless";
+    btnCanc.innerHTML = "<i class='fa fa-times'></i>";
+    btnCanc.className = "button tooltip is-danger my-0";
     btnCanc.dataset.tooltip = "Annulla";
     btnCanc.dataset.controller = "audits";
     btnCanc.dataset.action = "click->audits#abortDateExpire";
-    editDiv.appendChild(btnCanc);
+    control = document.createElement("DIV");
+    control.className = "control";
+    control.appendChild(btnCanc);
+    editDiv.appendChild(control);
     return target.classList.add("is-hidden");
   }
   async updateDateExpire(event) {
     const target = event.currentTarget;
-    const editor = target.parentNode;
+    const editor = target.closest(".editor");
     const container = editor.parentNode;
     const inputDate = container.querySelector("input[type=date]");
     const newDate = inputDate.value;
@@ -20371,7 +20379,7 @@ class audits_controller_default extends Controller {
   }
   removeElement(target) {
     var container, editor, link;
-    editor = target.parentNode;
+    editor = target.closest(".editor");
     container = editor.parentNode;
     editor.remove();
     link = container.querySelector("a.is-hidden");
@@ -34446,8 +34454,7 @@ class form_controller_default extends Controller {
     const form = event.target.closest("form");
     const frame = form.dataset.turboFrame || "yield";
     if (form) {
-      var filter_url = new URLSearchParams(new FormData(form)).toString();
-      Turbo.visit(`${form.action}?${filter_url}`, { frame });
+      form.requestSubmit();
     }
   }
   delayedSend(event) {
@@ -42017,4 +42024,4 @@ addEventListener("trix-attachment-add", (event) => {
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=88E18D5188522E9C64756E2164756E21
+//# debugId=5734396CF4E8F27064756E2164756E21

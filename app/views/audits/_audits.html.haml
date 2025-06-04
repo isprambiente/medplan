@@ -2,15 +2,15 @@
 %article#audits.message
   .message-header Idoneità
   .message-body.is-paddingless.is-scrollable
-    .list
-      .columns.head.is-mobile
-        .column.is-3.has-text-left= t('title', scope: 'category')
-        .column.is-4-desktop.is-3-touch.has-text-left= t('protocol', scope: 'category')
-        .column.is-2.has-text-left.is-hidden-mobile= t('state', scope: 'audit')
-        .column.is-2.has-text-left.is-hidden-mobile= t('next_visit', scope: 'audit')
-        - if response
-          .column.is-1-desktop.is-2-touch.has-text-left
-    - if @audits.present?
-      %turbo-frame.rows= render @audits
-    - else
-      .column.is-full.has-text-centered  Nessuna categoria di rischio selezionata
+    %table.table.is-striped.is-narrow.is-hoverable.is-fullwidth
+      %thead
+        %tr
+          %th= t('title', scope: 'category')
+          %th= t('protocol', scope: 'category')
+          %th= t('state', scope: 'audit')
+          %th{ style: "width:10rem;" }= t('next_visit', scope: 'audit')
+          %th
+      - if @audits.present?
+        %tbody= render @audits
+      - else
+        .column.is-full.has-text-centered  Nessuna categoria di rischio selezionata

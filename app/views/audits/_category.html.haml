@@ -1,7 +1,7 @@
 - audit = Audit.where('category_id = ? AND user_id = ?', category.id, user.id).first
 - audit = Audit.new(category_id: category.id, user_id: user.id) if audit.blank?
 = turbo_frame_tag "#{dom_id(user)}_#{dom_id(category)}" do
-  = form_with model: audit, url: url_for([user,audit]), method: audit.new_record? ? 'POST' : 'DELETE', data: { turbo_method: audit.new_record? ? 'POST' : 'DELETE' } do |f|
+  = form_with model: audit, url: url_for([user,audit]), method: audit.new_record? ? :post : :delete, data: { turbo_method: audit.new_record? ? :post : :delete, turbo_frame: 'modal' } do |f|
     = f.hidden_field :category_id, value: category.id
     .columns.row.is-mobile
       .column.is-10-desktop.is-8-tablet.has-text-left= category.title.capitalize

@@ -1,7 +1,7 @@
 = turbo_frame_tag 'users', class: 'rows' do
   - unless @users.blank?
     = render @users
-    .columns
+    .columns.mt-3
       .column.is-full= "#{pagy_bulma_nav(@pagy)}".html_safe
   - else
     .columns
