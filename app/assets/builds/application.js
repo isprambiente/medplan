@@ -34433,13 +34433,16 @@ var dual_listbox_default = DualListbox;
 // app/javascript/controllers/form_controller.js
 class form_controller_default extends Controller {
   static targets = ["listbox"];
+  static values = {
+    details: { type: String, default: "info" },
+    status: { type: String, default: "close" }
+  };
   connect() {
     document.querySelectorAll("[disabled]").forEach(function(obj) {
       return obj.classList.add("is-disabled");
     });
     if (this.hasListboxTarget) {
-      var select;
-      select = this.listboxTarget;
+      const select = this.listboxTarget;
       return new dual_listbox_default(select, {
         availableTitle: "Categorie disponibili",
         selectedTitle: "Categorie selezionate",
@@ -34452,15 +34455,13 @@ class form_controller_default extends Controller {
   }
   send(event) {
     const form = event.target.closest("form");
-    const frame = form.dataset.turboFrame || "yield";
     if (form) {
       form.requestSubmit();
     }
   }
   delayedSend(event) {
-    if (import_smart_timeout.default.exists("textDelay")) {
+    if (import_smart_timeout.default.exists("textDelay"))
       import_smart_timeout.default.set("textDelay", true);
-    }
     return import_smart_timeout.default.set("textDelay", () => {
       return this.send(event);
     }, 750);
@@ -34469,44 +34470,23 @@ class form_controller_default extends Controller {
     event.target.closest("form").reset();
   }
   close() {
-    if (import_sweetalert23.default.isVisible()) {
+    if (import_sweetalert23.default.isVisible())
       return import_sweetalert23.default.close();
-    }
   }
   toggleVisible(event) {
     document.getElementById(event.currentTarget.dataset.id).classList.toggle("is-hidden");
-    if (event.currentTarget.querySelector("i.fas")) {
+    if (event.currentTarget.querySelector("i.fas"))
       return event.currentTarget.querySelector("i.fas").classList.toggle("fa-chevron-down");
-    }
   }
   details(event) {
-    var target, icon, container, info;
-    target = event.currentTarget;
-    if (target) {
-      container = target.closest(".event");
-      if (container) {
-        info = container.querySelector("span.info");
-        if (info) {
-          const status = target.dataset.status;
-          if (status == "close") {
-            icon = target.querySelector(".fa-circle-plus");
-            if (icon) {
-              icon.classList.add("fa-circle-minus");
-              icon.classList.remove("fa-circle-plus");
-            }
-            info.classList.remove("is-hidden");
-            target.dataset.status = "open";
-          } else {
-            icon = target.querySelector(".fa-circle-minus");
-            if (icon) {
-              icon.classList.add("fa-circle-plus");
-              icon.classList.remove("fa-circle-minus");
-            }
-            info.classList.add("is-hidden");
-            target.dataset.status = "close";
-          }
-        }
-      }
+    const target = document.getElementById(this.detailsValue);
+    const button = event.target;
+    this.statusValue = this.statusValue === "close" ? "open" : "close";
+    target?.classList.toggle("is-hidden");
+    const icon = button.closest("a")?.querySelector("[data-icon]");
+    if (icon) {
+      const icons = ["circle-plus", "circle-minus"];
+      icon.dataset.icon = icons.find((i3) => i3 !== icon.dataset.icon);
     }
   }
   async sendValue(event) {
@@ -34515,33 +34495,29 @@ class form_controller_default extends Controller {
     const param_data = new URLSearchParams({ [target.name]: target.value });
     try {
       const response = await get(`${url}?${param_data}`);
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error("Errore nella richiesta");
-      }
       target.closest(".container").outerHTML = await response.text;
     } catch (error2) {
       console.error("Si è verificato un errore:", error2);
     }
   }
   focus(event) {
-    var target;
     if (event.currentTarget.dataset.formId) {
-      target = document.getElementById(event.currentTarget.dataset.formId);
-      if (target) {
+      const target = document.getElementById(event.currentTarget.dataset.formId);
+      if (target)
         return target.scrollIntoView();
-      }
     }
   }
-  confirmation(event) {
-    var confirmation, deletable, form, icon, options, target, title, url;
-    target = event.target;
-    confirmation = target.dataset.formConfirmation || "";
-    url = target.dataset.formUrl;
-    icon = target.dataset.icon || "question";
-    title = target.dataset.title || "";
-    deletable = target.dataset.deletable || false;
-    form = target.closest("form");
-    options = {
+  async confirmation(event) {
+    const target = event.target;
+    const confirmation = target.dataset.formConfirmation || "";
+    const url = target.dataset.formUrl;
+    const icon = target.dataset.icon || "question";
+    const title = target.dataset.title || "";
+    const deletable = target.dataset.deletable || false;
+    const form = target.closest("form");
+    const options = {
       icon,
       timerProgressBar: false,
       position: "center",
@@ -34558,24 +34534,21 @@ class form_controller_default extends Controller {
         popup: ""
       }
     };
-    return import_sweetalert23.default.fire(options).then((result) => {
-      if (result.isConfirmed) {
-        return window.location.href = url;
-      }
-    });
+    const result = await import_sweetalert23.default.fire(options);
+    if (result.isConfirmed)
+      return window.location.href = url;
   }
   confirm_before_send(event) {
-    var confirmation, deletable, form, icon, options, target, title;
-    target = event.currentTarget;
+    const target = event.currentTarget;
     if (target.dataset.force !== "true") {
       event.preventDefault();
       event.stopPropagation();
-      icon = target.dataset.icon || "question";
-      title = target.dataset.title || "";
-      confirmation = target.dataset.confirmation;
-      deletable = target.dataset.deletable || false;
-      form = target.closest("form");
-      options = {
+      const icon = target.dataset.icon || "question";
+      const title = target.dataset.title || "";
+      const confirmation = target.dataset.confirmation;
+      const deletable = target.dataset.deletable || false;
+      const form = target.closest("form");
+      const options = {
         icon,
         timerProgressBar: false,
         position: "center",
@@ -34595,9 +34568,8 @@ class form_controller_default extends Controller {
       return import_sweetalert23.default.fire(options).then((result) => {
         if (result.isConfirmed) {
           if (form && form.nodeName === "FORM") {
-            if (deletable) {
+            if (deletable)
               this.removeRow(event);
-            }
             return this.send(event);
           }
         }
@@ -42024,4 +41996,4 @@ addEventListener("trix-attachment-add", (event) => {
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=5734396CF4E8F27064756E2164756E21
+//# debugId=2A87BE3D6ECC4AC464756E2164756E21

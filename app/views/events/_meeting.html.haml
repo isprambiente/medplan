@@ -6,18 +6,17 @@
   - title = "Inviata il #{ l_long meeting.sended_at }"
 
 = turbo_frame_tag "#{dom_id(meeting)}" do
-  .columns.event.container{id: "#{meeting.user.div}-event", class: cycle('dark', 'light', name: 'meeting') }
+  .columns.event.container.mb-0{id: "#{meeting.user.div}-event", class: cycle('', '', name: 'meeting') }
     .column.is-1.has-text-centered= l_time  meeting.start_at
     .column.parent-info
       .columns.is-mobile
         .column.is-0
-          %a.is-link.tooltip{ data: { tooltip: "Dettagli di #{ meeting.user.label }", controller: 'form', action: 'form#details', status: 'close' } }= fas_icon('plus-circle')
+          %a.info.is-link.tooltip{ data: { tooltip: "Dettagli di #{ meeting.user.label }", controller: 'form', action: 'form#details', form_status_value: 'close', form_details_value: "#{meeting.user.div}_info" } }= fas_icon('plus-circle')
         .column.has-text-left.pl-4= meeting.user.label
-      .columns
-        %span.info.box.is-hidden.column= render 'users/detail_rid' , user: meeting.user
     .column.is-2-desktop.is-3-tablet.has-text-right= event.categories(meeting.user)
     .column.is-2-desktop.is-3-tablet
       .buttons.has-addons.is-right
         %a.button{ href: user_event_reserve_path(meeting.user, event, template: 'calendar'), class: event.status(meeting.user), data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi la variazione di stato dell'appuntamento?" } }= t( event.status(meeting.user), scope: 'event.status' )
         %a.button.tooltip{ href: confirmed_user_event_path(meeting.user, event, zone: 'events'), class: "#{classes} #{'disabled' if meeting.user.email.blank?}", id: meeting.div, data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi l'invio della e-mail?" } }= fas_icon('envelope')
         %a.button.is-danger{ href: user_event_meeting_destroy_path(meeting.user, event, zone: 'events'), data: { method: :delete, turbo_method: 'DELETE', turbo_frame: dom_id(meeting), turbo_confirm: "Confermi la cancellazione dell'appuntamento?" } }= fas_icon('trash')
+  %span.box.is-hidden.is-size-6{id: "#{meeting.user.div}_info"}= render 'users/detail_rid' , user: meeting.user

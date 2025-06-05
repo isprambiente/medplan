@@ -1,27 +1,52 @@
-.columns.has-2
-  .column
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
-      .column= user.cf unless user.cf.blank?
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('calendar', text: t('born_date', scope: 'user')+': ')
-      .column= user.data_nasc.blank? ? 'n.d.' : user.data_nasc.to_date.strftime('%d/%m/%Y')
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('map-marker', text: t('born_city', scope: 'user')+': ')
-      .column= user.citta_nasc.blank? ? 'n.d.' : user.citta_nasc
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('phone', text: t('personal_tel', scope: 'user')+': ')
-      .column= user.tel.blank? ? 'n.d.' : user.tel
-  .column
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('building', text: t('office', scope: 'user')+': ')
-      .column= user.location.blank? ? 'n.d.' : user.location
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('phone', text: t('telephone', scope: 'user')+': ')
-      .column= user.telephone.blank? ? 'n.d.' : user.telephone
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
-      .column= user.structure.blank? ? 'n.d.' : user.structure
-    .columns.is-gapless.is-paddingless.is-marginless.has-text-left
-      .column.has-text-weight-bold= fas_icon('pen-square', text: t('note', scope: 'user')+': ')
-      .column= user.body
+.fixed-grid
+  .grid
+    .cell
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.cf unless user.cf.blank?
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('calendar', text: t('born_date', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.data_nasc.blank? ? 'n.d.' : user.data_nasc.to_date.strftime('%d/%m/%Y')
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('map-marker', text: t('born_city', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.citta_nasc.blank? ? 'n.d.' : user.citta_nasc
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('phone', text: t('personal_tel', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.tel.blank? ? 'n.d.' : user.tel
+    .cell
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('building', text: t('office', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.location.blank? ? 'n.d.' : user.location
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('phone', text: t('telephone', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.telephone.blank? ? 'n.d.' : user.telephone
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('sitemap', text: t('structure', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.structure.blank? ? 'n.d.' : user.structure
+      .field.is-horizontal
+        .field-label
+          %label.label= fas_icon('pen-square', text: t('note', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded= user.body

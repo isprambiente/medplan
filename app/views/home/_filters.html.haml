@@ -6,31 +6,31 @@
     %label.panel-block
       = f.radio_button :riepilogo, 'new', data: {action: "form#send"}
       %span= t('new', scope: 'home.index.filter')
-      %span.tag.is-rounded.is-to-right= @users.unassigned.count
+      %span.tag.is-rounded.is-pulled-right= @users.unassigned.count
     %label.panel-block
       = f.radio_button :riepilogo, 'expired', data: {action: "form#send"}, checked: true
       %span= t('expired', scope: 'home.index') + " " + l(@start_at, :format => '%B %Y').capitalize
-      %span.tag.is-rounded.is-to-right= @users.where('audits.expire < ? ', @start_at).count
+      %span.tag.is-rounded.is-pulled-right= @users.where('audits.expire < ? ', @start_at).count
     %label.panel-block
       = f.radio_button :riepilogo, 'thismonth', data: {action: "form#send"}
       %span= t('expire_at', scope: 'home.index')+"#{l(@start_at, :format => '%B %Y').capitalize}"
-      %span.tag.is-rounded.is-to-right= @users.where('audits.expire Between ? And ?', @start_at, @stop_at).count
+      %span.tag.is-rounded.is-pulled-right= @users.where('audits.expire Between ? And ?', @start_at, @stop_at).count
     %label.panel-block
       = f.radio_button :riepilogo, 'nextmonth', data: {action: "form#send"}
       %span= t('expire_at', scope: 'home.index')+"#{l(@next_start_at, :format => '%B %Y').capitalize} (+1 "+t('month', scope: '')+")"
-      %span.tag.is-rounded.is-to-right= @users.where('audits.expire Between ? And ?', @next_start_at, @next_stop_at).count
+      %span.tag.is-rounded.is-pulled-right= @users.where('audits.expire Between ? And ?', @next_start_at, @next_stop_at).count
     %label.panel-block
       = f.radio_button :riepilogo, 'next2months', data: {action: "form#send"}
       %span= t('expire_at', scope: 'home.index')+"#{l(@next_2_start_at, :format => '%B %Y').capitalize} (+2 "+t('months', scope: '')+")"
-      %span.tag.is-rounded.is-to-right= @users.where('audits.expire Between ? And ?', @next_2_start_at, @next_2_stop_at).count
+      %span.tag.is-rounded.is-pulled-right= @users.where('audits.expire Between ? And ?', @next_2_start_at, @next_2_stop_at).count
     %label.panel-block
       = f.radio_button :riepilogo, 'locked', data: {action: "form#send"}
       %span= t('locked', scope: 'home.index.filter')
-      %span.tag.is-rounded.is-to-right= @users.locked.count
+      %span.tag.is-rounded.is-pulled-right= @users.locked.count
     %label.panel-block
       = f.radio_button :riepilogo, 'blocked', data: {action: "form#send"}
       %span= t('blocked', scope: 'home.index.filter')
-      %span.tag.is-rounded.is-to-right= @users.blocked.count
+      %span.tag.is-rounded.is-pulled-right= @users.blocked.count
 
   %nav.panel.filters
     %p.panel-heading= fas_icon('calendar', text: t('event_waiting', scope: 'event'))

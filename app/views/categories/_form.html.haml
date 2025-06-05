@@ -5,6 +5,7 @@
         .field
           %label.label.is-required Titolo
           .control.is-expanded= f.text_field :title, class: "input"
+          %p.help.is-danger La modifica del titolo si ripercuote anche sulle etichette già in uso nel sistema e sulle idoneita'
           %p.help.is-danger= @category.errors.messages[:title].join(', ')
       .column
         .field

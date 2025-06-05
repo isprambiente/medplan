@@ -1,6 +1,6 @@
 = turbo_frame_tag "#{dom_id(event)}", data: {controller: view} do
-  %h3.title.is-3 #{t('manage', scope: 'event')}
-  %h4.subtitle.is-4 #{l event.date_on}
+  %h3.title.is-3.has-text-centered #{t('manage', scope: 'event')}
+  %h4.subtitle.is-4.has-text-centered #{l event.date_on}
   = render 'detail', event: event
   .container.mt-4
     %nav.level

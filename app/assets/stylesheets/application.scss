@@ -36,6 +36,7 @@ $ispra-grey-light: #7a7878da;
 );
 
 @forward 'bulma-quickview/index';
+@forward '@creativebulma/bulma-tooltip/src/sass/index.scss';
 @forward '@samlam140330/bulma-switch/src/sass/index.scss';
 @forward 'loader';
 @forward 'audits';
