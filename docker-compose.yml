@@ -13,18 +13,10 @@ services:
   redis:
     image: redis:alpine
 
-  cas-mock-server:
-    image: apereo/cas-initializr:0.0.36
-    volumes:
-      - ./.docker/cas:/etc/cas/
-    ports:
-      - 8080:8080
-
   web:
     depends_on:
       - 'postgres'
       - 'redis'
-      - 'cas-mock-server'
     build:
       context: .
       args:
@@ -35,7 +27,7 @@ services:
     ports:
       - 8020:8020
     environment:
-      RAILS_CAS_URL: ${RAILS_CAS_URL}
+      RAILS_OIDC_URL: ${RAILS_OIDC_URL}
       RAILS_DATABASE_URL: ${RAILS_DATABASE_URL}
       RAILS_ENV: ${RAILS_ENV}
       RAILS_AUTHENTICATOR: ${RAILS_AUTHENTICATOR}
@@ -45,4 +37,3 @@ services:
     links:
       - postgres
       - redis
-      - cas-mock-server
