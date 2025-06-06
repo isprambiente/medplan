@@ -12,7 +12,6 @@ html, body
 html
   font-family: 'Open Sans', sans-serif
   font-size: 13px
-  color: var(--bulma-black)
 
 body
   line-height: 1.6
@@ -225,3 +224,7 @@ input[pattern]:invalid
 @include cv.system-theme($name: "dark")
   .has-alert, .expired
     color: var(--bulma-danger-invert) !important
+  .row:hover
+    color: #000 !important
+  .dual-listbox__button, .dual-listbox__search-reset
+    background-color: #000 !important

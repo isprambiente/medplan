@@ -24197,7 +24197,6 @@ html, body {
 html {
   font-family: "Open Sans", sans-serif;
   font-size: 13px;
-  color: var(--bulma-black);
 }
 
 body {
@@ -24474,6 +24473,12 @@ input[pattern]:invalid {
 @media (prefers-color-scheme: dark) {
   :root .has-alert, :root .expired {
     color: var(--bulma-danger-invert) !important;
+  }
+  :root .row:hover {
+    color: #000 !important;
+  }
+  :root .dual-listbox__button, :root .dual-listbox__search-reset {
+    background-color: #000 !important;
   }
 }
 .dual-listbox {
@@ -24818,10 +24823,19 @@ form p.helper {
   background: transparent !important;
 }
 
+:root {
+  --swal2-background: var(--bulma-body-background-color) !default;
+}
+
 .swal2-html-container {
+  background-color: var(--bulma-body-background-color) !important;
   text-align: left !important;
   overflow-x: hidden !important;
   overflow-y: hidden !important;
+}
+
+.swal2-title {
+  background-color: var(--bulma-body-background-color) !important;
 }
 
 .ss-content {
@@ -24829,7 +24843,7 @@ form p.helper {
 }
 
 .swal2-close {
-  background-color: var(--red) !important;
+  background-color: var(--bulma-danger) !important;
   border-top-left-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
   border-top-right-radius: 0px !important;
