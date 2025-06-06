@@ -8,3 +8,6 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 
 require("./awesome.js")
+
+import "trix"
+import "@rails/actiontext"

@@ -1,12 +1,36 @@
 .quickview
+  direction: rtl
   .quickview-header
     min-height: 32px !important
-    background-color: $primary
+    background-color: var(--primary)
     .title
-      color: $white
+      color: var(--white)
   .quickview-body
-    .menu-label
-      padding: 0 1rem
-    ul.menu-list
-      li
+    direction: rtl
+    .quickview-block
+      direction: ltr
+      .menu-label
         padding: 0 1rem
+      ul.menu-list
+        overflow-y: auto
+        li
+          padding: 0 1rem
+          &:hover
+            background: var(--warning)
+          a
+            font-size: .9rem
+        li:last-child
+          margin-bottom: 1rem
+        li.total
+          border-top: 2px solid var(--black)
+          margin: 0 0.5rem
+          .level
+            margin-left: -0.5rem
+            .level-left
+              width: 18vw
+.quickview.is-left
+  direction: ltr
+  .quickview-body
+    direction: ltr
+    .quickview-block
+      direction: ltr

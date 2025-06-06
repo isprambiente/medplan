@@ -28,7 +28,6 @@ it:
     update: aggiorna
     calendar: calendario
     documents: documentazione
-    print: stampa
     printed: stampa
     board: tabella
     timeline: avanzamento
@@ -47,3 +46,4 @@ it:
     user_manual: manuale_utente
     secretary_manual: manuale_segreteria
     doctor_manual: manuale_dottore
+    export: esporta

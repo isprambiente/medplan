@@ -1,35 +1,56 @@
 /* CSS SEDI */
+@use "bulma/sass/utilities/css-variables" as cv
+
+:root
+  --bulma-lime: hsla(60, 52.8%, 58.4%, 1)
+  --bulma-lime-80: hsla(60, 52.8%, 58.4%, 80)
+  --bulma-purple: hsla(255.3, 88.1%, 73.7%, 1)
+  --bulma-purple-80: hsla(255.3, 88.1%, 73.7%, 80)
+  --bulma-pink: hsla(328.8, 99%, 58.8%, 1)
+  --bulma-pink-80: hsla(328.8, 99%, 58.8%, 80)
+  --bulma-other: hsla(0, 0%, 86%, 1)
+  --bulma-other-80: hsla(0, 0%, 86%, 80)
+
 .chioggia
-  border-left: 4px solid #d4d48d
+  border-left: 4px solid var(--bulma-warning-light)
 label.chioggia, .tag.chioggia
-  background-color: scale-color($warning, $lightness: 70%)
+  background-color: var(--bulma-warning-80)
 .livorno
-  border-left: 4px solid #FE2E9A
+  border-left: 4px solid var(--bulma-pink)
 label.livorno, .tag.livorno
-  background-color: scale-color(#FE2E9A, $lightness: 70%)
+  background-color: var(--bulma-pink-80)
 .milazzo
-  border-left: 4px solid $info
+  border-left: 4px solid var(--bulma-info)
 label.milazzo, .tag.milazzo
-  background-color: scale-color($info, $lightness: 70%)
+  background-color: var(--bulma-info-80)
 .ozzano
-  border-left: 4px solid #9F81F7
+  border-left: 4px solid var(--bulma-purple)
 label.ozzano, .tag.ozzano
-  background-color: scale-color(#9F81F7, $lightness: 70%)
+  background-color: var(--bulma-purple-80)
 .palermo
-  border-left: 4px solid #CDCD5D
+  border-left: 4px solid var(--bulma-lime)
 label.palermo, .tag.palermo
-  background-color: scale-color(#F7FE2E, $lightness: 70%)
+  background-color: var(--bulma-lime-80)
 .roma
-  border-left: 4px solid $success
+  border-left: 4px solid var(--bulma-success)
 label.roma, .tag.roma
-  background-color: scale-color($success, $lightness: 70%)
+  background-color: var(--bulma-success-80)
 .venezia
-  border-left: 4px solid $link
+  border-left: 4px solid var(--bulma-link)
 label.venezia, .tag.venezia
-  background-color: scale-color($link, $lightness: 70%)
+  background-color: var(--bulma-link-80)
 .other
-  border-left: 4px solid $grey-lighter
+  border-left: 4px solid var(--bulma-grey-lighter)
 label.other, .tag.other
-  background-color: scale-color($grey-lighter, $lightness: 70%)
+  background-color: var(--bulma-grey-80)
+
+@include cv.system-theme($name: "dark")
+  .other
+    border-left: 4px solid var(--bulma-other)
+  label.other, .tag.other
+    background-color: var(--bulma-other-80)
+  #cities
+    .sedi
+      color: var(--bulma-black)
 
 /* Fine */

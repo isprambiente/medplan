@@ -1,14 +1,16 @@
+@use 'bulma/sass/components/navbar'
+
 form
   &.button_to
     button
       background: none !important
       border: none
-      color: $grey-dark
+      color: var(--bulma-grey-dark)
       text-decoration: none
       cursor: pointer
       &.navbar-item
         @extend .navbar-item
-        color: $navbar-item-color
+        color: var(--bulma-white-dark)
         font-size: 0.85rem
         span.icon
           margin-right: 0.5rem
@@ -23,5 +25,4 @@ form
     cursor: default !important
 
   p.helper
-    @extend .help
     cursor: default

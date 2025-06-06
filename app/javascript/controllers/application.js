@@ -24,6 +24,12 @@ window.addEventListener("turbo:load", function(t){
   t.stopPropagation();
 });
 
+document.addEventListener("turbo:frame-missing", (event) => {
+  const { detail: { response, visit } } = event;
+  event.preventDefault();
+  visit(response.url);
+});
+
 // Configure Stimulus development experience
 application.warning = false
 application.debug = false

@@ -2,10 +2,14 @@ import { Controller } from "@hotwired/stimulus";
 import { get } from "@rails/request.js";
 import Timeout from 'smart-timeout';
 import Swal from 'sweetalert2';
-import DualListbox from 'dual-listbox/src/dual-listbox';
+import DualListbox from 'dual-listbox/dist/dual-listbox';
 
 export default class extends Controller {
   static targets = ['listbox']
+  static values = {
+    details: { type: String, default: 'info' },
+    status: { type: String, default: 'close' }
+  }
 
   connect() {
     // Per disattivare l'evento click dei bottoni dopo il passaggio a Bulma
@@ -14,8 +18,7 @@ export default class extends Controller {
       return obj.classList.add('is-disabled');
     });
     if (this.hasListboxTarget) {
-      var select;
-      select = this.listboxTarget;
+      const select = this.listboxTarget;
       return new DualListbox(select, {
         availableTitle: 'Categorie disponibili',
         selectedTitle: 'Categorie selezionate',
@@ -29,17 +32,14 @@ export default class extends Controller {
 
   send(event) {
     const form = event.target.closest('form');
-    const frame = form.dataset.turboFrame || 'yield';
     if (form) {
-      var filter_url = new URLSearchParams(new FormData(form)).toString();
-      Turbo.visit(`${form.action}?${filter_url}`, { frame: frame });
+      form.requestSubmit();
     }
   }
 
   delayedSend(event) {
-    if (Timeout.exists('textDelay')) {
+    if (Timeout.exists('textDelay'))
       Timeout.set('textDelay', true);
-    }
     return Timeout.set('textDelay', (() => {
       return this.send(event);
     }), 750);
@@ -49,49 +49,28 @@ export default class extends Controller {
     event.target.closest("form").reset();
   }
 
-
   close() {
-    if (Swal.isVisible()) {
+    if (Swal.isVisible())
       return Swal.close();
-    }
   }
 
   toggleVisible(event) {
     document.getElementById(event.currentTarget.dataset.id).classList.toggle('is-hidden');
-    if (event.currentTarget.querySelector('i.fas')) {
+    if (event.currentTarget.querySelector('i.fas'))
       return event.currentTarget.querySelector('i.fas').classList.toggle('fa-chevron-down');
-    }
   }
 
   details(event) {
-    var target, icon, container, info;
+    const target = document.getElementById(this.detailsValue);
+    const button = event.target;
+    this.statusValue = this.statusValue === 'close' ? 'open' : 'close';
 
-    target = event.currentTarget;
-    if (target) {
-      container = target.closest('.event')
-      if (container) {
-        info = container.querySelector('span.info');
-        if (info) {
-          const status = target.dataset.status;
-          if (status == 'close') {
-            icon = target.querySelector('.fa-circle-plus')
-            if (icon) {
-              icon.classList.add('fa-circle-minus');
-              icon.classList.remove('fa-circle-plus');
-            }
-            info.classList.remove('is-hidden');
-            target.dataset.status = 'open';
-          } else {
-            icon = target.querySelector('.fa-circle-minus')
-            if (icon) {
-              icon.classList.add('fa-circle-plus');
-              icon.classList.remove('fa-circle-minus');
-            }
-            info.classList.add('is-hidden');
-            target.dataset.status = 'close'
-          }
-        }
-      }
+    target?.classList.toggle('is-hidden');
+
+    const icon = button.closest('a')?.querySelector('[data-icon]');
+    if (icon) {
+      const icons = ['circle-plus', 'circle-minus'];
+      icon.dataset.icon = icons.find(i => i !== icon.dataset.icon);
     }
   }
 
@@ -103,9 +82,8 @@ export default class extends Controller {
     try {
       const response = await get(`${url}?${param_data}`);
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error("Errore nella richiesta");
-      }
 
       target.closest(".container").outerHTML = await response.text;
     } catch (error) {
@@ -114,25 +92,22 @@ export default class extends Controller {
   }
 
   focus(event) {
-    var target;
     if (event.currentTarget.dataset.formId) {
-      target = document.getElementById(event.currentTarget.dataset.formId);
-      if (target) {
+      const target = document.getElementById(event.currentTarget.dataset.formId);
+      if (target)
         return target.scrollIntoView();
-      }
     }
   }
 
-  confirmation(event) {
-    var confirmation, deletable, form, icon, options, target, title, url;
-    target = event.target;
-    confirmation = target.dataset.formConfirmation || '';
-    url = target.dataset.formUrl;
-    icon = target.dataset.icon || 'question';
-    title = target.dataset.title || '';
-    deletable = target.dataset.deletable || false;
-    form = target.closest('form');
-    options = {
+  async confirmation(event) {
+    const target = event.target;
+    const confirmation = target.dataset.formConfirmation || '';
+    const url = target.dataset.formUrl;
+    const icon = target.dataset.icon || 'question';
+    const title = target.dataset.title || '';
+    const deletable = target.dataset.deletable || false;
+    const form = target.closest('form');
+    const options = {
       icon: icon,
       timerProgressBar: false,
       position: 'center',
@@ -149,25 +124,22 @@ export default class extends Controller {
         popup: ''
       }
     };
-    return Swal.fire(options).then((result) => {
-      if (result.isConfirmed) {
-        return window.location.href = url;
-      }
-    });
+    const result = await Swal.fire(options);
+    if (result.isConfirmed)
+      return window.location.href = url;
   }
 
   confirm_before_send(event) {
-    var confirmation, deletable, form, icon, options, target, title;
-    target = event.currentTarget;
+    const target = event.currentTarget;
     if (target.dataset.force !== 'true') {
       event.preventDefault();
       event.stopPropagation();
-      icon = target.dataset.icon || 'question';
-      title = target.dataset.title || '';
-      confirmation = target.dataset.confirmation;
-      deletable = target.dataset.deletable || false;
-      form = target.closest('form');
-      options = {
+      const icon = target.dataset.icon || 'question';
+      const title = target.dataset.title || '';
+      const confirmation = target.dataset.confirmation;
+      const deletable = target.dataset.deletable || false;
+      const form = target.closest('form');
+      const options = {
         icon: icon,
         timerProgressBar: false,
         position: 'center',
@@ -187,9 +159,8 @@ export default class extends Controller {
       return Swal.fire(options).then((result) => {
         if (result.isConfirmed) {
           if (form && form.nodeName === "FORM") {
-            if (deletable) {
+            if (deletable)
               this.removeRow(event);
-            }
             return this.send(event);
           }
         }
