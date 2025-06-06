@@ -169,10 +169,14 @@ class User < ApplicationRecord
   store_accessor :metadata, :email, :sex, :lastname, :name, :matr, :status, :postazione_inizio, :postazione_fine, :postazione_locazione, :postazione_created_at, :postazione_updated_at, :data_nasc, :citta_nasc, :naz_nasc, :scadenza_rapporto, :tipo_contratto, :denominazione_contratto, :location, :floor, :room, :telephone, :emergenze, :user_emergenze, :structure, :structure_label, :responsabile, :data_aggiornamento, :prefix
   attr_accessor :author, :external, :data
 
+  unless RAILS_DEVISE_DATABASE_AUTHENTICATABLE
+    attr_accessor :password
+  end
+
   enum :city, Settings.users.cities.to_hash
   enum :postazione, Settings.users.positions.to_hash
 
-  devise ENV['RAILS_AUTHENTICATOR'] || Settings.auth.authenticator || :database_authenticatable, :trackable, :timeoutable, :lockable, :recoverable
+  devise *RAILS_DEVISE_MODULES
 
   after_update :check_disabled
   before_destroy :abort_destroy
@@ -221,6 +225,18 @@ class User < ApplicationRecord
   # @return [Boolean] true if is required
   def require_visit?
     events.confirmed.analisys.between(start_on: (histories.active.order(revision_date: :asc).last.present? ? (histories.active.order(revision_date: :asc).last.revision_date) : Time.zone.now), stop_on: Time.zone.now).present? && events.confirmed.visit.future.blank?
+  end
+
+  # @return user finded or created from omiauth session
+  def self.from_omniauth(auth)
+    user = find_or_initialize_by(username: auth.uid)
+    user.email = auth.info.email
+    user.password = SecureRandom.alphanumeric(20)
+    user.confirmed_at = Time.zone.now
+    user.name = auth.info.try(ENV.fetch('RAILS_OIDC_NAME'){'name'})
+    user.locked_at = Time.zone.now unless user.persisted?
+    user.save
+    user
   end
 
   private

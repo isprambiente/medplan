@@ -54,8 +54,8 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 gem 'config'
 gem 'devise'
-gem 'rack-cas'
-gem 'devise_cas_authenticatable', '~> 2.0'
+gem 'omniauth_openid_connect'
+gem 'omniauth-rails_csrf_protection'
 gem 'hamlit'
 gem 'high_voltage' # pagine statiche
 gem 'icalendar', require: false

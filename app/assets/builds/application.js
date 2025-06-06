@@ -7213,7 +7213,7 @@ var init_fontawesome_svg_core = __esm(() => {
 });
 
 // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
-var faCircleMinus, faMinusCircle, faRightFromBracket, faSignOutAlt, faLaptop, faReply, faBars, faSitemap, faList, faPenToSquare, faEdit, faUsers, faUser, faKey, faBan, faFilter, faMoneyCheck, faFileExcel, faLocationPin, faMapMarker, faCircle, faMobileScreenButton, faMobileAlt, faWrench, faCircleQuestion, faQuestionCircle, faFloppyDisk, faSave, faArrowRotateRight, faRedo, faPhone, faTrash, faFilePdf, faSuitcaseMedical, faMedkit, faUserSecret, faPhoneVolume, faComment, faEnvelope, faUserDoctor, faUserMd, faCircleInfo, faRectangleList, faListAlt, faGear, faCog, faHouse, faHome, faUpload, faUserLock, faBug, faCreditCard, faFile, faHospital, faFax, faLink, faMagnifyingGlass, faSearch, faSquarePen, faPenSquare, faPlus, faXmark, faTimes, faSpinner, faBuilding, faCalendar, faCirclePlus, faPlusCircle, faBook, faTriangleExclamation, faExclamationTriangle, faBarcode;
+var faCircleMinus, faMinusCircle, faRightFromBracket, faSignOutAlt, faLaptop, faReply, faBars, faSitemap, faList, faPenToSquare, faEdit, faUsers, faUser, faKey, faBan, faRightToBracket, faSignInAlt, faFilter, faMoneyCheck, faFileExcel, faLocationPin, faMapMarker, faCircle, faMobileScreenButton, faMobileAlt, faWrench, faCircleQuestion, faQuestionCircle, faFloppyDisk, faSave, faArrowRotateRight, faRedo, faPhone, faTrash, faFilePdf, faSuitcaseMedical, faMedkit, faUserSecret, faPhoneVolume, faComment, faEnvelope, faUserDoctor, faUserMd, faCircleInfo, faRectangleList, faListAlt, faGear, faCog, faHouse, faHome, faUpload, faUserLock, faBug, faCreditCard, faFile, faHospital, faFax, faLink, faMagnifyingGlass, faSearch, faSquarePen, faPenSquare, faPlus, faXmark, faTimes, faSpinner, faBuilding, faCalendar, faCirclePlus, faPlusCircle, faBook, faTriangleExclamation, faExclamationTriangle, faBarcode;
 var init_free_solid_svg_icons = __esm(() => {
   /*!
    * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
@@ -7283,6 +7283,12 @@ var init_free_solid_svg_icons = __esm(() => {
     iconName: "ban",
     icon: [512, 512, [128683, "cancel"], "f05e", "M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z"]
   };
+  faRightToBracket = {
+    prefix: "fas",
+    iconName: "right-to-bracket",
+    icon: [512, 512, ["sign-in-alt"], "f2f6", "M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"]
+  };
+  faSignInAlt = faRightToBracket;
   faFilter = {
     prefix: "fas",
     iconName: "filter",
@@ -7516,7 +7522,7 @@ var init_awesome = __esm(() => {
   init_fontawesome_svg_core();
   init_free_solid_svg_icons();
   config$1.mutateApproach = "sync";
-  library$1.add(faBan, faBarcode, faBars, faBook, faBuilding, faBug, faCalendar, faCircle, faCircleInfo, faCog, faComment, faCreditCard, faEdit, faEnvelope, faExclamationTriangle, faFax, faFile, faFileExcel, faFilePdf, faFilter, faHome, faHospital, faKey, faLaptop, faLink, faList, faListAlt, faMedkit, faMapMarker, faMinusCircle, faMobileAlt, faMoneyCheck, faQuestionCircle, faPenSquare, faPlus, faPlusCircle, faPhone, faPhoneVolume, faRedo, faReply, faSave, faSearch, faSitemap, faSignOutAlt, faSpinner, faSuitcaseMedical, faTimes, faTrash, faUpload, faUser, faUserLock, faUserMd, faUsers, faUserSecret, faWrench);
+  library$1.add(faBan, faBarcode, faBars, faBook, faBuilding, faBug, faCalendar, faCircle, faCircleInfo, faCog, faComment, faCreditCard, faEdit, faEnvelope, faExclamationTriangle, faFax, faFile, faFileExcel, faFilePdf, faFilter, faHome, faHospital, faKey, faLaptop, faLink, faList, faListAlt, faMedkit, faMapMarker, faMinusCircle, faMobileAlt, faMoneyCheck, faQuestionCircle, faPenSquare, faPlus, faPlusCircle, faPhone, faPhoneVolume, faRedo, faReply, faSave, faSearch, faSitemap, faSignInAlt, faSignOutAlt, faSpinner, faSuitcaseMedical, faTimes, faTrash, faUpload, faUser, faUserLock, faUserMd, faUsers, faUserSecret, faWrench);
   dom$1.watch();
 });
 
@@ -41996,4 +42002,4 @@ addEventListener("trix-attachment-add", (event) => {
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=2A87BE3D6ECC4AC464756E2164756E21
+//# debugId=89B2FD8EA8DA6C8264756E2164756E21

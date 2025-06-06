@@ -22,6 +22,12 @@ class ApplicationController < ActionController::Base
     destroy_restricted!
   end
 
+  # Check if controller is Devise
+  # @return [Bool]
+  def do_not_check_authorization?
+    respond_to?(:devise_controller?) # || respond_to?(:pages_controller?)
+  end
+
   # Execute {access_denied!} unless current_user.secretary == TRUE
   # @return [nil]
   def secretary_in!
