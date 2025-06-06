@@ -11,6 +11,7 @@ it:
   find: 'Cerca'
   all: 'Tutti'
   reload: 'Ricarica la pagina'
+  login: Entra
   logout: Esci
   not_authorized: 'Non sei autorizzato'
   'yes': 'Si'

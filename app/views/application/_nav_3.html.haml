@@ -12,34 +12,37 @@
           %span.has-background-white{ aria_hidden: 'true' }
           %span.has-background-white{ aria_hidden: 'true' }
       .navbar-menu
-        .navbar-start
-          = link_to 'Home', home_user_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'home' && controller.action_name == 'user' }", data: {turbo_frame: 'yield'}
-          - if current_user.secretary? || current_user.doctor?
+        - if user_signed_in?
+          .navbar-start
+            = link_to 'Home', home_user_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'home' && controller.action_name == 'user' }", data: {turbo_frame: 'yield'}
+            - if current_user.secretary? || current_user.doctor?
+              .navbar-item.has-dropdown.is-hoverable
+                %a.navbar-link= t('manage', scope: 'event')
+                .navbar-dropdown
+                  = link_to fas_icon('list-alt', text: t('summary', scope: 'event')), home_index_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'home' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
+                  = link_to fas_icon('calendar', text: t('calendar', scope: 'event')), events_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'events' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
+              = link_to t('title', scope: 'user.index'), users_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'users' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
+              .navbar-item.has-dropdown.is-hoverable
+                %a.navbar-link{ class: "#{ 'is-active' if ( controller.controller_name == 'categories' || controller.controller_name == 'risks' ) &&  controller.action_name == 'index' }" }= t('risk_and_category', scope: 'menu')
+                .navbar-dropdown
+                  = link_to fas_icon('exclamation-triangle', text: t('title', scope: 'category')), categories_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'categories' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
+                  = link_to fas_icon('medkit', text: t('title', scope: 'risk')), risks_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'risks' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
+            - if current_user.doctor?
+              = link_to 'Genera report', home_report_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'home' && controller.action_name == 'user' }", data: {turbo_frame: 'yield'}
+          .navbar-end
             .navbar-item.has-dropdown.is-hoverable
-              %a.navbar-link= t('manage', scope: 'event')
+              %a.navbar-link= current_user.label
               .navbar-dropdown
-                = link_to fas_icon('list-alt', text: t('summary', scope: 'event')), home_index_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'home' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
-                = link_to fas_icon('calendar', text: t('calendar', scope: 'event')), events_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'events' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
-            = link_to t('title', scope: 'user.index'), users_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'users' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
-            .navbar-item.has-dropdown.is-hoverable
-              %a.navbar-link{ class: "#{ 'is-active' if ( controller.controller_name == 'categories' || controller.controller_name == 'risks' ) &&  controller.action_name == 'index' }" }= t('risk_and_category', scope: 'menu')
-              .navbar-dropdown
-                = link_to fas_icon('exclamation-triangle', text: t('title', scope: 'category')), categories_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'categories' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
-                = link_to fas_icon('medkit', text: t('title', scope: 'risk')), risks_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'risks' && controller.action_name == 'index' }", data: {turbo_frame: 'yield'}
-          - if current_user.doctor?
-            = link_to 'Genera report', home_report_path, class: "navbar-item #{ 'is-active' if controller.controller_name == 'home' && controller.action_name == 'user' }", data: {turbo_frame: 'yield'}
-        .navbar-end
-          .navbar-item.has-dropdown.is-hoverable
-            %a.navbar-link= current_user.label
-            .navbar-dropdown
-              = link_to( fas_icon('calendar', text: t('reserve', scope: 'home.user')), root_path, class: "navbar-item", data: {turbo_frame: 'yield'})
-              %hr.navbar-divider
-              = link_to( fas_icon('book', text: t('title', scope: 'home.books.user')), page_path('user_manual'), class: "navbar-item", data: {turbo_frame: 'yield'})
-              = link_to( fas_icon('book', text: t('title', scope: 'home.books.editor')), page_path('secretary_manual'), class: "navbar-item", data: {turbo_frame: 'yield'}) if current_user.secretary?
-              = link_to( fas_icon('book', text: t('title', scope: 'home.books.admin')), page_path('doctor_manual'), class: "navbar-item", data: {turbo_frame: 'yield'}) if current_user.doctor?
-              - if Devise.mappings[:user].database_authenticatable?
+                = link_to( fas_icon('calendar', text: t('reserve', scope: 'home.user')), root_path, class: "navbar-item", data: {turbo_frame: 'yield'})
                 %hr.navbar-divider
-                = link_to( fas_icon('user-lock', text: 'Cambio password'), home_user_path, class: "navbar-item", data: {turbo_frame: 'yield'})
-              = link_to( fas_icon(Settings.bug.icon, text: Settings.bug.title), page_path('notifications'), class: "navbar-item", data: {turbo_frame: 'yield'})
-              %hr.navbar-divider
-              = button_to fas_icon('sign-out-alt', text: t('logout', default: 'Logout')), destroy_user_session_path, class: 'navbar-item', method: :delete, data: { turbo: false }
+                = link_to( fas_icon('book', text: t('title', scope: 'home.books.user')), page_path('user_manual'), class: "navbar-item", data: {turbo_frame: 'yield'})
+                = link_to( fas_icon('book', text: t('title', scope: 'home.books.editor')), page_path('secretary_manual'), class: "navbar-item", data: {turbo_frame: 'yield'}) if current_user.secretary?
+                = link_to( fas_icon('book', text: t('title', scope: 'home.books.admin')), page_path('doctor_manual'), class: "navbar-item", data: {turbo_frame: 'yield'}) if current_user.doctor?
+                - if Devise.mappings[:user].database_authenticatable?
+                  %hr.navbar-divider
+                  = link_to( fas_icon('user-lock', text: 'Cambio password'), home_user_path, class: "navbar-item", data: {turbo_frame: 'yield'})
+                = link_to( fas_icon(Settings.bug.icon, text: Settings.bug.title), page_path('notifications'), class: "navbar-item", data: {turbo_frame: 'yield'})
+                %hr.navbar-divider
+                = button_to fas_icon('sign-out-alt', text: t('logout', default: 'Logout')), destroy_user_session_path, class: 'navbar-item', method: :delete, data: { turbo: false }
+        - else
+          .navbar-end= button_to(fas_icon('sign-in-alt', text: t('login', default: 'Login')), user_openid_connect_omniauth_authorize_path, class: 'navbar-item', form: { class: 'button_to navbar-item', data: { turbo: 'false' } })

@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+RAILS_DEVISE_MODULES = ENV.fetch("RAILS_DEVISE_MODULES") { "database_authenticatable registerable recoverable rememberable validatable confirmable timeoutable trackable lockable" }.split.map(&:to_sym)
+RAILS_DEVISE_DATABASE_AUTHENTICATABLE = RAILS_DEVISE_MODULES.include? :database_authenticatable
+RAILS_DEVISE_CONFIRMABLE = RAILS_DEVISE_MODULES.include? :confirmable
+RAILS_DEVISE_OMNIAUTHABLE = RAILS_DEVISE_MODULES.include? :omniauthable
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
@@ -260,6 +264,29 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+
+  if RAILS_DEVISE_OMNIAUTHABLE
+    config.omniauth :openid_connect, {
+      name: :openid_connect,
+      issuer: ENV.fetch("RAILS_OIDC_ISSUER") { "https://my_issuer.com" },
+      scope: [ :name, :username, :email ],
+      response_type: :code,
+      # extra_authorize_params: { claim: ENV.fetch("RAILS_OIDC_CLAIMS") { "sub email name username" }.split.map(&:to_sym) },
+      uid_field: ENV.fetch("RAILS_OIDC_USERNAME") { "uid" },
+      discovery: true,
+      client_auth_method: :jwks,
+      client_options: {
+        authorization_endpoint: ENV.fetch("RAILS_AUTH_ENDPOINT") { "/oauth2/auth" },
+        token_endpoint: ENV.fetch("RAILS_TOKEN_ENDPOINT") { "/oauth2/token" },
+        port: ENV.fetch("RAILS_PORT") { "443" }.to_i,
+        scheme: ENV.fetch("RAILS_SCHEME") { "https" },
+        host: ENV.fetch("RAILS_HOST") { "localhost" },
+        identifier: ENV.fetch("RAILS_OIDC_IDENTIFIER") { "medplan" },
+        secret: ENV.fetch("RAILS_OIDC_SECRET") { "secret" },
+        redirect_uri: "#{ENV.fetch("RAILS_SCHEME") { "https" }}://#{ENV.fetch("RAILS_HOST") { "localhost" }}#{ENV.fetch("RAILS_PORT") {""}}/users/auth/openid_connect/callback"
+      }
+    }
+  end
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

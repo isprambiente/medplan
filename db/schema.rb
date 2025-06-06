@@ -10,17 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema[8.0].define(version: 2025_05_23_181631) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_06_181120) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
-=======
-ActiveRecord::Schema[7.2].define(version: 2025_05_23_181631) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "citext"
-  enable_extension "plpgsql"
->>>>>>> master
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -158,14 +151,12 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_23_181631) do
   end
 
   create_table "sessions", force: :cascade do |t|
-    t.string "session_id", null: false
-    t.string "cas_ticket"
-    t.text "data"
+    t.bigint "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cas_ticket"], name: "index_sessions_on_cas_ticket"
-    t.index ["session_id"], name: "index_sessions_on_session_id"
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
+    t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -194,6 +185,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_23_181631) do
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "reset_password_sent_at", precision: nil
     t.boolean "system", default: false, null: false
+    t.datetime "confirmed_at"
     t.index ["cf"], name: "index_users_on_cf", unique: true
     t.index ["city"], name: "index_users_on_city"
     t.index ["metadata"], name: "index_users_on_metadata", using: :gin
@@ -206,4 +198,5 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_23_181631) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "histories", "users", column: "author_id", on_delete: :restrict
   add_foreign_key "histories", "users", column: "doctor_id", on_delete: :restrict
+  add_foreign_key "sessions", "users"
 end

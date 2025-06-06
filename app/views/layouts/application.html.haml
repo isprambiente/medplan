@@ -19,7 +19,7 @@
       .hero-head
         %header.no-print
           = turbo_frame_tag 'nav1', src: Settings.header
-          = render partial: 'nav_3' if user_signed_in?
+          = render partial: 'nav_3'
         %turbo-frame#flashes
         %section
           <noscript><div class='callout alert radius'>ATTENZIONE! questo sito richiede le funzioni javascript abilitate per funzionare correttamente.</div></noscript>

@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  if RAILS_DEVISE_OMNIAUTHABLE
+    devise_for :users, prefix: "auth", controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  else
+    devise_for :users, prefix: "auth"
+  end
+  unless RAILS_DEVISE_DATABASE_AUTHENTICATABLE
+    devise_scope :user do
+      get "sign_in", to: "users/sessions#new", as:  :new_user_session
+      delete "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
+  root 'home#index'
 
   localized do
-    devise_for :users, path: 'auth', path_names: { sign_in: 'login', sign_out: 'logout' }
-    root 'home#index'
-
     get 'home/index', to: 'home#index', as: :home_index
     get 'home/list', to: 'home#list', as: :home_list
     get 'home/user' => 'home#user'
