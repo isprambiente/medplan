@@ -53,6 +53,7 @@ config/settings/*.yml
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+.env.production.local
 
 /config/credentials/production.key
 /app/assets/builds/*
