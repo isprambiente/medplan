@@ -2,7 +2,7 @@
 
 lock '~> 3.16'
 set :application, 'medplan'
-set :rvm_ruby_version, '3.4.2@medplan'
+set :rvm_ruby_version, '3.4.4@medplan'
 set :repo_url, 'https://github.com/isprambiente/medplan'
 set :deploy_to, '/home/medplan'
 # set :pty, true
