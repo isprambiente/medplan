@@ -6,20 +6,10 @@ set :rvm_ruby_version, '3.4.4@medplan'
 set :repo_url, 'https://github.com/isprambiente/medplan'
 set :deploy_to, '/home/medplan'
 # set :pty, true
-set :linked_files, fetch(:linked_files, []).push('config/master.key', 'config/credentials.yml.enc')
+set :linked_files, fetch(:linked_files, []).push('config/master.key', 'config/credentials.yml.enc', '.env')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'tmp/sessions', 'tmp/state', 'vendor/bundle', 'public/system', 'config/settings', 'storage')
 
 set :tmp_dir, '/home/medplan/shared/tmp'
-
-
-set :RAILS_OIDC_ISSUER, ENV.fetch("RAILS_OIDC_ISSUER") { "https://my_issuer.com" }
-set :RAILS_OIDC_USERNAME, ENV.fetch("RAILS_OIDC_USERNAME") { "uid" }
-set :RAILS_PORT, ENV.fetch("RAILS_PORT") { "443" }.to_i
-set :RAILS_SCHEME, ENV.fetch("RAILS_SCHEME") { "https" }
-set :RAILS_HOST, ENV.fetch("RAILS_HOST") { "localhost" }
-set :RAILS_OIDC_IDENTIFIER, ENV.fetch("RAILS_OIDC_IDENTIFIER") { "medplan" }
-set :RAILS_OIDC_SECRET, ENV.fetch("RAILS_OIDC_SECRET") { "secret" }
-set :RAILS_SCHEME, "#{ENV.fetch("RAILS_SCHEME") { "https" }}://#{ENV.fetch("RAILS_HOST") { "localhost" }}#{ENV.fetch("RAILS_PORT") {""}}/users/auth/openid_connect/callback"
 
 set :keep_releases, 5
 
@@ -45,7 +35,7 @@ namespace :deploy do
       on roles(:app), in: :sequence, wait: 10 do
         upload! 'config/master.key', "#{shared_path}/config/master.key"
         upload! 'config/credentials.yml.enc', "#{shared_path}/config/credentials.yml.enc"
-        upload! '.env.production.sample', ".env"
+        upload! '.env.production.local', "#{shared_path}/.env"
       end
     end
   end

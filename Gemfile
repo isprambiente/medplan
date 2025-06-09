@@ -64,3 +64,4 @@ gem 'route_translator'
 gem 'whenever', require: false
 
 gem "image_processing", "~> 1.14"
+gem 'dotenv-rails'
