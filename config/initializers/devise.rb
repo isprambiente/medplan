@@ -274,10 +274,9 @@ Devise.setup do |config|
       # extra_authorize_params: { claim: ENV.fetch("RAILS_OIDC_CLAIMS") { "sub email name username" }.split.map(&:to_sym) },
       uid_field: ENV.fetch("RAILS_OIDC_USERNAME") { "uid" },
       discovery: true,
-      client_auth_method: :jwks,
+      client_auth_method: :basic,
+      pkce: true,
       client_options: {
-        authorization_endpoint: ENV.fetch("RAILS_AUTH_ENDPOINT") { "/oauth2/auth" },
-        token_endpoint: ENV.fetch("RAILS_TOKEN_ENDPOINT") { "/oauth2/token" },
         port: ENV.fetch("RAILS_PORT") { "443" }.to_i,
         scheme: ENV.fetch("RAILS_SCHEME") { "https" },
         host: ENV.fetch("RAILS_HOST") { "localhost" },

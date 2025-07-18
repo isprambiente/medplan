@@ -221,6 +221,10 @@ input[pattern]:invalid
   max-height: 17rem
   overflow-y: auto
 
+.navbar-burger
+  span
+    pointer-events: none
+
 @include cv.system-theme($name: "dark")
   .has-alert, .expired
     color: var(--bulma-danger-invert) !important

@@ -18,13 +18,13 @@
     .hero.is-fullheight
       .hero-head
         %header.no-print
-          = turbo_frame_tag 'nav1', src: Settings.header
-          = render partial: 'nav_3'
+          = turbo_frame_tag 'nav1', src: Settings.header, cache: true
+          = render partial: 'nav_3', cache: true
         %turbo-frame#flashes
-        %section
+        %section.no-print
           <noscript><div class='callout alert radius'>ATTENZIONE! questo sito richiede le funzioni javascript abilitate per funzionare correttamente.</div></noscript>
         %section.section
           %turbo-frame#yield= yield
           %turbo-frame#modal.is-hidden= yield
         .no-print= render partial: 'menu' if user_signed_in?
-        = turbo_frame_tag 'footer', src: Settings.footer
+        = turbo_frame_tag 'footer', src: Settings.footer, cache: true

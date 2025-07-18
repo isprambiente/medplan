@@ -594,7 +594,7 @@ var init_src = __esm(() => {
 // node_modules/sweetalert2/dist/sweetalert2.all.js
 var require_sweetalert2_all = __commonJS((exports, module) => {
   /*!
-  * sweetalert2 v11.22.0
+  * sweetalert2 v11.22.2
   * Released under the MIT License.
   */
   (function(global, factory) {
@@ -1486,11 +1486,12 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         successIconParts[i].style.backgroundColor = popupBackgroundColor;
       }
     };
-    const successIconHtml = `
-  <div class="swal2-success-circular-line-left"></div>
+    const successIconHtml = (params) => `
+  ${params.animation ? '<div class="swal2-success-circular-line-left"></div>' : ""}
   <span class="swal2-success-line-tip"></span> <span class="swal2-success-line-long"></span>
-  <div class="swal2-success-ring"></div> <div class="swal2-success-fix"></div>
-  <div class="swal2-success-circular-line-right"></div>
+  <div class="swal2-success-ring"></div>
+  ${params.animation ? '<div class="swal2-success-fix"></div>' : ""}
+  ${params.animation ? '<div class="swal2-success-circular-line-right"></div>' : ""}
 `;
     const errorIconHtml = `
   <span class="swal2-x-mark">
@@ -1507,7 +1508,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       if (params.iconHtml) {
         newContent = iconContent(params.iconHtml);
       } else if (params.icon === "success") {
-        newContent = successIconHtml;
+        newContent = successIconHtml(params);
         oldContent = oldContent.replace(/ style=".*?"/g, "");
       } else if (params.icon === "error") {
         newContent = errorIconHtml;
@@ -1885,8 +1886,8 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       }
     };
     const handleEsc = (event, innerParams, dismissWith) => {
+      event.preventDefault();
       if (callIfFunction(innerParams.allowEscapeKey)) {
-        event.preventDefault();
         dismissWith(DismissReason.esc);
       }
     };
@@ -3555,7 +3556,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       };
     });
     SweetAlert.DismissReason = DismissReason;
-    SweetAlert.version = "11.22.0";
+    SweetAlert.version = "11.22.2";
     const Swal = SweetAlert;
     Swal.default = Swal;
     return Swal;
@@ -23056,10 +23057,8 @@ function buildViewContext(viewSpec, viewApi, viewOptions, dateProfileGenerator, 
 
 class PureComponent extends x {
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.debug) {
-      console.log(getUnequalProps(nextProps, this.props), getUnequalProps(nextState, this.state));
-    }
-    return !compareObjs(this.props, nextProps, this.propEquality) || !compareObjs(this.state, nextState, this.stateEquality);
+    const shouldUpdate = !compareObjs(this.props, nextProps, this.propEquality) || !compareObjs(this.state, nextState, this.stateEquality);
+    return shouldUpdate;
   }
   safeSetState(newState) {
     if (!compareObjs(this.state, Object.assign(Object.assign({}, this.state), newState), this.stateEquality)) {
@@ -23270,10 +23269,10 @@ class ViewContainer extends BaseComponent {
     let { props, context } = this;
     let { options } = context;
     let renderProps = { view: context.viewApi };
-    return y(ContentContainer, Object.assign({}, props, { elTag: props.elTag || "div", elClasses: [
+    return y(ContentContainer, { elRef: props.elRef, elTag: props.elTag || "div", elAttrs: props.elAttrs, elClasses: [
       ...buildViewClassNames(props.viewSpec),
       ...props.elClasses || []
-    ], renderProps, classNameGenerator: options.viewClassNames, generatorName: undefined, didMount: options.viewDidMount, willUnmount: options.viewWillUnmount }), () => props.children);
+    ], elStyle: props.elStyle, renderProps, classNameGenerator: options.viewClassNames, generatorName: undefined, didMount: options.viewDidMount, willUnmount: options.viewWillUnmount }, () => props.children);
   }
 }
 function buildViewClassNames(viewSpec) {
@@ -27020,8 +27019,10 @@ function getSectionByKey(sections, key) {
 class EventContainer extends BaseComponent {
   constructor() {
     super(...arguments);
+    this.buildPublicEvent = memoize((context, eventDef, eventInstance) => new EventImpl(context, eventDef, eventInstance));
     this.handleEl = (el) => {
       this.el = el;
+      setRef(this.props.elRef, el);
       if (el) {
         setElSeg(el, this.props.seg);
       }
@@ -27034,7 +27035,7 @@ class EventContainer extends BaseComponent {
     const { eventRange } = seg;
     const { ui } = eventRange;
     const renderProps = {
-      event: new EventImpl(context, eventRange.def, eventRange.instance),
+      event: this.buildPublicEvent(context, eventRange.def, eventRange.instance),
       view: context.viewApi,
       timeText: props.timeText,
       textColor: ui.textColor,
@@ -27053,11 +27054,11 @@ class EventContainer extends BaseComponent {
       isDragging: Boolean(props.isDragging),
       isResizing: Boolean(props.isResizing)
     };
-    return y(ContentContainer, Object.assign({}, props, { elRef: this.handleEl, elClasses: [
+    return y(ContentContainer, { elRef: this.handleEl, elTag: props.elTag, elAttrs: props.elAttrs, elClasses: [
       ...getEventClassNames(renderProps),
       ...seg.eventRange.ui.classNames,
       ...props.elClasses || []
-    ], renderProps, generatorName: "eventContent", customGenerator: options.eventContent, defaultGenerator: props.defaultGenerator, classNameGenerator: options.eventClassNames, didMount: options.eventDidMount, willUnmount: options.eventWillUnmount }));
+    ], elStyle: props.elStyle, renderProps, generatorName: "eventContent", customGenerator: options.eventContent, defaultGenerator: props.defaultGenerator, classNameGenerator: options.eventClassNames, didMount: options.eventDidMount, willUnmount: options.eventWillUnmount }, props.children);
   }
   componentDidUpdate(prevProps) {
     if (this.el && this.props.seg !== prevProps.seg) {
@@ -27080,6 +27081,9 @@ class StandardEvent extends BaseComponent {
     }, elAttrs: getSegAnchorAttrs(seg, context), defaultGenerator: renderInnerContent$1, timeText }), (InnerContent, eventContentArg) => y(_, null, y(InnerContent, { elTag: "div", elClasses: ["fc-event-main"], elStyle: { color: eventContentArg.textColor } }), Boolean(eventContentArg.isStartResizable) && y("div", { className: "fc-event-resizer fc-event-resizer-start" }), Boolean(eventContentArg.isEndResizable) && y("div", { className: "fc-event-resizer fc-event-resizer-end" })));
   }
 }
+StandardEvent.addPropsEquality({
+  seg: isPropsEqual
+});
 function renderInnerContent$1(innerProps) {
   return y("div", { className: "fc-event-main-frame" }, innerProps.timeText && y("div", { className: "fc-event-time" }, innerProps.timeText), y("div", { className: "fc-event-title-container" }, y("div", { className: "fc-event-title fc-sticky" }, innerProps.event.title || y(_, null, " "))));
 }
@@ -27104,10 +27108,10 @@ class DayCellContainer extends BaseComponent {
       dateEnv: context.dateEnv,
       monthStartFormat: options.monthStartFormat
     });
-    return y(ContentContainer, Object.assign({}, props, { elClasses: [
+    return y(ContentContainer, { elRef: props.elRef, elTag: props.elTag, elAttrs: Object.assign(Object.assign({}, props.elAttrs), renderProps.isDisabled ? {} : { "data-date": formatDayString(props.date) }), elClasses: [
       ...getDayClassNames(renderProps, context.theme),
       ...props.elClasses || []
-    ], elAttrs: Object.assign(Object.assign({}, props.elAttrs), renderProps.isDisabled ? {} : { "data-date": formatDayString(props.date) }), renderProps, generatorName: "dayCellContent", customGenerator: options.dayCellContent, defaultGenerator: props.defaultGenerator, classNameGenerator: renderProps.isDisabled ? undefined : options.dayCellClassNames, didMount: options.dayCellDidMount, willUnmount: options.dayCellWillUnmount }));
+    ], elStyle: props.elStyle, renderProps, generatorName: "dayCellContent", customGenerator: options.dayCellContent, defaultGenerator: props.defaultGenerator, classNameGenerator: renderProps.isDisabled ? undefined : options.dayCellClassNames, didMount: options.dayCellDidMount, willUnmount: options.dayCellWillUnmount }, props.children);
   }
 }
 function hasCustomDayCellContent(options) {
@@ -27144,7 +27148,7 @@ var WeekNumberContainer = (props) => y(ViewContextType.Consumer, null, (context)
   let num = dateEnv.computeWeekNumber(date);
   let text = dateEnv.format(date, format2);
   let renderProps = { num, text, date };
-  return y(ContentContainer, Object.assign({}, props, { renderProps, generatorName: "weekNumberContent", customGenerator: options.weekNumberContent, defaultGenerator: renderInner, classNameGenerator: options.weekNumberClassNames, didMount: options.weekNumberDidMount, willUnmount: options.weekNumberWillUnmount }));
+  return y(ContentContainer, { elRef: props.elRef, elTag: props.elTag, elAttrs: props.elAttrs, elClasses: props.elClasses, elStyle: props.elStyle, renderProps, generatorName: "weekNumberContent", customGenerator: options.weekNumberContent, defaultGenerator: renderInner, classNameGenerator: options.weekNumberClassNames, didMount: options.weekNumberDidMount, willUnmount: options.weekNumberWillUnmount }, props.children);
 });
 function renderInner(innerProps) {
   return innerProps.text;
@@ -33566,7 +33570,7 @@ class TableRows extends DateComponent {
   constructor() {
     super(...arguments);
     this.splitBusinessHourSegs = memoize(splitSegsByRow);
-    this.splitBgEventSegs = memoize(splitSegsByRow);
+    this.splitBgEventSegs = memoize(splitAllDaySegsByRow);
     this.splitFgEventSegs = memoize(splitSegsByRow);
     this.splitDateSelectionSegs = memoize(splitSegsByRow);
     this.splitEventDrag = memoize(splitInteractionByRow);
@@ -33594,7 +33598,7 @@ class TableRows extends DateComponent {
       renderIntro: props.renderRowIntro,
       businessHourSegs: businessHourSegsByRow[row],
       eventSelection: props.eventSelection,
-      bgEventSegs: bgEventSegsByRow[row].filter(isSegAllDay),
+      bgEventSegs: bgEventSegsByRow[row],
       fgEventSegs: fgEventSegsByRow[row],
       dateSelectionSegs: dateSelectionSegsByRow[row],
       eventDrag: eventDragByRow[row],
@@ -33665,6 +33669,9 @@ class TableRows extends DateComponent {
     let end = addDays(start3, 1);
     return { start: start3, end };
   }
+}
+function splitAllDaySegsByRow(segs, rowCnt) {
+  return splitSegsByRow(segs.filter(isSegAllDay), rowCnt);
 }
 function isSegAllDay(seg) {
   return seg.eventRange.def.allDay;
@@ -42002,4 +42009,4 @@ addEventListener("trix-attachment-add", (event) => {
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=89B2FD8EA8DA6C8264756E2164756E21
+//# debugId=555765E0F9539B9064756E2164756E21

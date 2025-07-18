@@ -21644,63 +21644,63 @@ has-background-danger.is-hoverable:active {
 .quickview.is-active {
   right: 0;
   box-shadow: 5px 0px 13px 3px rgba(0, 0, 0, 0.1);
-  width: 35% !important;
+  width: 35%;
 }
 .quickview.is-active.is-left {
   left: 0;
 }
 @media screen and (max-width: 1023px) {
   .quickview.is-active.is-small {
-    width: 100% !important;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1024px) {
   .quickview.is-active.is-small {
-    width: 20% !important;
+    width: 20%;
   }
 }
 @media screen and (max-width: 1023px) {
   .quickview.is-active.is-medium {
-    width: 100% !important;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1024px) {
   .quickview.is-active.is-medium {
-    width: 35% !important;
+    width: 35%;
   }
 }
 @media screen and (max-width: 1023px) {
   .quickview.is-active.is-half {
-    width: 100% !important;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1024px) {
   .quickview.is-active.is-half {
-    width: 50% !important;
+    width: 50%;
   }
 }
 @media screen and (max-width: 1023px) {
   .quickview.is-active.is-large {
-    width: 100% !important;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1024px) {
   .quickview.is-active.is-large {
-    width: 70% !important;
+    width: 70%;
   }
 }
 @media screen and (max-width: 1023px) {
   .quickview.is-active.is-full {
-    width: 100% !important;
+    width: 100%;
   }
 }
 @media screen and (min-width: 1024px) {
   .quickview.is-active.is-full {
-    width: 100% !important;
+    width: 100%;
   }
 }
 .quickview .quickview-body {
-  direction: ltr !important;
+  direction: ltr;
 }
 .quickview .quickview-header {
   display: flex;
@@ -21791,7 +21791,7 @@ has-background-danger.is-hoverable:active {
   overflow-y: auto;
 }
 .quickview .quickview-body .section {
-  padding: 1rem !important;
+  padding: 1rem;
 }
 .quickview .quickview-body .quickview-block {
   direction: ltr;
@@ -24470,6 +24470,10 @@ input[pattern]:invalid {
   overflow-y: auto;
 }
 
+.navbar-burger span {
+  pointer-events: none;
+}
+
 @media (prefers-color-scheme: dark) {
   :root .has-alert, :root .expired {
     color: var(--bulma-danger-invert) !important;
@@ -24622,10 +24626,13 @@ form p.helper {
 }
 .quickview .quickview-header {
   min-height: 32px !important;
-  background-color: var(--primary);
+  background-color: var(--bulma-white);
 }
 .quickview .quickview-header .title {
   color: var(--white);
+}
+.quickview .quickview-footer {
+  background-color: var(--bulma-white);
 }
 .quickview .quickview-body {
   direction: rtl;

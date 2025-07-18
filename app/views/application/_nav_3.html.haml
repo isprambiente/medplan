@@ -7,10 +7,11 @@
             %i.fas.fa-suitcase-medical.fa-fw
           %span M
           edplan
-        %a.button.is-primary.navbar-burger.is-hidden-menu.navbar-item.is-radiusless.is-hidden-desktop.is-textless{ data: { controller: 'menu', action: 'click->menu#open', menu_id: 'menu_col' } }
-          %span.has-background-white{ aria_hidden: 'true' }
-          %span.has-background-white{ aria_hidden: 'true' }
-          %span.has-background-white{ aria_hidden: 'true' }
+        %a.navbar-burger.has-text-white{ role: "button", aria: { label: "menu", expanded: "false" }, data: { controller: 'menu', action: 'click->menu#open', menu_id: 'menu_col' } }
+          %span{ aria_hidden: 'true' }
+          %span{ aria_hidden: 'true' }
+          %span{ aria_hidden: 'true' }
+          %span{ aria_hidden: 'true' }
       .navbar-menu
         - if user_signed_in?
           .navbar-start
