@@ -19,7 +19,7 @@ gem 'turbo-rails', '~> 1.0.0'
 gem 'stimulus-rails'
 
 group :development, :test do
-  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', platforms: :windows
   gem 'factory_bot_rails'
 end
 
