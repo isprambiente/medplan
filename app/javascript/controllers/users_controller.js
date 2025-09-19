@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus";
-import { get } from "@rails/request.js";
+import { get, put } from "@rails/request.js";
 import Swal from 'sweetalert2';
 
 export default class extends Controller {
@@ -170,7 +170,7 @@ export default class extends Controller {
     }
   }
 
-  update(event) {
+  async update(event) {
     var container, editor, input, link, target, url, user_id, value;
 
     target = event.currentTarget;
@@ -182,38 +182,41 @@ export default class extends Controller {
     user_id = target.dataset.userId;
     url = `/utenti/${user_id}`;
     if (input.checkValidity()) {
-      return Rails.ajax({
-        type: "PUT",
-        url: `${url}`,
-        data: `${input.name}=${value}`,
-        success: (data, status, xhr) => {
-          this.send('Salvataggio avvenuto correttamente!');
-          this.removeElement(target);
-          if (link.dataset.fieldType === 'date') {
-            value = new Date(value).toLocaleDateString(window.navigator.language || 'it', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric'
-            });
-          } else if (link.dataset.fieldType === 'password') {
-            value = '*********';
-          }
-          return link.innerHTML = value !== '' ? value : (link.dataset.fieldPlaceholder ? link.dataset.fieldPlaceholder : 'aggiungi');
-        },
-        error: (error) => {
-          var text;
-          text = error;
-          try {
-            text = text.error;
-          } catch (error1) {}
-          if (text) {
-            this.send(text, 'error');
-          } else {
-            this.send('Si è verificato un errore durante il salvataggio!', 'error');
-          }
-          return this.removeElement(target);
+      try {
+        const body = new URLSearchParams({ [input.name]: value }).toString();
+        const response = await put(url, { body: body, contentType: "application/x-www-form-urlencoded; charset=UTF-8" });
+        if (!response.ok) throw response;
+
+        this.send('Salvataggio avvenuto correttamente!');
+        this.removeElement(target);
+        if (link.dataset.fieldType === 'date') {
+          value = new Date(value).toLocaleDateString(window.navigator.language || 'it', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          });
+        } else if (link.dataset.fieldType === 'password') {
+          value = '*********';
         }
-      });
+        return link.innerHTML = value !== '' ? value : (link.dataset.fieldPlaceholder ? link.dataset.fieldPlaceholder : 'aggiungi');
+      } catch (error) {
+        var text = 'Si è verificato un errore durante il salvataggio!';
+        try {
+          if (error instanceof Response) {
+            const bodyText = await error.text();
+            try {
+              const parsed = JSON.parse(bodyText);
+              text = parsed.error || bodyText;
+            } catch (e) {
+              text = bodyText || text;
+            }
+          } else if (error && error.message) {
+            text = error.message;
+          }
+        } catch (e) {}
+        this.send(text, 'error');
+        return this.removeElement(target);
+      }
     } else {
       if (input.hasAttribute('pattern')) {
         return this.send(`Immettere un valore compreso tra ${input.pattern}!`, 'error');
