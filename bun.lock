@@ -13,10 +13,10 @@
         "@fullcalendar/daygrid": "6.1.18",
         "@fullcalendar/interaction": "6.1.18",
         "@hotwired/stimulus": "^3.2.2",
-        "@hotwired/turbo-rails": "^8.0.16",
-        "@rails/actioncable": "^8.0.201",
-        "@rails/actiontext": "^8.0.201",
-        "@rails/activestorage": "^8.0.201",
+        "@hotwired/turbo-rails": "^8.0.18",
+        "@rails/actioncable": "^8.0.300",
+        "@rails/actiontext": "^8.0.300",
+        "@rails/activestorage": "^8.0.300",
         "@rails/request.js": "^0.0.12",
         "@samlam140330/bulma-switch": "^1.0.2",
         "@sweetalert2/themes": "^5.0.27",
@@ -144,7 +144,7 @@
 
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
 
-    "sweetalert2": ["sweetalert2@11.23.0", "", {}, "sha512-cKzzbC3C1sIs7o9XAMw4E8F9kBtGXsBDUsd2JZ8JM/dqa+nzWwSGM+9LLYILZWzWHzX9W+HJNHyBlbHPVS/krw=="],
+    "sweetalert2": ["sweetalert2@11.26.2", "", {}, "sha512-tR5oADjrN6gv+0Y/tpfMXM/rSlx/QHmRhygBHhWh29iw1AO/x7D8OhghyogaY+NLZrd4qfhssVafRBHi+DREzQ=="],
 
     "to-regex-range": ["to-regex-range@5.0.1", "", { "dependencies": { "is-number": "^7.0.0" } }, "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="],
 
