@@ -28,6 +28,13 @@
     .cell
       .field.is-horizontal
         .field-label
+          %label.label= fas_icon('envelope', text: t('email', scope: 'user')+': ')
+        .field-body
+          .field
+            .control.is-expanded
+              = user.email.blank? ? "<span class=\"has-text-danger has-text-weight-extrabold tooltip has-tooltip-arrow\" data-tooltip=\"Attenzione, l'assenza dell'indirizzo e-mail compromette la possibilità\nper il sistema di inoltrare le comunicazioni tramite posta elettronica.\"><i class=\"fa-solid fa-triangle-exclamation\" ></i> Non disponibile </span>".html_safe : "<a href='mailto:#{user.email}'>#{user.email}</a>".html_safe
+      .field.is-horizontal
+        .field-label
           %label.label= fas_icon('building', text: t('office', scope: 'user')+': ')
         .field-body
           .field

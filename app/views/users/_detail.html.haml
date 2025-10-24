@@ -55,7 +55,7 @@
                 - if editable
                   %span{ class: "#{ 'editable tooltip' if current_user.secretary? }", data: { tooltip: "Clicca per #{ user.email.present? ? 'modificare' : 'inserire' } l'indirizzo e-mail", controller: 'users', action: 'click->users#edit', user_id: user.id, field: { name: "user[email]", type: 'email', value: user.email.present? ? user.email : '', placeholder: "Inserisci l'indirizzo e-mail", required: false } } }= ( user.email.present? ? user.email : "aggiungi l'indirizzo e-mail" )
                 - else
-                  = user.email.blank? ? 'n.d.' : "<a href='mailto:#{user.email}'>#{user.email}</a>".html_safe
+                  = user.email.blank? ? "<span class=\"has-text-danger has-text-weight-extrabold tooltip has-tooltip-arrow\" data-tooltip=\"Attenzione, l'assenza dell'indirizzo e-mail compromette la possibilità\nper il sistema di inoltrare le comunicazioni tramite posta elettronica.\"><i class=\"fa-solid fa-triangle-exclamation\" ></i> Non disponibile </span>".html_safe : "<a href='mailto:#{user.email}'>#{user.email}</a>".html_safe
             %li.columns
               .column.is-4.has-text-left.has-text-weight-bold= fas_icon('credit-card', text: t('signature', scope: 'user')+': ')
               .column.has-text-left

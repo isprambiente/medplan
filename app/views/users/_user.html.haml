@@ -17,6 +17,9 @@
       - elsif user.deleted?
         %span.tooltip.help.is-inline-flex{ data: { tooltip: user.scadenza_rapporto.present? ? "Contratto scaduto il #{ l_date user.scadenza_rapporto.to_date }" : false } }
           %i.fas.fa-ban.has-text-danger
+      - if user.email.blank?
+        %span.tooltip.has-tooltip-arrow.help.is-inline-flex{ data: { tooltip: "Attenzione, indirizzo e-mail assente!\nIl sistema non ha la possibilita' di inoltrare le comunicazioni tramite posta elettronica.", disable_hover: "false"} }
+          %i.fas.fa-triangle-exclamation.has-text-danger
       - unless user.postazione == "sede" || user.postazione == "altro"
         - text = "#{ user.postazione.try(:capitalize) }#{ ' presso ' + user.postazione_locazione.downcase  if user.postazione_locazione.present? }#{ ' dal ' + l( user.postazione_inizio.to_date )  if user.postazione_inizio.present? }#{ ' al ' + l( user.postazione_fine.to_date )  if user.postazione_fine.present? }"
         %span.tooltip.help.is-inline-flex{ data: { tooltip: text } }

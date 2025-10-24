@@ -12,6 +12,9 @@
               .column.is-2-desktop.is-4-tablet.is-nowrap.has-text-weight-bold= fas_icon('barcode', text: t('cf', scope: 'user')+': ')
               .column= @user.cf unless @user.cf.blank?
             %li.columns
+              .column.is-2-desktop.is-4-tablet.is-nowrap.has-text-weight-bold= fas_icon('envelope', text: t('email', scope: 'user')+': ')
+              .column= @user.email.blank? ? "<span class=\"has-text-danger has-text-weight-extrabold tooltip has-tooltip-arrow\" data-tooltip=\"Attenzione, l'assenza dell'indirizzo e-mail compromette la possibilità\ndi ricevere le comunicazioni per le visite e analisi tramite posta elettronica.\"><i class=\"fa-solid fa-triangle-exclamation\" ></i> Non disponibile </span>".html_safe : @user.email
+            %li.columns
               .column.is-2-desktop.is-4-tablet.is-nowrap.has-text-weight-bold= fas_icon('credit-card', text: t('matr', scope: 'user')+': ')
               .column= @user.matr unless @user.matr.blank?
             %li.columns

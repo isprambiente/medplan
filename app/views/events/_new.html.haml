@@ -1,6 +1,10 @@
 = turbo_frame_tag "#{dom_id(user)}_calendar", data: {controller: view} do
   %h3.title.is-3 #{t('manage', scope: 'event')}
-  %h4.subtitle.is-4 #{user.label}
+  %h4.subtitle.is-4
+    #{user.label}
+    - if user.email.blank?
+      %span.tooltip.has-tooltip-arrow.has-tooltip-bottom{ data: { tooltip: "Attenzione, indirizzo e-mail assente!\nIl sistema non ha la possibilita' di inoltrare le comunicazioni tramite posta elettronica.", disable_hover: "false"} }
+        %i.fas.fa-triangle-exclamation.has-text-danger
   = render 'form', user: user, event: event, timer: timer, view: view
   %br/
   .box= render 'events', user: user

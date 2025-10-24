@@ -27,9 +27,15 @@
         - title = "Inviata il #{ l_long meetings.first.sended_at }"
       .is-hidden-mobile
         .buttons.has-addons.is-right
-          = link_to fas_icon('envelope'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button #{ classes }", data: { turbo_confirm: t('confirm', scope: 'message.email'), tooltip: title, turbo_method: 'PUT'}
+          - if @user.email.present?
+            = link_to fas_icon('envelope'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button #{ classes }", data: { turbo_confirm: t('confirm', scope: 'message.email'), tooltip: title, turbo_method: 'PUT'}
+          - else
+            %button.button.is-borderless.tooltip.is-warning{ data: { tooltip: 'Indirizzo e-mail assente' } }= fas_icon('triangle-exclamation')
           = link_to fas_icon('trash'), user_event_meeting_destroy_path(@user, event, zone:'users'), method: :delete, class: 'button is-borderless tooltip is-danger', data: {disable_with: fas_icon( 'spinner pulse' ), turbo_confirm: t('delete', scope: 'message.meeting'), tooltip: 'Cancella evento', turbo_method: 'DELETE' }
       .is-hidden-tablet
         .buttons
-          = link_to fas_icon('envelope', text: meetings.first.sended_at? ? 'Email inviata' : 'Invia e-mail'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button #{ classes }", data: { turbo_confirm: t('confirm', scope: 'message.email'), tooltip: title, turbo_method: 'PUT'}
+          - if @user.email.present?
+            = link_to fas_icon('envelope', text: meetings.first.sended_at? ? 'Email inviata' : 'Invia e-mail'), confirmed_user_event_path(@user, event, zone: 'users'), method: :put, remote: true, id: "#{event.id}-sender", class: "sender tooltip button #{ classes }", data: { turbo_confirm: t('confirm', scope: 'message.email'), tooltip: title, turbo_method: 'PUT'}
+          - else
+            %button.button.is-borderless.tooltip.is-warning{ data: { tooltip: 'Indirizzo e-mail assente' } }= fas_icon('triangle-exclamation')
           = link_to fas_icon('trash', text: 'Cancella evento'), user_event_meeting_destroy_path(@user, event, zone:'users'), method: :delete, class: 'button is-borderless tooltip is-danger', data: {disable_with: fas_icon( 'spinner pulse' ), turbo_confirm: t('delete', scope: 'message.meeting'), tooltip: 'Cancella evento', turbo_method: 'DELETE' }
