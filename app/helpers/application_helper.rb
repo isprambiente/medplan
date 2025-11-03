@@ -1,10 +1,6 @@
 # frozen_string_literal: true
-
-# This helper contain the methods shared for all views
 #
-# * include Pagy::Frontend
 module ApplicationHelper
-  include Pagy::Frontend
 
   # @param [String] url source of remote page
   # @return [String] write a content tag for load a remote page

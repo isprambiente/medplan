@@ -4,7 +4,7 @@
 # * before_action :home_redirect, except: [:user] -> {home_redirect}
 # * before_action :doctor_in!, only: [:report] -> {doctor_in!}
 class HomeController < ApplicationController
-  include Pagy::Backend
+  include Pagy::Method
   before_action :home_redirect, except: [:user, :reset_password]
   before_action :doctor_in!, only: [:report]
   before_action :set_view

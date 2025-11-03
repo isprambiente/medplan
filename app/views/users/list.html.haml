@@ -2,7 +2,7 @@
   - unless @users.blank?
     = render @users
     .columns.mt-3
-      .column.is-full= "#{pagy_bulma_nav(@pagy)}".html_safe
+      .column.is-full= "#{@pagy.series_nav(:bulma)}".html_safe
   - else
     .columns
       .column.is-full.has-text-centered Nessun utente trovato

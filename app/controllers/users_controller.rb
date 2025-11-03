@@ -4,7 +4,7 @@
 # * before_action :{powered_in!}
 # * before_action :set_user, except: [:index, :list, :new, :create]
 class UsersController < ApplicationController
-  include Pagy::Backend
+  include Pagy::Method
   before_action :powered_in!
   before_action :set_user, except: %i[index list new create export]
   before_action :set_view

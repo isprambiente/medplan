@@ -4,7 +4,7 @@
 # * before_action :{powered_in!}
 # * before_action :set_risk, only: [:edit, :update, :destroy]
 class RisksController < ApplicationController
-  include Pagy::Backend
+  include Pagy::Method
   before_action :powered_in!
   before_action :set_risk, only: %i[edit update destroy]
   before_action :set_view

@@ -8,6 +8,6 @@
           - @old_expire = user.expire
       = render user
     %hr
-    .has-text-centered= "#{pagy_bulma_nav(@pagy)}".html_safe
+    .has-text-centered= "#{@pagy.series_nav(:bulma)}".html_safe
   - else
     .has-text-centered= t('not_found', scope: 'user')

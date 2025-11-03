@@ -4,7 +4,7 @@
 # === before_action :{powered_in!}
 # === before_action :{set_category}, only: [:edit, :update, :destroy]
 class CategoriesController < ApplicationController
-  include Pagy::Backend
+  include Pagy::Method
   before_action :powered_in!
   before_action :set_category, only: %i[edit update destroy]
   before_action :set_view

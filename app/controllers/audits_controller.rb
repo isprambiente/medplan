@@ -5,7 +5,7 @@
 # * before_action :set_user
 # * before_action set_audit, except: [:index, :create, :destroy]
 class AuditsController < ApplicationController
-  include Pagy::Backend
+  include Pagy::Method
   before_action :powered_in!
   before_action :set_user
   before_action :set_audit, except: %i[index create destroy]

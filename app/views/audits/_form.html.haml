@@ -56,5 +56,5 @@
     - else
       %tr
         %td.has-text-centered{ colspan: 4 } Nessuna valutazione trovata
-.has-text-centered.mt-4= "#{pagy_bulma_nav(pagy)}".html_safe unless pagy.blank?
+.has-text-centered.mt-4= "#{@pagy.series_nav(:bulma)}".html_safe unless pagy.blank?
 
