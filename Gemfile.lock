@@ -81,8 +81,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
+    addressable (2.8.8)
+      public_suffix (>= 2.0.2, < 8.0)
     aes_key_wrap (1.1.0)
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
@@ -97,7 +97,7 @@ GEM
     bigdecimal (3.3.1)
     bindata (2.5.1)
     bindex (0.8.1)
-    bootsnap (1.18.6)
+    bootsnap (1.19.0)
       msgpack (~> 1.2)
     builder (3.3.0)
     capistrano (3.19.2)
@@ -105,7 +105,7 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
-    capistrano-bundler (2.1.1)
+    capistrano-bundler (2.2.0)
       capistrano (~> 3.1)
     capistrano-rails (1.7.0)
       capistrano (~> 3.1)
@@ -139,7 +139,7 @@ GEM
     config (5.6.1)
       deep_merge (~> 1.2, >= 1.2.1)
       ostruct
-    connection_pool (2.5.4)
+    connection_pool (2.5.5)
     crass (1.0.6)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -162,7 +162,7 @@ GEM
     drb (2.2.3)
     email_validator (2.2.4)
       activemodel
-    erb (5.1.3)
+    erb (6.0.0)
     erubi (1.13.1)
     factory_bot (6.5.6)
       activesupport (>= 6.1.0)
@@ -175,8 +175,8 @@ GEM
       logger
     faraday-follow_redirects (0.4.0)
       faraday (>= 1, < 3)
-    faraday-net_http (3.4.1)
-      net-http (>= 0.5.0)
+    faraday-net_http (3.4.2)
+      net-http (~> 0.5)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
     ffi (1.17.2-arm-linux-gnu)
@@ -188,25 +188,25 @@ GEM
     fiddle (1.1.8)
     globalid (1.3.0)
       activesupport (>= 6.1)
-    google-protobuf (4.33.0)
+    google-protobuf (4.33.1)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-aarch64-linux-gnu)
+    google-protobuf (4.33.1-aarch64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-aarch64-linux-musl)
+    google-protobuf (4.33.1-aarch64-linux-musl)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-arm64-darwin)
+    google-protobuf (4.33.1-arm64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-x86_64-darwin)
+    google-protobuf (4.33.1-x86_64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-x86_64-linux-gnu)
+    google-protobuf (4.33.1-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.33.0-x86_64-linux-musl)
+    google-protobuf (4.33.1-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
     hamlit (4.0.0)
@@ -215,7 +215,7 @@ GEM
       tilt
     hashie (5.0.0)
     high_voltage (5.0.0)
-    htmlentities (4.3.4)
+    htmlentities (4.4.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     icalendar (2.12.1)
@@ -235,7 +235,7 @@ GEM
     jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
-    json (2.15.2)
+    json (2.16.0)
     json-jwt (1.17.0)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -266,10 +266,10 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.26.0)
+    minitest (5.26.2)
     msgpack (1.8.0)
-    net-http (0.7.0)
-      uri
+    net-http (0.8.0)
+      uri (>= 0.11.1)
     net-imap (0.5.12)
       date
       net-protocol
@@ -306,7 +306,7 @@ GEM
       logger
       rack (>= 2.2.3)
       rack-protection
-    omniauth-rails_csrf_protection (1.0.2)
+    omniauth-rails_csrf_protection (2.0.0)
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     omniauth_openid_connect (0.8.0)
@@ -327,7 +327,7 @@ GEM
       webfinger (~> 2.0)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
-    pagy (43.0.0)
+    pagy (43.1.6)
       json
       yaml
     parallel (1.27.0)
@@ -348,12 +348,12 @@ GEM
     psych (5.2.6)
       date
       stringio
-    public_suffix (6.0.2)
+    public_suffix (7.0.0)
     puma (6.6.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.4)
-    rack-oauth2 (2.2.1)
+    rack-oauth2 (2.3.0)
       activesupport
       attr_required
       faraday (~> 2.0)
@@ -403,13 +403,13 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.3.1)
-    rdoc (6.15.1)
+    rdoc (6.16.0)
       erb
       psych (>= 4.0.0)
       tsort
     redis (4.8.1)
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     responders (3.2.0)
       actionpack (>= 7.0)
@@ -430,10 +430,10 @@ GEM
       rubocop-ast (>= 1.47.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.47.1)
+    rubocop-ast (1.48.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
-    rubocop-rails (2.33.4)
+    rubocop-rails (2.34.1)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -444,21 +444,21 @@ GEM
       ffi (~> 1.12)
       logger
     rubyzip (2.4.1)
-    sass-embedded (1.93.2-aarch64-linux-gnu)
+    sass-embedded (1.94.2-aarch64-linux-gnu)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-aarch64-linux-musl)
+    sass-embedded (1.94.2-aarch64-linux-musl)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-arm-linux-gnueabihf)
+    sass-embedded (1.94.2-arm-linux-gnueabihf)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-arm-linux-musleabihf)
+    sass-embedded (1.94.2-arm-linux-musleabihf)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-arm64-darwin)
+    sass-embedded (1.94.2-arm64-darwin)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-x86_64-darwin)
+    sass-embedded (1.94.2-x86_64-darwin)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-x86_64-linux-gnu)
+    sass-embedded (1.94.2-x86_64-linux-gnu)
       google-protobuf (~> 4.31)
-    sass-embedded (1.93.2-x86_64-linux-musl)
+    sass-embedded (1.94.2-x86_64-linux-musl)
       google-protobuf (~> 4.31)
     securerandom (0.4.1)
     selenium-webdriver (4.10.0)
@@ -488,7 +488,7 @@ GEM
       ostruct
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
-    stringio (3.1.7)
+    stringio (3.1.8)
     swd (2.0.3)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
@@ -509,7 +509,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
@@ -534,7 +534,7 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    whenever (1.0.0)
+    whenever (1.1.0)
       chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
