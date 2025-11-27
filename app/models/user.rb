@@ -190,7 +190,7 @@ class User < ApplicationRecord
   validates :cf, presence: { message: 'non può essere lasciato in bianco' }, uniqueness: { message: 'già esistente' }, unless: -> { system? }
   validates :postazione, presence: true
   validates :assegnazione, content_type: { in: 'application/pdf', message: 'non è un file PDF' }
-  validates :assegnazione, size: { less_than: 500.kilobytes, message: 'deve avere una dimensione massima di 500kb' }
+  validates :assegnazione, size: { less_than: Settings.users.assegnazione.max_file.kilobytes, message: 'deve avere una dimensione massima di 500kb' }
 
   default_scope { where(locked_at: nil, deleted: false) }
   scope :locked, -> { unscoped.where.not(locked_at: nil).where.not(deleted: true) }

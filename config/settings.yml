@@ -39,6 +39,8 @@ users:
   permit_export_users: true
   tel_user_emergenze: 'internal'
   tel_prefix: ''
+  assegnazione: # in kB
+    max_file: 700
   contracts:
     - Tempo indeterminato
     - Tempo determinato
