@@ -10,7 +10,7 @@ class Notifier < ApplicationMailer
     @event = event
     @meeting = user.meetings.find_by(event: event)
 
-    mail(to: @user.email, subject: t('user_event', scope: 'message.email.subjects')) if @user.email.present?
+    mail(to: @user.email, subject: t('user_event', scope: 'message.email.subjects'), reply_to: Settings.email.to_s) if @user.email.present?
   end
 
   # this method notifies the user a new analisy event
@@ -20,7 +20,7 @@ class Notifier < ApplicationMailer
     @event = event
     @meeting = user.meetings.find_by(event: event)
 
-    mail(to: @user.email, subject: t('user_event_analisys', scope: 'message.email.subjects')) if @user.email.present?
+    mail(to: @user.email, subject: t('user_event_analisys', scope: 'message.email.subjects'), reply_to: Settings.email.to_s) if @user.email.present?
   end
 
   # this method notifies the user a new visit event
@@ -30,7 +30,7 @@ class Notifier < ApplicationMailer
     @event = event
     @meeting = user.meetings.find_by(event: event)
 
-    mail(to: @user.email, subject: t('user_event_visit', scope: 'message.email.subjects')) if @user.email.present?
+    mail(to: @user.email, subject: t('user_event_visit', scope: 'message.email.subjects'), reply_to: Settings.email.to_s) if @user.email.present?
   end
 
   # this method notifies the user a new event
@@ -41,6 +41,6 @@ class Notifier < ApplicationMailer
     @event = event
     meeting = user.meetings.find_by(event: event)
     attachments.inline['prenotazione.ics'] = meeting.ical.to_ical if meeting.present? && meeting.confirmed?
-    mail(to: @user.email, subject: t('user_event_modified', scope: 'message.email.subjects') + ' ' + (l event.date_on)) if user.email.present?
+    mail(to: @user.email, subject: t('user_event_modified', scope: 'message.email.subjects') + ' ' + (l event.date_on), reply_to: Settings.email.to_s) if user.email.present?
   end
 end
