@@ -53,6 +53,10 @@ class ApplicationController < ActionController::Base
     access_denied! unless current_user.admin?
   end
 
+  # Translate errors messages
+  # @param [Array] errors
+  # @param [Text] scope
+  # @return [Array] translated errors messages
   def translate_errors(errors = [], scope: '')
     translated = []
     errors.each do |e|

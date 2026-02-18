@@ -16,11 +16,8 @@ class EventsController < ApplicationController
   # GET /events
   #
   # render events index
-  # * set @meetings with all future events
   # @return [Object] render events/index
-  def index
-    # @meetings = Event.future.where(id: Meeting.waiting.distinct(:event_id).pluck(:event_id))
-  end
+  def index; end
 
   # GET /events/agenda
   #
@@ -89,6 +86,8 @@ class EventsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /events/1
+  # PATCH/PUT /events/1.json
   def reserve
     @template = params[:template].presence || 'user'
     @event.user = @user
@@ -126,6 +125,7 @@ class EventsController < ApplicationController
     ]
   end
 
+  # GET /events/1/meetings
   def meetings
     @meetings = @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }
   end
@@ -150,17 +150,20 @@ class EventsController < ApplicationController
     ]
   end
 
+  # PUT /events/1/meetings/sendmail
   def meeting_sendmail
     @zone = params[:zone].presence || 'users'
     Notifier.user_event(@user, @event).deliver_now
     @meetings.update(sended_at: Time.zone.now)
   end
 
+  # GET /events/1/print
   def print
     @filter = params[:filter]
     @filename = @filter.blank? ? 'print.xlsx' : "#{@filter}.xlsx"
   end
 
+  # PUT /events/1/confirmed
   def confirmed
     @meeting = @user.meetings.find_by(event: @event)
     @meeting.sended_at = Time.zone.now
@@ -197,6 +200,7 @@ class EventsController < ApplicationController
     end
   end
 
+  # PUT /events/1/confirmed_users
   def confirmed_users
     @meetings = @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }
     @meetings.each do |meeting|

@@ -38,10 +38,20 @@ class Risk < ApplicationRecord
 
   before_destroy :check_destroy
 
+  # Check if the risk can be destroyed, if it has categories it can't be destroyed
+  # @return [Boolean] true if the risk can be destroyed, false otherwise
+  def check_destroy
+    categories.empty?
+  end
+
+  # Soft delete the risk, set active to false
+  # @return [Boolean] true if the risk was deleted, false otherwise
   def delete
     destroy
   end
 
+  # Restore the risk, set active to true
+  # @return [Boolean] true if the risk was restored, false otherwise
   def destroy
     update!(active: false)
   end

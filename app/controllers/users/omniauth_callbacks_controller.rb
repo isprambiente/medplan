@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
+# This controller is used to handle the callbacks from the OpenID Connect provider.
+# It inherits from Devise's OmniauthCallbacksController,
+# which provides a default implementation for handling OmniAuth callbacks.
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # See https://github.com/omniauth/omniauth/wiki/FAQ#rails-session-is-clobbered-after-callback-on-developer-strategy
   skip_before_action :verify_authenticity_token, only: :openid_connect
 
+  # You should configure your model like this:
+  # devise :omniauthable, omniauth_providers: [:openid_connect]
   def openid_connect
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     # @user = User.from_omniauth(request.env["omniauth.auth"])
@@ -15,6 +22,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  # Redirect after failed login
   def failure
     redirect_to root_path
   end

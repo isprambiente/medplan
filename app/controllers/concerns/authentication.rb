@@ -1,3 +1,8 @@
+# frozen_string_literal: true
+
+# This module provides authentication functionality for controllers.
+# It includes methods to check if a user is authenticated,
+# to require authentication for certain actions, and to manage user sessions.
 module Authentication
   extend ActiveSupport::Concern
 

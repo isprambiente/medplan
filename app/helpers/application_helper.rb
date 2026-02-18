@@ -1,5 +1,7 @@
 # frozen_string_literal: true
-#
+
+# This helper is used to define methods that can be used in the views of the application.
+# It is included in all views by default, but it can be customized if needed.
 module ApplicationHelper
 
   # @param [String] url source of remote page
