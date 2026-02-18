@@ -1,0 +1,27 @@
+title: "LabTools Database Schema"
+filetype: svg
+filename: doc/erd/schema
+disconnected: true
+notation: bachman
+orientation: horizontal
+cluster: false
+markup: true
+sort: false
+indirect: false
+attributes:
+  - primary_keys
+  - foreign_keys
+  - content
+  - timestamps
+inheritance: false
+polymorphism: false
+fonts:
+ normal: "Arial"
+ bold: "Arial Bold"
+ italic: "Arial Italic"
+exclude:
+  - SolidQueue
+  - SolidCache
+  - SolidCable
+  - ActsAsTaggableOn
+warn: false
