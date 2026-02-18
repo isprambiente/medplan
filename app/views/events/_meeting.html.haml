@@ -17,7 +17,7 @@
       .column.is-2-desktop.is-3-tablet.has-text-right= event.categories(meeting.user)
       .column.is-2-desktop.is-3-tablet
         .buttons.are-small.has-addons.is-right
-          %a.button{ href: user_event_reserve_path(meeting.user, event, template: 'calendar'), class: event.status(meeting.user), data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi la variazione di stato dell'appuntamento?" } }= t( event.status(meeting.user), scope: 'event.status' )
+          %a{ href: user_event_reserve_path(meeting.user, event, template: 'calendar'), class: ["button", h(event.status(meeting.user))], data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi la variazione di stato dell'appuntamento?" } }= t( event.status(meeting.user), scope: 'event.status' )
           - if meeting.user.email.present?
             %a.button.tooltip{ href: confirmed_user_event_path(meeting.user, event, zone: 'events'), class: "#{classes}", id: meeting.div, data: { method: :put, turbo_method: 'PUT', turbo_confirm: "Confermi l'invio della e-mail?" } }= fas_icon('envelope')
           - else

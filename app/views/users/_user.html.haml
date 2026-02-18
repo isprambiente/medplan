@@ -43,7 +43,7 @@
         = arrAudits.join(',&nbsp;').html_safe
       - else
         %small.no-risk Nessun rischio lavorativo configurato
-      %span.tag{class: user.city}= user.city.capitalize
+      %span{ class: ["tag", h(user.city)] }= user.city.capitalize
     .column.tool.is-narrow
       .buttons.has-addons.is-right
         = link_to fas_icon('file'), user_path(id: user.id, filter: {view: 'modal'}), class: 'button tooltip', data: { tooltip: t('details', scope: 'user'), turbo_frame: 'modal' }
