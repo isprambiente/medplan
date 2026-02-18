@@ -502,6 +502,8 @@ GEM
     thor (1.5.0)
     tilt (2.7.0)
     timeout (0.6.0)
+    traceroute (0.8.1)
+      rails (>= 3.0.0)
     tsort (0.2.0)
     turbo-rails (1.0.1)
       actionpack (>= 6.0.0)
@@ -599,6 +601,7 @@ DEPENDENCIES
   shoulda-matchers (~> 2.0)
   sprockets-rails
   stimulus-rails
+  traceroute
   turbo-rails (~> 1.0.0)
   tzinfo-data
   web-console

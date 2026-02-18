@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     get 'home/report' => 'home#report'
     post 'home/report' => 'home#report'
     get 'home/meetings' => 'home#meetings', as: :home_meetings
-    post 'home/update_user' => 'home#update_user'
+    # post 'home/update_user' => 'home#update_user'
     put 'home/reset_password', to: 'home#reset_password', as: :reset_password
     get 'home/export', to: 'home#export', as: :export_home, defaults: { format: :xlsx }
 
@@ -54,7 +54,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :events, except: %i[new create update] do
+    resources :events, except: %i[show new create update] do
       get :meetings, on: :collection
       get :meetings, on: :member
       put :print, on: :collection

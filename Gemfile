@@ -38,6 +38,8 @@ group :development do
   gem 'capistrano-rvm',     require: false
   # gem 'capistrano3-puma',   require: false
   gem 'capistrano-yarn',    require: false
+
+  gem 'traceroute'
 end
 
 group :test do
