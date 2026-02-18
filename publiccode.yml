@@ -1,23 +1,31 @@
-# This repository adheres to the publiccode.yml standard by including this 
-# metadata file that makes public software easily discoverable.
-# More info at https://github.com/italia/publiccode.yml
-
-publiccodeYmlVersion: '0.4.0'
+publiccodeYmlVersion: 0.5.0
+name: Med.Plan.
+url: https://github.com/isprambiente/medplan
+softwareVersion: 2.7.2
+releaseDate: 2026-02-18
+logo: https://raw.githubusercontent.com/isprambiente/medplan/master/doc/logo.svg
+platforms:
+  - web
 categories:
   - employee-management
   - document-management
   - office
+organisation:
+  uri: urn:x-italian-pa:ispra_rm
+  name: ISPRA
+usedBy:
+  - ISPRA
+  - ISIN
+roadmap: https://github.com/isprambiente/medplan/projects
+developmentStatus: stable
+softwareType: standalone/web
+intendedAudience:
+  scope:
+    - government
 description:
   it:
-    documentation: 'https://rubydoc.info/github/isprambiente/medplan/master'
-    features:
-      - gestione dipendenti
-      - gestione appuntamenti
-      - calendario appuntamenti
-      - gestione categorie di rischio
-      - gestione rischi lavorativi
-      - gestione scadenze idoneità
-      - generazione reportistica
+    localisedName: MedPlan
+    shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
     longDescription: |
       Il programma, interamente sviluppato all'interno del settore Sviluppo di
       AGP-INF, nasce da una specifica necessità di
@@ -60,63 +68,48 @@ description:
       categoria di rischio; * Generazione di reportistica riservata al medico
       competente; * Manuali d'utilizzo per i tre profili utente: dipendente
       generico, segreteria e medico competente.
+    documentation: https://github.com/isprambiente/medplan/tree/master/doc
+    features:
+      - gestione dipendenti
+      - gestione appuntamenti
+      - calendario appuntamenti
+      - gestione categorie di rischio
+      - gestione rischi lavorativi
+      - gestione scadenze idoneità
+      - generazione reportistica
     screenshots:
-      - |-
-        https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-1.png
-      - |-
-        https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-2.png
-    shortDescription: Portale per la sorveglianza sanitaria e medicina sul lavoro
-developmentStatus: stable
-intendedAudience:
-  countries:
-    - it
-  scope:
-    - government
-it:
-  conforme:
-    gdpr: false
-    lineeGuidaDesign: true
-    misureMinimeSicurezza: true
-    modelloInteroperabilita: true
-  countryExtensionVersion: '0.2'
-  piattaforme:
-    anpr: false
-    cie: false
-    pagopa: false
-    spid: false
-  riuso:
-    codiceIPA: ispra_rm
+      - https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-1.png
+      - https://raw.githubusercontent.com/isprambiente/medplan/master/doc/screen-2.png
 legal:
   license: MIT
   mainCopyrightOwner: 2023 Istituto Superiore per la Protezione e la Ricerca Ambientale
   repoOwner: Istituto Superiore per la Protezione e la Ricerca Ambientale
+maintenance:
+  type: internal
+  contacts:
+    - name: Francesco Loreti
+      email: francesco.loreti@isprambiente.it
+      phone: "+390650072225"
+      affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
+    - name: Andrea Ranaldi
+      email: andrea.ranaldi@isprambiente.it
+      phone: "+390650072358"
+      affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
 localisation:
+  localisationReady: true
   availableLanguages:
     - it
     - en
-  localisationReady: true
-logo: 'https://raw.githubusercontent.com/isprambiente/medplan/master/doc/logo.svg'
-maintenance:
-  contacts:
-    - affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
-      email: francesco.loreti@isprambiente.it
-      name: Francesco Loreti
-      phone: '+390650072225'
-    - affiliation: Istituto Superiore per la Protezione e la Ricerca Ambientale
-      email: andrea.ranaldi@isprambiente.it
-      name: Andrea Ranaldi
-      phone: '+390650072358'
-  type: internal
-name: Med.Plan.
-platforms:
-  - web
-  - linux
-  - windows
-releaseDate: '2023-03-20'
-roadmap: 'https://github.com/isprambiente/medplan/projects'
-softwareType: standalone/web
-softwareVersion: 1.9.2
-url: 'https://github.com/isprambiente/medplan'
-usedBy:
-  - ISPRA
-  - ISIN
+IT:
+  countryExtensionVersion: "1.0"
+  conforme:
+    modelloInteroperabilita: true
+    gdpr: false
+  piattaforme:
+    spid: false
+    cie: false
+    anpr: false
+    pagopa: false
+    io: false
+  riuso:
+    codiceIPA: ispra_rm
