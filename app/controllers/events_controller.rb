@@ -94,7 +94,6 @@ class EventsController < ApplicationController
     old_status = @event.status(@user)
     @result = @event.update_status! if current_user.secretary? || (current_user == @user && @event.status(@user) == 'proposed')
     @meeting = @user.meetings.find_by(event: @event)
-    @response = Notifier.user_event_confirmed(@user, @event).deliver_now if @result && current_user.secretary? && (@event.status(@user) != old_status)
     if @template == 'user'
       render partial: 'home/user_event', locals: { meeting: @meeting, event: @event, user: @user }
     else
@@ -153,7 +152,11 @@ class EventsController < ApplicationController
   # PUT /events/1/meetings/sendmail
   def meeting_sendmail
     @zone = params[:zone].presence || 'users'
-    Notifier.user_event(@user, @event).deliver_now
+    if @event.analisys?
+      Notifier.user_event_analisys(@user, @event).deliver_now
+    elsif @event.visit?
+      Notifier.user_event_visit(@user, @event).deliver_now
+    end
     @meetings.update(sended_at: Time.zone.now)
   end
 
@@ -168,14 +171,10 @@ class EventsController < ApplicationController
     @meeting = @user.meetings.find_by(event: @event)
     @meeting.sended_at = Time.zone.now
     if @meeting.save && @user.email.present?
-      if @event.status(@user) == 'proposed'
-        if @event.analisys?
-          @response = Notifier.user_event_analisys(@user, @event).deliver_now
-        elsif @event.visit?
-          @response = Notifier.user_event_visit(@user, @event).deliver_now
-        end
-      else
-        @response = Notifier.user_event_confirmed(@user, @event).deliver_now
+      if @event.analisys?
+        @response = Notifier.user_event_analisys(@user, @event).deliver_now
+      elsif @event.visit?
+        @response = Notifier.user_event_visit(@user, @event).deliver_now
       end
     end
     @zone = params[:zone].presence || 'users'
@@ -204,8 +203,15 @@ class EventsController < ApplicationController
   def confirmed_users
     @meetings = @event.meetings.joins(:user).order('meetings.start_at asc, users.label asc').to_a.uniq { |a| a.user.id }
     @meetings.each do |meeting|
+      response = false
       user = meeting.user
-      response = user.email.blank? ? false : Notifier.user_event_confirmed(user, @event).deliver_now
+
+      if @event.analisys?
+        response = Notifier.user_event_analisys(user, @event).deliver_now
+      elsif @event.visit?
+        response = Notifier.user_event_visit(user, @event).deliver_now
+      end
+
       if response
         meeting.sended_at = Time.zone.now
         meeting.save
