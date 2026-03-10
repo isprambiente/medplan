@@ -2,34 +2,75 @@
   Buongiorno #{@user.label},
   %br/
   sono presenti nuovi eventi programmati per Lei dalla Segreteria Medica.
+
 %p
-  Per visualizzare e confermare gli eventi seguire il link:
+  Per visualizzare e confermare gli appuntamenti, acceda al seguente link:
   %br/
-  %a{:href => "#{Settings.app.url}"}= Settings.app.url
-%p Cliccare su convalida entro 3 giorni lavorativi dalla ricezione della presente.
-%p Indicare nello spazio "Emergenze" che compare nel box Informazioni Generali un numero di telefono cellulare per eventuali comunicazioni urgenti.
-%br/
+  %a{:href => Settings.app.url}= Settings.app.url
+
 %p
-  %b
-    Per modifiche di orario o di giorno NON rispondere a questa mail ma scrivere all'indirizzo
-    %a{:href => "mailto:#{Settings.email}"}= Settings.email
-%p Si ricorda che sottoporsi ai controlli sanitari previsti dal D.Lgs 81/2008 o comunque dal medico competente e' un obbligo di legge (art. 20, c.2, let. i, D.Lgs n. 81/08).
+  Qualora non fosse in possesso delle credenziali ISPRA, La invitiamo a scrivere all’indirizzo
+  %a{:href => "mailto:#{Settings.email}"}= Settings.email
+  per procedere alla conferma.
+
+%p
+  Si richiede di cliccare su “Presa visione” entro 3 giorni lavorativi dalla ricezione della presente.
+
+%p
+  Nel box “Informazioni Generali”, nello spazio “Emergenze”, è necessario indicare un numero di telefono cellulare per eventuali comunicazioni urgenti.
+
+%p
+  %b Per modifiche di orario o di giorno NON rispondere a questa mail ma scrivere all'indirizzo
+  %a{:href => "mailto:#{Settings.email}"}= Settings.email
+
+%p
+  Si ricorda che sottoporsi ai controlli sanitari previsti dal D.Lgs 81/2008 o comunque dal medico competente è un obbligo di legge (art. 20, c.2, let. i, D.Lgs n. 81/08).
+
 %p
   %b La mancata presentazione all’appuntamento senza giustificato motivo comporta la segnalazione al Suo Dirigente.
-%p Per gli accertamenti sanitari, ISPRA e' convenzionata con MARILAB S.r.l.
+
+%p
+  Per gli accertamenti sanitari, ISPRA è convenzionata con MARILAB S.r.l. (indirizzi in calce).
+
+%p
+  Le analisi di base per tutti i dipendenti comprendono:
+  Emocromo completo, Glicemia, Azotemia, Creatinina, SGOT-SGPT-γGT, Bilirubina totale e diretta,
+  Proteine totali e Protidogramma, Elettroforetico, Colesterolo tot. e HDL, Trigliceridi, urine e visita oculistica.
+
+%p
+  In base alla mansione svolta potranno essere previsti ulteriori accertamenti
+  (ad es. elettrocardiogramma, spirometria, ecc.).
+  Il dettaglio specifico è già stato comunicato al laboratorio.
+
+%p
+  Il contenitore per le urine può essere ritirato:
+  %br/
+  presso l’Ufficio Protocollo (cassetta “CONTENITORI”);
+  %br/
+  per i dipendenti ISPRA della Fondazione Santa Lucia, presso il secondo piano.
+  %br/
+  In caso di impossibilità al ritiro, è possibile provvedere autonomamente.
+
+%p
+  Si raccomanda ai portatori di lenti a contatto di toglierle e indossare gli occhiali almeno 24 h prima della visita oculistica.
+
 %br/
+
 %p
   Gli esami potranno essere svolti agli indirizzi di seguito elencati:
   %ul
     %li Roma: MARILAB S.r.l. - Via Caffaro n. 137 – Roma, raggiungibile con Metro B – fermata Garbatella.
-    %li Milazzo: Medical Center Umberto I S.r.l.- Via Umberto I n. 143 - Milazzo
-    %li Palermo: PA.MA.FI.R Centro Medico Plurispecialistico S.r.l.  – Via Villa Rosato n. 2 - Palermo
+    %li Milazzo: Medical Center Umberto I S.r.l. - Via Umberto I n. 143 - Milazzo
+    %li Palermo: PA.MA.FI.R Centro Medico Plurispecialistico S.r.l. – Via Villa Rosato n. 2 - Palermo
     %li Livorno: Biolabor S.r.l. – Via G. March n. 20 - Livorno
     %li Chioggia: Analisi Mediche Pavanello S.r.l. – via Bravi n. 47 – Ponte di Brenta (PD)
     %li Venezia: Diagnostica Riviera S.r.l. - Via Bologna n. 5/A - Mira (VE)
     %li Ozzano dell’Emilia: Synlab Medical S.r.l. – Via del lavoro n. 40 - Bologna
+
 %br/
+
 %p
   %b Questa comunicazione è stata generata automaticamente.
+
 %p
   %b Si prega di non rispondere a questa email, poiché la casella di posta non è monitorata.

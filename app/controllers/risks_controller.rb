@@ -53,10 +53,10 @@ class RisksController < ApplicationController
     @risk = Risk.new(risk_params)
     if @risk.save
       risks
-      flash.now[:success] = 'Creazione avvenuta con successo'
+      flash.now[:success] = "Creazione avvenuta con successo"
       render :index, status: :ok
     else
-      flash.now[:error] = 'Si è verificato un errore durante la creazione'
+      flash.now[:error] = "Si è verificato un errore durante la creazione"
       render :edit, status: :error
     end
   end
@@ -70,10 +70,10 @@ class RisksController < ApplicationController
   def update
     if @risk.update(risk_params)
       risks
-      flash.now[:success] = 'Modifica avvenuta con successo'
+      flash.now[:success] = "Modifica avvenuta con successo"
       render :index, status: :ok
     else
-      flash.now[:error] = 'Si è verificato un errore durante la modifica'
+      flash.now[:error] = "Si è verificato un errore durante la modifica"
       render :edit, status: :error
     end
   end
@@ -86,9 +86,9 @@ class RisksController < ApplicationController
   # @return [Object] render
   def destroy
     if @risk.destroy
-      flash.now[:success] = 'Cancellazione avvenuta con successo'
+      flash.now[:success] = "Cancellazione avvenuta con successo"
     else
-      flash.now[:error] = 'Si è verificato un errore durante la cancellazione'
+      flash.now[:error] = "Si è verificato un errore durante la cancellazione"
     end
     render turbo_stream: [
       turbo_stream.replace(:flashes, partial: "flashes"),
@@ -113,7 +113,7 @@ class RisksController < ApplicationController
 
   # Set callback view
   def set_view
-    @view = filter_params[:view] || ''
+    @view = filter_params[:view] || ""
   end
 
   # Only allow a list of trusted parameters through.

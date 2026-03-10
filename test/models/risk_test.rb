@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class RiskTest < ActiveSupport::TestCase
-  test 'valid from factory' do
+  test "valid from factory" do
     risk = build(:risk)
     assert risk.save
   end
@@ -25,17 +25,17 @@ class RiskTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:title)
 
   # scope
-  test 'default_scope' do
-    b = create :risk, title: 'b'
-    a = create :risk, title: 'a'
+  test "default_scope" do
+    b = create :risk, title: "b"
+    a = create :risk, title: "a"
     assert_equal a, Risk.all.first
     assert_equal b, Risk.all.last
   end
 
-  test 'printed' do
-    create :risk, printed: false, code: '1'
-    b = create :risk, printed: true, code: '3'
-    c = create :risk, printed: true, code: '2'
+  test "printed" do
+    create :risk, printed: false, code: "1"
+    b = create :risk, printed: true, code: "3"
+    c = create :risk, printed: true, code: "2"
     assert_equal 2, Risk.printed.count
     assert_equal c, Risk.printed.first
     assert_equal b, Risk.printed.last

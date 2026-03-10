@@ -8,6 +8,6 @@ class ApplicationRecord < ActiveRecord::Base
   # @example @user.div -> 'user_12'
   # @return [String]
   def div
-    [self.class.to_s, '_', id].join.downcase
+    [ self.class.to_s, "_", id ].join.downcase
   end
 end

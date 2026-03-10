@@ -19,7 +19,7 @@ Devise.setup do |config|
   # by default. You can change it below and use your own secret key.
   # config.secret_key = 'd0ed4895ce21fe97120d04a363dc99213b5b788b804671ae63bc9d626b20f03184a0992034269310a02314937d38b6f92a60ee8b911592f49aa945815797b6e6'
 
-  config.secret_key = '483553720e140edefc54f4de5f9fb750949496e50cf32e10ccc051e735e5ad7f93cc49ba3e542ba5124ca0dc7805897ef781141660a697568f1094ab0b1cc286'
+  config.secret_key = "483553720e140edefc54f4de5f9fb750949496e50cf32e10ccc051e735e5ad7f93cc49ba3e542ba5124ca0dc7805897ef781141660a697568f1094ab0b1cc286"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -37,7 +37,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -47,7 +47,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  config.authentication_keys = [Settings.auth.field]
+  config.authentication_keys = [ Settings.auth.field ]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -59,12 +59,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [Settings.auth.field]
+  config.case_insensitive_keys = [ Settings.auth.field ]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [Settings.auth.field]
+  config.strip_whitespace_keys = [ Settings.auth.field ]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -95,7 +95,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = [ :http_auth ]
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
@@ -282,7 +282,7 @@ Devise.setup do |config|
         host: ENV.fetch("RAILS_HOST") { "localhost" },
         identifier: ENV.fetch("RAILS_OIDC_IDENTIFIER") { "medplan" },
         secret: ENV.fetch("RAILS_OIDC_SECRET") { "secret" },
-        redirect_uri: "#{ENV.fetch("RAILS_SCHEME") { "https" }}://#{ENV.fetch("RAILS_HOST") { "localhost" }}#{ENV.fetch("RAILS_PORT") {""}}/users/auth/openid_connect/callback"
+        redirect_uri: "#{ENV.fetch("RAILS_SCHEME") { "https" }}://#{ENV.fetch("RAILS_HOST") { "localhost" }}#{ENV.fetch("RAILS_PORT") { "" }}/users/auth/openid_connect/callback"
       }
     }
   end

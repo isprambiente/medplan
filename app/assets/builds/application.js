@@ -4,39 +4,60 @@ var __defProp = Object.defineProperty;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+function __accessProp(key) {
+  return this[key];
+}
+var __toESMCache_node;
+var __toESMCache_esm;
 var __toESM = (mod, isNodeMode, target) => {
+  var canCache = mod != null && typeof mod === "object";
+  if (canCache) {
+    var cache = isNodeMode ? __toESMCache_node ??= new WeakMap : __toESMCache_esm ??= new WeakMap;
+    var cached = cache.get(mod);
+    if (cached)
+      return cached;
+  }
   target = mod != null ? __create(__getProtoOf(mod)) : {};
   const to = isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target;
   for (let key of __getOwnPropNames(mod))
     if (!__hasOwnProp.call(to, key))
       __defProp(to, key, {
-        get: () => mod[key],
+        get: __accessProp.bind(mod, key),
         enumerable: true
       });
+  if (canCache)
+    cache.set(mod, to);
   return to;
 };
-var __moduleCache = /* @__PURE__ */ new WeakMap;
 var __toCommonJS = (from) => {
-  var entry = __moduleCache.get(from), desc;
+  var entry = (__moduleCache ??= new WeakMap).get(from), desc;
   if (entry)
     return entry;
   entry = __defProp({}, "__esModule", { value: true });
-  if (from && typeof from === "object" || typeof from === "function")
-    __getOwnPropNames(from).map((key) => !__hasOwnProp.call(entry, key) && __defProp(entry, key, {
-      get: () => from[key],
-      enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
-    }));
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (var key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(entry, key))
+        __defProp(entry, key, {
+          get: __accessProp.bind(from, key),
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+        });
+  }
   __moduleCache.set(from, entry);
   return entry;
 };
+var __moduleCache;
 var __commonJS = (cb, mod) => () => (mod || cb((mod = { exports: {} }).exports, mod), mod.exports);
+var __returnValue = (v) => v;
+function __exportSetter(name, newValue) {
+  this[name] = __returnValue.bind(null, newValue);
+}
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, {
       get: all[name],
       enumerable: true,
       configurable: true,
-      set: (newValue) => all[name] = () => newValue
+      set: __exportSetter.bind(all, name)
     });
 };
 var __esm = (fn, res) => () => (fn && (res = fn(fn = 0)), res);
@@ -594,7 +615,7 @@ var init_src = __esm(() => {
 // node_modules/sweetalert2/dist/sweetalert2.all.js
 var require_sweetalert2_all = __commonJS((exports, module) => {
   /*!
-  * sweetalert2 v11.26.3
+  * sweetalert2 v11.26.22
   * Released under the MIT License.
   */
   (function(global, factory) {
@@ -923,9 +944,9 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         hide(elem);
       }
     };
-    const isVisible$1 = (elem) => !!(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
+    const isVisible$1 = (elem) => Boolean(elem && (elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length));
     const allButtonsAreHidden = () => !isVisible$1(getConfirmButton()) && !isVisible$1(getDenyButton()) && !isVisible$1(getCancelButton());
-    const isScrollable = (elem) => !!(elem.scrollHeight > elem.clientHeight);
+    const isScrollable = (elem) => Boolean(elem.scrollHeight > elem.clientHeight);
     const selfOrParentIsScrollable = (element, stopElement) => {
       let parent = element;
       while (parent && parent !== stopElement) {
@@ -1011,14 +1032,23 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         return false;
       }
       oldContainer.remove();
-      removeClass([document.documentElement, document.body], [swalClasses["no-backdrop"], swalClasses["toast-shown"], swalClasses["has-column"]]);
+      removeClass([document.documentElement, document.body], [
+        swalClasses["no-backdrop"],
+        swalClasses["toast-shown"],
+        swalClasses["has-column"]
+      ]);
       return true;
     };
     const resetValidationMessage$1 = () => {
-      globalState.currentInstance.resetValidationMessage();
+      if (globalState.currentInstance) {
+        globalState.currentInstance.resetValidationMessage();
+      }
     };
     const addInputChangeListeners = () => {
       const popup = getPopup();
+      if (!popup) {
+        return;
+      }
       const input = getDirectChildByClass(popup, swalClasses.input);
       const file = getDirectChildByClass(popup, swalClasses.file);
       const range = popup.querySelector(`.${swalClasses.range} input`);
@@ -1026,23 +1056,47 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       const select = getDirectChildByClass(popup, swalClasses.select);
       const checkbox = popup.querySelector(`.${swalClasses.checkbox} input`);
       const textarea = getDirectChildByClass(popup, swalClasses.textarea);
-      input.oninput = resetValidationMessage$1;
-      file.onchange = resetValidationMessage$1;
-      select.onchange = resetValidationMessage$1;
-      checkbox.onchange = resetValidationMessage$1;
-      textarea.oninput = resetValidationMessage$1;
-      range.oninput = () => {
-        resetValidationMessage$1();
-        rangeOutput.value = range.value;
-      };
-      range.onchange = () => {
-        resetValidationMessage$1();
-        rangeOutput.value = range.value;
-      };
+      if (input) {
+        input.oninput = resetValidationMessage$1;
+      }
+      if (file) {
+        file.onchange = resetValidationMessage$1;
+      }
+      if (select) {
+        select.onchange = resetValidationMessage$1;
+      }
+      if (checkbox) {
+        checkbox.onchange = resetValidationMessage$1;
+      }
+      if (textarea) {
+        textarea.oninput = resetValidationMessage$1;
+      }
+      if (range && rangeOutput) {
+        range.oninput = () => {
+          resetValidationMessage$1();
+          rangeOutput.value = range.value;
+        };
+        range.onchange = () => {
+          resetValidationMessage$1();
+          rangeOutput.value = range.value;
+        };
+      }
     };
-    const getTarget = (target) => typeof target === "string" ? document.querySelector(target) : target;
+    const getTarget = (target) => {
+      if (typeof target === "string") {
+        const element = document.querySelector(target);
+        if (!element) {
+          throw new Error(`Target element "${target}" not found`);
+        }
+        return element;
+      }
+      return target;
+    };
     const setupAccessibility = (params) => {
       const popup = getPopup();
+      if (!popup) {
+        return;
+      }
       popup.setAttribute("role", params.toast ? "alert" : "dialog");
       popup.setAttribute("aria-live", params.toast ? "polite" : "assertive");
       if (!params.toast) {
@@ -1052,6 +1106,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     const setupRTL = (targetElement) => {
       if (window.getComputedStyle(targetElement).direction === "rtl") {
         addClass(getContainer(), swalClasses.rtl);
+        globalState.isRTL = true;
       }
     };
     const init = (params) => {
@@ -1067,7 +1122,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       }
       setInnerHtml(container, sweetHTML);
       container.dataset["swal2Theme"] = params.theme;
-      const targetElement = getTarget(params.target);
+      const targetElement = getTarget(params.target || "body");
       targetElement.appendChild(container);
       if (params.topLayer) {
         container.setAttribute("popover", "");
@@ -1087,7 +1142,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       }
     };
     const handleObject = (param, target) => {
-      if (param.jquery) {
+      if ("jquery" in param) {
         handleJqueryElem(target, param);
       } else {
         setInnerHtml(target, param.toString());
@@ -1222,7 +1277,8 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     }
     var privateProps = {
       innerParams: new WeakMap,
-      domCache: new WeakMap
+      domCache: new WeakMap,
+      focusedElement: new WeakMap
     };
     const inputClasses = ["input", "file", "range", "select", "radio", "checkbox", "textarea"];
     const renderInput = (instance, params) => {
@@ -1335,77 +1391,107 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     };
     const renderInputType = {};
     renderInputType.text = renderInputType.email = renderInputType.password = renderInputType.number = renderInputType.tel = renderInputType.url = renderInputType.search = renderInputType.date = renderInputType["datetime-local"] = renderInputType.time = renderInputType.week = renderInputType.month = (input, params) => {
-      checkAndSetInputValue(input, params.inputValue);
-      setInputLabel(input, input, params);
-      setInputPlaceholder(input, params);
-      input.type = params.input;
-      return input;
+      const inputElement = input;
+      checkAndSetInputValue(inputElement, params.inputValue);
+      setInputLabel(inputElement, inputElement, params);
+      setInputPlaceholder(inputElement, params);
+      inputElement.type = params.input;
+      return inputElement;
     };
     renderInputType.file = (input, params) => {
-      setInputLabel(input, input, params);
-      setInputPlaceholder(input, params);
-      return input;
+      const inputElement = input;
+      setInputLabel(inputElement, inputElement, params);
+      setInputPlaceholder(inputElement, params);
+      return inputElement;
     };
     renderInputType.range = (range, params) => {
-      const rangeInput = range.querySelector("input");
-      const rangeOutput = range.querySelector("output");
-      checkAndSetInputValue(rangeInput, params.inputValue);
-      rangeInput.type = params.input;
-      checkAndSetInputValue(rangeOutput, params.inputValue);
-      setInputLabel(rangeInput, range, params);
+      const rangeContainer = range;
+      const rangeInput = rangeContainer.querySelector("input");
+      const rangeOutput = rangeContainer.querySelector("output");
+      if (rangeInput) {
+        checkAndSetInputValue(rangeInput, params.inputValue);
+        rangeInput.type = params.input;
+        setInputLabel(rangeInput, range, params);
+      }
+      if (rangeOutput) {
+        checkAndSetInputValue(rangeOutput, params.inputValue);
+      }
       return range;
     };
     renderInputType.select = (select, params) => {
-      select.textContent = "";
+      const selectElement = select;
+      selectElement.textContent = "";
       if (params.inputPlaceholder) {
         const placeholder = document.createElement("option");
         setInnerHtml(placeholder, params.inputPlaceholder);
         placeholder.value = "";
         placeholder.disabled = true;
         placeholder.selected = true;
-        select.appendChild(placeholder);
+        selectElement.appendChild(placeholder);
       }
-      setInputLabel(select, select, params);
-      return select;
+      setInputLabel(selectElement, selectElement, params);
+      return selectElement;
     };
     renderInputType.radio = (radio) => {
-      radio.textContent = "";
+      const radioElement = radio;
+      radioElement.textContent = "";
       return radio;
     };
     renderInputType.checkbox = (checkboxContainer, params) => {
-      const checkbox = getInput$1(getPopup(), "checkbox");
+      const popup = getPopup();
+      if (!popup) {
+        throw new Error("Popup not found");
+      }
+      const checkbox = getInput$1(popup, "checkbox");
+      if (!checkbox) {
+        throw new Error("Checkbox input not found");
+      }
       checkbox.value = "1";
       checkbox.checked = Boolean(params.inputValue);
-      const label = checkboxContainer.querySelector("span");
-      setInnerHtml(label, params.inputPlaceholder || params.inputLabel);
+      const containerElement = checkboxContainer;
+      const label = containerElement.querySelector("span");
+      if (label) {
+        const placeholderOrLabel = params.inputPlaceholder || params.inputLabel;
+        if (placeholderOrLabel) {
+          setInnerHtml(label, placeholderOrLabel);
+        }
+      }
       return checkbox;
     };
     renderInputType.textarea = (textarea, params) => {
-      checkAndSetInputValue(textarea, params.inputValue);
-      setInputPlaceholder(textarea, params);
-      setInputLabel(textarea, textarea, params);
+      const textareaElement = textarea;
+      checkAndSetInputValue(textareaElement, params.inputValue);
+      setInputPlaceholder(textareaElement, params);
+      setInputLabel(textareaElement, textareaElement, params);
       const getMargin = (el) => parseInt(window.getComputedStyle(el).marginLeft) + parseInt(window.getComputedStyle(el).marginRight);
       setTimeout(() => {
         if ("MutationObserver" in window) {
-          const initialPopupWidth = parseInt(window.getComputedStyle(getPopup()).width);
+          const popup = getPopup();
+          if (!popup) {
+            return;
+          }
+          const initialPopupWidth = parseInt(window.getComputedStyle(popup).width);
           const textareaResizeHandler = () => {
-            if (!document.body.contains(textarea)) {
+            if (!document.body.contains(textareaElement)) {
               return;
             }
-            const textareaWidth = textarea.offsetWidth + getMargin(textarea);
-            if (textareaWidth > initialPopupWidth) {
-              getPopup().style.width = `${textareaWidth}px`;
-            } else {
-              applyNumericalStyle(getPopup(), "width", params.width);
+            const textareaWidth = textareaElement.offsetWidth + getMargin(textareaElement);
+            const popupElement = getPopup();
+            if (popupElement) {
+              if (textareaWidth > initialPopupWidth) {
+                popupElement.style.width = `${textareaWidth}px`;
+              } else {
+                applyNumericalStyle(popupElement, "width", params.width);
+              }
             }
           };
-          new MutationObserver(textareaResizeHandler).observe(textarea, {
+          new MutationObserver(textareaResizeHandler).observe(textareaElement, {
             attributes: true,
             attributeFilter: ["style"]
           });
         }
       });
-      return textarea;
+      return textareaElement;
     };
     const renderContent = (instance, params) => {
       const htmlContainer = getHtmlContainer();
@@ -1576,7 +1662,11 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     };
     const down = (event) => {
       const popup = getPopup();
-      if (event.target === popup || getIcon().contains(event.target)) {
+      if (!popup) {
+        return;
+      }
+      const icon = getIcon();
+      if (event.target === popup || icon && icon.contains(event.target)) {
         dragging = true;
         const clientXY = getClientXY(event);
         mousedownX = clientXY.clientX;
@@ -1588,12 +1678,16 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     };
     const move = (event) => {
       const popup = getPopup();
+      if (!popup) {
+        return;
+      }
       if (dragging) {
         let {
           clientX,
           clientY
         } = getClientXY(event);
-        popup.style.insetInlineStart = `${initialX + (clientX - mousedownX)}px`;
+        const deltaX = clientX - mousedownX;
+        popup.style.insetInlineStart = `${initialX + (globalState.isRTL ? -deltaX : deltaX)}px`;
         popup.style.insetBlockStart = `${initialY + (clientY - mousedownY)}px`;
       }
     };
@@ -1726,6 +1820,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       applyCustomClass(title, params, "title");
     };
     const render = (instance, params) => {
+      var _globalState$eventEmi;
       renderPopup(instance, params);
       renderContainer(instance, params);
       renderProgressSteps(instance, params);
@@ -1740,7 +1835,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       if (typeof params.didRender === "function" && popup) {
         params.didRender(popup);
       }
-      globalState.eventEmitter.emit("didRender", popup);
+      (_globalState$eventEmi = globalState.eventEmitter) === null || _globalState$eventEmi === undefined || _globalState$eventEmi.emit("didRender", popup);
     };
     const isVisible = () => {
       return isVisible$1(getPopup());
@@ -1765,8 +1860,9 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       timer: "timer"
     });
     const removeKeydownHandler = (globalState2) => {
-      if (globalState2.keydownTarget && globalState2.keydownHandlerAdded) {
-        globalState2.keydownTarget.removeEventListener("keydown", globalState2.keydownHandler, {
+      if (globalState2.keydownTarget && globalState2.keydownHandlerAdded && globalState2.keydownHandler) {
+        const handler = globalState2.keydownHandler;
+        globalState2.keydownTarget.removeEventListener("keydown", handler, {
           capture: globalState2.keydownListenerCapture
         });
         globalState2.keydownHandlerAdded = false;
@@ -1775,13 +1871,18 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     const addKeydownHandler = (globalState2, innerParams, dismissWith) => {
       removeKeydownHandler(globalState2);
       if (!innerParams.toast) {
-        globalState2.keydownHandler = (e) => keydownHandler(innerParams, e, dismissWith);
-        globalState2.keydownTarget = innerParams.keydownListenerCapture ? window : getPopup();
-        globalState2.keydownListenerCapture = innerParams.keydownListenerCapture;
-        globalState2.keydownTarget.addEventListener("keydown", globalState2.keydownHandler, {
-          capture: globalState2.keydownListenerCapture
-        });
-        globalState2.keydownHandlerAdded = true;
+        const handler = (e) => keydownHandler(innerParams, e, dismissWith);
+        globalState2.keydownHandler = handler;
+        const target = innerParams.keydownListenerCapture ? window : getPopup();
+        if (target) {
+          globalState2.keydownTarget = target;
+          globalState2.keydownListenerCapture = innerParams.keydownListenerCapture;
+          const eventHandler = handler;
+          globalState2.keydownTarget.addEventListener("keydown", eventHandler, {
+            capture: globalState2.keydownListenerCapture
+          });
+          globalState2.keydownHandlerAdded = true;
+        }
       }
     };
     const setFocus = (index, increment) => {
@@ -1828,7 +1929,11 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       if (!callIfFunction(innerParams.allowEnterKey)) {
         return;
       }
-      const input = getInput$1(getPopup(), innerParams.input);
+      const popup = getPopup();
+      if (!popup || !innerParams.input) {
+        return;
+      }
+      const input = getInput$1(popup, innerParams.input);
       if (event.target && input && event.target instanceof HTMLElement && event.target.outerHTML === input.outerHTML) {
         if (["textarea", "file"].includes(innerParams.input)) {
           return;
@@ -1919,7 +2024,8 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         }
       });
     };
-    const isSafariOrIOS = typeof window !== "undefined" && !!window.GestureEvent;
+    const isSafariOrIOS = typeof window !== "undefined" && Boolean(window.GestureEvent);
+    const isIOS = isSafariOrIOS && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     const iOSfix = () => {
       if (isSafariOrIOS && !hasClass(document.body, swalClasses.iosfix)) {
         const offset2 = document.body.scrollTop;
@@ -1963,7 +2069,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       return false;
     };
     const isStylus = (event) => {
-      return event.touches && event.touches.length && event.touches[0].touchType === "stylus";
+      return Boolean(event.touches && event.touches.length && event.touches[0].touchType === "stylus");
     };
     const isZoom = (event) => {
       return event.touches && event.touches.length > 1;
@@ -2091,10 +2197,10 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         innerParams.willClose(popup);
       }
       (_globalState$eventEmi = globalState.eventEmitter) === null || _globalState$eventEmi === undefined || _globalState$eventEmi.emit("willClose", popup);
-      if (animationIsSupported) {
-        animatePopup(instance, popup, container, innerParams.returnFocus, innerParams.didClose);
-      } else {
-        removePopupAndResetState(instance, container, innerParams.returnFocus, innerParams.didClose);
+      if (animationIsSupported && container) {
+        animatePopup(instance, popup, container, Boolean(innerParams.returnFocus), innerParams.didClose);
+      } else if (container) {
+        removePopupAndResetState(instance, container, Boolean(innerParams.returnFocus), innerParams.didClose);
       }
     };
     const animatePopup = (instance, popup, container, returnFocus, didClose) => {
@@ -2307,7 +2413,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       return result;
     };
     const isSelected = (optionValue, inputValue) => {
-      return !!inputValue && inputValue.toString() === optionValue.toString();
+      return Boolean(inputValue) && inputValue !== null && inputValue !== undefined && inputValue.toString() === optionValue.toString();
     };
     const handleConfirmButtonClick = (instance) => {
       const innerParams = privateProps.innerParams.get(instance);
@@ -2367,7 +2473,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       });
     };
     const deny = (instance, value) => {
-      const innerParams = privateProps.innerParams.get(instance || undefined);
+      const innerParams = privateProps.innerParams.get(instance);
       if (innerParams.showLoaderOnDeny) {
         showLoading(getDenyButton());
       }
@@ -2384,7 +2490,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
               value: typeof preDenyValue === "undefined" ? value : preDenyValue
             });
           }
-        }).catch((error3) => rejectWith(instance || undefined, error3));
+        }).catch((error3) => rejectWith(instance, error3));
       } else {
         instance.close({
           isDenied: true,
@@ -2402,7 +2508,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       instance.rejectPromise(error3);
     };
     const confirm2 = (instance, value) => {
-      const innerParams = privateProps.innerParams.get(instance || undefined);
+      const innerParams = privateProps.innerParams.get(instance);
       if (innerParams.showLoaderOnConfirm) {
         showLoading();
       }
@@ -2417,7 +2523,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
           } else {
             succeedWith(instance, typeof preConfirmValue === "undefined" ? value : preConfirmValue);
           }
-        }).catch((error3) => rejectWith(instance || undefined, error3));
+        }).catch((error3) => rejectWith(instance, error3));
       } else {
         succeedWith(instance, value);
       }
@@ -2442,9 +2548,15 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       domCache.confirmButton.disabled = false;
       domCache.denyButton.disabled = false;
       domCache.cancelButton.disabled = false;
+      const focusedElement = privateProps.focusedElement.get(this);
+      if (focusedElement instanceof HTMLElement && document.activeElement === document.body) {
+        focusedElement.focus();
+      }
+      privateProps.focusedElement.delete(this);
     }
     const showRelatedButton = (domCache) => {
-      const buttonToReplace = domCache.popup.getElementsByClassName(domCache.loader.getAttribute("data-button-to-replace"));
+      const dataButtonToReplace = domCache.loader.getAttribute("data-button-to-replace");
+      const buttonToReplace = dataButtonToReplace ? domCache.popup.getElementsByClassName(dataButtonToReplace) : [];
       if (buttonToReplace.length) {
         show(buttonToReplace[0], "inline-block");
       } else if (allButtonsAreHidden()) {
@@ -2481,8 +2593,14 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     }
     function enableButtons() {
       setButtonsDisabled(this, ["confirmButton", "denyButton", "cancelButton"], false);
+      const focusedElement = privateProps.focusedElement.get(this);
+      if (focusedElement instanceof HTMLElement && document.activeElement === document.body) {
+        focusedElement.focus();
+      }
+      privateProps.focusedElement.delete(this);
     }
     function disableButtons() {
+      privateProps.focusedElement.set(this, document.activeElement);
       setButtonsDisabled(this, ["confirmButton", "denyButton", "cancelButton"], true);
     }
     function enableInput() {
@@ -2670,7 +2788,9 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       const validUpdatableParams = filterValidParams(params);
       const updatedParams = Object.assign({}, innerParams, validUpdatableParams);
       showWarningsForParams(updatedParams);
-      container.dataset["swal2Theme"] = updatedParams.theme;
+      if (container) {
+        container.dataset["swal2Theme"] = updatedParams.theme;
+      }
       render(this, updatedParams);
       privateProps.innerParams.set(this, updatedParams);
       Object.defineProperties(this, {
@@ -2685,7 +2805,8 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       const validUpdatableParams = {};
       Object.keys(params).forEach((param) => {
         if (isUpdatableParameter(param)) {
-          validUpdatableParams[param] = params[param];
+          const typedParams = params;
+          validUpdatableParams[param] = typedParams[param];
         } else {
           warn2(`Invalid parameter to update: ${param}`);
         }
@@ -2693,6 +2814,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       return validUpdatableParams;
     };
     function _destroy() {
+      var _globalState$eventEmi;
       const domCache = privateProps.domCache.get(this);
       const innerParams = privateProps.innerParams.get(this);
       if (!innerParams) {
@@ -2706,7 +2828,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       if (typeof innerParams.didDestroy === "function") {
         innerParams.didDestroy();
       }
-      globalState.eventEmitter.emit("didDestroy");
+      (_globalState$eventEmi = globalState.eventEmitter) === null || _globalState$eventEmi === undefined || _globalState$eventEmi.emit("didDestroy");
       disposeSwal(this);
     }
     const disposeSwal = (instance) => {
@@ -2785,7 +2907,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       };
     };
     const isAnyButtonShown = (innerParams) => {
-      return !!(innerParams.showConfirmButton || innerParams.showDenyButton || innerParams.showCancelButton || innerParams.showCloseButton);
+      return Boolean(innerParams.showConfirmButton || innerParams.showDenyButton || innerParams.showCancelButton || innerParams.showCloseButton);
     };
     let ignoreOutsideClick = false;
     const handleModalMousedown = (domCache) => {
@@ -2822,7 +2944,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         }
       };
     };
-    const isJqueryElement = (elem) => typeof elem === "object" && elem.jquery;
+    const isJqueryElement = (elem) => typeof elem === "object" && elem !== null && ("jquery" in elem);
     const isElement = (elem) => elem instanceof Element || isJqueryElement(elem);
     const argsToParams = (args) => {
       const params = {};
@@ -2880,7 +3002,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       }
     };
     const isTimerRunning = () => {
-      return !!(globalState.timeout && globalState.timeout.isRunning());
+      return Boolean(globalState.timeout && globalState.timeout.isRunning());
     };
     let bodyClickListenerAdded = false;
     const clickHandlers = {};
@@ -2894,7 +3016,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     const bodyClickListener = (event) => {
       for (let el = event.target;el && el !== document; el = el.parentNode) {
         for (const attr in clickHandlers) {
-          const template = el.getAttribute(attr);
+          const template = el.getAttribute && el.getAttribute(attr);
           if (template) {
             clickHandlers[attr].fire({
               template
@@ -2955,12 +3077,19 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     }
     globalState.eventEmitter = new EventEmitter;
     const on = (eventName, eventHandler) => {
-      globalState.eventEmitter.on(eventName, eventHandler);
+      if (globalState.eventEmitter) {
+        globalState.eventEmitter.on(eventName, eventHandler);
+      }
     };
     const once = (eventName, eventHandler) => {
-      globalState.eventEmitter.once(eventName, eventHandler);
+      if (globalState.eventEmitter) {
+        globalState.eventEmitter.once(eventName, eventHandler);
+      }
     };
     const off = (eventName, eventHandler) => {
+      if (!globalState.eventEmitter) {
+        return;
+      }
       if (!eventName) {
         globalState.eventEmitter.reset();
         return;
@@ -3083,9 +3212,9 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         if (!paramName || !value) {
           return;
         }
-        if (typeof defaultParams[paramName] === "boolean") {
+        if (paramName in defaultParams && typeof defaultParams[paramName] === "boolean") {
           result[paramName] = value !== "false";
-        } else if (typeof defaultParams[paramName] === "object") {
+        } else if (paramName in defaultParams && typeof defaultParams[paramName] === "object") {
           result[paramName] = JSON.parse(value);
         } else {
           result[paramName] = value;
@@ -3118,10 +3247,16 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         result[`${type}ButtonText`] = button.innerHTML;
         result[`show${capitalizeFirstLetter(type)}Button`] = true;
         if (button.hasAttribute("color")) {
-          result[`${type}ButtonColor`] = button.getAttribute("color");
+          const color = button.getAttribute("color");
+          if (color !== null) {
+            result[`${type}ButtonColor`] = color;
+          }
         }
         if (button.hasAttribute("aria-label")) {
-          result[`${type}ButtonAriaLabel`] = button.getAttribute("aria-label");
+          const ariaLabel = button.getAttribute("aria-label");
+          if (ariaLabel !== null) {
+            result[`${type}ButtonAriaLabel`] = ariaLabel;
+          }
         }
       });
       return result;
@@ -3222,12 +3357,16 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
     };
     const SHOW_CLASS_TIMEOUT = 10;
     const openPopup = (params) => {
+      var _globalState$eventEmi, _globalState$eventEmi2;
       const container = getContainer();
       const popup = getPopup();
+      if (!container || !popup) {
+        return;
+      }
       if (typeof params.willOpen === "function") {
         params.willOpen(popup);
       }
-      globalState.eventEmitter.emit("willOpen", popup);
+      (_globalState$eventEmi = globalState.eventEmitter) === null || _globalState$eventEmi === undefined || _globalState$eventEmi.emit("willOpen", popup);
       const bodyStyles = window.getComputedStyle(document.body);
       const initialBodyOverflow = bodyStyles.overflowY;
       addClasses(container, popup, params);
@@ -3235,23 +3374,30 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         setScrollingVisibility(container, popup);
       }, SHOW_CLASS_TIMEOUT);
       if (isModal()) {
-        fixScrollContainer(container, params.scrollbarPadding, initialBodyOverflow);
+        fixScrollContainer(container, params.scrollbarPadding !== undefined ? params.scrollbarPadding : false, initialBodyOverflow);
         setAriaHidden();
+      }
+      if (isIOS && params.backdrop === false && popup.scrollHeight > container.clientHeight) {
+        container.style.pointerEvents = "auto";
       }
       if (!isToast() && !globalState.previousActiveElement) {
         globalState.previousActiveElement = document.activeElement;
       }
       if (typeof params.didOpen === "function") {
-        setTimeout(() => params.didOpen(popup));
+        const didOpen = params.didOpen;
+        setTimeout(() => didOpen(popup));
       }
-      globalState.eventEmitter.emit("didOpen", popup);
+      (_globalState$eventEmi2 = globalState.eventEmitter) === null || _globalState$eventEmi2 === undefined || _globalState$eventEmi2.emit("didOpen", popup);
     };
     const swalOpenAnimationFinished = (event) => {
       const popup = getPopup();
-      if (event.target !== popup) {
+      if (!popup || event.target !== popup) {
         return;
       }
       const container = getContainer();
+      if (!container) {
+        return;
+      }
       popup.removeEventListener("animationend", swalOpenAnimationFinished);
       popup.removeEventListener("transitionend", swalOpenAnimationFinished);
       container.style.overflowY = "auto";
@@ -3276,12 +3422,18 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       });
     };
     const addClasses = (container, popup, params) => {
-      addClass(container, params.showClass.backdrop);
+      var _params$showClass;
+      if ((_params$showClass = params.showClass) !== null && _params$showClass !== undefined && _params$showClass.backdrop) {
+        addClass(container, params.showClass.backdrop);
+      }
       if (params.animation) {
         popup.style.setProperty("opacity", "0", "important");
         show(popup, "grid");
         setTimeout(() => {
-          addClass(popup, params.showClass.popup);
+          var _params$showClass2;
+          if ((_params$showClass2 = params.showClass) !== null && _params$showClass2 !== undefined && _params$showClass2.popup) {
+            addClass(popup, params.showClass.popup);
+          }
           popup.style.removeProperty("opacity");
         }, SHOW_CLASS_TIMEOUT);
       } else {
@@ -3336,7 +3488,11 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
 
     class SweetAlert {
       constructor(...args) {
-        _classPrivateFieldInitSpec(this, _promise, undefined);
+        _classPrivateFieldInitSpec(this, _promise, Promise.resolve({
+          isConfirmed: false,
+          isDenied: false,
+          isDismissed: true
+        }));
         if (typeof window === "undefined") {
           return;
         }
@@ -3456,7 +3612,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
           dismissWith("timer");
           delete globalState2.timeout;
         }, innerParams.timer);
-        if (innerParams.timerProgressBar) {
+        if (innerParams.timerProgressBar && timerProgressBar) {
           show(timerProgressBar);
           applyCustomClass(timerProgressBar, innerParams, "timerProgressBar");
           setTimeout(() => {
@@ -3472,8 +3628,8 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         return;
       }
       if (!callIfFunction(innerParams.allowEnterKey)) {
-        warnAboutDeprecation("allowEnterKey");
-        blurActiveElement();
+        warnAboutDeprecation("allowEnterKey", "preConfirm: () => false");
+        domCache.popup.focus();
         return;
       }
       if (focusAutofocus(domCache)) {
@@ -3509,11 +3665,6 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       }
       return false;
     };
-    const blurActiveElement = () => {
-      if (document.activeElement instanceof HTMLElement && typeof document.activeElement.blur === "function") {
-        document.activeElement.blur();
-      }
-    };
     SweetAlert.prototype.disableButtons = disableButtons;
     SweetAlert.prototype.enableButtons = enableButtons;
     SweetAlert.prototype.getInput = getInput;
@@ -3536,11 +3687,11 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         if (currentInstance && currentInstance[key]) {
           return currentInstance[key](...args);
         }
-        return null;
+        return;
       };
     });
     SweetAlert.DismissReason = DismissReason;
-    SweetAlert.version = "11.26.3";
+    SweetAlert.version = "11.26.22";
     const Swal = SweetAlert;
     Swal.default = Swal;
     return Swal;
@@ -3558,7 +3709,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       } catch (e2) {
         n.innerText = t;
       }
-  }(document, ":root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.15s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-icon-animations: true;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-timer-progress-bar-background: rgba(0, 0, 0, 0.3);--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:all}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container)[popover]{width:auto;border:0}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem;container-name:swal2-popup}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;overflow-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:var(--swal2-actions-justify-content);width:var(--swal2-actions-width);margin:var(--swal2-actions-margin);padding:var(--swal2-actions-padding);border-radius:var(--swal2-actions-border-radius);background:var(--swal2-actions-background)}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:var(--swal2-action-button-transition);border:none;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border-radius:var(--swal2-confirm-button-border-radius);background:initial;background-color:var(--swal2-confirm-button-background-color);box-shadow:var(--swal2-confirm-button-box-shadow);color:var(--swal2-confirm-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):active{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border-radius:var(--swal2-deny-button-border-radius);background:initial;background-color:var(--swal2-deny-button-background-color);box-shadow:var(--swal2-deny-button-box-shadow);color:var(--swal2-deny-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):hover{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):active{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border-radius:var(--swal2-cancel-button-border-radius);background:initial;background-color:var(--swal2-cancel-button-background-color);box-shadow:var(--swal2-cancel-button-box-shadow);color:var(--swal2-cancel-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):hover{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):active{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-styled)[disabled]:not(.swal2-loading){opacity:.4}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);background:var(--swal2-footer-background);color:var(--swal2-footer-color);font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:var(--swal2-timer-progress-bar-background)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;overflow-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:var(--swal2-input-transition);border:var(--swal2-input-border);border-radius:var(--swal2-input-border-radius);background:var(--swal2-input-background);box-shadow:var(--swal2-input-box-shadow);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):hover,div:where(.swal2-container) input:where(.swal2-file):hover,div:where(.swal2-container) textarea:where(.swal2-textarea):hover{box-shadow:var(--swal2-input-hover-box-shadow)}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:var(--swal2-input-focus-border);outline:none;box-shadow:var(--swal2-input-focus-box-shadow)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;zoom:var(--swal2-icon-zoom);border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;border:var(--swal2-toast-border);background:var(--swal2-background);box-shadow:var(--swal2-toast-box-shadow);pointer-events:all}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}@container swal2-popup style(--swal2-icon-animations:true){.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}}.swal2-toast.swal2-show{animation:var(--swal2-toast-show-animation)}.swal2-toast.swal2-hide{animation:var(--swal2-toast-hide-animation)}@keyframes swal2-show{0%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}100%{transform:translate3d(0, 0, 0) scale(1);opacity:1}}@keyframes swal2-hide{0%{transform:translate3d(0, 0, 0) scale(1);opacity:1}100%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
+  }(document, ":root{--swal2-outline: 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-container-padding: 0.625em;--swal2-backdrop: rgba(0, 0, 0, 0.4);--swal2-backdrop-transition: background-color 0.15s;--swal2-width: 32em;--swal2-padding: 0 0 1.25em;--swal2-border: none;--swal2-border-radius: 0.3125rem;--swal2-background: white;--swal2-color: #545454;--swal2-show-animation: swal2-show 0.3s;--swal2-hide-animation: swal2-hide 0.15s forwards;--swal2-icon-zoom: 1;--swal2-icon-animations: true;--swal2-title-padding: 0.8em 1em 0;--swal2-html-container-padding: 1em 1.6em 0.3em;--swal2-input-border: 1px solid #d9d9d9;--swal2-input-border-radius: 0.1875em;--swal2-input-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-background: transparent;--swal2-input-transition: border-color 0.2s, box-shadow 0.2s;--swal2-input-hover-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px transparent;--swal2-input-focus-border: 1px solid #b4dbed;--swal2-input-focus-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(100, 150, 200, 0.5);--swal2-progress-step-background: #add8e6;--swal2-validation-message-background: #f0f0f0;--swal2-validation-message-color: #666;--swal2-footer-border-color: #eee;--swal2-footer-background: transparent;--swal2-footer-color: inherit;--swal2-timer-progress-bar-background: rgba(0, 0, 0, 0.3);--swal2-close-button-position: initial;--swal2-close-button-inset: auto;--swal2-close-button-font-size: 2.5em;--swal2-close-button-color: #ccc;--swal2-close-button-transition: color 0.2s, box-shadow 0.2s;--swal2-close-button-outline: initial;--swal2-close-button-box-shadow: inset 0 0 0 3px transparent;--swal2-close-button-focus-box-shadow: inset var(--swal2-outline);--swal2-close-button-hover-transform: none;--swal2-actions-justify-content: center;--swal2-actions-width: auto;--swal2-actions-margin: 1.25em auto 0;--swal2-actions-padding: 0;--swal2-actions-border-radius: 0;--swal2-actions-background: transparent;--swal2-action-button-transition: background-color 0.2s, box-shadow 0.2s;--swal2-action-button-hover: black 10%;--swal2-action-button-active: black 10%;--swal2-confirm-button-box-shadow: none;--swal2-confirm-button-border-radius: 0.25em;--swal2-confirm-button-background-color: #7066e0;--swal2-confirm-button-color: #fff;--swal2-deny-button-box-shadow: none;--swal2-deny-button-border-radius: 0.25em;--swal2-deny-button-background-color: #dc3741;--swal2-deny-button-color: #fff;--swal2-cancel-button-box-shadow: none;--swal2-cancel-button-border-radius: 0.25em;--swal2-cancel-button-background-color: #6e7881;--swal2-cancel-button-color: #fff;--swal2-toast-show-animation: swal2-toast-show 0.5s;--swal2-toast-hide-animation: swal2-toast-hide 0.1s forwards;--swal2-toast-border: none;--swal2-toast-box-shadow: 0 0 1px hsl(0deg 0% 0% / 0.075), 0 1px 2px hsl(0deg 0% 0% / 0.075), 1px 2px 4px hsl(0deg 0% 0% / 0.075), 1px 3px 8px hsl(0deg 0% 0% / 0.075), 2px 4px 16px hsl(0deg 0% 0% / 0.075)}[data-swal2-theme=dark]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}@media(prefers-color-scheme: dark){[data-swal2-theme=auto]{--swal2-dark-theme-black: #19191a;--swal2-dark-theme-white: #e1e1e1;--swal2-background: var(--swal2-dark-theme-black);--swal2-color: var(--swal2-dark-theme-white);--swal2-footer-border-color: #555;--swal2-input-background: color-mix(in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10%);--swal2-validation-message-background: color-mix( in srgb, var(--swal2-dark-theme-black), var(--swal2-dark-theme-white) 10% );--swal2-validation-message-color: var(--swal2-dark-theme-white);--swal2-timer-progress-bar-background: rgba(255, 255, 255, 0.7)}}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow:hidden}body.swal2-height-auto{height:auto !important}body.swal2-no-backdrop .swal2-container{background-color:rgba(0,0,0,0) !important;pointer-events:none}body.swal2-no-backdrop .swal2-container .swal2-popup{pointer-events:auto}body.swal2-no-backdrop .swal2-container .swal2-modal{box-shadow:0 0 10px var(--swal2-backdrop)}body.swal2-toast-shown .swal2-container{box-sizing:border-box;width:360px;max-width:100%;background-color:rgba(0,0,0,0);pointer-events:none}body.swal2-toast-shown .swal2-container.swal2-top{inset:0 auto auto 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-top-end,body.swal2-toast-shown .swal2-container.swal2-top-right{inset:0 0 auto auto}body.swal2-toast-shown .swal2-container.swal2-top-start,body.swal2-toast-shown .swal2-container.swal2-top-left{inset:0 auto auto 0}body.swal2-toast-shown .swal2-container.swal2-center-start,body.swal2-toast-shown .swal2-container.swal2-center-left{inset:50% auto auto 0;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-center{inset:50% auto auto 50%;transform:translate(-50%, -50%)}body.swal2-toast-shown .swal2-container.swal2-center-end,body.swal2-toast-shown .swal2-container.swal2-center-right{inset:50% 0 auto auto;transform:translateY(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-start,body.swal2-toast-shown .swal2-container.swal2-bottom-left{inset:auto auto 0 0}body.swal2-toast-shown .swal2-container.swal2-bottom{inset:auto auto 0 50%;transform:translateX(-50%)}body.swal2-toast-shown .swal2-container.swal2-bottom-end,body.swal2-toast-shown .swal2-container.swal2-bottom-right{inset:auto 0 0 auto}@media print{body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown){overflow-y:scroll !important}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown)>[aria-hidden=true]{display:none}body.swal2-shown:not(.swal2-no-backdrop,.swal2-toast-shown) .swal2-container{position:static !important}}div:where(.swal2-container){display:grid;position:fixed;z-index:1060;inset:0;box-sizing:border-box;grid-template-areas:\"top-start     top            top-end\" \"center-start  center         center-end\" \"bottom-start  bottom-center  bottom-end\";grid-template-rows:minmax(min-content, auto) minmax(min-content, auto) minmax(min-content, auto);height:100%;padding:var(--swal2-container-padding);overflow-x:hidden;transition:var(--swal2-backdrop-transition);-webkit-overflow-scrolling:touch}div:where(.swal2-container).swal2-backdrop-show,div:where(.swal2-container).swal2-noanimation{background:var(--swal2-backdrop)}div:where(.swal2-container).swal2-backdrop-hide{background:rgba(0,0,0,0) !important}div:where(.swal2-container).swal2-top-start,div:where(.swal2-container).swal2-center-start,div:where(.swal2-container).swal2-bottom-start{grid-template-columns:minmax(0, 1fr) auto auto}div:where(.swal2-container).swal2-top,div:where(.swal2-container).swal2-center,div:where(.swal2-container).swal2-bottom{grid-template-columns:auto minmax(0, 1fr) auto}div:where(.swal2-container).swal2-top-end,div:where(.swal2-container).swal2-center-end,div:where(.swal2-container).swal2-bottom-end{grid-template-columns:auto auto minmax(0, 1fr)}div:where(.swal2-container).swal2-top-start>.swal2-popup{align-self:start}div:where(.swal2-container).swal2-top>.swal2-popup{grid-column:2;place-self:start center}div:where(.swal2-container).swal2-top-end>.swal2-popup,div:where(.swal2-container).swal2-top-right>.swal2-popup{grid-column:3;place-self:start end}div:where(.swal2-container).swal2-center-start>.swal2-popup,div:where(.swal2-container).swal2-center-left>.swal2-popup{grid-row:2;align-self:center}div:where(.swal2-container).swal2-center>.swal2-popup{grid-column:2;grid-row:2;place-self:center center}div:where(.swal2-container).swal2-center-end>.swal2-popup,div:where(.swal2-container).swal2-center-right>.swal2-popup{grid-column:3;grid-row:2;place-self:center end}div:where(.swal2-container).swal2-bottom-start>.swal2-popup,div:where(.swal2-container).swal2-bottom-left>.swal2-popup{grid-column:1;grid-row:3;align-self:end}div:where(.swal2-container).swal2-bottom>.swal2-popup{grid-column:2;grid-row:3;place-self:end center}div:where(.swal2-container).swal2-bottom-end>.swal2-popup,div:where(.swal2-container).swal2-bottom-right>.swal2-popup{grid-column:3;grid-row:3;place-self:end end}div:where(.swal2-container).swal2-grow-row>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-column:1/4;width:100%}div:where(.swal2-container).swal2-grow-column>.swal2-popup,div:where(.swal2-container).swal2-grow-fullscreen>.swal2-popup{grid-row:1/4;align-self:stretch}div:where(.swal2-container).swal2-no-transition{transition:none !important}div:where(.swal2-container)[popover]{width:auto;border:0}div:where(.swal2-container) div:where(.swal2-popup){display:none;position:relative;box-sizing:border-box;grid-template-columns:minmax(0, 100%);width:var(--swal2-width);max-width:100%;padding:var(--swal2-padding);border:var(--swal2-border);border-radius:var(--swal2-border-radius);background:var(--swal2-background);color:var(--swal2-color);font-family:inherit;font-size:1rem;container-name:swal2-popup}div:where(.swal2-container) div:where(.swal2-popup):focus{outline:none}div:where(.swal2-container) div:where(.swal2-popup).swal2-loading{overflow-y:hidden}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable{cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-draggable div:where(.swal2-icon){cursor:grab}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging{cursor:grabbing}div:where(.swal2-container) div:where(.swal2-popup).swal2-dragging div:where(.swal2-icon){cursor:grabbing}div:where(.swal2-container) h2:where(.swal2-title){position:relative;max-width:100%;margin:0;padding:var(--swal2-title-padding);color:inherit;font-size:1.875em;font-weight:600;text-align:center;text-transform:none;overflow-wrap:break-word;cursor:initial}div:where(.swal2-container) div:where(.swal2-actions){display:flex;z-index:1;box-sizing:border-box;flex-wrap:wrap;align-items:center;justify-content:var(--swal2-actions-justify-content);width:var(--swal2-actions-width);margin:var(--swal2-actions-margin);padding:var(--swal2-actions-padding);border-radius:var(--swal2-actions-border-radius);background:var(--swal2-actions-background)}div:where(.swal2-container) div:where(.swal2-loader){display:none;align-items:center;justify-content:center;width:2.2em;height:2.2em;margin:0 1.875em;animation:swal2-rotate-loading 1.5s linear 0s infinite normal;border-width:.25em;border-style:solid;border-radius:100%;border-color:#2778c4 rgba(0,0,0,0) #2778c4 rgba(0,0,0,0)}div:where(.swal2-container) button:where(.swal2-styled){margin:.3125em;padding:.625em 1.1em;transition:var(--swal2-action-button-transition);border:none;box-shadow:0 0 0 3px rgba(0,0,0,0);font-weight:500}div:where(.swal2-container) button:where(.swal2-styled):not([disabled]){cursor:pointer}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm){border-radius:var(--swal2-confirm-button-border-radius);background:initial;background-color:var(--swal2-confirm-button-background-color);box-shadow:var(--swal2-confirm-button-box-shadow);color:var(--swal2-confirm-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):hover{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm):active{background-color:color-mix(in srgb, var(--swal2-confirm-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny){border-radius:var(--swal2-deny-button-border-radius);background:initial;background-color:var(--swal2-deny-button-background-color);box-shadow:var(--swal2-deny-button-box-shadow);color:var(--swal2-deny-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):hover{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny):active{background-color:color-mix(in srgb, var(--swal2-deny-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel){border-radius:var(--swal2-cancel-button-border-radius);background:initial;background-color:var(--swal2-cancel-button-background-color);box-shadow:var(--swal2-cancel-button-box-shadow);color:var(--swal2-cancel-button-color);font-size:1em}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):hover{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-hover))}div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel):active{background-color:color-mix(in srgb, var(--swal2-cancel-button-background-color), var(--swal2-action-button-active))}div:where(.swal2-container) button:where(.swal2-styled):focus-visible{outline:none;box-shadow:var(--swal2-action-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-styled)[disabled]:not(.swal2-loading){opacity:.4}div:where(.swal2-container) button:where(.swal2-styled)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-footer){margin:1em 0 0;padding:1em 1em 0;border-top:1px solid var(--swal2-footer-border-color);background:var(--swal2-footer-background);color:var(--swal2-footer-color);font-size:1em;text-align:center;cursor:initial}div:where(.swal2-container) .swal2-timer-progress-bar-container{position:absolute;right:0;bottom:0;left:0;grid-column:auto !important;overflow:hidden;border-bottom-right-radius:var(--swal2-border-radius);border-bottom-left-radius:var(--swal2-border-radius)}div:where(.swal2-container) div:where(.swal2-timer-progress-bar){width:100%;height:.25em;background:var(--swal2-timer-progress-bar-background)}div:where(.swal2-container) img:where(.swal2-image){max-width:100%;margin:2em auto 1em;cursor:initial}div:where(.swal2-container) button:where(.swal2-close){position:var(--swal2-close-button-position);inset:var(--swal2-close-button-inset);z-index:2;align-items:center;justify-content:center;width:1.2em;height:1.2em;margin-top:0;margin-right:0;margin-bottom:-1.2em;padding:0;overflow:hidden;transition:var(--swal2-close-button-transition);border:none;border-radius:var(--swal2-border-radius);outline:var(--swal2-close-button-outline);background:rgba(0,0,0,0);color:var(--swal2-close-button-color);font-family:monospace;font-size:var(--swal2-close-button-font-size);cursor:pointer;justify-self:end}div:where(.swal2-container) button:where(.swal2-close):hover{transform:var(--swal2-close-button-hover-transform);background:rgba(0,0,0,0);color:#f27474}div:where(.swal2-container) button:where(.swal2-close):focus-visible{outline:none;box-shadow:var(--swal2-close-button-focus-box-shadow)}div:where(.swal2-container) button:where(.swal2-close)::-moz-focus-inner{border:0}div:where(.swal2-container) div:where(.swal2-html-container){z-index:1;justify-content:center;margin:0;padding:var(--swal2-html-container-padding);overflow:auto;color:inherit;font-size:1.125em;font-weight:normal;line-height:normal;text-align:center;overflow-wrap:break-word;word-break:break-word;cursor:initial}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea),div:where(.swal2-container) select:where(.swal2-select),div:where(.swal2-container) div:where(.swal2-radio),div:where(.swal2-container) label:where(.swal2-checkbox){margin:1em 2em 3px}div:where(.swal2-container) input:where(.swal2-input),div:where(.swal2-container) input:where(.swal2-file),div:where(.swal2-container) textarea:where(.swal2-textarea){box-sizing:border-box;width:auto;transition:var(--swal2-input-transition);border:var(--swal2-input-border);border-radius:var(--swal2-input-border-radius);background:var(--swal2-input-background);box-shadow:var(--swal2-input-box-shadow);color:inherit;font-size:1.125em}div:where(.swal2-container) input:where(.swal2-input).swal2-inputerror,div:where(.swal2-container) input:where(.swal2-file).swal2-inputerror,div:where(.swal2-container) textarea:where(.swal2-textarea).swal2-inputerror{border-color:#f27474 !important;box-shadow:0 0 2px #f27474 !important}div:where(.swal2-container) input:where(.swal2-input):hover,div:where(.swal2-container) input:where(.swal2-file):hover,div:where(.swal2-container) textarea:where(.swal2-textarea):hover{box-shadow:var(--swal2-input-hover-box-shadow)}div:where(.swal2-container) input:where(.swal2-input):focus,div:where(.swal2-container) input:where(.swal2-file):focus,div:where(.swal2-container) textarea:where(.swal2-textarea):focus{border:var(--swal2-input-focus-border);outline:none;box-shadow:var(--swal2-input-focus-box-shadow)}div:where(.swal2-container) input:where(.swal2-input)::placeholder,div:where(.swal2-container) input:where(.swal2-file)::placeholder,div:where(.swal2-container) textarea:where(.swal2-textarea)::placeholder{color:#ccc}div:where(.swal2-container) .swal2-range{margin:1em 2em 3px;background:var(--swal2-background)}div:where(.swal2-container) .swal2-range input{width:80%}div:where(.swal2-container) .swal2-range output{width:20%;color:inherit;font-weight:600;text-align:center}div:where(.swal2-container) .swal2-range input,div:where(.swal2-container) .swal2-range output{height:2.625em;padding:0;font-size:1.125em;line-height:2.625em}div:where(.swal2-container) .swal2-input{height:2.625em;padding:0 .75em}div:where(.swal2-container) .swal2-file{width:75%;margin-right:auto;margin-left:auto;background:var(--swal2-input-background);font-size:1.125em}div:where(.swal2-container) .swal2-textarea{height:6.75em;padding:.75em}div:where(.swal2-container) .swal2-select{min-width:50%;max-width:100%;padding:.375em .625em;background:var(--swal2-input-background);color:inherit;font-size:1.125em}div:where(.swal2-container) .swal2-radio,div:where(.swal2-container) .swal2-checkbox{align-items:center;justify-content:center;background:var(--swal2-background);color:inherit}div:where(.swal2-container) .swal2-radio label,div:where(.swal2-container) .swal2-checkbox label{margin:0 .6em;font-size:1.125em}div:where(.swal2-container) .swal2-radio input,div:where(.swal2-container) .swal2-checkbox input{flex-shrink:0;margin:0 .4em}div:where(.swal2-container) label:where(.swal2-input-label){display:flex;justify-content:center;margin:1em auto 0}div:where(.swal2-container) div:where(.swal2-validation-message){align-items:center;justify-content:center;margin:1em 0 0;padding:.625em;overflow:hidden;background:var(--swal2-validation-message-background);color:var(--swal2-validation-message-color);font-size:1em;font-weight:300}div:where(.swal2-container) div:where(.swal2-validation-message)::before{content:\"!\";display:inline-block;width:1.5em;min-width:1.5em;height:1.5em;margin:0 .625em;border-radius:50%;background-color:#f27474;color:#fff;font-weight:600;line-height:1.5em;text-align:center}div:where(.swal2-container) .swal2-progress-steps{flex-wrap:wrap;align-items:center;max-width:100%;margin:1.25em auto;padding:0;background:rgba(0,0,0,0);font-weight:600}div:where(.swal2-container) .swal2-progress-steps li{display:inline-block;position:relative}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step{z-index:20;flex-shrink:0;width:2em;height:2em;border-radius:2em;background:#2778c4;color:#fff;line-height:2em;text-align:center}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step{background:#2778c4}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step{background:var(--swal2-progress-step-background);color:#fff}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step~.swal2-progress-step-line{background:var(--swal2-progress-step-background)}div:where(.swal2-container) .swal2-progress-steps .swal2-progress-step-line{z-index:10;flex-shrink:0;width:2.5em;height:.4em;margin:0 -1px;background:#2778c4}div:where(.swal2-icon){position:relative;box-sizing:content-box;justify-content:center;width:5em;height:5em;margin:2.5em auto .6em;zoom:var(--swal2-icon-zoom);border:.25em solid rgba(0,0,0,0);border-radius:50%;border-color:#000;font-family:inherit;line-height:5em;cursor:default;user-select:none}div:where(.swal2-icon) .swal2-icon-content{display:flex;align-items:center;font-size:3.75em}div:where(.swal2-icon).swal2-error{border-color:#f27474;color:#f27474}div:where(.swal2-icon).swal2-error .swal2-x-mark{position:relative;flex-grow:1}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line]{display:block;position:absolute;top:2.3125em;width:2.9375em;height:.3125em;border-radius:.125em;background-color:#f27474}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=left]{left:1.0625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-error [class^=swal2-x-mark-line][class$=right]{right:1em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-error.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-error.swal2-icon-show .swal2-x-mark{animation:swal2-animate-error-x-mark .5s}}div:where(.swal2-icon).swal2-warning{border-color:#f8bb86;color:#f8bb86}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-warning.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-warning.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .5s}}div:where(.swal2-icon).swal2-info{border-color:#3fc3ee;color:#3fc3ee}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-info.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-info.swal2-icon-show .swal2-icon-content{animation:swal2-animate-i-mark .8s}}div:where(.swal2-icon).swal2-question{border-color:#87adbd;color:#87adbd}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-question.swal2-icon-show{animation:swal2-animate-error-icon .5s}div:where(.swal2-icon).swal2-question.swal2-icon-show .swal2-icon-content{animation:swal2-animate-question-mark .8s}}div:where(.swal2-icon).swal2-success{border-color:#a5dc86;color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line]{position:absolute;width:3.75em;height:7.5em;border-radius:50%}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.4375em;left:-2.0635em;transform:rotate(-45deg);transform-origin:3.75em 3.75em;border-radius:7.5em 0 0 7.5em}div:where(.swal2-icon).swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.6875em;left:1.875em;transform:rotate(-45deg);transform-origin:0 3.75em;border-radius:0 7.5em 7.5em 0}div:where(.swal2-icon).swal2-success .swal2-success-ring{position:absolute;z-index:2;top:-0.25em;left:-0.25em;box-sizing:content-box;width:100%;height:100%;border:.25em solid rgba(165,220,134,.3);border-radius:50%}div:where(.swal2-icon).swal2-success .swal2-success-fix{position:absolute;z-index:1;top:.5em;left:1.625em;width:.4375em;height:5.625em;transform:rotate(-45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{display:block;position:absolute;z-index:2;height:.3125em;border-radius:.125em;background-color:#a5dc86}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=tip]{top:2.875em;left:.8125em;width:1.5625em;transform:rotate(45deg)}div:where(.swal2-icon).swal2-success [class^=swal2-success-line][class$=long]{top:2.375em;right:.5em;width:2.9375em;transform:rotate(-45deg)}@container swal2-popup style(--swal2-icon-animations:true){div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-animate-success-line-tip .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-animate-success-line-long .75s}div:where(.swal2-icon).swal2-success.swal2-icon-show .swal2-success-circular-line-right{animation:swal2-rotate-success-circular-line 4.25s ease-in}}[class^=swal2]{-webkit-tap-highlight-color:rgba(0,0,0,0)}.swal2-show{animation:var(--swal2-show-animation)}.swal2-hide{animation:var(--swal2-hide-animation)}.swal2-noanimation{transition:none}.swal2-scrollbar-measure{position:absolute;top:-9999px;width:50px;height:50px;overflow:scroll}.swal2-rtl .swal2-close{margin-right:initial;margin-left:0}.swal2-rtl .swal2-timer-progress-bar{right:0;left:auto}.swal2-toast{box-sizing:border-box;grid-column:1/4 !important;grid-row:1/4 !important;grid-template-columns:min-content auto min-content;padding:1em;overflow-y:hidden;border:var(--swal2-toast-border);background:var(--swal2-background);box-shadow:var(--swal2-toast-box-shadow);pointer-events:auto}.swal2-toast>*{grid-column:2}.swal2-toast h2:where(.swal2-title){margin:.5em 1em;padding:0;font-size:1em;text-align:initial}.swal2-toast .swal2-loading{justify-content:center}.swal2-toast input:where(.swal2-input){height:2em;margin:.5em;font-size:1em}.swal2-toast .swal2-validation-message{font-size:1em}.swal2-toast div:where(.swal2-footer){margin:.5em 0 0;padding:.5em 0 0;font-size:.8em}.swal2-toast button:where(.swal2-close){grid-column:3/3;grid-row:1/99;align-self:center;width:.8em;height:.8em;margin:0;font-size:2em}.swal2-toast div:where(.swal2-html-container){margin:.5em 1em;padding:0;overflow:initial;font-size:1em;text-align:initial}.swal2-toast div:where(.swal2-html-container):empty{padding:0}.swal2-toast .swal2-loader{grid-column:1;grid-row:1/99;align-self:center;width:2em;height:2em;margin:.25em}.swal2-toast .swal2-icon{grid-column:1;grid-row:1/99;align-self:center;width:2em;min-width:2em;height:2em;margin:0 .5em 0 0}.swal2-toast .swal2-icon .swal2-icon-content{display:flex;align-items:center;font-size:1.8em;font-weight:bold}.swal2-toast .swal2-icon.swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line]{top:.875em;width:1.375em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left]{left:.3125em}.swal2-toast .swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right]{right:.3125em}.swal2-toast div:where(.swal2-actions){justify-content:flex-start;height:auto;margin:0;margin-top:.5em;padding:0 .5em}.swal2-toast button:where(.swal2-styled){margin:.25em .5em;padding:.4em .6em;font-size:1em}.swal2-toast .swal2-success{border-color:#a5dc86}.swal2-toast .swal2-success [class^=swal2-success-circular-line]{position:absolute;width:1.6em;height:3em;border-radius:50%}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=left]{top:-0.8em;left:-0.5em;transform:rotate(-45deg);transform-origin:2em 2em;border-radius:4em 0 0 4em}.swal2-toast .swal2-success [class^=swal2-success-circular-line][class$=right]{top:-0.25em;left:.9375em;transform-origin:0 1.5em;border-radius:0 4em 4em 0}.swal2-toast .swal2-success .swal2-success-ring{width:2em;height:2em}.swal2-toast .swal2-success .swal2-success-fix{top:0;left:.4375em;width:.4375em;height:2.6875em}.swal2-toast .swal2-success [class^=swal2-success-line]{height:.3125em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=tip]{top:1.125em;left:.1875em;width:.75em}.swal2-toast .swal2-success [class^=swal2-success-line][class$=long]{top:.9375em;right:.1875em;width:1.375em}@container swal2-popup style(--swal2-icon-animations:true){.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-tip{animation:swal2-toast-animate-success-line-tip .75s}.swal2-toast .swal2-success.swal2-icon-show .swal2-success-line-long{animation:swal2-toast-animate-success-line-long .75s}}.swal2-toast.swal2-show{animation:var(--swal2-toast-show-animation)}.swal2-toast.swal2-hide{animation:var(--swal2-toast-hide-animation)}@keyframes swal2-show{0%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}100%{transform:translate3d(0, 0, 0) scale(1);opacity:1}}@keyframes swal2-hide{0%{transform:translate3d(0, 0, 0) scale(1);opacity:1}100%{transform:translate3d(0, -50px, 0) scale(0.9);opacity:0}}@keyframes swal2-animate-success-line-tip{0%{top:1.1875em;left:.0625em;width:0}54%{top:1.0625em;left:.125em;width:0}70%{top:2.1875em;left:-0.375em;width:3.125em}84%{top:3em;left:1.3125em;width:1.0625em}100%{top:2.8125em;left:.8125em;width:1.5625em}}@keyframes swal2-animate-success-line-long{0%{top:3.375em;right:2.875em;width:0}65%{top:3.375em;right:2.875em;width:0}84%{top:2.1875em;right:0;width:3.4375em}100%{top:2.375em;right:.5em;width:2.9375em}}@keyframes swal2-rotate-success-circular-line{0%{transform:rotate(-45deg)}5%{transform:rotate(-45deg)}12%{transform:rotate(-405deg)}100%{transform:rotate(-405deg)}}@keyframes swal2-animate-error-x-mark{0%{margin-top:1.625em;transform:scale(0.4);opacity:0}50%{margin-top:1.625em;transform:scale(0.4);opacity:0}80%{margin-top:-0.375em;transform:scale(1.15)}100%{margin-top:0;transform:scale(1);opacity:1}}@keyframes swal2-animate-error-icon{0%{transform:rotateX(100deg);opacity:0}100%{transform:rotateX(0deg);opacity:1}}@keyframes swal2-rotate-loading{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}@keyframes swal2-animate-question-mark{0%{transform:rotateY(-360deg)}100%{transform:rotateY(0)}}@keyframes swal2-animate-i-mark{0%{transform:rotateZ(45deg);opacity:0}25%{transform:rotateZ(-25deg);opacity:.4}50%{transform:rotateZ(15deg);opacity:.8}75%{transform:rotateZ(-5deg);opacity:1}100%{transform:rotateX(0);opacity:1}}@keyframes swal2-toast-show{0%{transform:translateY(-0.625em) rotateZ(2deg)}33%{transform:translateY(0) rotateZ(-2deg)}66%{transform:translateY(0.3125em) rotateZ(2deg)}100%{transform:translateY(0) rotateZ(0deg)}}@keyframes swal2-toast-hide{100%{transform:rotateZ(1deg);opacity:0}}@keyframes swal2-toast-animate-success-line-tip{0%{top:.5625em;left:.0625em;width:0}54%{top:.125em;left:.125em;width:0}70%{top:.625em;left:-0.25em;width:1.625em}84%{top:1.0625em;left:.75em;width:.5em}100%{top:1.125em;left:.1875em;width:.75em}}@keyframes swal2-toast-animate-success-line-long{0%{top:1.625em;right:1.375em;width:0}65%{top:1.25em;right:.9375em;width:0}84%{top:.9375em;right:0;width:1.125em}100%{top:.9375em;right:.1875em;width:1.375em}}");
 });
 
 // node_modules/smart-timeout/lib/timeout.js
@@ -7522,7 +7673,7 @@ __export(exports_turbo_es2017_esm, {
   session: () => session,
   renderStreamMessage: () => renderStreamMessage,
   registerAdapter: () => registerAdapter,
-  navigator: () => navigator$1,
+  navigator: () => sessionNavigator,
   morphTurboFrameElements: () => morphTurboFrameElements,
   morphElements: () => morphElements,
   morphChildren: () => morphChildren,
@@ -7534,7 +7685,6 @@ __export(exports_turbo_es2017_esm, {
   disconnectStreamSource: () => disconnectStreamSource,
   connectStreamSource: () => connectStreamSource,
   config: () => config,
-  clearCache: () => clearCache,
   cache: () => cache,
   StreamSourceElement: () => StreamSourceElement,
   StreamElement: () => StreamElement,
@@ -7550,67 +7700,9 @@ __export(exports_turbo_es2017_esm, {
   FetchEnctype: () => FetchEnctype
 });
 /*!
-Turbo 8.0.19
-Copyright © 2025 37signals LLC
+Turbo 8.0.23
+Copyright © 2026 37signals LLC
  */
-(function(prototype) {
-  if (typeof prototype.requestSubmit == "function")
-    return;
-  prototype.requestSubmit = function(submitter) {
-    if (submitter) {
-      validateSubmitter(submitter, this);
-      submitter.click();
-    } else {
-      submitter = document.createElement("input");
-      submitter.type = "submit";
-      submitter.hidden = true;
-      this.appendChild(submitter);
-      submitter.click();
-      this.removeChild(submitter);
-    }
-  };
-  function validateSubmitter(submitter, form) {
-    submitter instanceof HTMLElement || raise(TypeError, "parameter 1 is not of type 'HTMLElement'");
-    submitter.type == "submit" || raise(TypeError, "The specified element is not a submit button");
-    submitter.form == form || raise(DOMException, "The specified element is not owned by this form element", "NotFoundError");
-  }
-  function raise(errorConstructor, message, name) {
-    throw new errorConstructor("Failed to execute 'requestSubmit' on 'HTMLFormElement': " + message + ".", name);
-  }
-})(HTMLFormElement.prototype);
-var submittersByForm = new WeakMap;
-function findSubmitterFromClickTarget(target) {
-  const element = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
-  const candidate = element ? element.closest("input, button") : null;
-  return candidate?.type == "submit" ? candidate : null;
-}
-function clickCaptured(event) {
-  const submitter = findSubmitterFromClickTarget(event.target);
-  if (submitter && submitter.form) {
-    submittersByForm.set(submitter.form, submitter);
-  }
-}
-(function() {
-  if ("submitter" in Event.prototype)
-    return;
-  let prototype = window.Event.prototype;
-  if ("SubmitEvent" in window) {
-    const prototypeOfSubmitEvent = window.SubmitEvent.prototype;
-    if (/Apple Computer/.test(navigator.vendor) && !("submitter" in prototypeOfSubmitEvent)) {
-      prototype = prototypeOfSubmitEvent;
-    } else {
-      return;
-    }
-  }
-  addEventListener("click", clickCaptured, true);
-  Object.defineProperty(prototype, "submitter", {
-    get() {
-      if (this.type == "submit" && this.target instanceof HTMLFormElement) {
-        return submittersByForm.get(this.target);
-      }
-    }
-  });
-})();
 var FrameLoadingStyle = {
   eager: "eager",
   lazy: "lazy"
@@ -7831,9 +7923,6 @@ function nextAnimationFrame() {
 function nextEventLoopTick() {
   return new Promise((resolve) => setTimeout(() => resolve(), 0));
 }
-function nextMicrotask() {
-  return Promise.resolve();
-}
 function parseHTMLDocument(html = "") {
   return new DOMParser().parseFromString(html, "text/html");
 }
@@ -7860,7 +7949,7 @@ function uuid() {
     } else if (i == 19) {
       return (Math.floor(Math.random() * 4) + 8).toString(16);
     } else {
-      return Math.floor(Math.random() * 15).toString(16);
+      return Math.floor(Math.random() * 16).toString(16);
     }
   }).join("");
 }
@@ -7978,14 +8067,14 @@ function findLinkFromClickTarget(target) {
   const link = findClosestRecursively(target, "a[href], a[xlink\\:href]");
   if (!link)
     return null;
+  if (link.href.startsWith("#"))
+    return null;
   if (link.hasAttribute("download"))
     return null;
-  if (link.hasAttribute("target") && link.target !== "_self")
+  const linkTarget = link.getAttribute("target");
+  if (linkTarget && linkTarget !== "_self")
     return null;
   return link;
-}
-function getLocationForLink(link) {
-  return expandURL(link.getAttribute("href") || "");
 }
 function debounce(fn, delay) {
   let timeoutId = null;
@@ -8056,6 +8145,9 @@ function isPrefixedBy(baseURL, url) {
 }
 function locationIsVisitable(location2, rootLocation) {
   return isPrefixedBy(location2, rootLocation) && !config.drive.unvisitableExtensions.has(getExtension(location2));
+}
+function getLocationForLink(link) {
+  return expandURL(link.getAttribute("href") || "");
 }
 function getRequestURL(url) {
   const anchor = getAnchor(url);
@@ -8402,31 +8494,95 @@ function importStreamElements(fragment) {
   }
   return fragment;
 }
-var PREFETCH_DELAY = 100;
+var identity = (key) => key;
 
-class PrefetchCache {
-  #prefetchTimeout = null;
-  #prefetched = null;
-  get(url) {
-    if (this.#prefetched && this.#prefetched.url === url && this.#prefetched.expire > Date.now()) {
-      return this.#prefetched.request;
+class LRUCache {
+  keys = [];
+  entries = {};
+  #toCacheKey;
+  constructor(size, toCacheKey2 = identity) {
+    this.size = size;
+    this.#toCacheKey = toCacheKey2;
+  }
+  has(key) {
+    return this.#toCacheKey(key) in this.entries;
+  }
+  get(key) {
+    if (this.has(key)) {
+      const entry = this.read(key);
+      this.touch(key);
+      return entry;
     }
   }
-  setLater(url, request, ttl) {
-    this.clear();
-    this.#prefetchTimeout = setTimeout(() => {
-      request.perform();
-      this.set(url, request, ttl);
-      this.#prefetchTimeout = null;
-    }, PREFETCH_DELAY);
-  }
-  set(url, request, ttl) {
-    this.#prefetched = { url, request, expire: new Date(new Date().getTime() + ttl) };
+  put(key, entry) {
+    this.write(key, entry);
+    this.touch(key);
+    return entry;
   }
   clear() {
+    for (const key of Object.keys(this.entries)) {
+      this.evict(key);
+    }
+  }
+  read(key) {
+    return this.entries[this.#toCacheKey(key)];
+  }
+  write(key, entry) {
+    this.entries[this.#toCacheKey(key)] = entry;
+  }
+  touch(key) {
+    key = this.#toCacheKey(key);
+    const index = this.keys.indexOf(key);
+    if (index > -1)
+      this.keys.splice(index, 1);
+    this.keys.unshift(key);
+    this.trim();
+  }
+  trim() {
+    for (const key of this.keys.splice(this.size)) {
+      this.evict(key);
+    }
+  }
+  evict(key) {
+    delete this.entries[key];
+  }
+}
+var PREFETCH_DELAY = 100;
+
+class PrefetchCache extends LRUCache {
+  #prefetchTimeout = null;
+  #maxAges = {};
+  constructor(size = 1, prefetchDelay = PREFETCH_DELAY) {
+    super(size, toCacheKey);
+    this.prefetchDelay = prefetchDelay;
+  }
+  putLater(url, request, ttl) {
+    this.#prefetchTimeout = setTimeout(() => {
+      request.perform();
+      this.put(url, request, ttl);
+      this.#prefetchTimeout = null;
+    }, this.prefetchDelay);
+  }
+  put(url, request, ttl = cacheTtl) {
+    super.put(url, request);
+    this.#maxAges[toCacheKey(url)] = new Date(new Date().getTime() + ttl);
+  }
+  clear() {
+    super.clear();
     if (this.#prefetchTimeout)
       clearTimeout(this.#prefetchTimeout);
-    this.#prefetched = null;
+  }
+  evict(key) {
+    super.evict(key);
+    delete this.#maxAges[key];
+  }
+  has(key) {
+    if (super.has(key)) {
+      const maxAge = this.#maxAges[toCacheKey(key)];
+      return maxAge && maxAge > Date.now();
+    } else {
+      return false;
+    }
   }
 }
 var cacheTtl = 10 * 1000;
@@ -10101,10 +10257,16 @@ class PageSnapshot extends Snapshot {
     for (const clonedPasswordInput of clonedElement.querySelectorAll('input[type="password"]')) {
       clonedPasswordInput.value = "";
     }
+    for (const clonedNoscriptElement of clonedElement.querySelectorAll("noscript")) {
+      clonedNoscriptElement.remove();
+    }
     return new PageSnapshot(this.documentElement, clonedElement, this.headSnapshot);
   }
   get lang() {
     return this.documentElement.getAttribute("lang");
+  }
+  get dir() {
+    return this.documentElement.getAttribute("dir");
   }
   get headElement() {
     return this.headSnapshot.element;
@@ -10129,11 +10291,11 @@ class PageSnapshot extends Snapshot {
     const viewTransitionEnabled = this.getSetting("view-transition") === "true" || this.headSnapshot.getMetaValue("view-transition") === "same-origin";
     return viewTransitionEnabled && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
-  get shouldMorphPage() {
-    return this.getSetting("refresh-method") === "morph";
+  get refreshMethod() {
+    return this.getSetting("refresh-method");
   }
-  get shouldPreserveScrollPosition() {
-    return this.getSetting("refresh-scroll") === "preserve";
+  get refreshScroll() {
+    return this.getSetting("refresh-scroll");
   }
   getSetting(name) {
     return this.headSnapshot.getMetaValue(`turbo-${name}`);
@@ -10165,7 +10327,8 @@ var defaultOptions = {
   willRender: true,
   updateHistory: true,
   shouldCacheSnapshot: true,
-  acceptsStreamResponse: false
+  acceptsStreamResponse: false,
+  refresh: {}
 };
 var TimingMetric = {
   visitStart: "visitStart",
@@ -10218,7 +10381,8 @@ class Visit {
       updateHistory,
       shouldCacheSnapshot,
       acceptsStreamResponse,
-      direction
+      direction,
+      refresh
     } = {
       ...defaultOptions,
       ...options
@@ -10229,7 +10393,6 @@ class Visit {
     this.snapshot = snapshot;
     this.snapshotHTML = snapshotHTML;
     this.response = response;
-    this.isSamePage = this.delegate.locationWithActionIsSamePage(this.location, this.action);
     this.isPageRefresh = this.view.isPageRefresh(this);
     this.visitCachedSnapshot = visitCachedSnapshot;
     this.willRender = willRender;
@@ -10238,6 +10401,7 @@ class Visit {
     this.shouldCacheSnapshot = shouldCacheSnapshot;
     this.acceptsStreamResponse = acceptsStreamResponse;
     this.direction = direction || Direction[action];
+    this.refresh = refresh;
   }
   get adapter() {
     return this.delegate.adapter;
@@ -10250,9 +10414,6 @@ class Visit {
   }
   get restorationData() {
     return this.history.getRestorationDataForIdentifier(this.restorationIdentifier);
-  }
-  get silent() {
-    return this.isSamePage;
   }
   start() {
     if (this.state == VisitState.initialized) {
@@ -10374,7 +10535,7 @@ class Visit {
       const isPreview = this.shouldIssueRequest();
       this.render(async () => {
         this.cacheSnapshot();
-        if (this.isSamePage || this.isPageRefresh) {
+        if (this.isPageRefresh) {
           this.adapter.visitRendered(this);
         } else {
           if (this.view.renderPromise)
@@ -10397,16 +10558,6 @@ class Visit {
         willRender: false
       });
       this.followedRedirect = true;
-    }
-  }
-  goToSamePageAnchor() {
-    if (this.isSamePage) {
-      this.render(async () => {
-        this.cacheSnapshot();
-        this.performScroll();
-        this.changeHistory();
-        this.adapter.visitRendered(this);
-      });
     }
   }
   prepareRequest(request) {
@@ -10459,9 +10610,6 @@ class Visit {
       } else {
         this.scrollToAnchor() || this.view.scrollToTop();
       }
-      if (this.isSamePage) {
-        this.delegate.visitScrolledToSamePageLocation(this.view.lastRenderedLocation, this.location);
-      }
       this.scrolled = true;
     }
   }
@@ -10489,9 +10637,7 @@ class Visit {
     return typeof this.response == "object";
   }
   shouldIssueRequest() {
-    if (this.isSamePage) {
-      return false;
-    } else if (this.action == "restore") {
+    if (this.action == "restore") {
       return !this.hasCachedSnapshot();
     } else {
       return this.willRender;
@@ -10545,7 +10691,6 @@ class BrowserAdapter {
     this.redirectedToLocation = null;
     visit.loadCachedSnapshot();
     visit.issueRequest();
-    visit.goToSamePageAnchor();
   }
   visitRequestStarted(visit) {
     this.progressBar.setValue(0);
@@ -10636,7 +10781,6 @@ class BrowserAdapter {
 
 class CacheObserver {
   selector = "[data-turbo-temporary]";
-  deprecatedSelector = "[data-turbo-cache=false]";
   started = false;
   start() {
     if (!this.started) {
@@ -10656,14 +10800,7 @@ class CacheObserver {
     }
   };
   get temporaryElements() {
-    return [...document.querySelectorAll(this.selector), ...this.temporaryElementsWithDeprecation];
-  }
-  get temporaryElementsWithDeprecation() {
-    const elements = document.querySelectorAll(this.deprecatedSelector);
-    if (elements.length) {
-      console.warn(`The ${this.deprecatedSelector} selector is deprecated and will be removed in a future version. Use ${this.selector} instead.`);
-    }
-    return [...elements];
+    return [...document.querySelectorAll(this.selector)];
   }
 }
 
@@ -10731,7 +10868,6 @@ class History {
   restorationIdentifier = uuid();
   restorationData = {};
   started = false;
-  pageLoaded = false;
   currentIndex = 0;
   constructor(delegate) {
     this.delegate = delegate;
@@ -10739,7 +10875,6 @@ class History {
   start() {
     if (!this.started) {
       addEventListener("popstate", this.onPopState, false);
-      addEventListener("load", this.onPageLoad, false);
       this.currentIndex = history.state?.turbo?.restorationIndex || 0;
       this.started = true;
       this.replace(new URL(window.location.href));
@@ -10748,7 +10883,6 @@ class History {
   stop() {
     if (this.started) {
       removeEventListener("popstate", this.onPopState, false);
-      removeEventListener("load", this.onPageLoad, false);
       this.started = false;
     }
   }
@@ -10790,28 +10924,19 @@ class History {
     }
   }
   onPopState = (event) => {
-    if (this.shouldHandlePopState()) {
-      const { turbo } = event.state || {};
-      if (turbo) {
-        this.location = new URL(window.location.href);
-        const { restorationIdentifier, restorationIndex } = turbo;
-        this.restorationIdentifier = restorationIdentifier;
-        const direction = restorationIndex > this.currentIndex ? "forward" : "back";
-        this.delegate.historyPoppedToLocationWithRestorationIdentifierAndDirection(this.location, restorationIdentifier, direction);
-        this.currentIndex = restorationIndex;
-      }
+    const { turbo } = event.state || {};
+    this.location = new URL(window.location.href);
+    if (turbo) {
+      const { restorationIdentifier, restorationIndex } = turbo;
+      this.restorationIdentifier = restorationIdentifier;
+      const direction = restorationIndex > this.currentIndex ? "forward" : "back";
+      this.delegate.historyPoppedToLocationWithRestorationIdentifierAndDirection(this.location, restorationIdentifier, direction);
+      this.currentIndex = restorationIndex;
+    } else {
+      this.currentIndex++;
+      this.delegate.historyPoppedWithEmptyState(this.location);
     }
   };
-  onPageLoad = async (_event) => {
-    await nextMicrotask();
-    this.pageLoaded = true;
-  };
-  shouldHandlePopState() {
-    return this.pageIsLoaded();
-  }
-  pageIsLoaded() {
-    return this.pageLoaded || document.readyState == "complete";
-  }
 }
 
 class LinkPrefetchObserver {
@@ -10868,7 +10993,7 @@ class LinkPrefetchObserver {
         this.#prefetchedLink = link;
         const fetchRequest = new FetchRequest(this, FetchMethod.get, location2, new URLSearchParams, target);
         fetchRequest.fetchOptions.priority = "low";
-        prefetchCache.setLater(location2.toString(), fetchRequest, this.#cacheTtl);
+        prefetchCache.putLater(location2, fetchRequest, this.#cacheTtl);
       }
     }
   };
@@ -10882,7 +11007,7 @@ class LinkPrefetchObserver {
   };
   #tryToUsePrefetchedRequest = (event) => {
     if (event.target.tagName !== "FORM" && event.detail.fetchOptions.method === "GET") {
-      const cached = prefetchCache.get(event.detail.url.toString());
+      const cached = prefetchCache.get(event.detail.url);
       if (cached) {
         event.detail.fetchRequest = cached;
       }
@@ -11037,7 +11162,7 @@ class Navigator {
       } else {
         await this.view.renderPage(snapshot, false, true, this.currentVisit);
       }
-      if (!snapshot.shouldPreserveScrollPosition) {
+      if (snapshot.refreshScroll !== "preserve") {
         this.view.scrollToTop();
       }
       this.view.clearSnapshotCache();
@@ -11065,13 +11190,7 @@ class Navigator {
     delete this.currentVisit;
   }
   locationWithActionIsSamePage(location2, action) {
-    const anchor = getAnchor(location2);
-    const currentAnchor = getAnchor(this.view.lastRenderedLocation);
-    const isRestorationToTop = action === "restore" && typeof anchor === "undefined";
-    return action !== "replace" && getRequestURL(location2) === getRequestURL(this.view.lastRenderedLocation) && (isRestorationToTop || anchor != null && anchor !== currentAnchor);
-  }
-  visitScrolledToSamePageLocation(oldURL, newURL) {
-    this.delegate.visitScrolledToSamePageLocation(oldURL, newURL);
+    return false;
   }
   get location() {
     return this.history.location;
@@ -11393,11 +11512,16 @@ class PageRenderer extends Renderer {
   }
   #setLanguage() {
     const { documentElement } = this.currentSnapshot;
-    const { lang } = this.newSnapshot;
+    const { dir, lang } = this.newSnapshot;
     if (lang) {
       documentElement.setAttribute("lang", lang);
     } else {
       documentElement.removeAttribute("lang");
+    }
+    if (dir) {
+      documentElement.setAttribute("dir", dir);
+    } else {
+      documentElement.removeAttribute("dir");
     }
   }
   async mergeHead() {
@@ -11478,7 +11602,13 @@ class PageRenderer extends Renderer {
   }
   activateNewBody() {
     document.adoptNode(this.newElement);
+    this.removeNoscriptElements();
     this.activateNewBodyScriptElements();
+  }
+  removeNoscriptElements() {
+    for (const noscriptElement of this.newElement.querySelectorAll("noscript")) {
+      noscriptElement.remove();
+    }
   }
   activateNewBodyScriptElements() {
     for (const inertScriptElement of this.newBodyScriptElements) {
@@ -11540,48 +11670,12 @@ class MorphingPageRenderer extends PageRenderer {
   }
 }
 
-class SnapshotCache {
-  keys = [];
-  snapshots = {};
+class SnapshotCache extends LRUCache {
   constructor(size) {
-    this.size = size;
+    super(size, toCacheKey);
   }
-  has(location2) {
-    return toCacheKey(location2) in this.snapshots;
-  }
-  get(location2) {
-    if (this.has(location2)) {
-      const snapshot = this.read(location2);
-      this.touch(location2);
-      return snapshot;
-    }
-  }
-  put(location2, snapshot) {
-    this.write(location2, snapshot);
-    this.touch(location2);
-    return snapshot;
-  }
-  clear() {
-    this.snapshots = {};
-  }
-  read(location2) {
-    return this.snapshots[toCacheKey(location2)];
-  }
-  write(location2, snapshot) {
-    this.snapshots[toCacheKey(location2)] = snapshot;
-  }
-  touch(location2) {
-    const key = toCacheKey(location2);
-    const index = this.keys.indexOf(key);
-    if (index > -1)
-      this.keys.splice(index, 1);
-    this.keys.unshift(key);
-    this.trim();
-  }
-  trim() {
-    for (const key of this.keys.splice(this.size)) {
-      delete this.snapshots[key];
-    }
+  get snapshots() {
+    return this.entries;
   }
 }
 
@@ -11593,7 +11687,7 @@ class PageView extends View {
     return this.snapshot.prefersViewTransitions && newSnapshot.prefersViewTransitions;
   }
   renderPage(snapshot, isPreview = false, willRender = true, visit) {
-    const shouldMorphPage = this.isPageRefresh(visit) && this.snapshot.shouldMorphPage;
+    const shouldMorphPage = this.isPageRefresh(visit) && (visit?.refresh?.method || this.snapshot.refreshMethod) === "morph";
     const rendererClass = shouldMorphPage ? MorphingPageRenderer : PageRenderer;
     const renderer = new rendererClass(this.snapshot, snapshot, isPreview, willRender);
     if (!renderer.shouldRender) {
@@ -11628,7 +11722,7 @@ class PageView extends View {
     return !visit || this.lastRenderedLocation.pathname === visit.location.pathname && visit.action === "replace";
   }
   shouldPreserveScrollPosition(visit) {
-    return this.isPageRefresh(visit) && this.snapshot.shouldPreserveScrollPosition;
+    return this.isPageRefresh(visit) && (visit?.refresh?.scroll || this.snapshot.refreshScroll) === "preserve";
   }
   get snapshot() {
     return PageSnapshot.fromElement(this.element);
@@ -11781,11 +11875,13 @@ class Session {
       this.navigator.proposeVisit(expandURL(location2), options);
     }
   }
-  refresh(url, requestId) {
+  refresh(url, options = {}) {
+    options = typeof options === "string" ? { requestId: options } : options;
+    const { method, requestId, scroll } = options;
     const isRecentRequest = requestId && this.recentRequests.has(requestId);
     const isCurrentUrl = url === document.baseURI;
     if (!isRecentRequest && !this.navigator.currentVisit && isCurrentUrl) {
-      this.visit(url, { action: "replace", shouldCacheSnapshot: false });
+      this.visit(url, { action: "replace", shouldCacheSnapshot: false, refresh: { method, scroll } });
     }
   }
   connectStreamSource(source) {
@@ -11860,6 +11956,11 @@ class Session {
       });
     }
   }
+  historyPoppedWithEmptyState(location2) {
+    this.history.replace(location2);
+    this.view.lastRenderedLocation = location2;
+    this.view.cacheSnapshot();
+  }
   scrollPositionChanged(position) {
     this.history.updateRestorationData({ scrollPosition: position });
   }
@@ -11879,7 +11980,7 @@ class Session {
     this.visit(location2.href, { action, acceptsStreamResponse });
   }
   allowsVisitingLocationWithAction(location2, action) {
-    return this.locationWithActionIsSamePage(location2, action) || this.applicationAllowsVisitingLocation(location2);
+    return this.applicationAllowsVisitingLocation(location2);
   }
   visitProposedToLocation(location2, options) {
     extendURLWithDeprecatedProperties(location2);
@@ -11891,20 +11992,12 @@ class Session {
       this.view.markVisitDirection(visit.direction);
     }
     extendURLWithDeprecatedProperties(visit.location);
-    if (!visit.silent) {
-      this.notifyApplicationAfterVisitingLocation(visit.location, visit.action);
-    }
+    this.notifyApplicationAfterVisitingLocation(visit.location, visit.action);
   }
   visitCompleted(visit) {
     this.view.unmarkVisitDirection();
     clearBusyState(document.documentElement);
     this.notifyApplicationAfterPageLoad(visit.getTimingMetrics());
-  }
-  locationWithActionIsSamePage(location2, action) {
-    return this.navigator.locationWithActionIsSamePage(location2, action);
-  }
-  visitScrolledToSamePageLocation(oldURL, newURL) {
-    this.notifyApplicationAfterVisitingSamePageLocation(oldURL, newURL);
   }
   willSubmitForm(form, submitter2) {
     const action = getAction$1(form, submitter2);
@@ -11927,9 +12020,7 @@ class Session {
     this.renderStreamMessage(message);
   }
   viewWillCacheSnapshot() {
-    if (!this.navigator.currentVisit?.silent) {
-      this.notifyApplicationBeforeCachingSnapshot();
-    }
+    this.notifyApplicationBeforeCachingSnapshot();
   }
   allowsImmediateRender({ element }, options) {
     const event = this.notifyApplicationBeforeRender(element, options);
@@ -11999,12 +12090,6 @@ class Session {
       detail: { url: this.location.href, timing }
     });
   }
-  notifyApplicationAfterVisitingSamePageLocation(oldURL, newURL) {
-    dispatchEvent(new HashChangeEvent("hashchange", {
-      oldURL: oldURL.toString(),
-      newURL: newURL.toString()
-    }));
-  }
   notifyApplicationAfterFrameLoad(frame) {
     return dispatch("turbo:frame-load", { target: frame });
   }
@@ -12062,7 +12147,7 @@ var deprecatedLocationPropertyDescriptors = {
   }
 };
 var session = new Session(recentRequests);
-var { cache, navigator: navigator$1 } = session;
+var { cache, navigator: sessionNavigator } = session;
 function start() {
   session.start();
 }
@@ -12080,10 +12165,6 @@ function disconnectStreamSource(source) {
 }
 function renderStreamMessage(message) {
   session.renderStreamMessage(message);
-}
-function clearCache() {
-  console.warn("Please replace `Turbo.clearCache()` with `Turbo.cache.clear()`. The top-level function is deprecated and will be removed in a future version of Turbo.`");
-  session.clearCache();
 }
 function setProgressBarDelay(delay) {
   console.warn("Please replace `Turbo.setProgressBarDelay(delay)` with `Turbo.config.drive.progressBarDelay = delay`. The top-level function is deprecated and will be removed in a future version of Turbo.`");
@@ -12105,21 +12186,20 @@ function morphTurboFrameElements(currentFrame, newFrame) {
 }
 var Turbo = /* @__PURE__ */ Object.freeze({
   __proto__: null,
-  navigator: navigator$1,
-  session,
-  cache,
   PageRenderer,
   PageSnapshot,
   FrameRenderer,
   fetch: fetchWithTurboHeaders,
   config,
+  session,
+  cache,
+  navigator: sessionNavigator,
   start,
   registerAdapter,
   visit,
   connectStreamSource,
   disconnectStreamSource,
   renderStreamMessage,
-  clearCache,
   setProgressBarDelay,
   setConfirmMethod,
   setFormMode,
@@ -12170,16 +12250,24 @@ class FrameController {
       this.formLinkClickObserver.stop();
       this.linkInterceptor.stop();
       this.formSubmitObserver.stop();
+      if (!this.element.hasAttribute("recurse")) {
+        this.#currentFetchRequest?.cancel();
+      }
     }
   }
   disabledChanged() {
-    if (this.loadingStyle == FrameLoadingStyle.eager) {
+    if (this.disabled) {
+      this.#currentFetchRequest?.cancel();
+    } else if (this.loadingStyle == FrameLoadingStyle.eager) {
       this.#loadSourceURL();
     }
   }
   sourceURLChanged() {
     if (this.#isIgnoringChangesTo("src"))
       return;
+    if (!this.sourceURL) {
+      this.#currentFetchRequest?.cancel();
+    }
     if (this.element.isConnected) {
       this.complete = false;
     }
@@ -12258,11 +12346,12 @@ class FrameController {
     }
     this.formSubmission = new FormSubmission(this, element, submitter2);
     const { fetchRequest } = this.formSubmission;
-    this.prepareRequest(fetchRequest);
+    const frame = this.#findFrameElement(element, submitter2);
+    this.prepareRequest(fetchRequest, frame);
     this.formSubmission.start();
   }
-  prepareRequest(request) {
-    request.headers["Turbo-Frame"] = this.id;
+  prepareRequest(request, frame = this) {
+    request.headers["Turbo-Frame"] = frame.id;
     if (this.currentNavigationElement?.hasAttribute("data-turbo-stream")) {
       request.acceptResponseType(StreamMessage.contentType);
     }
@@ -12445,7 +12534,8 @@ class FrameController {
   }
   #findFrameElement(element, submitter2) {
     const id = getAttribute("data-turbo-frame", submitter2, element) || this.element.getAttribute("target");
-    return getFrameElementById(id) ?? this.element;
+    const target = this.#getFrameElementById(id);
+    return target instanceof FrameElement ? target : this.element;
   }
   async extractForeignFrameElement(container) {
     let element;
@@ -12479,9 +12569,11 @@ class FrameController {
       return false;
     }
     if (id) {
-      const frameElement = getFrameElementById(id);
+      const frameElement = this.#getFrameElementById(id);
       if (frameElement) {
         return !frameElement.disabled;
+      } else if (id == "_parent") {
+        return false;
       }
     }
     if (!session.elementIsNavigatable(element)) {
@@ -12495,8 +12587,11 @@ class FrameController {
   get id() {
     return this.element.id;
   }
+  get disabled() {
+    return this.element.disabled;
+  }
   get enabled() {
-    return !this.element.disabled;
+    return !this.disabled;
   }
   get sourceURL() {
     if (this.element.src) {
@@ -12545,12 +12640,12 @@ class FrameController {
     callback();
     delete this.currentNavigationElement;
   }
-}
-function getFrameElementById(id) {
-  if (id != null) {
-    const element = document.getElementById(id);
-    if (element instanceof FrameElement) {
-      return element;
+  #getFrameElementById(id) {
+    if (id != null) {
+      const element = id === "_parent" ? this.element.parentElement.closest("turbo-frame") : document.getElementById(id);
+      if (element instanceof FrameElement) {
+        return element;
+      }
     }
   }
 }
@@ -12572,6 +12667,7 @@ function activateElement(element, currentURL) {
 }
 var StreamActions = {
   after() {
+    this.removeDuplicateTargetSiblings();
     this.targetElements.forEach((e) => e.parentElement?.insertBefore(this.templateContent, e.nextSibling));
   },
   append() {
@@ -12579,6 +12675,7 @@ var StreamActions = {
     this.targetElements.forEach((e) => e.append(this.templateContent));
   },
   before() {
+    this.removeDuplicateTargetSiblings();
     this.targetElements.forEach((e) => e.parentElement?.insertBefore(this.templateContent, e));
   },
   prepend() {
@@ -12610,7 +12707,10 @@ var StreamActions = {
     });
   },
   refresh() {
-    session.refresh(this.baseURI, this.requestId);
+    const method = this.getAttribute("method");
+    const requestId = this.requestId;
+    const scroll = this.getAttribute("scroll");
+    session.refresh(this.baseURI, { method, requestId, scroll });
   }
 };
 
@@ -12648,6 +12748,14 @@ class StreamElement extends HTMLElement {
     const existingChildren = this.targetElements.flatMap((e) => [...e.children]).filter((c) => !!c.getAttribute("id"));
     const newChildrenIds = [...this.templateContent?.children || []].filter((c) => !!c.getAttribute("id")).map((c) => c.getAttribute("id"));
     return existingChildren.filter((c) => newChildrenIds.includes(c.getAttribute("id")));
+  }
+  removeDuplicateTargetSiblings() {
+    this.duplicateSiblings.forEach((c) => c.remove());
+  }
+  get duplicateSiblings() {
+    const existingChildren = this.targetElements.flatMap((e) => [...e.parentElement.children]).filter((c) => !!c.id);
+    const newChildrenIds = [...this.templateContent?.children || []].filter((c) => !!c.id).map((c) => c.id);
+    return existingChildren.filter((c) => newChildrenIds.includes(c.id));
   }
   get performAction() {
     if (this.action) {
@@ -12751,12 +12859,12 @@ if (customElements.get("turbo-stream-source") === undefined) {
   customElements.define("turbo-stream-source", StreamSourceElement);
 }
 (() => {
-  let element = document.currentScript;
-  if (!element)
+  const scriptElement = document.currentScript;
+  if (!scriptElement)
     return;
-  if (element.hasAttribute("data-turbo-suppress-warning"))
+  if (scriptElement.hasAttribute("data-turbo-suppress-warning"))
     return;
-  element = element.parentElement;
+  let element = scriptElement.parentElement;
   while (element) {
     if (element == document.body) {
       return console.warn(unindent`
@@ -12768,7 +12876,7 @@ if (customElements.get("turbo-stream-source") === undefined) {
 
         ——
         Suppress this warning by adding a "data-turbo-suppress-warning" attribute to: %s
-      `, element.outerHTML);
+      `, scriptElement.outerHTML);
     }
     element = element.parentElement;
   }
@@ -15852,7 +15960,7 @@ function findElement(root, selector) {
   }
   return root.querySelector(selector);
 }
-function dispatchEvent2(element, type, eventInit = {}) {
+function dispatchEvent(element, type, eventInit = {}) {
   const { disabled } = element;
   const { bubbles, cancelable, detail } = eventInit;
   const event = document.createEvent("Event");
@@ -16052,7 +16160,7 @@ class DirectUploadController {
   dispatch(name, detail = {}) {
     detail.file = this.file;
     detail.id = this.directUpload.id;
-    return dispatchEvent2(this.input, `direct-upload:${name}`, {
+    return dispatchEvent(this.input, `direct-upload:${name}`, {
       detail
     });
   }
@@ -16151,7 +16259,7 @@ class DirectUploadsController {
     return controllers;
   }
   dispatch(name, detail = {}) {
-    return dispatchEvent2(this.form, `direct-uploads:${name}`, {
+    return dispatchEvent(this.form, `direct-uploads:${name}`, {
       detail
     });
   }
@@ -22192,12 +22300,12 @@ function createFormatter(input) {
   return null;
 }
 var BASE_OPTION_REFINERS = {
-  navLinkDayClick: identity,
-  navLinkWeekClick: identity,
+  navLinkDayClick: identity2,
+  navLinkWeekClick: identity2,
   duration: createDuration2,
-  bootstrapFontAwesome: identity,
-  buttonIcons: identity,
-  customButtons: identity,
+  bootstrapFontAwesome: identity2,
+  buttonIcons: identity2,
+  customButtons: identity2,
   defaultAllDayEventDuration: createDuration2,
   defaultTimedEventDuration: createDuration2,
   nextDayThreshold: createDuration2,
@@ -22208,53 +22316,53 @@ var BASE_OPTION_REFINERS = {
   dayPopoverFormat: createFormatter,
   slotDuration: createDuration2,
   snapDuration: createDuration2,
-  headerToolbar: identity,
-  footerToolbar: identity,
+  headerToolbar: identity2,
+  footerToolbar: identity2,
   defaultRangeSeparator: String,
   titleRangeSeparator: String,
   forceEventDuration: Boolean,
   dayHeaders: Boolean,
   dayHeaderFormat: createFormatter,
-  dayHeaderClassNames: identity,
-  dayHeaderContent: identity,
-  dayHeaderDidMount: identity,
-  dayHeaderWillUnmount: identity,
-  dayCellClassNames: identity,
-  dayCellContent: identity,
-  dayCellDidMount: identity,
-  dayCellWillUnmount: identity,
+  dayHeaderClassNames: identity2,
+  dayHeaderContent: identity2,
+  dayHeaderDidMount: identity2,
+  dayHeaderWillUnmount: identity2,
+  dayCellClassNames: identity2,
+  dayCellContent: identity2,
+  dayCellDidMount: identity2,
+  dayCellWillUnmount: identity2,
   initialView: String,
   aspectRatio: Number,
   weekends: Boolean,
-  weekNumberCalculation: identity,
+  weekNumberCalculation: identity2,
   weekNumbers: Boolean,
-  weekNumberClassNames: identity,
-  weekNumberContent: identity,
-  weekNumberDidMount: identity,
-  weekNumberWillUnmount: identity,
+  weekNumberClassNames: identity2,
+  weekNumberContent: identity2,
+  weekNumberDidMount: identity2,
+  weekNumberWillUnmount: identity2,
   editable: Boolean,
-  viewClassNames: identity,
-  viewDidMount: identity,
-  viewWillUnmount: identity,
+  viewClassNames: identity2,
+  viewDidMount: identity2,
+  viewWillUnmount: identity2,
   nowIndicator: Boolean,
-  nowIndicatorClassNames: identity,
-  nowIndicatorContent: identity,
-  nowIndicatorDidMount: identity,
-  nowIndicatorWillUnmount: identity,
+  nowIndicatorClassNames: identity2,
+  nowIndicatorContent: identity2,
+  nowIndicatorDidMount: identity2,
+  nowIndicatorWillUnmount: identity2,
   showNonCurrentDates: Boolean,
   lazyFetching: Boolean,
   startParam: String,
   endParam: String,
   timeZoneParam: String,
   timeZone: String,
-  locales: identity,
-  locale: identity,
+  locales: identity2,
+  locale: identity2,
   themeSystem: String,
   dragRevertDuration: Number,
   dragScroll: Boolean,
   allDayMaintainDuration: Boolean,
   unselectAuto: Boolean,
-  dropAccept: identity,
+  dropAccept: identity2,
   eventOrder: parseFieldSpecs,
   eventOrderStrict: Boolean,
   handleWindowResize: Boolean,
@@ -22262,8 +22370,8 @@ var BASE_OPTION_REFINERS = {
   longPressDelay: Number,
   eventDragMinDistance: Number,
   expandRows: Boolean,
-  height: identity,
-  contentHeight: identity,
+  height: identity2,
+  contentHeight: identity2,
   direction: String,
   weekNumberFormat: createFormatter,
   eventResizableFromStart: Boolean,
@@ -22272,59 +22380,59 @@ var BASE_OPTION_REFINERS = {
   weekText: String,
   weekTextLong: String,
   progressiveEventRendering: Boolean,
-  businessHours: identity,
-  initialDate: identity,
-  now: identity,
-  eventDataTransform: identity,
-  stickyHeaderDates: identity,
-  stickyFooterScrollbar: identity,
-  viewHeight: identity,
+  businessHours: identity2,
+  initialDate: identity2,
+  now: identity2,
+  eventDataTransform: identity2,
+  stickyHeaderDates: identity2,
+  stickyFooterScrollbar: identity2,
+  viewHeight: identity2,
   defaultAllDay: Boolean,
-  eventSourceFailure: identity,
-  eventSourceSuccess: identity,
+  eventSourceFailure: identity2,
+  eventSourceSuccess: identity2,
   eventDisplay: String,
   eventStartEditable: Boolean,
   eventDurationEditable: Boolean,
-  eventOverlap: identity,
-  eventConstraint: identity,
-  eventAllow: identity,
+  eventOverlap: identity2,
+  eventConstraint: identity2,
+  eventAllow: identity2,
   eventBackgroundColor: String,
   eventBorderColor: String,
   eventTextColor: String,
   eventColor: String,
-  eventClassNames: identity,
-  eventContent: identity,
-  eventDidMount: identity,
-  eventWillUnmount: identity,
-  selectConstraint: identity,
-  selectOverlap: identity,
-  selectAllow: identity,
+  eventClassNames: identity2,
+  eventContent: identity2,
+  eventDidMount: identity2,
+  eventWillUnmount: identity2,
+  selectConstraint: identity2,
+  selectOverlap: identity2,
+  selectAllow: identity2,
   droppable: Boolean,
   unselectCancel: String,
-  slotLabelFormat: identity,
-  slotLaneClassNames: identity,
-  slotLaneContent: identity,
-  slotLaneDidMount: identity,
-  slotLaneWillUnmount: identity,
-  slotLabelClassNames: identity,
-  slotLabelContent: identity,
-  slotLabelDidMount: identity,
-  slotLabelWillUnmount: identity,
-  dayMaxEvents: identity,
-  dayMaxEventRows: identity,
+  slotLabelFormat: identity2,
+  slotLaneClassNames: identity2,
+  slotLaneContent: identity2,
+  slotLaneDidMount: identity2,
+  slotLaneWillUnmount: identity2,
+  slotLabelClassNames: identity2,
+  slotLabelContent: identity2,
+  slotLabelDidMount: identity2,
+  slotLabelWillUnmount: identity2,
+  dayMaxEvents: identity2,
+  dayMaxEventRows: identity2,
   dayMinWidth: Number,
   slotLabelInterval: createDuration2,
   allDayText: String,
-  allDayClassNames: identity,
-  allDayContent: identity,
-  allDayDidMount: identity,
-  allDayWillUnmount: identity,
+  allDayClassNames: identity2,
+  allDayContent: identity2,
+  allDayDidMount: identity2,
+  allDayWillUnmount: identity2,
   slotMinWidth: Number,
   navLinks: Boolean,
   eventTimeFormat: createFormatter,
   rerenderDelay: Number,
-  moreLinkText: identity,
-  moreLinkHint: identity,
+  moreLinkText: identity2,
+  moreLinkHint: identity2,
   selectMinDistance: Number,
   selectable: Boolean,
   selectLongPressDelay: Number,
@@ -22335,31 +22443,31 @@ var BASE_OPTION_REFINERS = {
   eventMinWidth: Number,
   eventShortHeight: Number,
   slotEventOverlap: Boolean,
-  plugins: identity,
+  plugins: identity2,
   firstDay: Number,
   dayCount: Number,
   dateAlignment: String,
   dateIncrement: createDuration2,
-  hiddenDays: identity,
+  hiddenDays: identity2,
   fixedWeekCount: Boolean,
-  validRange: identity,
-  visibleRange: identity,
-  titleFormat: identity,
+  validRange: identity2,
+  visibleRange: identity2,
+  titleFormat: identity2,
   eventInteractive: Boolean,
   noEventsText: String,
-  viewHint: identity,
-  navLinkHint: identity,
+  viewHint: identity2,
+  navLinkHint: identity2,
   closeHint: String,
   timeHint: String,
   eventHint: String,
-  moreLinkClick: identity,
-  moreLinkClassNames: identity,
-  moreLinkContent: identity,
-  moreLinkDidMount: identity,
-  moreLinkWillUnmount: identity,
+  moreLinkClick: identity2,
+  moreLinkClassNames: identity2,
+  moreLinkContent: identity2,
+  moreLinkDidMount: identity2,
+  moreLinkWillUnmount: identity2,
   monthStartFormat: createFormatter,
-  handleCustomRendering: identity,
-  customRenderingMetaMap: identity,
+  handleCustomRendering: identity2,
+  customRenderingMetaMap: identity2,
   customRenderingReplaces: Boolean
 };
 var BASE_OPTION_DEFAULTS = {
@@ -22416,34 +22524,34 @@ var BASE_OPTION_DEFAULTS = {
   monthStartFormat: { month: "long", day: "numeric" }
 };
 var CALENDAR_LISTENER_REFINERS = {
-  datesSet: identity,
-  eventsSet: identity,
-  eventAdd: identity,
-  eventChange: identity,
-  eventRemove: identity,
-  windowResize: identity,
-  eventClick: identity,
-  eventMouseEnter: identity,
-  eventMouseLeave: identity,
-  select: identity,
-  unselect: identity,
-  loading: identity,
-  _unmount: identity,
-  _beforeprint: identity,
-  _afterprint: identity,
-  _noEventDrop: identity,
-  _noEventResize: identity,
-  _resize: identity,
-  _scrollRequest: identity
+  datesSet: identity2,
+  eventsSet: identity2,
+  eventAdd: identity2,
+  eventChange: identity2,
+  eventRemove: identity2,
+  windowResize: identity2,
+  eventClick: identity2,
+  eventMouseEnter: identity2,
+  eventMouseLeave: identity2,
+  select: identity2,
+  unselect: identity2,
+  loading: identity2,
+  _unmount: identity2,
+  _beforeprint: identity2,
+  _afterprint: identity2,
+  _noEventDrop: identity2,
+  _noEventResize: identity2,
+  _resize: identity2,
+  _scrollRequest: identity2
 };
 var CALENDAR_OPTION_REFINERS = {
-  buttonText: identity,
-  buttonHints: identity,
-  views: identity,
-  plugins: identity,
-  initialEvents: identity,
-  events: identity,
-  eventSources: identity
+  buttonText: identity2,
+  buttonHints: identity2,
+  views: identity2,
+  plugins: identity2,
+  initialEvents: identity2,
+  events: identity2,
+  eventSources: identity2
 };
 var COMPLEX_OPTION_COMPARATORS = {
   headerToolbar: isMaybeObjectsEqual,
@@ -22471,15 +22579,15 @@ function isMaybeArraysEqual(a3, b3) {
 }
 var VIEW_OPTION_REFINERS = {
   type: String,
-  component: identity,
+  component: identity2,
   buttonText: String,
   buttonTextKey: String,
-  dateProfileGeneratorClass: identity,
+  dateProfileGeneratorClass: identity2,
   usesMinMaxTime: Boolean,
-  classNames: identity,
-  content: identity,
-  didMount: identity,
-  willUnmount: identity
+  classNames: identity2,
+  content: identity2,
+  didMount: identity2,
+  willUnmount: identity2
 };
 function mergeRawOptions(optionSets) {
   return mergeProps(optionSets, COMPLEX_OPTION_COMPARATORS);
@@ -22499,7 +22607,7 @@ function refineProps(input, refiners) {
   }
   return { refined, extra };
 }
-function identity(raw) {
+function identity2(raw) {
   return raw;
 }
 var { hasOwnProperty } = Object.prototype;
@@ -23816,12 +23924,12 @@ var EVENT_NON_DATE_REFINERS = {
   interactive: Boolean
 };
 var EVENT_DATE_REFINERS = {
-  start: identity,
-  end: identity,
-  date: identity,
+  start: identity2,
+  end: identity2,
+  date: identity2,
   allDay: Boolean
 };
-var EVENT_REFINERS = Object.assign(Object.assign(Object.assign({}, EVENT_NON_DATE_REFINERS), EVENT_DATE_REFINERS), { extendedProps: identity });
+var EVENT_REFINERS = Object.assign(Object.assign(Object.assign({}, EVENT_NON_DATE_REFINERS), EVENT_DATE_REFINERS), { extendedProps: identity2 });
 function parseEvent(raw, eventSource, context, allowOpenRange, refiners = buildEventRefiners(context), defIdMap, instanceIdMap) {
   let { refined, extra } = refineEventDef(raw, context, refiners);
   let defaultAllDay = computeIsDefaultAllDay(eventSource, context);
@@ -24025,9 +24133,9 @@ var EVENT_UI_REFINERS = {
   editable: Boolean,
   startEditable: Boolean,
   durationEditable: Boolean,
-  constraint: identity,
-  overlap: identity,
-  allow: identity,
+  constraint: identity2,
+  overlap: identity2,
+  allow: identity2,
   className: parseClassNames,
   classNames: parseClassNames,
   color: String,
@@ -24084,10 +24192,10 @@ var EVENT_SOURCE_REFINERS = {
   defaultAllDay: Boolean,
   url: String,
   format: String,
-  events: identity,
-  eventDataTransform: identity,
-  success: identity,
-  failure: identity
+  events: identity2,
+  eventDataTransform: identity2,
+  success: identity2,
+  failure: identity2
 };
 function parseEventSource(raw, context, refiners = buildEventSourceRefiners(context)) {
   let rawObj;
@@ -25068,8 +25176,8 @@ function getSegAnchorAttrs(seg, context) {
   return {};
 }
 var STANDARD_PROPS = {
-  start: identity,
-  end: identity,
+  start: identity2,
+  end: identity2,
   allDay: Boolean
 };
 function parseDateSpan(raw, dateEnv, defaultDuration) {
@@ -28304,7 +28412,7 @@ var funcEventSourcePlugin = createPlugin({
 });
 var JSON_FEED_EVENT_SOURCE_REFINERS = {
   method: String,
-  extraParams: identity,
+  extraParams: identity2,
   startParam: String,
   endParam: String,
   timeZoneParam: String
@@ -28370,12 +28478,12 @@ function buildRequestParams(meta, range, context) {
   return params;
 }
 var SIMPLE_RECURRING_REFINERS = {
-  daysOfWeek: identity,
+  daysOfWeek: identity2,
   startTime: createDuration2,
   endTime: createDuration2,
   duration: createDuration2,
-  startRecur: identity,
-  endRecur: identity
+  startRecur: identity2,
+  endRecur: identity2
 };
 var recurring = {
   parse(refined, dateEnv) {
@@ -33026,19 +33134,19 @@ class UnselectAuto {
   }
 }
 var OPTION_REFINERS = {
-  fixedMirrorParent: identity
+  fixedMirrorParent: identity2
 };
 var LISTENER_REFINERS = {
-  dateClick: identity,
-  eventDragStart: identity,
-  eventDragStop: identity,
-  eventDrop: identity,
-  eventResizeStart: identity,
-  eventResizeStop: identity,
-  eventResize: identity,
-  drop: identity,
-  eventReceive: identity,
-  eventLeave: identity
+  dateClick: identity2,
+  eventDragStart: identity2,
+  eventDragStop: identity2,
+  eventDrop: identity2,
+  eventResizeStart: identity2,
+  eventResizeStop: identity2,
+  eventResize: identity2,
+  drop: identity2,
+  eventReceive: identity2,
+  eventLeave: identity2
 };
 config2.dataAttrPrefix = "";
 var index = createPlugin({
@@ -34029,6 +34137,24 @@ class calendar_controller_default extends Controller {
     } else {
       import_sweetalert22.default.fire(options);
     }
+  }
+}
+
+// app/javascript/controllers/cookie_banner_controller.js
+class cookie_banner_controller_default extends Controller {
+  static targets = ["banner"];
+  connect() {
+    if (localStorage.getItem("cookie_consent")) {
+      this.bannerTarget.remove();
+    }
+  }
+  accept() {
+    localStorage.setItem("cookie_consent", "accepted");
+    this.bannerTarget.remove();
+  }
+  reject() {
+    localStorage.setItem("cookie_consent", "rejected");
+    this.bannerTarget.remove();
   }
 }
 
@@ -35091,6 +35217,7 @@ class users_controller_default extends Controller {
 application.register("audits", audits_controller_default);
 application.register("book", book_controller_default);
 application.register("calendar", calendar_controller_default);
+application.register("cookie-banner", cookie_banner_controller_default);
 application.register("form", form_controller_default);
 application.register("menu", menu_controller_default);
 application.register("message", message_controller_default);
@@ -35098,7 +35225,7 @@ application.register("modal", modal_controller_default);
 application.register("users", users_controller_default);
 
 // node_modules/trix/dist/trix.esm.min.js
-var t3 = "2.1.15";
+var t3 = "2.1.16";
 var e3 = "[data-trix-attachment]";
 var i3 = { preview: { presentation: "gallery", caption: { name: true, size: true } }, file: { caption: { size: true } } };
 var n2 = { default: { tagName: "div", parse: false }, quote: { tagName: "blockquote", nestable: true }, heading1: { tagName: "h1", terminal: true, breakOnReturn: true, group: false }, code: { tagName: "pre", terminal: true, htmlAttributes: ["language"], text: { plaintext: true } }, bulletList: { tagName: "ul", parse: false }, bullet: { tagName: "li", listAttribute: "bulletList", group: false, nestable: true, test(t4) {
@@ -35144,23 +35271,27 @@ var b3 = function(t4) {
   let { onElement: e4, matchingSelector: i4, withCallback: n3, inPhase: r4, preventDefault: o3, times: s4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const a4 = e4 || p3, l80 = i4, c4 = r4 === "capturing", u4 = function(t5) {
     s4 != null && --s4 == 0 && u4.destroy();
-    const e5 = y3(t5.target, { matchingSelector: l80 });
+    const e5 = x4(t5.target, { matchingSelector: l80 });
     e5 != null && (n3 == null || n3.call(e5, t5, e5), o3 && t5.preventDefault());
   };
   return u4.destroy = () => a4.removeEventListener(t4, u4, c4), a4.addEventListener(t4, u4, c4), u4;
 };
 var v3 = function(t4) {
-  let { onElement: e4, bubbles: i4, cancelable: n3, attributes: r4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  const o3 = e4 != null ? e4 : p3;
-  i4 = i4 !== false, n3 = n3 !== false;
-  const s4 = document.createEvent("Events");
-  return s4.initEvent(t4, i4, n3), r4 != null && m3.call(s4, r4), o3.dispatchEvent(s4);
+  let { bubbles: e4, cancelable: i4, attributes: n3 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  e4 = e4 !== false, i4 = i4 !== false;
+  const r4 = document.createEvent("Events");
+  return r4.initEvent(t4, e4, i4), n3 != null && m3.call(r4, n3), r4;
 };
-var A3 = function(t4, e4) {
+var A3 = function(t4) {
+  let { onElement: e4, bubbles: i4, cancelable: n3, attributes: r4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  const o3 = e4 != null ? e4 : p3, s4 = v3(t4, { bubbles: i4, cancelable: n3, attributes: r4 });
+  return o3.dispatchEvent(s4);
+};
+var y3 = function(t4, e4) {
   if ((t4 == null ? undefined : t4.nodeType) === 1)
     return f3.call(t4, e4);
 };
-var y3 = function(t4) {
+var x4 = function(t4) {
   let { matchingSelector: e4, untilNode: i4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   for (;t4 && t4.nodeType !== Node.ELEMENT_NODE; )
     t4 = t4.parentNode;
@@ -35170,14 +35301,14 @@ var y3 = function(t4) {
     if (t4.closest && i4 == null)
       return t4.closest(e4);
     for (;t4 && t4 !== i4; ) {
-      if (A3(t4, e4))
+      if (y3(t4, e4))
         return t4;
       t4 = t4.parentNode;
     }
   }
 };
-var x4 = (t4) => document.activeElement !== t4 && C3(t4, document.activeElement);
-var C3 = function(t4, e4) {
+var C3 = (t4) => document.activeElement !== t4 && E2(t4, document.activeElement);
+var E2 = function(t4, e4) {
   if (t4 && e4)
     for (;e4; ) {
       if (e4 === t4)
@@ -35185,7 +35316,7 @@ var C3 = function(t4, e4) {
       e4 = e4.parentNode;
     }
 };
-var E2 = function(t4) {
+var S2 = function(t4) {
   var e4;
   if ((e4 = t4) === null || e4 === undefined || !e4.parentNode)
     return;
@@ -35194,11 +35325,11 @@ var E2 = function(t4) {
     i4++, t4 = t4.previousSibling;
   return i4;
 };
-var S2 = (t4) => {
+var R = (t4) => {
   var e4;
   return t4 == null || (e4 = t4.parentNode) === null || e4 === undefined ? undefined : e4.removeChild(t4);
 };
-var R = function(t4) {
+var k3 = function(t4) {
   let { onlyNodesOfType: e4, usingFilter: i4, expandEntityReferences: n3 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   const r4 = (() => {
     switch (e4) {
@@ -35214,11 +35345,11 @@ var R = function(t4) {
   })();
   return document.createTreeWalker(t4, r4, i4 != null ? i4 : null, n3 === true);
 };
-var k3 = (t4) => {
+var T4 = (t4) => {
   var e4;
   return t4 == null || (e4 = t4.tagName) === null || e4 === undefined ? undefined : e4.toLowerCase();
 };
-var T4 = function(t4) {
+var w4 = function(t4) {
   let e4, i4, n3 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   typeof t4 == "object" ? (n3 = t4, t4 = n3.tagName) : n3 = { attributes: n3 };
   const r4 = document.createElement(t4);
@@ -35237,45 +35368,45 @@ var T4 = function(t4) {
     r4.appendChild(t5);
   }), r4;
 };
-var w4;
-var L3 = function() {
-  if (w4 != null)
-    return w4;
-  w4 = [];
+var L3;
+var D3 = function() {
+  if (L3 != null)
+    return L3;
+  L3 = [];
   for (const t4 in n2) {
     const e4 = n2[t4];
-    e4.tagName && w4.push(e4.tagName);
+    e4.tagName && L3.push(e4.tagName);
   }
-  return w4;
+  return L3;
 };
-var D3 = (t4) => I3(t4 == null ? undefined : t4.firstChild);
-var N3 = function(t4) {
+var N3 = (t4) => O2(t4 == null ? undefined : t4.firstChild);
+var I3 = function(t4) {
   let { strict: e4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { strict: true };
-  return e4 ? I3(t4) : I3(t4) || !I3(t4.firstChild) && function(t5) {
-    return L3().includes(k3(t5)) && !L3().includes(k3(t5.firstChild));
+  return e4 ? O2(t4) : O2(t4) || !O2(t4.firstChild) && function(t5) {
+    return D3().includes(T4(t5)) && !D3().includes(T4(t5.firstChild));
   }(t4);
 };
-var I3 = (t4) => O2(t4) && (t4 == null ? undefined : t4.data) === "block";
-var O2 = (t4) => (t4 == null ? undefined : t4.nodeType) === Node.COMMENT_NODE;
-var F4 = function(t4) {
+var O2 = (t4) => F4(t4) && (t4 == null ? undefined : t4.data) === "block";
+var F4 = (t4) => (t4 == null ? undefined : t4.nodeType) === Node.COMMENT_NODE;
+var P3 = function(t4) {
   let { name: e4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (t4)
-    return B3(t4) ? t4.data === d2 ? !e4 || t4.parentNode.dataset.trixCursorTarget === e4 : undefined : F4(t4.firstChild);
+    return _3(t4) ? t4.data === d2 ? !e4 || t4.parentNode.dataset.trixCursorTarget === e4 : undefined : P3(t4.firstChild);
 };
-var P3 = (t4) => A3(t4, e3);
-var M2 = (t4) => B3(t4) && (t4 == null ? undefined : t4.data) === "";
-var B3 = (t4) => (t4 == null ? undefined : t4.nodeType) === Node.TEXT_NODE;
-var _3 = { level2Enabled: true, getLevel() {
+var M2 = (t4) => y3(t4, e3);
+var B3 = (t4) => _3(t4) && (t4 == null ? undefined : t4.data) === "";
+var _3 = (t4) => (t4 == null ? undefined : t4.nodeType) === Node.TEXT_NODE;
+var j4 = { level2Enabled: true, getLevel() {
   return this.level2Enabled && a3.supportsInputEvents ? 2 : 0;
 }, pickFiles(t4) {
-  const e4 = T4("input", { type: "file", multiple: true, hidden: true, id: this.fileInputId });
+  const e4 = w4("input", { type: "file", multiple: true, hidden: true, id: this.fileInputId });
   e4.addEventListener("change", () => {
-    t4(e4.files), S2(e4);
-  }), S2(document.getElementById(this.fileInputId)), document.body.appendChild(e4), e4.click();
+    t4(e4.files), R(e4);
+  }), R(document.getElementById(this.fileInputId)), document.body.appendChild(e4), e4.click();
 } };
-var j4 = { removeBlankTableCells: false, tableCellSeparator: " | ", tableRowSeparator: `
+var W2 = { removeBlankTableCells: false, tableCellSeparator: " | ", tableRowSeparator: `
 ` };
-var W2 = { bold: { tagName: "strong", inheritable: true, parser(t4) {
+var U2 = { bold: { tagName: "strong", inheritable: true, parser(t4) {
   const e4 = window.getComputedStyle(t4);
   return e4.fontWeight === "bold" || e4.fontWeight >= 600;
 } }, italic: { tagName: "em", inheritable: true, parser: (t4) => window.getComputedStyle(t4).fontStyle === "italic" }, href: { groupTagName: "a", parser(t4) {
@@ -35283,7 +35414,7 @@ var W2 = { bold: { tagName: "strong", inheritable: true, parser(t4) {
   if (n3)
     return n3.getAttribute("href");
 } }, strike: { tagName: "del", inheritable: true }, frozen: { style: { backgroundColor: "highlight" } } };
-var U2 = { getDefaultHTML: () => `<div class="trix-button-row">
+var V3 = { getDefaultHTML: () => `<div class="trix-button-row">
       <span class="trix-button-group trix-button-group--text-tools" data-trix-button-group="text-tools">
         <button type="button" class="trix-button trix-button--icon trix-button--icon-bold" data-trix-attribute="bold" data-trix-key="b" title="`.concat(c3.bold, '" tabindex="-1">').concat(c3.bold, `</button>
         <button type="button" class="trix-button trix-button--icon trix-button--icon-italic" data-trix-attribute="italic" data-trix-key="i" title="`).concat(c3.italic, '" tabindex="-1">').concat(c3.italic, `</button>
@@ -35324,52 +35455,52 @@ var U2 = { getDefaultHTML: () => `<div class="trix-button-row">
         </div>
       </div>
     </div>`) };
-var V3 = { interval: 5000 };
-var z3 = Object.freeze({ __proto__: null, attachments: i3, blockAttributes: n2, browser: a3, css: { attachment: "attachment", attachmentCaption: "attachment__caption", attachmentCaptionEditor: "attachment__caption-editor", attachmentMetadata: "attachment__metadata", attachmentMetadataContainer: "attachment__metadata-container", attachmentName: "attachment__name", attachmentProgress: "attachment__progress", attachmentSize: "attachment__size", attachmentToolbar: "attachment__toolbar", attachmentGallery: "attachment-gallery" }, dompurify: l79, fileSize: h3, input: _3, keyNames: { 8: "backspace", 9: "tab", 13: "return", 27: "escape", 37: "left", 39: "right", 46: "delete", 68: "d", 72: "h", 79: "o" }, lang: c3, parser: j4, textAttributes: W2, toolbar: U2, undo: V3 });
+var z3 = { interval: 5000 };
+var q3 = Object.freeze({ __proto__: null, attachments: i3, blockAttributes: n2, browser: a3, css: { attachment: "attachment", attachmentCaption: "attachment__caption", attachmentCaptionEditor: "attachment__caption-editor", attachmentMetadata: "attachment__metadata", attachmentMetadataContainer: "attachment__metadata-container", attachmentName: "attachment__name", attachmentProgress: "attachment__progress", attachmentSize: "attachment__size", attachmentToolbar: "attachment__toolbar", attachmentGallery: "attachment-gallery" }, dompurify: l79, fileSize: h3, input: j4, keyNames: { 8: "backspace", 9: "tab", 13: "return", 27: "escape", 37: "left", 39: "right", 46: "delete", 68: "d", 72: "h", 79: "o" }, lang: c3, parser: W2, textAttributes: U2, toolbar: V3, undo: z3 });
 
-class q3 {
+class H3 {
   static proxyMethod(t4) {
-    const { name: e4, toMethod: i4, toProperty: n3, optional: r4 } = H3(t4);
+    const { name: e4, toMethod: i4, toProperty: n3, optional: r4 } = J2(t4);
     this.prototype[e4] = function() {
       let t5, o3;
       var s4, a4;
       i4 ? o3 = r4 ? (s4 = this[i4]) === null || s4 === undefined ? undefined : s4.call(this) : this[i4]() : n3 && (o3 = this[n3]);
-      return r4 ? (t5 = (a4 = o3) === null || a4 === undefined ? undefined : a4[e4], t5 ? J2.call(t5, o3, arguments) : undefined) : (t5 = o3[e4], J2.call(t5, o3, arguments));
+      return r4 ? (t5 = (a4 = o3) === null || a4 === undefined ? undefined : a4[e4], t5 ? K2.call(t5, o3, arguments) : undefined) : (t5 = o3[e4], K2.call(t5, o3, arguments));
     };
   }
 }
-var H3 = function(t4) {
-  const e4 = t4.match(K2);
+var J2 = function(t4) {
+  const e4 = t4.match(G3);
   if (!e4)
     throw new Error("can't parse @proxyMethod expression: ".concat(t4));
   const i4 = { name: e4[4] };
   return e4[2] != null ? i4.toMethod = e4[1] : i4.toProperty = e4[1], e4[3] != null && (i4.optional = true), i4;
 };
-var { apply: J2 } = Function.prototype;
-var K2 = new RegExp("^(.+?)(\\(\\))?(\\?)?\\.(.+?)$");
-var G3;
+var { apply: K2 } = Function.prototype;
+var G3 = new RegExp("^(.+?)(\\(\\))?(\\?)?\\.(.+?)$");
 var Y;
 var X2;
+var $3;
 
-class $3 extends q3 {
+class Z2 extends H3 {
   static box() {
     let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
     return t4 instanceof this ? t4 : this.fromUCS2String(t4 == null ? undefined : t4.toString());
   }
   static fromUCS2String(t4) {
-    return new this(t4, et(t4));
+    return new this(t4, it(t4));
   }
   static fromCodepoints(t4) {
-    return new this(it(t4), t4);
+    return new this(nt(t4), t4);
   }
   constructor(t4, e4) {
     super(...arguments), this.ucs2String = t4, this.codepoints = e4, this.length = this.codepoints.length, this.ucs2Length = this.ucs2String.length;
   }
   offsetToUCS2Offset(t4) {
-    return it(this.codepoints.slice(0, Math.max(0, t4))).length;
+    return nt(this.codepoints.slice(0, Math.max(0, t4))).length;
   }
   offsetFromUCS2Offset(t4) {
-    return et(this.ucs2String.slice(0, Math.max(0, t4))).length;
+    return it(this.ucs2String.slice(0, Math.max(0, t4))).length;
   }
   slice() {
     return this.constructor.fromCodepoints(this.codepoints.slice(...arguments));
@@ -35390,12 +35521,12 @@ class $3 extends q3 {
     return this.ucs2String;
   }
 }
-var Z2 = ((G3 = Array.from) === null || G3 === undefined ? undefined : G3.call(Array, "\uD83D\uDC7C").length) === 1;
-var Q2 = ((Y = " ".codePointAt) === null || Y === undefined ? undefined : Y.call(" ", 0)) != null;
-var tt = ((X2 = String.fromCodePoint) === null || X2 === undefined ? undefined : X2.call(String, 32, 128124)) === " \uD83D\uDC7C";
-var et;
+var Q2 = ((Y = Array.from) === null || Y === undefined ? undefined : Y.call(Array, "\uD83D\uDC7C").length) === 1;
+var tt = ((X2 = " ".codePointAt) === null || X2 === undefined ? undefined : X2.call(" ", 0)) != null;
+var et = (($3 = String.fromCodePoint) === null || $3 === undefined ? undefined : $3.call(String, 32, 128124)) === " \uD83D\uDC7C";
 var it;
-et = Z2 && Q2 ? (t4) => Array.from(t4).map((t5) => t5.codePointAt(0)) : function(t4) {
+var nt;
+it = Q2 && tt ? (t4) => Array.from(t4).map((t5) => t5.codePointAt(0)) : function(t4) {
   const e4 = [];
   let i4 = 0;
   const { length: n3 } = t4;
@@ -35408,7 +35539,7 @@ et = Z2 && Q2 ? (t4) => Array.from(t4).map((t5) => t5.codePointAt(0)) : function
     e4.push(r4);
   }
   return e4;
-}, it = tt ? (t4) => String.fromCodePoint(...Array.from(t4 || [])) : function(t4) {
+}, nt = et ? (t4) => String.fromCodePoint(...Array.from(t4 || [])) : function(t4) {
   return (() => {
     const e4 = [];
     return Array.from(t4).forEach((t5) => {
@@ -35417,14 +35548,14 @@ et = Z2 && Q2 ? (t4) => Array.from(t4).map((t5) => t5.codePointAt(0)) : function
     }), e4;
   })().join("");
 };
-var nt = 0;
+var rt = 0;
 
-class rt extends q3 {
+class ot extends H3 {
   static fromJSONString(t4) {
     return this.fromJSON(JSON.parse(t4));
   }
   constructor() {
-    super(...arguments), this.id = ++nt;
+    super(...arguments), this.id = ++rt;
   }
   hasSameConstructorAs(t4) {
     return this.constructor === (t4 == null ? undefined : t4.constructor);
@@ -35445,13 +35576,13 @@ class rt extends q3 {
     return JSON.stringify(this);
   }
   toUTF16String() {
-    return $3.box(this);
+    return Z2.box(this);
   }
   getCacheKey() {
     return this.id.toString();
   }
 }
-var ot = function() {
+var st = function() {
   let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [], e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   if (t4.length !== e4.length)
     return false;
@@ -35461,15 +35592,15 @@ var ot = function() {
   }
   return true;
 };
-var st = function(t4) {
+var at = function(t4) {
   const e4 = t4.slice(0);
   for (var i4 = arguments.length, n3 = new Array(i4 > 1 ? i4 - 1 : 0), r4 = 1;r4 < i4; r4++)
     n3[r4 - 1] = arguments[r4];
   return e4.splice(...n3), e4;
 };
-var at = /[\u05BE\u05C0\u05C3\u05D0-\u05EA\u05F0-\u05F4\u061B\u061F\u0621-\u063A\u0640-\u064A\u066D\u0671-\u06B7\u06BA-\u06BE\u06C0-\u06CE\u06D0-\u06D5\u06E5\u06E6\u200F\u202B\u202E\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE72\uFE74\uFE76-\uFEFC]/;
-var lt = function() {
-  const t4 = T4("input", { dir: "auto", name: "x", dirName: "x.dir" }), e4 = T4("textarea", { dir: "auto", name: "y", dirName: "y.dir" }), i4 = T4("form");
+var lt = /[\u05BE\u05C0\u05C3\u05D0-\u05EA\u05F0-\u05F4\u061B\u061F\u0621-\u063A\u0640-\u064A\u066D\u0671-\u06B7\u06BA-\u06BE\u06C0-\u06CE\u06D0-\u06D5\u06E5\u06E6\u200F\u202B\u202E\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE72\uFE74\uFE76-\uFEFC]/;
+var ct = function() {
+  const t4 = w4("input", { dir: "auto", name: "x", dirName: "x.dir" }), e4 = w4("textarea", { dir: "auto", name: "y", dirName: "y.dir" }), i4 = w4("form");
   i4.appendChild(t4), i4.appendChild(e4);
   const n3 = function() {
     try {
@@ -35490,37 +35621,37 @@ var lt = function() {
     return t4.value = e5, t4.matches(":dir(rtl)") ? "rtl" : "ltr";
   } : function(t5) {
     const e5 = t5.trim().charAt(0);
-    return at.test(e5) ? "rtl" : "ltr";
+    return lt.test(e5) ? "rtl" : "ltr";
   };
 }();
-var ct = null;
 var ut = null;
 var ht = null;
 var dt = null;
-var gt = () => (ct || (ct = bt().concat(pt())), ct);
-var mt = (t4) => n2[t4];
-var pt = () => (ut || (ut = Object.keys(n2)), ut);
-var ft = (t4) => W2[t4];
-var bt = () => (ht || (ht = Object.keys(W2)), ht);
-var vt = function(t4, e4) {
-  At(t4).textContent = e4.replace(/%t/g, t4);
+var gt = null;
+var mt = () => (ut || (ut = vt().concat(ft())), ut);
+var pt = (t4) => n2[t4];
+var ft = () => (ht || (ht = Object.keys(n2)), ht);
+var bt = (t4) => U2[t4];
+var vt = () => (dt || (dt = Object.keys(U2)), dt);
+var At = function(t4, e4) {
+  yt(t4).textContent = e4.replace(/%t/g, t4);
 };
-var At = function(t4) {
+var yt = function(t4) {
   const e4 = document.createElement("style");
   e4.setAttribute("type", "text/css"), e4.setAttribute("data-tag-name", t4.toLowerCase());
-  const i4 = yt();
+  const i4 = xt();
   return i4 && e4.setAttribute("nonce", i4), document.head.insertBefore(e4, document.head.firstChild), e4;
 };
-var yt = function() {
-  const t4 = xt("trix-csp-nonce") || xt("csp-nonce");
+var xt = function() {
+  const t4 = Ct("trix-csp-nonce") || Ct("csp-nonce");
   if (t4) {
     const { nonce: e4, content: i4 } = t4;
     return e4 == "" ? i4 : e4;
   }
 };
-var xt = (t4) => document.head.querySelector("meta[name=".concat(t4, "]"));
-var Ct = { "application/x-trix-feature-detection": "test" };
-var Et = function(t4) {
+var Ct = (t4) => document.head.querySelector("meta[name=".concat(t4, "]"));
+var Et = { "application/x-trix-feature-detection": "test" };
+var St = function(t4) {
   const e4 = t4.getData("text/plain"), i4 = t4.getData("text/html");
   if (!e4 || !i4)
     return e4 == null ? undefined : e4.length;
@@ -35530,9 +35661,9 @@ var Et = function(t4) {
       return !t5.querySelector("*");
   }
 };
-var St = /Mac|^iP/.test(navigator.platform) ? (t4) => t4.metaKey : (t4) => t4.ctrlKey;
-var Rt = (t4) => setTimeout(t4, 1);
-var kt = function() {
+var Rt = /Mac|^iP/.test(navigator.platform) ? (t4) => t4.metaKey : (t4) => t4.ctrlKey;
+var kt = (t4) => setTimeout(t4, 1);
+var Tt = function() {
   let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   const e4 = {};
   for (const i4 in t4) {
@@ -35541,7 +35672,7 @@ var kt = function() {
   }
   return e4;
 };
-var Tt = function() {
+var wt = function() {
   let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}, e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (Object.keys(t4).length !== Object.keys(e4).length)
     return false;
@@ -35551,30 +35682,30 @@ var Tt = function() {
   }
   return true;
 };
-var wt = function(t4) {
-  if (t4 != null)
-    return Array.isArray(t4) || (t4 = [t4, t4]), [Nt(t4[0]), Nt(t4[1] != null ? t4[1] : t4[0])];
-};
 var Lt = function(t4) {
+  if (t4 != null)
+    return Array.isArray(t4) || (t4 = [t4, t4]), [It(t4[0]), It(t4[1] != null ? t4[1] : t4[0])];
+};
+var Dt = function(t4) {
   if (t4 == null)
     return;
-  const [e4, i4] = wt(t4);
-  return It(e4, i4);
+  const [e4, i4] = Lt(t4);
+  return Ot(e4, i4);
 };
-var Dt = function(t4, e4) {
+var Nt = function(t4, e4) {
   if (t4 == null || e4 == null)
     return;
-  const [i4, n3] = wt(t4), [r4, o3] = wt(e4);
-  return It(i4, r4) && It(n3, o3);
+  const [i4, n3] = Lt(t4), [r4, o3] = Lt(e4);
+  return Ot(i4, r4) && Ot(n3, o3);
 };
-var Nt = function(t4) {
-  return typeof t4 == "number" ? t4 : kt(t4);
+var It = function(t4) {
+  return typeof t4 == "number" ? t4 : Tt(t4);
 };
-var It = function(t4, e4) {
-  return typeof t4 == "number" ? t4 === e4 : Tt(t4, e4);
+var Ot = function(t4, e4) {
+  return typeof t4 == "number" ? t4 === e4 : wt(t4, e4);
 };
 
-class Ot extends q3 {
+class Ft extends H3 {
   constructor() {
     super(...arguments), this.update = this.update.bind(this), this.selectionManagers = [];
   }
@@ -35603,40 +35734,40 @@ class Ot extends q3 {
     this.update();
   }
 }
-var Ft = new Ot;
-var Pt = function() {
+var Pt = new Ft;
+var Mt = function() {
   const t4 = window.getSelection();
   if (t4.rangeCount > 0)
     return t4;
 };
-var Mt = function() {
+var Bt = function() {
   var t4;
-  const e4 = (t4 = Pt()) === null || t4 === undefined ? undefined : t4.getRangeAt(0);
-  if (e4 && !_t(e4))
+  const e4 = (t4 = Mt()) === null || t4 === undefined ? undefined : t4.getRangeAt(0);
+  if (e4 && !jt(e4))
     return e4;
 };
-var Bt = function(t4) {
+var _t = function(t4) {
   const e4 = window.getSelection();
-  return e4.removeAllRanges(), e4.addRange(t4), Ft.update();
+  return e4.removeAllRanges(), e4.addRange(t4), Pt.update();
 };
-var _t = (t4) => jt(t4.startContainer) || jt(t4.endContainer);
-var jt = (t4) => !Object.getPrototypeOf(t4);
-var Wt = (t4) => t4.replace(new RegExp("".concat(d2), "g"), "").replace(new RegExp("".concat(g4), "g"), " ");
-var Ut = new RegExp("[^\\S".concat(g4, "]"));
-var Vt = (t4) => t4.replace(new RegExp("".concat(Ut.source), "g"), " ").replace(/\ {2,}/g, " ");
-var zt = function(t4, e4) {
+var jt = (t4) => Wt(t4.startContainer) || Wt(t4.endContainer);
+var Wt = (t4) => !Object.getPrototypeOf(t4);
+var Ut = (t4) => t4.replace(new RegExp("".concat(d2), "g"), "").replace(new RegExp("".concat(g4), "g"), " ");
+var Vt = new RegExp("[^\\S".concat(g4, "]"));
+var zt = (t4) => t4.replace(new RegExp("".concat(Vt.source), "g"), " ").replace(/\ {2,}/g, " ");
+var qt = function(t4, e4) {
   if (t4.isEqualTo(e4))
     return ["", ""];
-  const i4 = qt(t4, e4), { length: n3 } = i4.utf16String;
+  const i4 = Ht(t4, e4), { length: n3 } = i4.utf16String;
   let r4;
   if (n3) {
     const { offset: o3 } = i4, s4 = t4.codepoints.slice(0, o3).concat(t4.codepoints.slice(o3 + n3));
-    r4 = qt(e4, $3.fromCodepoints(s4));
+    r4 = Ht(e4, Z2.fromCodepoints(s4));
   } else
-    r4 = qt(e4, t4);
+    r4 = Ht(e4, t4);
   return [i4.utf16String.toString(), r4.utf16String.toString()];
 };
-var qt = function(t4, e4) {
+var Ht = function(t4, e4) {
   let i4 = 0, n3 = t4.length, r4 = e4.length;
   for (;i4 < n3 && t4.charAt(i4).isEqualTo(e4.charAt(i4)); )
     i4++;
@@ -35645,28 +35776,28 @@ var qt = function(t4, e4) {
   return { utf16String: t4.slice(i4, n3), offset: i4 };
 };
 
-class Ht extends rt {
+class Jt extends ot {
   static fromCommonAttributesOfObjects() {
     let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     if (!t4.length)
       return new this;
-    let e4 = Yt(t4[0]), i4 = e4.getKeys();
+    let e4 = Xt(t4[0]), i4 = e4.getKeys();
     return t4.slice(1).forEach((t5) => {
-      i4 = e4.getKeysCommonToHash(Yt(t5)), e4 = e4.slice(i4);
+      i4 = e4.getKeysCommonToHash(Xt(t5)), e4 = e4.slice(i4);
     }), e4;
   }
   static box(t4) {
-    return Yt(t4);
+    return Xt(t4);
   }
   constructor() {
     let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    super(...arguments), this.values = Gt(t4);
+    super(...arguments), this.values = Yt(t4);
   }
   add(t4, e4) {
-    return this.merge(Jt(t4, e4));
+    return this.merge(Kt(t4, e4));
   }
   remove(t4) {
-    return new Ht(Gt(this.values, t4));
+    return new Jt(Yt(this.values, t4));
   }
   get(t4) {
     return this.values[t4];
@@ -35675,22 +35806,22 @@ class Ht extends rt {
     return t4 in this.values;
   }
   merge(t4) {
-    return new Ht(Kt(this.values, Xt(t4)));
+    return new Jt(Gt(this.values, $t(t4)));
   }
   slice(t4) {
     const e4 = {};
     return Array.from(t4).forEach((t5) => {
       this.has(t5) && (e4[t5] = this.values[t5]);
-    }), new Ht(e4);
+    }), new Jt(e4);
   }
   getKeys() {
     return Object.keys(this.values);
   }
   getKeysCommonToHash(t4) {
-    return t4 = Yt(t4), this.getKeys().filter((e4) => this.values[e4] === t4.values[e4]);
+    return t4 = Xt(t4), this.getKeys().filter((e4) => this.values[e4] === t4.values[e4]);
   }
   isEqualTo(t4) {
-    return ot(this.toArray(), Yt(t4).toArray());
+    return st(this.toArray(), Xt(t4).toArray());
   }
   isEmpty() {
     return this.getKeys().length === 0;
@@ -35707,7 +35838,7 @@ class Ht extends rt {
     return this.array;
   }
   toObject() {
-    return Gt(this.values);
+    return Yt(this.values);
   }
   toJSON() {
     return this.toObject();
@@ -35716,32 +35847,32 @@ class Ht extends rt {
     return { values: JSON.stringify(this.values) };
   }
 }
-var Jt = function(t4, e4) {
+var Kt = function(t4, e4) {
   const i4 = {};
   return i4[t4] = e4, i4;
 };
-var Kt = function(t4, e4) {
-  const i4 = Gt(t4);
+var Gt = function(t4, e4) {
+  const i4 = Yt(t4);
   for (const t5 in e4) {
     const n3 = e4[t5];
     i4[t5] = n3;
   }
   return i4;
 };
-var Gt = function(t4, e4) {
+var Yt = function(t4, e4) {
   const i4 = {};
   return Object.keys(t4).sort().forEach((n3) => {
     n3 !== e4 && (i4[n3] = t4[n3]);
   }), i4;
 };
-var Yt = function(t4) {
-  return t4 instanceof Ht ? t4 : new Ht(t4);
-};
 var Xt = function(t4) {
-  return t4 instanceof Ht ? t4.values : t4;
+  return t4 instanceof Jt ? t4 : new Jt(t4);
+};
+var $t = function(t4) {
+  return t4 instanceof Jt ? t4.values : t4;
 };
 
-class $t {
+class Zt {
   static groupObjects() {
     let t4, e4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [], { depth: i4, asTree: n3 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     n3 && i4 == null && (i4 = 0);
@@ -35775,7 +35906,7 @@ class $t {
   }
 }
 
-class Zt extends q3 {
+class Qt extends H3 {
   constructor() {
     let t4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     super(...arguments), this.objects = {}, Array.from(t4).forEach((t5) => {
@@ -35789,16 +35920,16 @@ class Zt extends q3 {
   }
 }
 
-class Qt {
+class te {
   constructor(t4) {
     this.reset(t4);
   }
   add(t4) {
-    const e4 = te(t4);
+    const e4 = ee(t4);
     this.elements[e4] = t4;
   }
   remove(t4) {
-    const e4 = te(t4), i4 = this.elements[e4];
+    const e4 = ee(t4), i4 = this.elements[e4];
     if (i4)
       return delete this.elements[e4], i4;
   }
@@ -35809,9 +35940,9 @@ class Qt {
     }), t4;
   }
 }
-var te = (t4) => t4.dataset.trixStoreKey;
+var ee = (t4) => t4.dataset.trixStoreKey;
 
-class ee extends q3 {
+class ie extends H3 {
   isPerforming() {
     return this.performing === true;
   }
@@ -35837,9 +35968,9 @@ class ee extends q3 {
     (t4 = this.promise) === null || t4 === undefined || (e4 = t4.cancel) === null || e4 === undefined || e4.call(t4), this.promise = null, this.performing = null, this.performed = null, this.succeeded = null;
   }
 }
-ee.proxyMethod("getPromise().then"), ee.proxyMethod("getPromise().catch");
+ie.proxyMethod("getPromise().then"), ie.proxyMethod("getPromise().catch");
 
-class ie extends q3 {
+class ne extends H3 {
   constructor(t4) {
     let e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     super(...arguments), this.object = t4, this.options = e4, this.childViews = [], this.rootView = this;
@@ -35861,7 +35992,7 @@ class ie extends q3 {
   }
   createChildView(t4, e4) {
     let i4 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    e4 instanceof $t && (i4.viewClass = t4, t4 = ne);
+    e4 instanceof Zt && (i4.viewClass = t4, t4 = re);
     const n3 = new t4(e4, i4);
     return this.recordChildView(n3);
   }
@@ -35917,7 +36048,7 @@ class ie extends q3 {
   }
 }
 
-class ne extends ie {
+class re extends ne {
   constructor() {
     super(...arguments), this.objectGroup = this.object, this.viewClass = this.options.viewClass, delete this.options.viewClass;
   }
@@ -35939,125 +36070,129 @@ class ne extends ie {
     return this.getChildViews()[0].createContainerElement(t4);
   }
 }
-/*! @license DOMPurify 3.2.5 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.5/LICENSE */
-var { entries: re, setPrototypeOf: oe, isFrozen: se, getPrototypeOf: ae, getOwnPropertyDescriptor: le } = Object;
-var { freeze: ce, seal: ue, create: he } = Object;
-var { apply: de, construct: ge } = typeof Reflect != "undefined" && Reflect;
-ce || (ce = function(t4) {
+/*! @license DOMPurify 3.2.7 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.7/LICENSE */
+var { entries: oe, setPrototypeOf: se, isFrozen: ae, getPrototypeOf: le, getOwnPropertyDescriptor: ce } = Object;
+var { freeze: ue, seal: he, create: de } = Object;
+var { apply: ge, construct: me } = typeof Reflect != "undefined" && Reflect;
+ue || (ue = function(t4) {
   return t4;
-}), ue || (ue = function(t4) {
+}), he || (he = function(t4) {
   return t4;
-}), de || (de = function(t4, e4, i4) {
-  return t4.apply(e4, i4);
 }), ge || (ge = function(t4, e4) {
-  return new t4(...e4);
+  for (var i4 = arguments.length, n3 = new Array(i4 > 2 ? i4 - 2 : 0), r4 = 2;r4 < i4; r4++)
+    n3[r4 - 2] = arguments[r4];
+  return t4.apply(e4, n3);
+}), me || (me = function(t4) {
+  for (var e4 = arguments.length, i4 = new Array(e4 > 1 ? e4 - 1 : 0), n3 = 1;n3 < e4; n3++)
+    i4[n3 - 1] = arguments[n3];
+  return new t4(...i4);
 });
-var me = Le(Array.prototype.forEach);
-var pe = Le(Array.prototype.lastIndexOf);
-var fe = Le(Array.prototype.pop);
-var be = Le(Array.prototype.push);
-var ve = Le(Array.prototype.splice);
-var Ae = Le(String.prototype.toLowerCase);
-var ye = Le(String.prototype.toString);
-var xe = Le(String.prototype.match);
-var Ce = Le(String.prototype.replace);
-var Ee = Le(String.prototype.indexOf);
-var Se = Le(String.prototype.trim);
-var Re = Le(Object.prototype.hasOwnProperty);
-var ke = Le(RegExp.prototype.test);
-var Te = (we = TypeError, function() {
+var pe = De(Array.prototype.forEach);
+var fe = De(Array.prototype.lastIndexOf);
+var be = De(Array.prototype.pop);
+var ve = De(Array.prototype.push);
+var Ae = De(Array.prototype.splice);
+var ye = De(String.prototype.toLowerCase);
+var xe = De(String.prototype.toString);
+var Ce = De(String.prototype.match);
+var Ee = De(String.prototype.replace);
+var Se = De(String.prototype.indexOf);
+var Re = De(String.prototype.trim);
+var ke = De(Object.prototype.hasOwnProperty);
+var Te = De(RegExp.prototype.test);
+var we = (Le = TypeError, function() {
   for (var t4 = arguments.length, e4 = new Array(t4), i4 = 0;i4 < t4; i4++)
     e4[i4] = arguments[i4];
-  return ge(we, e4);
+  return me(Le, e4);
 });
-var we;
-function Le(t4) {
+var Le;
+function De(t4) {
   return function(e4) {
     e4 instanceof RegExp && (e4.lastIndex = 0);
     for (var i4 = arguments.length, n3 = new Array(i4 > 1 ? i4 - 1 : 0), r4 = 1;r4 < i4; r4++)
       n3[r4 - 1] = arguments[r4];
-    return de(t4, e4, n3);
+    return ge(t4, e4, n3);
   };
 }
-function De(t4, e4) {
-  let i4 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Ae;
-  oe && oe(t4, null);
+function Ne(t4, e4) {
+  let i4 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ye;
+  se && se(t4, null);
   let n3 = e4.length;
   for (;n3--; ) {
     let r4 = e4[n3];
     if (typeof r4 == "string") {
       const t5 = i4(r4);
-      t5 !== r4 && (se(e4) || (e4[n3] = t5), r4 = t5);
+      t5 !== r4 && (ae(e4) || (e4[n3] = t5), r4 = t5);
     }
     t4[r4] = true;
   }
   return t4;
 }
-function Ne(t4) {
+function Ie(t4) {
   for (let e4 = 0;e4 < t4.length; e4++) {
-    Re(t4, e4) || (t4[e4] = null);
+    ke(t4, e4) || (t4[e4] = null);
   }
   return t4;
 }
-function Ie(t4) {
-  const e4 = he(null);
-  for (const [i4, n3] of re(t4)) {
-    Re(t4, i4) && (Array.isArray(n3) ? e4[i4] = Ne(n3) : n3 && typeof n3 == "object" && n3.constructor === Object ? e4[i4] = Ie(n3) : e4[i4] = n3);
+function Oe(t4) {
+  const e4 = de(null);
+  for (const [i4, n3] of oe(t4)) {
+    ke(t4, i4) && (Array.isArray(n3) ? e4[i4] = Ie(n3) : n3 && typeof n3 == "object" && n3.constructor === Object ? e4[i4] = Oe(n3) : e4[i4] = n3);
   }
   return e4;
 }
-function Oe(t4, e4) {
+function Fe(t4, e4) {
   for (;t4 !== null; ) {
-    const i4 = le(t4, e4);
+    const i4 = ce(t4, e4);
     if (i4) {
       if (i4.get)
-        return Le(i4.get);
+        return De(i4.get);
       if (typeof i4.value == "function")
-        return Le(i4.value);
+        return De(i4.value);
     }
-    t4 = ae(t4);
+    t4 = le(t4);
   }
   return function() {
     return null;
   };
 }
-var Fe = ce(["a", "abbr", "acronym", "address", "area", "article", "aside", "audio", "b", "bdi", "bdo", "big", "blink", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "content", "data", "datalist", "dd", "decorator", "del", "details", "dfn", "dialog", "dir", "div", "dl", "dt", "element", "em", "fieldset", "figcaption", "figure", "font", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "img", "input", "ins", "kbd", "label", "legend", "li", "main", "map", "mark", "marquee", "menu", "menuitem", "meter", "nav", "nobr", "ol", "optgroup", "option", "output", "p", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "section", "select", "shadow", "small", "source", "spacer", "span", "strike", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead", "time", "tr", "track", "tt", "u", "ul", "var", "video", "wbr"]);
-var Pe = ce(["svg", "a", "altglyph", "altglyphdef", "altglyphitem", "animatecolor", "animatemotion", "animatetransform", "circle", "clippath", "defs", "desc", "ellipse", "filter", "font", "g", "glyph", "glyphref", "hkern", "image", "line", "lineargradient", "marker", "mask", "metadata", "mpath", "path", "pattern", "polygon", "polyline", "radialgradient", "rect", "stop", "style", "switch", "symbol", "text", "textpath", "title", "tref", "tspan", "view", "vkern"]);
-var Me = ce(["feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting", "feDisplacementMap", "feDistantLight", "feDropShadow", "feFlood", "feFuncA", "feFuncB", "feFuncG", "feFuncR", "feGaussianBlur", "feImage", "feMerge", "feMergeNode", "feMorphology", "feOffset", "fePointLight", "feSpecularLighting", "feSpotLight", "feTile", "feTurbulence"]);
-var Be = ce(["animate", "color-profile", "cursor", "discard", "font-face", "font-face-format", "font-face-name", "font-face-src", "font-face-uri", "foreignobject", "hatch", "hatchpath", "mesh", "meshgradient", "meshpatch", "meshrow", "missing-glyph", "script", "set", "solidcolor", "unknown", "use"]);
-var _e = ce(["math", "menclose", "merror", "mfenced", "mfrac", "mglyph", "mi", "mlabeledtr", "mmultiscripts", "mn", "mo", "mover", "mpadded", "mphantom", "mroot", "mrow", "ms", "mspace", "msqrt", "mstyle", "msub", "msup", "msubsup", "mtable", "mtd", "mtext", "mtr", "munder", "munderover", "mprescripts"]);
-var je = ce(["maction", "maligngroup", "malignmark", "mlongdiv", "mscarries", "mscarry", "msgroup", "mstack", "msline", "msrow", "semantics", "annotation", "annotation-xml", "mprescripts", "none"]);
-var We = ce(["#text"]);
-var Ue = ce(["accept", "action", "align", "alt", "autocapitalize", "autocomplete", "autopictureinpicture", "autoplay", "background", "bgcolor", "border", "capture", "cellpadding", "cellspacing", "checked", "cite", "class", "clear", "color", "cols", "colspan", "controls", "controlslist", "coords", "crossorigin", "datetime", "decoding", "default", "dir", "disabled", "disablepictureinpicture", "disableremoteplayback", "download", "draggable", "enctype", "enterkeyhint", "face", "for", "headers", "height", "hidden", "high", "href", "hreflang", "id", "inputmode", "integrity", "ismap", "kind", "label", "lang", "list", "loading", "loop", "low", "max", "maxlength", "media", "method", "min", "minlength", "multiple", "muted", "name", "nonce", "noshade", "novalidate", "nowrap", "open", "optimum", "pattern", "placeholder", "playsinline", "popover", "popovertarget", "popovertargetaction", "poster", "preload", "pubdate", "radiogroup", "readonly", "rel", "required", "rev", "reversed", "role", "rows", "rowspan", "spellcheck", "scope", "selected", "shape", "size", "sizes", "span", "srclang", "start", "src", "srcset", "step", "style", "summary", "tabindex", "title", "translate", "type", "usemap", "valign", "value", "width", "wrap", "xmlns", "slot"]);
-var Ve = ce(["accent-height", "accumulate", "additive", "alignment-baseline", "amplitude", "ascent", "attributename", "attributetype", "azimuth", "basefrequency", "baseline-shift", "begin", "bias", "by", "class", "clip", "clippathunits", "clip-path", "clip-rule", "color", "color-interpolation", "color-interpolation-filters", "color-profile", "color-rendering", "cx", "cy", "d", "dx", "dy", "diffuseconstant", "direction", "display", "divisor", "dur", "edgemode", "elevation", "end", "exponent", "fill", "fill-opacity", "fill-rule", "filter", "filterunits", "flood-color", "flood-opacity", "font-family", "font-size", "font-size-adjust", "font-stretch", "font-style", "font-variant", "font-weight", "fx", "fy", "g1", "g2", "glyph-name", "glyphref", "gradientunits", "gradienttransform", "height", "href", "id", "image-rendering", "in", "in2", "intercept", "k", "k1", "k2", "k3", "k4", "kerning", "keypoints", "keysplines", "keytimes", "lang", "lengthadjust", "letter-spacing", "kernelmatrix", "kernelunitlength", "lighting-color", "local", "marker-end", "marker-mid", "marker-start", "markerheight", "markerunits", "markerwidth", "maskcontentunits", "maskunits", "max", "mask", "media", "method", "mode", "min", "name", "numoctaves", "offset", "operator", "opacity", "order", "orient", "orientation", "origin", "overflow", "paint-order", "path", "pathlength", "patterncontentunits", "patterntransform", "patternunits", "points", "preservealpha", "preserveaspectratio", "primitiveunits", "r", "rx", "ry", "radius", "refx", "refy", "repeatcount", "repeatdur", "restart", "result", "rotate", "scale", "seed", "shape-rendering", "slope", "specularconstant", "specularexponent", "spreadmethod", "startoffset", "stddeviation", "stitchtiles", "stop-color", "stop-opacity", "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin", "stroke-miterlimit", "stroke-opacity", "stroke", "stroke-width", "style", "surfacescale", "systemlanguage", "tabindex", "tablevalues", "targetx", "targety", "transform", "transform-origin", "text-anchor", "text-decoration", "text-rendering", "textlength", "type", "u1", "u2", "unicode", "values", "viewbox", "visibility", "version", "vert-adv-y", "vert-origin-x", "vert-origin-y", "width", "word-spacing", "wrap", "writing-mode", "xchannelselector", "ychannelselector", "x", "x1", "x2", "xmlns", "y", "y1", "y2", "z", "zoomandpan"]);
-var ze = ce(["accent", "accentunder", "align", "bevelled", "close", "columnsalign", "columnlines", "columnspan", "denomalign", "depth", "dir", "display", "displaystyle", "encoding", "fence", "frame", "height", "href", "id", "largeop", "length", "linethickness", "lspace", "lquote", "mathbackground", "mathcolor", "mathsize", "mathvariant", "maxsize", "minsize", "movablelimits", "notation", "numalign", "open", "rowalign", "rowlines", "rowspacing", "rowspan", "rspace", "rquote", "scriptlevel", "scriptminsize", "scriptsizemultiplier", "selection", "separator", "separators", "stretchy", "subscriptshift", "supscriptshift", "symmetric", "voffset", "width", "xmlns"]);
-var qe = ce(["xlink:href", "xml:id", "xlink:title", "xml:space", "xmlns:xlink"]);
-var He = ue(/\{\{[\w\W]*|[\w\W]*\}\}/gm);
-var Je = ue(/<%[\w\W]*|[\w\W]*%>/gm);
-var Ke = ue(/\$\{[\w\W]*/gm);
-var Ge = ue(/^data-[\-\w.\u00B7-\uFFFF]+$/);
-var Ye = ue(/^aria-[\-\w]+$/);
-var Xe = ue(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i);
-var $e = ue(/^(?:\w+script|data):/i);
-var Ze = ue(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g);
-var Qe = ue(/^html$/i);
-var ti = ue(/^[a-z][.\w]*(-[.\w]+)+$/i);
-var ei = Object.freeze({ __proto__: null, ARIA_ATTR: Ye, ATTR_WHITESPACE: Ze, CUSTOM_ELEMENT: ti, DATA_ATTR: Ge, DOCTYPE_NAME: Qe, ERB_EXPR: Je, IS_ALLOWED_URI: Xe, IS_SCRIPT_OR_DATA: $e, MUSTACHE_EXPR: He, TMPLIT_EXPR: Ke });
-var ii = 1;
-var ni = 3;
-var ri = 7;
-var oi = 8;
-var si = 9;
-var ai = function() {
+var Pe = ue(["a", "abbr", "acronym", "address", "area", "article", "aside", "audio", "b", "bdi", "bdo", "big", "blink", "blockquote", "body", "br", "button", "canvas", "caption", "center", "cite", "code", "col", "colgroup", "content", "data", "datalist", "dd", "decorator", "del", "details", "dfn", "dialog", "dir", "div", "dl", "dt", "element", "em", "fieldset", "figcaption", "figure", "font", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "hr", "html", "i", "img", "input", "ins", "kbd", "label", "legend", "li", "main", "map", "mark", "marquee", "menu", "menuitem", "meter", "nav", "nobr", "ol", "optgroup", "option", "output", "p", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "search", "section", "select", "shadow", "slot", "small", "source", "spacer", "span", "strike", "strong", "style", "sub", "summary", "sup", "table", "tbody", "td", "template", "textarea", "tfoot", "th", "thead", "time", "tr", "track", "tt", "u", "ul", "var", "video", "wbr"]);
+var Me = ue(["svg", "a", "altglyph", "altglyphdef", "altglyphitem", "animatecolor", "animatemotion", "animatetransform", "circle", "clippath", "defs", "desc", "ellipse", "enterkeyhint", "exportparts", "filter", "font", "g", "glyph", "glyphref", "hkern", "image", "inputmode", "line", "lineargradient", "marker", "mask", "metadata", "mpath", "part", "path", "pattern", "polygon", "polyline", "radialgradient", "rect", "slot", "stop", "style", "switch", "symbol", "text", "textpath", "title", "tref", "tspan", "view", "vkern"]);
+var Be = ue(["feBlend", "feColorMatrix", "feComponentTransfer", "feComposite", "feConvolveMatrix", "feDiffuseLighting", "feDisplacementMap", "feDistantLight", "feDropShadow", "feFlood", "feFuncA", "feFuncB", "feFuncG", "feFuncR", "feGaussianBlur", "feImage", "feMerge", "feMergeNode", "feMorphology", "feOffset", "fePointLight", "feSpecularLighting", "feSpotLight", "feTile", "feTurbulence"]);
+var _e = ue(["animate", "color-profile", "cursor", "discard", "font-face", "font-face-format", "font-face-name", "font-face-src", "font-face-uri", "foreignobject", "hatch", "hatchpath", "mesh", "meshgradient", "meshpatch", "meshrow", "missing-glyph", "script", "set", "solidcolor", "unknown", "use"]);
+var je = ue(["math", "menclose", "merror", "mfenced", "mfrac", "mglyph", "mi", "mlabeledtr", "mmultiscripts", "mn", "mo", "mover", "mpadded", "mphantom", "mroot", "mrow", "ms", "mspace", "msqrt", "mstyle", "msub", "msup", "msubsup", "mtable", "mtd", "mtext", "mtr", "munder", "munderover", "mprescripts"]);
+var We = ue(["maction", "maligngroup", "malignmark", "mlongdiv", "mscarries", "mscarry", "msgroup", "mstack", "msline", "msrow", "semantics", "annotation", "annotation-xml", "mprescripts", "none"]);
+var Ue = ue(["#text"]);
+var Ve = ue(["accept", "action", "align", "alt", "autocapitalize", "autocomplete", "autopictureinpicture", "autoplay", "background", "bgcolor", "border", "capture", "cellpadding", "cellspacing", "checked", "cite", "class", "clear", "color", "cols", "colspan", "controls", "controlslist", "coords", "crossorigin", "datetime", "decoding", "default", "dir", "disabled", "disablepictureinpicture", "disableremoteplayback", "download", "draggable", "enctype", "enterkeyhint", "exportparts", "face", "for", "headers", "height", "hidden", "high", "href", "hreflang", "id", "inert", "inputmode", "integrity", "ismap", "kind", "label", "lang", "list", "loading", "loop", "low", "max", "maxlength", "media", "method", "min", "minlength", "multiple", "muted", "name", "nonce", "noshade", "novalidate", "nowrap", "open", "optimum", "part", "pattern", "placeholder", "playsinline", "popover", "popovertarget", "popovertargetaction", "poster", "preload", "pubdate", "radiogroup", "readonly", "rel", "required", "rev", "reversed", "role", "rows", "rowspan", "spellcheck", "scope", "selected", "shape", "size", "sizes", "slot", "span", "srclang", "start", "src", "srcset", "step", "style", "summary", "tabindex", "title", "translate", "type", "usemap", "valign", "value", "width", "wrap", "xmlns", "slot"]);
+var ze = ue(["accent-height", "accumulate", "additive", "alignment-baseline", "amplitude", "ascent", "attributename", "attributetype", "azimuth", "basefrequency", "baseline-shift", "begin", "bias", "by", "class", "clip", "clippathunits", "clip-path", "clip-rule", "color", "color-interpolation", "color-interpolation-filters", "color-profile", "color-rendering", "cx", "cy", "d", "dx", "dy", "diffuseconstant", "direction", "display", "divisor", "dur", "edgemode", "elevation", "end", "exponent", "fill", "fill-opacity", "fill-rule", "filter", "filterunits", "flood-color", "flood-opacity", "font-family", "font-size", "font-size-adjust", "font-stretch", "font-style", "font-variant", "font-weight", "fx", "fy", "g1", "g2", "glyph-name", "glyphref", "gradientunits", "gradienttransform", "height", "href", "id", "image-rendering", "in", "in2", "intercept", "k", "k1", "k2", "k3", "k4", "kerning", "keypoints", "keysplines", "keytimes", "lang", "lengthadjust", "letter-spacing", "kernelmatrix", "kernelunitlength", "lighting-color", "local", "marker-end", "marker-mid", "marker-start", "markerheight", "markerunits", "markerwidth", "maskcontentunits", "maskunits", "max", "mask", "media", "method", "mode", "min", "name", "numoctaves", "offset", "operator", "opacity", "order", "orient", "orientation", "origin", "overflow", "paint-order", "path", "pathlength", "patterncontentunits", "patterntransform", "patternunits", "points", "preservealpha", "preserveaspectratio", "primitiveunits", "r", "rx", "ry", "radius", "refx", "refy", "repeatcount", "repeatdur", "restart", "result", "rotate", "scale", "seed", "shape-rendering", "slope", "specularconstant", "specularexponent", "spreadmethod", "startoffset", "stddeviation", "stitchtiles", "stop-color", "stop-opacity", "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin", "stroke-miterlimit", "stroke-opacity", "stroke", "stroke-width", "style", "surfacescale", "systemlanguage", "tabindex", "tablevalues", "targetx", "targety", "transform", "transform-origin", "text-anchor", "text-decoration", "text-rendering", "textlength", "type", "u1", "u2", "unicode", "values", "viewbox", "visibility", "version", "vert-adv-y", "vert-origin-x", "vert-origin-y", "width", "word-spacing", "wrap", "writing-mode", "xchannelselector", "ychannelselector", "x", "x1", "x2", "xmlns", "y", "y1", "y2", "z", "zoomandpan"]);
+var qe = ue(["accent", "accentunder", "align", "bevelled", "close", "columnsalign", "columnlines", "columnspan", "denomalign", "depth", "dir", "display", "displaystyle", "encoding", "fence", "frame", "height", "href", "id", "largeop", "length", "linethickness", "lspace", "lquote", "mathbackground", "mathcolor", "mathsize", "mathvariant", "maxsize", "minsize", "movablelimits", "notation", "numalign", "open", "rowalign", "rowlines", "rowspacing", "rowspan", "rspace", "rquote", "scriptlevel", "scriptminsize", "scriptsizemultiplier", "selection", "separator", "separators", "stretchy", "subscriptshift", "supscriptshift", "symmetric", "voffset", "width", "xmlns"]);
+var He = ue(["xlink:href", "xml:id", "xlink:title", "xml:space", "xmlns:xlink"]);
+var Je = he(/\{\{[\w\W]*|[\w\W]*\}\}/gm);
+var Ke = he(/<%[\w\W]*|[\w\W]*%>/gm);
+var Ge = he(/\$\{[\w\W]*/gm);
+var Ye = he(/^data-[\-\w.\u00B7-\uFFFF]+$/);
+var Xe = he(/^aria-[\-\w]+$/);
+var $e = he(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp|matrix):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i);
+var Ze = he(/^(?:\w+script|data):/i);
+var Qe = he(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g);
+var ti = he(/^html$/i);
+var ei = he(/^[a-z][.\w]*(-[.\w]+)+$/i);
+var ii = Object.freeze({ __proto__: null, ARIA_ATTR: Xe, ATTR_WHITESPACE: Qe, CUSTOM_ELEMENT: ei, DATA_ATTR: Ye, DOCTYPE_NAME: ti, ERB_EXPR: Ke, IS_ALLOWED_URI: $e, IS_SCRIPT_OR_DATA: Ze, MUSTACHE_EXPR: Je, TMPLIT_EXPR: Ge });
+var ni = 1;
+var ri = 3;
+var oi = 7;
+var si = 8;
+var ai = 9;
+var li = function() {
   return typeof window == "undefined" ? null : window;
 };
-var li = function t4() {
-  let e4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ai();
+var ci = function t4() {
+  let e4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : li();
   const i4 = (e5) => t4(e5);
-  if (i4.version = "3.2.5", i4.removed = [], !e4 || !e4.document || e4.document.nodeType !== si || !e4.Element)
+  if (i4.version = "3.2.7", i4.removed = [], !e4 || !e4.document || e4.document.nodeType !== ai || !e4.Element)
     return i4.isSupported = false, i4;
   let { document: n3 } = e4;
-  const r4 = n3, o3 = r4.currentScript, { DocumentFragment: s4, HTMLTemplateElement: a4, Node: l80, Element: c4, NodeFilter: u4, NamedNodeMap: h4 = e4.NamedNodeMap || e4.MozNamedAttrMap, HTMLFormElement: d3, DOMParser: g5, trustedTypes: m4 } = e4, p4 = c4.prototype, f4 = Oe(p4, "cloneNode"), b4 = Oe(p4, "remove"), v4 = Oe(p4, "nextSibling"), A4 = Oe(p4, "childNodes"), y4 = Oe(p4, "parentNode");
+  const r4 = n3, o3 = r4.currentScript, { DocumentFragment: s4, HTMLTemplateElement: a4, Node: l80, Element: c4, NodeFilter: u4, NamedNodeMap: h4 = e4.NamedNodeMap || e4.MozNamedAttrMap, HTMLFormElement: d3, DOMParser: g5, trustedTypes: m4 } = e4, p4 = c4.prototype, f4 = Fe(p4, "cloneNode"), b4 = Fe(p4, "remove"), v4 = Fe(p4, "nextSibling"), A4 = Fe(p4, "childNodes"), y4 = Fe(p4, "parentNode");
   if (typeof a4 == "function") {
     const t5 = n3.createElement("template");
     t5.content && t5.content.ownerDocument && (n3 = t5.content.ownerDocument);
@@ -36065,22 +36200,22 @@ var li = function t4() {
   let x5, C4 = "";
   const { implementation: E3, createNodeIterator: S3, createDocumentFragment: R2, getElementsByTagName: k4 } = n3, { importNode: T5 } = r4;
   let w5 = { afterSanitizeAttributes: [], afterSanitizeElements: [], afterSanitizeShadowDOM: [], beforeSanitizeAttributes: [], beforeSanitizeElements: [], beforeSanitizeShadowDOM: [], uponSanitizeAttribute: [], uponSanitizeElement: [], uponSanitizeShadowNode: [] };
-  i4.isSupported = typeof re == "function" && typeof y4 == "function" && E3 && E3.createHTMLDocument !== undefined;
-  const { MUSTACHE_EXPR: L4, ERB_EXPR: D4, TMPLIT_EXPR: N4, DATA_ATTR: I4, ARIA_ATTR: O3, IS_SCRIPT_OR_DATA: F5, ATTR_WHITESPACE: P4, CUSTOM_ELEMENT: M3 } = ei;
-  let { IS_ALLOWED_URI: B4 } = ei, _4 = null;
-  const j5 = De({}, [...Fe, ...Pe, ...Me, ..._e, ...We]);
+  i4.isSupported = typeof oe == "function" && typeof y4 == "function" && E3 && E3.createHTMLDocument !== undefined;
+  const { MUSTACHE_EXPR: L4, ERB_EXPR: D4, TMPLIT_EXPR: N4, DATA_ATTR: I4, ARIA_ATTR: O3, IS_SCRIPT_OR_DATA: F5, ATTR_WHITESPACE: P4, CUSTOM_ELEMENT: M3 } = ii;
+  let { IS_ALLOWED_URI: B4 } = ii, _4 = null;
+  const j5 = Ne({}, [...Pe, ...Me, ...Be, ...je, ...Ue]);
   let W3 = null;
-  const U3 = De({}, [...Ue, ...Ve, ...ze, ...qe]);
-  let V4 = Object.seal(he(null, { tagNameCheck: { writable: true, configurable: false, enumerable: true, value: null }, attributeNameCheck: { writable: true, configurable: false, enumerable: true, value: null }, allowCustomizedBuiltInElements: { writable: true, configurable: false, enumerable: true, value: false } })), z4 = null, q4 = null, H4 = true, J3 = true, K3 = false, G4 = true, Y2 = false, X3 = true, $4 = false, Z3 = false, Q3 = false, tt2 = false, et2 = false, it2 = false, nt2 = true, rt2 = false, ot2 = true, st2 = false, at2 = {}, lt2 = null;
-  const ct2 = De({}, ["annotation-xml", "audio", "colgroup", "desc", "foreignobject", "head", "iframe", "math", "mi", "mn", "mo", "ms", "mtext", "noembed", "noframes", "noscript", "plaintext", "script", "style", "svg", "template", "thead", "title", "video", "xmp"]);
+  const U3 = Ne({}, [...Ve, ...ze, ...qe, ...He]);
+  let V4 = Object.seal(de(null, { tagNameCheck: { writable: true, configurable: false, enumerable: true, value: null }, attributeNameCheck: { writable: true, configurable: false, enumerable: true, value: null }, allowCustomizedBuiltInElements: { writable: true, configurable: false, enumerable: true, value: false } })), z4 = null, q4 = null, H4 = true, J3 = true, K3 = false, G4 = true, Y2 = false, X3 = true, $4 = false, Z3 = false, Q3 = false, tt2 = false, et2 = false, it2 = false, nt2 = true, rt2 = false, ot2 = true, st2 = false, at2 = {}, lt2 = null;
+  const ct2 = Ne({}, ["annotation-xml", "audio", "colgroup", "desc", "foreignobject", "head", "iframe", "math", "mi", "mn", "mo", "ms", "mtext", "noembed", "noframes", "noscript", "plaintext", "script", "style", "svg", "template", "thead", "title", "video", "xmp"]);
   let ut2 = null;
-  const ht2 = De({}, ["audio", "video", "img", "source", "image", "track"]);
+  const ht2 = Ne({}, ["audio", "video", "img", "source", "image", "track"]);
   let dt2 = null;
-  const gt2 = De({}, ["alt", "class", "for", "id", "label", "name", "pattern", "placeholder", "role", "summary", "title", "value", "style", "xmlns"]), mt2 = "http://www.w3.org/1998/Math/MathML", pt2 = "http://www.w3.org/2000/svg", ft2 = "http://www.w3.org/1999/xhtml";
+  const gt2 = Ne({}, ["alt", "class", "for", "id", "label", "name", "pattern", "placeholder", "role", "summary", "title", "value", "style", "xmlns"]), mt2 = "http://www.w3.org/1998/Math/MathML", pt2 = "http://www.w3.org/2000/svg", ft2 = "http://www.w3.org/1999/xhtml";
   let bt2 = ft2, vt2 = false, At2 = null;
-  const yt2 = De({}, [mt2, pt2, ft2], ye);
-  let xt2 = De({}, ["mi", "mo", "mn", "ms", "mtext"]), Ct2 = De({}, ["annotation-xml"]);
-  const Et2 = De({}, ["title", "style", "font", "a", "script"]);
+  const yt2 = Ne({}, [mt2, pt2, ft2], xe);
+  let xt2 = Ne({}, ["mi", "mo", "mn", "ms", "mtext"]), Ct2 = Ne({}, ["annotation-xml"]);
+  const Et2 = Ne({}, ["title", "style", "font", "a", "script"]);
   let St2 = null;
   const Rt2 = ["application/xhtml+xml", "text/html"];
   let kt2 = null, Tt2 = null;
@@ -36089,11 +36224,11 @@ var li = function t4() {
   }, Dt2 = function() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     if (!Tt2 || Tt2 !== t5) {
-      if (t5 && typeof t5 == "object" || (t5 = {}), t5 = Ie(t5), St2 = Rt2.indexOf(t5.PARSER_MEDIA_TYPE) === -1 ? "text/html" : t5.PARSER_MEDIA_TYPE, kt2 = St2 === "application/xhtml+xml" ? ye : Ae, _4 = Re(t5, "ALLOWED_TAGS") ? De({}, t5.ALLOWED_TAGS, kt2) : j5, W3 = Re(t5, "ALLOWED_ATTR") ? De({}, t5.ALLOWED_ATTR, kt2) : U3, At2 = Re(t5, "ALLOWED_NAMESPACES") ? De({}, t5.ALLOWED_NAMESPACES, ye) : yt2, dt2 = Re(t5, "ADD_URI_SAFE_ATTR") ? De(Ie(gt2), t5.ADD_URI_SAFE_ATTR, kt2) : gt2, ut2 = Re(t5, "ADD_DATA_URI_TAGS") ? De(Ie(ht2), t5.ADD_DATA_URI_TAGS, kt2) : ht2, lt2 = Re(t5, "FORBID_CONTENTS") ? De({}, t5.FORBID_CONTENTS, kt2) : ct2, z4 = Re(t5, "FORBID_TAGS") ? De({}, t5.FORBID_TAGS, kt2) : {}, q4 = Re(t5, "FORBID_ATTR") ? De({}, t5.FORBID_ATTR, kt2) : {}, at2 = !!Re(t5, "USE_PROFILES") && t5.USE_PROFILES, H4 = t5.ALLOW_ARIA_ATTR !== false, J3 = t5.ALLOW_DATA_ATTR !== false, K3 = t5.ALLOW_UNKNOWN_PROTOCOLS || false, G4 = t5.ALLOW_SELF_CLOSE_IN_ATTR !== false, Y2 = t5.SAFE_FOR_TEMPLATES || false, X3 = t5.SAFE_FOR_XML !== false, $4 = t5.WHOLE_DOCUMENT || false, tt2 = t5.RETURN_DOM || false, et2 = t5.RETURN_DOM_FRAGMENT || false, it2 = t5.RETURN_TRUSTED_TYPE || false, Q3 = t5.FORCE_BODY || false, nt2 = t5.SANITIZE_DOM !== false, rt2 = t5.SANITIZE_NAMED_PROPS || false, ot2 = t5.KEEP_CONTENT !== false, st2 = t5.IN_PLACE || false, B4 = t5.ALLOWED_URI_REGEXP || Xe, bt2 = t5.NAMESPACE || ft2, xt2 = t5.MATHML_TEXT_INTEGRATION_POINTS || xt2, Ct2 = t5.HTML_INTEGRATION_POINTS || Ct2, V4 = t5.CUSTOM_ELEMENT_HANDLING || {}, t5.CUSTOM_ELEMENT_HANDLING && Lt2(t5.CUSTOM_ELEMENT_HANDLING.tagNameCheck) && (V4.tagNameCheck = t5.CUSTOM_ELEMENT_HANDLING.tagNameCheck), t5.CUSTOM_ELEMENT_HANDLING && Lt2(t5.CUSTOM_ELEMENT_HANDLING.attributeNameCheck) && (V4.attributeNameCheck = t5.CUSTOM_ELEMENT_HANDLING.attributeNameCheck), t5.CUSTOM_ELEMENT_HANDLING && typeof t5.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements == "boolean" && (V4.allowCustomizedBuiltInElements = t5.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements), Y2 && (J3 = false), et2 && (tt2 = true), at2 && (_4 = De({}, We), W3 = [], at2.html === true && (De(_4, Fe), De(W3, Ue)), at2.svg === true && (De(_4, Pe), De(W3, Ve), De(W3, qe)), at2.svgFilters === true && (De(_4, Me), De(W3, Ve), De(W3, qe)), at2.mathMl === true && (De(_4, _e), De(W3, ze), De(W3, qe))), t5.ADD_TAGS && (_4 === j5 && (_4 = Ie(_4)), De(_4, t5.ADD_TAGS, kt2)), t5.ADD_ATTR && (W3 === U3 && (W3 = Ie(W3)), De(W3, t5.ADD_ATTR, kt2)), t5.ADD_URI_SAFE_ATTR && De(dt2, t5.ADD_URI_SAFE_ATTR, kt2), t5.FORBID_CONTENTS && (lt2 === ct2 && (lt2 = Ie(lt2)), De(lt2, t5.FORBID_CONTENTS, kt2)), ot2 && (_4["#text"] = true), $4 && De(_4, ["html", "head", "body"]), _4.table && (De(_4, ["tbody"]), delete z4.tbody), t5.TRUSTED_TYPES_POLICY) {
+      if (t5 && typeof t5 == "object" || (t5 = {}), t5 = Oe(t5), St2 = Rt2.indexOf(t5.PARSER_MEDIA_TYPE) === -1 ? "text/html" : t5.PARSER_MEDIA_TYPE, kt2 = St2 === "application/xhtml+xml" ? xe : ye, _4 = ke(t5, "ALLOWED_TAGS") ? Ne({}, t5.ALLOWED_TAGS, kt2) : j5, W3 = ke(t5, "ALLOWED_ATTR") ? Ne({}, t5.ALLOWED_ATTR, kt2) : U3, At2 = ke(t5, "ALLOWED_NAMESPACES") ? Ne({}, t5.ALLOWED_NAMESPACES, xe) : yt2, dt2 = ke(t5, "ADD_URI_SAFE_ATTR") ? Ne(Oe(gt2), t5.ADD_URI_SAFE_ATTR, kt2) : gt2, ut2 = ke(t5, "ADD_DATA_URI_TAGS") ? Ne(Oe(ht2), t5.ADD_DATA_URI_TAGS, kt2) : ht2, lt2 = ke(t5, "FORBID_CONTENTS") ? Ne({}, t5.FORBID_CONTENTS, kt2) : ct2, z4 = ke(t5, "FORBID_TAGS") ? Ne({}, t5.FORBID_TAGS, kt2) : Oe({}), q4 = ke(t5, "FORBID_ATTR") ? Ne({}, t5.FORBID_ATTR, kt2) : Oe({}), at2 = !!ke(t5, "USE_PROFILES") && t5.USE_PROFILES, H4 = t5.ALLOW_ARIA_ATTR !== false, J3 = t5.ALLOW_DATA_ATTR !== false, K3 = t5.ALLOW_UNKNOWN_PROTOCOLS || false, G4 = t5.ALLOW_SELF_CLOSE_IN_ATTR !== false, Y2 = t5.SAFE_FOR_TEMPLATES || false, X3 = t5.SAFE_FOR_XML !== false, $4 = t5.WHOLE_DOCUMENT || false, tt2 = t5.RETURN_DOM || false, et2 = t5.RETURN_DOM_FRAGMENT || false, it2 = t5.RETURN_TRUSTED_TYPE || false, Q3 = t5.FORCE_BODY || false, nt2 = t5.SANITIZE_DOM !== false, rt2 = t5.SANITIZE_NAMED_PROPS || false, ot2 = t5.KEEP_CONTENT !== false, st2 = t5.IN_PLACE || false, B4 = t5.ALLOWED_URI_REGEXP || $e, bt2 = t5.NAMESPACE || ft2, xt2 = t5.MATHML_TEXT_INTEGRATION_POINTS || xt2, Ct2 = t5.HTML_INTEGRATION_POINTS || Ct2, V4 = t5.CUSTOM_ELEMENT_HANDLING || {}, t5.CUSTOM_ELEMENT_HANDLING && Lt2(t5.CUSTOM_ELEMENT_HANDLING.tagNameCheck) && (V4.tagNameCheck = t5.CUSTOM_ELEMENT_HANDLING.tagNameCheck), t5.CUSTOM_ELEMENT_HANDLING && Lt2(t5.CUSTOM_ELEMENT_HANDLING.attributeNameCheck) && (V4.attributeNameCheck = t5.CUSTOM_ELEMENT_HANDLING.attributeNameCheck), t5.CUSTOM_ELEMENT_HANDLING && typeof t5.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements == "boolean" && (V4.allowCustomizedBuiltInElements = t5.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements), Y2 && (J3 = false), et2 && (tt2 = true), at2 && (_4 = Ne({}, Ue), W3 = [], at2.html === true && (Ne(_4, Pe), Ne(W3, Ve)), at2.svg === true && (Ne(_4, Me), Ne(W3, ze), Ne(W3, He)), at2.svgFilters === true && (Ne(_4, Be), Ne(W3, ze), Ne(W3, He)), at2.mathMl === true && (Ne(_4, je), Ne(W3, qe), Ne(W3, He))), t5.ADD_TAGS && (_4 === j5 && (_4 = Oe(_4)), Ne(_4, t5.ADD_TAGS, kt2)), t5.ADD_ATTR && (W3 === U3 && (W3 = Oe(W3)), Ne(W3, t5.ADD_ATTR, kt2)), t5.ADD_URI_SAFE_ATTR && Ne(dt2, t5.ADD_URI_SAFE_ATTR, kt2), t5.FORBID_CONTENTS && (lt2 === ct2 && (lt2 = Oe(lt2)), Ne(lt2, t5.FORBID_CONTENTS, kt2)), ot2 && (_4["#text"] = true), $4 && Ne(_4, ["html", "head", "body"]), _4.table && (Ne(_4, ["tbody"]), delete z4.tbody), t5.TRUSTED_TYPES_POLICY) {
         if (typeof t5.TRUSTED_TYPES_POLICY.createHTML != "function")
-          throw Te('TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.');
+          throw we('TRUSTED_TYPES_POLICY configuration option must provide a "createHTML" hook.');
         if (typeof t5.TRUSTED_TYPES_POLICY.createScriptURL != "function")
-          throw Te('TRUSTED_TYPES_POLICY configuration option must provide a "createScriptURL" hook.');
+          throw we('TRUSTED_TYPES_POLICY configuration option must provide a "createScriptURL" hook.');
         x5 = t5.TRUSTED_TYPES_POLICY, C4 = x5.createHTML("");
       } else
         x5 === undefined && (x5 = function(t6, e5) {
@@ -36109,10 +36244,10 @@ var li = function t4() {
             return console.warn("TrustedTypes policy " + r5 + " could not be created."), null;
           }
         }(m4, o3)), x5 !== null && typeof C4 == "string" && (C4 = x5.createHTML(""));
-      ce && ce(t5), Tt2 = t5;
+      ue && ue(t5), Tt2 = t5;
     }
-  }, Nt2 = De({}, [...Pe, ...Me, ...Be]), It2 = De({}, [..._e, ...je]), Ot2 = function(t5) {
-    be(i4.removed, { element: t5 });
+  }, Nt2 = Ne({}, [...Me, ...Be, ..._e]), It2 = Ne({}, [...je, ...We]), Ot2 = function(t5) {
+    ve(i4.removed, { element: t5 });
     try {
       y4(t5).removeChild(t5);
     } catch (e5) {
@@ -36120,9 +36255,9 @@ var li = function t4() {
     }
   }, Ft2 = function(t5, e5) {
     try {
-      be(i4.removed, { attribute: e5.getAttributeNode(t5), from: e5 });
+      ve(i4.removed, { attribute: e5.getAttributeNode(t5), from: e5 });
     } catch (t6) {
-      be(i4.removed, { attribute: null, from: e5 });
+      ve(i4.removed, { attribute: null, from: e5 });
     }
     if (e5.removeAttribute(t5), t5 === "is")
       if (tt2 || et2)
@@ -36138,7 +36273,7 @@ var li = function t4() {
     if (Q3)
       t5 = "<remove></remove>" + t5;
     else {
-      const e6 = xe(t5, /^[\r\n\t ]+/);
+      const e6 = Ce(t5, /^[\r\n\t ]+/);
       i5 = e6 && e6[0];
     }
     St2 === "application/xhtml+xml" && bt2 === ft2 && (t5 = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + t5 + "</body></html>");
@@ -36163,7 +36298,7 @@ var li = function t4() {
     return typeof l80 == "function" && t5 instanceof l80;
   };
   function jt2(t5, e5, n4) {
-    me(t5, (t6) => {
+    pe(t5, (t6) => {
       t6.call(i4, e5, n4, Tt2);
     });
   }
@@ -36172,15 +36307,15 @@ var li = function t4() {
     if (jt2(w5.beforeSanitizeElements, t5, null), Bt2(t5))
       return Ot2(t5), true;
     const n4 = kt2(t5.nodeName);
-    if (jt2(w5.uponSanitizeElement, t5, { tagName: n4, allowedTags: _4 }), t5.hasChildNodes() && !_t2(t5.firstElementChild) && ke(/<[/\w!]/g, t5.innerHTML) && ke(/<[/\w!]/g, t5.textContent))
+    if (jt2(w5.uponSanitizeElement, t5, { tagName: n4, allowedTags: _4 }), X3 && t5.hasChildNodes() && !_t2(t5.firstElementChild) && Te(/<[/\w!]/g, t5.innerHTML) && Te(/<[/\w!]/g, t5.textContent))
       return Ot2(t5), true;
-    if (t5.nodeType === ri)
+    if (t5.nodeType === oi)
       return Ot2(t5), true;
-    if (X3 && t5.nodeType === oi && ke(/<[/\w]/g, t5.data))
+    if (X3 && t5.nodeType === si && Te(/<[/\w]/g, t5.data))
       return Ot2(t5), true;
     if (!_4[n4] || z4[n4]) {
       if (!z4[n4] && Vt2(n4)) {
-        if (V4.tagNameCheck instanceof RegExp && ke(V4.tagNameCheck, n4))
+        if (V4.tagNameCheck instanceof RegExp && Te(V4.tagNameCheck, n4))
           return false;
         if (V4.tagNameCheck instanceof Function && V4.tagNameCheck(n4))
           return false;
@@ -36199,27 +36334,27 @@ var li = function t4() {
     return t5 instanceof c4 && !function(t6) {
       let e6 = y4(t6);
       e6 && e6.tagName || (e6 = { namespaceURI: bt2, tagName: "template" });
-      const i5 = Ae(t6.tagName), n5 = Ae(e6.tagName);
+      const i5 = ye(t6.tagName), n5 = ye(e6.tagName);
       return !!At2[t6.namespaceURI] && (t6.namespaceURI === pt2 ? e6.namespaceURI === ft2 ? i5 === "svg" : e6.namespaceURI === mt2 ? i5 === "svg" && (n5 === "annotation-xml" || xt2[n5]) : Boolean(Nt2[i5]) : t6.namespaceURI === mt2 ? e6.namespaceURI === ft2 ? i5 === "math" : e6.namespaceURI === pt2 ? i5 === "math" && Ct2[n5] : Boolean(It2[i5]) : t6.namespaceURI === ft2 ? !(e6.namespaceURI === pt2 && !Ct2[n5]) && !(e6.namespaceURI === mt2 && !xt2[n5]) && !It2[i5] && (Et2[i5] || !Nt2[i5]) : !(St2 !== "application/xhtml+xml" || !At2[t6.namespaceURI]));
-    }(t5) ? (Ot2(t5), true) : n4 !== "noscript" && n4 !== "noembed" && n4 !== "noframes" || !ke(/<\/no(script|embed|frames)/i, t5.innerHTML) ? (Y2 && t5.nodeType === ni && (e5 = t5.textContent, me([L4, D4, N4], (t6) => {
-      e5 = Ce(e5, t6, " ");
-    }), t5.textContent !== e5 && (be(i4.removed, { element: t5.cloneNode() }), t5.textContent = e5)), jt2(w5.afterSanitizeElements, t5, null), false) : (Ot2(t5), true);
+    }(t5) ? (Ot2(t5), true) : n4 !== "noscript" && n4 !== "noembed" && n4 !== "noframes" || !Te(/<\/no(script|embed|frames)/i, t5.innerHTML) ? (Y2 && t5.nodeType === ri && (e5 = t5.textContent, pe([L4, D4, N4], (t6) => {
+      e5 = Ee(e5, t6, " ");
+    }), t5.textContent !== e5 && (ve(i4.removed, { element: t5.cloneNode() }), t5.textContent = e5)), jt2(w5.afterSanitizeElements, t5, null), false) : (Ot2(t5), true);
   }, Ut2 = function(t5, e5, i5) {
     if (nt2 && (e5 === "id" || e5 === "name") && ((i5 in n3) || (i5 in wt2)))
       return false;
-    if (J3 && !q4[e5] && ke(I4, e5))
+    if (J3 && !q4[e5] && Te(I4, e5))
       ;
-    else if (H4 && ke(O3, e5))
+    else if (H4 && Te(O3, e5))
       ;
     else if (!W3[e5] || q4[e5]) {
-      if (!(Vt2(t5) && (V4.tagNameCheck instanceof RegExp && ke(V4.tagNameCheck, t5) || V4.tagNameCheck instanceof Function && V4.tagNameCheck(t5)) && (V4.attributeNameCheck instanceof RegExp && ke(V4.attributeNameCheck, e5) || V4.attributeNameCheck instanceof Function && V4.attributeNameCheck(e5)) || e5 === "is" && V4.allowCustomizedBuiltInElements && (V4.tagNameCheck instanceof RegExp && ke(V4.tagNameCheck, i5) || V4.tagNameCheck instanceof Function && V4.tagNameCheck(i5))))
+      if (!(Vt2(t5) && (V4.tagNameCheck instanceof RegExp && Te(V4.tagNameCheck, t5) || V4.tagNameCheck instanceof Function && V4.tagNameCheck(t5)) && (V4.attributeNameCheck instanceof RegExp && Te(V4.attributeNameCheck, e5) || V4.attributeNameCheck instanceof Function && V4.attributeNameCheck(e5, t5)) || e5 === "is" && V4.allowCustomizedBuiltInElements && (V4.tagNameCheck instanceof RegExp && Te(V4.tagNameCheck, i5) || V4.tagNameCheck instanceof Function && V4.tagNameCheck(i5))))
         return false;
     } else if (dt2[e5])
       ;
-    else if (ke(B4, Ce(i5, P4, "")))
+    else if (Te(B4, Ee(i5, P4, "")))
       ;
-    else if (e5 !== "src" && e5 !== "xlink:href" && e5 !== "href" || t5 === "script" || Ee(i5, "data:") !== 0 || !ut2[t5]) {
-      if (K3 && !ke(F5, Ce(i5, P4, "")))
+    else if (e5 !== "src" && e5 !== "xlink:href" && e5 !== "href" || t5 === "script" || Se(i5, "data:") !== 0 || !ut2[t5]) {
+      if (K3 && !Te(F5, Ee(i5, P4, "")))
         ;
       else if (i5)
         return false;
@@ -36227,7 +36362,7 @@ var li = function t4() {
       ;
     return true;
   }, Vt2 = function(t5) {
-    return t5 !== "annotation-xml" && xe(t5, M3);
+    return t5 !== "annotation-xml" && Ce(t5, M3);
   }, zt2 = function(t5) {
     jt2(w5.beforeSanitizeAttributes, t5, null);
     const { attributes: e5 } = t5;
@@ -36236,56 +36371,66 @@ var li = function t4() {
     const n4 = { attrName: "", attrValue: "", keepAttr: true, allowedAttributes: W3, forceKeepAttr: undefined };
     let r5 = e5.length;
     for (;r5--; ) {
-      const o4 = e5[r5], { name: s5, namespaceURI: a5, value: l81 } = o4, c5 = kt2(s5);
-      let u5 = s5 === "value" ? l81 : Se(l81);
-      if (n4.attrName = c5, n4.attrValue = u5, n4.keepAttr = true, n4.forceKeepAttr = undefined, jt2(w5.uponSanitizeAttribute, t5, n4), u5 = n4.attrValue, !rt2 || c5 !== "id" && c5 !== "name" || (Ft2(s5, t5), u5 = "user-content-" + u5), X3 && ke(/((--!?|])>)|<\/(style|title)/i, u5)) {
+      const o4 = e5[r5], { name: s5, namespaceURI: a5, value: l81 } = o4, c5 = kt2(s5), u5 = l81;
+      let h5 = s5 === "value" ? u5 : Re(u5);
+      if (n4.attrName = c5, n4.attrValue = h5, n4.keepAttr = true, n4.forceKeepAttr = undefined, jt2(w5.uponSanitizeAttribute, t5, n4), h5 = n4.attrValue, !rt2 || c5 !== "id" && c5 !== "name" || (Ft2(s5, t5), h5 = "user-content-" + h5), X3 && Te(/((--!?|])>)|<\/(style|title|textarea)/i, h5)) {
+        Ft2(s5, t5);
+        continue;
+      }
+      if (c5 === "attributename" && Ce(h5, "href")) {
         Ft2(s5, t5);
         continue;
       }
       if (n4.forceKeepAttr)
         continue;
-      if (Ft2(s5, t5), !n4.keepAttr)
-        continue;
-      if (!G4 && ke(/\/>/i, u5)) {
+      if (!n4.keepAttr) {
         Ft2(s5, t5);
         continue;
       }
-      Y2 && me([L4, D4, N4], (t6) => {
-        u5 = Ce(u5, t6, " ");
+      if (!G4 && Te(/\/>/i, h5)) {
+        Ft2(s5, t5);
+        continue;
+      }
+      Y2 && pe([L4, D4, N4], (t6) => {
+        h5 = Ee(h5, t6, " ");
       });
-      const h5 = kt2(t5.nodeName);
-      if (Ut2(h5, c5, u5)) {
+      const d4 = kt2(t5.nodeName);
+      if (Ut2(d4, c5, h5)) {
         if (x5 && typeof m4 == "object" && typeof m4.getAttributeType == "function")
           if (a5)
             ;
           else
-            switch (m4.getAttributeType(h5, c5)) {
+            switch (m4.getAttributeType(d4, c5)) {
               case "TrustedHTML":
-                u5 = x5.createHTML(u5);
+                h5 = x5.createHTML(h5);
                 break;
               case "TrustedScriptURL":
-                u5 = x5.createScriptURL(u5);
+                h5 = x5.createScriptURL(h5);
             }
-        try {
-          a5 ? t5.setAttributeNS(a5, s5, u5) : t5.setAttribute(s5, u5), Bt2(t5) ? Ot2(t5) : fe(i4.removed);
-        } catch (t6) {}
-      }
+        if (h5 !== u5)
+          try {
+            a5 ? t5.setAttributeNS(a5, s5, h5) : t5.setAttribute(s5, h5), Bt2(t5) ? Ot2(t5) : be(i4.removed);
+          } catch (e6) {
+            Ft2(s5, t5);
+          }
+      } else
+        Ft2(s5, t5);
     }
     jt2(w5.afterSanitizeAttributes, t5, null);
-  }, qt2 = function t(e5) {
+  }, qt2 = function t5(e5) {
     let i5 = null;
     const n4 = Mt2(e5);
     for (jt2(w5.beforeSanitizeShadowDOM, e5, null);i5 = n4.nextNode(); )
-      jt2(w5.uponSanitizeShadowNode, i5, null), Wt2(i5), zt2(i5), i5.content instanceof s4 && t(i5.content);
+      jt2(w5.uponSanitizeShadowNode, i5, null), Wt2(i5), zt2(i5), i5.content instanceof s4 && t5(i5.content);
     jt2(w5.afterSanitizeShadowDOM, e5, null);
   };
   return i4.sanitize = function(t5) {
     let e5 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}, n4 = null, o4 = null, a5 = null, c5 = null;
     if (vt2 = !t5, vt2 && (t5 = "<!-->"), typeof t5 != "string" && !_t2(t5)) {
       if (typeof t5.toString != "function")
-        throw Te("toString is not a function");
+        throw we("toString is not a function");
       if (typeof (t5 = t5.toString()) != "string")
-        throw Te("dirty is not a string, aborting");
+        throw we("dirty is not a string, aborting");
     }
     if (!i4.isSupported)
       return t5;
@@ -36293,10 +36438,10 @@ var li = function t4() {
       if (t5.nodeName) {
         const e6 = kt2(t5.nodeName);
         if (!_4[e6] || z4[e6])
-          throw Te("root node is forbidden and cannot be sanitized in-place");
+          throw we("root node is forbidden and cannot be sanitized in-place");
       }
     } else if (t5 instanceof l80)
-      n4 = Pt2("<!---->"), o4 = n4.ownerDocument.importNode(t5, true), o4.nodeType === ii && o4.nodeName === "BODY" || o4.nodeName === "HTML" ? n4 = o4 : n4.appendChild(o4);
+      n4 = Pt2("<!---->"), o4 = n4.ownerDocument.importNode(t5, true), o4.nodeType === ni && o4.nodeName === "BODY" || o4.nodeName === "HTML" ? n4 = o4 : n4.appendChild(o4);
     else {
       if (!tt2 && !Y2 && !$4 && t5.indexOf("<") === -1)
         return x5 && it2 ? x5.createHTML(t5) : t5;
@@ -36318,9 +36463,9 @@ var li = function t4() {
       return (W3.shadowroot || W3.shadowrootmode) && (c5 = T5.call(r4, c5, true)), c5;
     }
     let h5 = $4 ? n4.outerHTML : n4.innerHTML;
-    return $4 && _4["!doctype"] && n4.ownerDocument && n4.ownerDocument.doctype && n4.ownerDocument.doctype.name && ke(Qe, n4.ownerDocument.doctype.name) && (h5 = "<!DOCTYPE " + n4.ownerDocument.doctype.name + `>
-` + h5), Y2 && me([L4, D4, N4], (t6) => {
-      h5 = Ce(h5, t6, " ");
+    return $4 && _4["!doctype"] && n4.ownerDocument && n4.ownerDocument.doctype && n4.ownerDocument.doctype.name && Te(ti, n4.ownerDocument.doctype.name) && (h5 = "<!DOCTYPE " + n4.ownerDocument.doctype.name + `>
+` + h5), Y2 && pe([L4, D4, N4], (t6) => {
+      h5 = Ee(h5, t6, " ");
     }), x5 && it2 ? x5.createHTML(h5) : h5;
   }, i4.setConfig = function() {
     Dt2(arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {}), Z3 = true;
@@ -36331,27 +36476,27 @@ var li = function t4() {
     const n4 = kt2(t5), r5 = kt2(e5);
     return Ut2(n4, r5, i5);
   }, i4.addHook = function(t5, e5) {
-    typeof e5 == "function" && be(w5[t5], e5);
+    typeof e5 == "function" && ve(w5[t5], e5);
   }, i4.removeHook = function(t5, e5) {
     if (e5 !== undefined) {
-      const i5 = pe(w5[t5], e5);
-      return i5 === -1 ? undefined : ve(w5[t5], i5, 1)[0];
+      const i5 = fe(w5[t5], e5);
+      return i5 === -1 ? undefined : Ae(w5[t5], i5, 1)[0];
     }
-    return fe(w5[t5]);
+    return be(w5[t5]);
   }, i4.removeHooks = function(t5) {
     w5[t5] = [];
   }, i4.removeAllHooks = function() {
     w5 = { afterSanitizeAttributes: [], afterSanitizeElements: [], afterSanitizeShadowDOM: [], beforeSanitizeAttributes: [], beforeSanitizeElements: [], beforeSanitizeShadowDOM: [], uponSanitizeAttribute: [], uponSanitizeElement: [], uponSanitizeShadowNode: [] };
   }, i4;
 }();
-li.addHook("uponSanitizeAttribute", function(t5, e4) {
+ci.addHook("uponSanitizeAttribute", function(t5, e4) {
   /^data-trix-/.test(e4.attrName) && (e4.forceKeepAttr = true);
 });
-var ci = "style href src width height language class".split(" ");
-var ui = "javascript:".split(" ");
-var hi = "script iframe form noscript".split(" ");
+var ui = "style href src width height language class".split(" ");
+var hi = "javascript:".split(" ");
+var di = "script iframe form noscript".split(" ");
 
-class di extends q3 {
+class gi extends H3 {
   static setHTML(t5, e4, i4) {
     const n3 = new this(e4, i4).sanitize(), r4 = n3.getHTML ? n3.getHTML() : n3.outerHTML;
     t5.innerHTML = r4;
@@ -36362,12 +36507,12 @@ class di extends q3 {
   }
   constructor(t5) {
     let { allowedAttributes: e4, forbiddenProtocols: i4, forbiddenElements: n3, purifyOptions: r4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    super(...arguments), this.allowedAttributes = e4 || ci, this.forbiddenProtocols = i4 || ui, this.forbiddenElements = n3 || hi, this.purifyOptions = r4 || {}, this.body = gi(t5);
+    super(...arguments), this.allowedAttributes = e4 || ui, this.forbiddenProtocols = i4 || hi, this.forbiddenElements = n3 || di, this.purifyOptions = r4 || {}, this.body = mi(t5);
   }
   sanitize() {
     this.sanitizeElements(), this.normalizeListElementNesting();
     const t5 = Object.assign({}, l79, this.purifyOptions);
-    return li.setConfig(t5), this.body = li.sanitize(this.body), this.body;
+    return ci.setConfig(t5), this.body = ci.sanitize(this.body), this.body;
   }
   getHTML() {
     return this.body.innerHTML;
@@ -36376,7 +36521,7 @@ class di extends q3 {
     return this.body;
   }
   sanitizeElements() {
-    const t5 = R(this.body), e4 = [];
+    const t5 = k3(this.body), e4 = [];
     for (;t5.nextNode(); ) {
       const i4 = t5.currentNode;
       switch (i4.nodeType) {
@@ -36387,7 +36532,7 @@ class di extends q3 {
           e4.push(i4);
       }
     }
-    return e4.forEach((t6) => S2(t6)), this.body;
+    return e4.forEach((t6) => R(t6)), this.body;
   }
   sanitizeElement(t5) {
     return t5.hasAttribute("href") && this.forbiddenProtocols.includes(t5.protocol) && t5.removeAttribute("href"), Array.from(t5.attributes).forEach((e4) => {
@@ -36398,7 +36543,7 @@ class di extends q3 {
   normalizeListElementNesting() {
     return Array.from(this.body.querySelectorAll("ul,ol")).forEach((t5) => {
       const e4 = t5.previousElementSibling;
-      e4 && k3(e4) === "li" && e4.appendChild(t5);
+      e4 && T4(e4) === "li" && e4.appendChild(t5);
     }), this.body;
   }
   elementIsRemovable(t5) {
@@ -36406,13 +36551,13 @@ class di extends q3 {
       return this.elementIsForbidden(t5) || this.elementIsntSerializable(t5);
   }
   elementIsForbidden(t5) {
-    return this.forbiddenElements.includes(k3(t5));
+    return this.forbiddenElements.includes(T4(t5));
   }
   elementIsntSerializable(t5) {
-    return t5.getAttribute("data-trix-serialize") === "false" && !P3(t5);
+    return t5.getAttribute("data-trix-serialize") === "false" && !M2(t5);
   }
 }
-var gi = function() {
+var mi = function() {
   let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
   t5 = t5.replace(/<\/html[^>]*>[^]*$/i, "</html>");
   const e4 = document.implementation.createHTMLDocument("");
@@ -36420,9 +36565,9 @@ var gi = function() {
     e4.body.appendChild(t6);
   }), e4.body;
 };
-var { css: mi } = z3;
+var { css: pi } = q3;
 
-class pi extends ie {
+class fi extends ne {
   constructor() {
     super(...arguments), this.attachment = this.object, this.attachment.uploadProgressDelegate = this, this.attachmentPiece = this.options.piece;
   }
@@ -36431,45 +36576,48 @@ class pi extends ie {
   }
   createNodes() {
     let t5;
-    const e4 = t5 = T4({ tagName: "figure", className: this.getClassName(), data: this.getData(), editable: false }), i4 = this.getHref();
-    return i4 && (t5 = T4({ tagName: "a", editable: false, attributes: { href: i4, tabindex: -1 } }), e4.appendChild(t5)), this.attachment.hasContent() ? di.setHTML(t5, this.attachment.getContent()) : this.createContentNodes().forEach((e5) => {
+    const e4 = t5 = w4({ tagName: "figure", className: this.getClassName(), data: this.getData(), editable: false }), i4 = this.getHref();
+    return i4 && (t5 = w4({ tagName: "a", editable: false, attributes: { href: i4, tabindex: -1 } }), e4.appendChild(t5)), this.attachment.hasContent() ? gi.setHTML(t5, this.attachment.getContent()) : this.createContentNodes().forEach((e5) => {
       t5.appendChild(e5);
-    }), t5.appendChild(this.createCaptionElement()), this.attachment.isPending() && (this.progressElement = T4({ tagName: "progress", attributes: { class: mi.attachmentProgress, value: this.attachment.getUploadProgress(), max: 100 }, data: { trixMutable: true, trixStoreKey: ["progressElement", this.attachment.id].join("/") } }), e4.appendChild(this.progressElement)), [fi("left"), e4, fi("right")];
+    }), t5.appendChild(this.createCaptionElement()), this.attachment.isPending() && (this.progressElement = w4({ tagName: "progress", attributes: { class: pi.attachmentProgress, value: this.attachment.getUploadProgress(), max: 100 }, data: { trixMutable: true, trixStoreKey: ["progressElement", this.attachment.id].join("/") } }), e4.appendChild(this.progressElement)), [bi("left"), e4, bi("right")];
   }
   createCaptionElement() {
-    const t5 = T4({ tagName: "figcaption", className: mi.attachmentCaption }), e4 = this.attachmentPiece.getCaption();
+    const t5 = w4({ tagName: "figcaption", className: pi.attachmentCaption }), e4 = this.attachmentPiece.getCaption();
     if (e4)
-      t5.classList.add("".concat(mi.attachmentCaption, "--edited")), t5.textContent = e4;
+      t5.classList.add("".concat(pi.attachmentCaption, "--edited")), t5.textContent = e4;
     else {
       let e5, i4;
       const n3 = this.getCaptionConfig();
       if (n3.name && (e5 = this.attachment.getFilename()), n3.size && (i4 = this.attachment.getFormattedFilesize()), e5) {
-        const i5 = T4({ tagName: "span", className: mi.attachmentName, textContent: e5 });
+        const i5 = w4({ tagName: "span", className: pi.attachmentName, textContent: e5 });
         t5.appendChild(i5);
       }
       if (i4) {
         e5 && t5.appendChild(document.createTextNode(" "));
-        const n4 = T4({ tagName: "span", className: mi.attachmentSize, textContent: i4 });
+        const n4 = w4({ tagName: "span", className: pi.attachmentSize, textContent: i4 });
         t5.appendChild(n4);
       }
     }
     return t5;
   }
   getClassName() {
-    const t5 = [mi.attachment, "".concat(mi.attachment, "--").concat(this.attachment.getType())], e4 = this.attachment.getExtension();
-    return e4 && t5.push("".concat(mi.attachment, "--").concat(e4)), t5.join(" ");
+    const t5 = [pi.attachment, "".concat(pi.attachment, "--").concat(this.attachment.getType())], e4 = this.attachment.getExtension();
+    return e4 && t5.push("".concat(pi.attachment, "--").concat(e4)), t5.join(" ");
   }
   getData() {
     const t5 = { trixAttachment: JSON.stringify(this.attachment), trixContentType: this.attachment.getContentType(), trixId: this.attachment.id }, { attributes: e4 } = this.attachmentPiece;
     return e4.isEmpty() || (t5.trixAttributes = JSON.stringify(e4)), this.attachment.isPending() && (t5.trixSerialize = false), t5;
   }
   getHref() {
-    if (!bi(this.attachment.getContent(), "a"))
-      return this.attachment.getHref();
+    if (!vi(this.attachment.getContent(), "a")) {
+      const t5 = this.attachment.getHref();
+      if (t5 && ci.isValidAttribute("a", "href", t5))
+        return t5;
+    }
   }
   getCaptionConfig() {
     var t5;
-    const e4 = this.attachment.getType(), n3 = kt((t5 = i3[e4]) === null || t5 === undefined ? undefined : t5.caption);
+    const e4 = this.attachment.getType(), n3 = Tt((t5 = i3[e4]) === null || t5 === undefined ? undefined : t5.caption);
     return e4 === "file" && (n3.name = true), n3;
   }
   findProgressElement() {
@@ -36481,18 +36629,18 @@ class pi extends ie {
     e4 && (e4.value = t5);
   }
 }
-var fi = (t5) => T4({ tagName: "span", textContent: d2, data: { trixCursorTarget: t5, trixSerialize: false } });
-var bi = function(t5, e4) {
-  const i4 = T4("div");
-  return di.setHTML(i4, t5 || ""), i4.querySelector(e4);
+var bi = (t5) => w4({ tagName: "span", textContent: d2, data: { trixCursorTarget: t5, trixSerialize: false } });
+var vi = function(t5, e4) {
+  const i4 = w4("div");
+  return gi.setHTML(i4, t5 || ""), i4.querySelector(e4);
 };
 
-class vi extends pi {
+class Ai extends fi {
   constructor() {
     super(...arguments), this.attachment.previewDelegate = this;
   }
   createContentNodes() {
-    return this.image = T4({ tagName: "img", attributes: { src: "" }, data: { trixMutable: true } }), this.refresh(this.image), [this.image];
+    return this.image = w4({ tagName: "img", attributes: { src: "" }, data: { trixMutable: true } }), this.refresh(this.image), [this.image];
   }
   createCaptionElement() {
     const t5 = super.createCaptionElement(...arguments);
@@ -36512,17 +36660,17 @@ class vi extends pi {
       const i5 = JSON.stringify({ src: e4 });
       t5.setAttribute("data-trix-serialized-attributes", i5);
     }
-    const n3 = this.attachment.getWidth(), r4 = this.attachment.getHeight();
-    n3 != null && (t5.width = n3), r4 != null && (t5.height = r4);
-    const o3 = ["imageElement", this.attachment.id, t5.src, t5.width, t5.height].join("/");
-    t5.dataset.trixStoreKey = o3;
+    const n3 = this.attachment.getWidth(), r4 = this.attachment.getHeight(), o3 = this.attachment.getAttribute("alt");
+    n3 != null && (t5.width = n3), r4 != null && (t5.height = r4), o3 != null && (t5.alt = o3);
+    const s4 = ["imageElement", this.attachment.id, t5.src, t5.width, t5.height].join("/");
+    t5.dataset.trixStoreKey = s4;
   }
   attachmentDidChangeAttributes() {
     return this.refresh(this.image), this.refresh();
   }
 }
 
-class Ai extends ie {
+class yi extends ne {
   constructor() {
     super(...arguments), this.piece = this.object, this.attributes = this.piece.getAttributes(), this.textConfig = this.options.textConfig, this.context = this.options.context, this.piece.attachment ? this.attachment = this.piece.attachment : this.string = this.piece.toString();
   }
@@ -36544,7 +36692,7 @@ class Ai extends ie {
     return t5;
   }
   createAttachmentNodes() {
-    const t5 = this.attachment.isPreviewable() ? vi : pi;
+    const t5 = this.attachment.isPreviewable() ? Ai : fi;
     return this.createChildView(t5, this.piece.attachment, { piece: this.piece }).getNodes();
   }
   createStringNodes() {
@@ -36557,7 +36705,7 @@ class Ai extends ie {
       for (let i4 = 0;i4 < e4.length; i4++) {
         const n3 = e4[i4];
         if (i4 > 0) {
-          const e5 = T4("br");
+          const e5 = w4("br");
           t6.push(e5);
         }
         if (n3.length) {
@@ -36573,11 +36721,11 @@ class Ai extends ie {
     const n3 = {};
     for (e4 in this.attributes) {
       i4 = this.attributes[e4];
-      const o3 = ft(e4);
+      const o3 = bt(e4);
       if (o3) {
         if (o3.tagName) {
           var r4;
-          const e5 = T4(o3.tagName);
+          const e5 = w4(o3.tagName);
           r4 ? (r4.appendChild(e5), r4 = e5) : t5 = r4 = e5;
         }
         if (o3.styleProperty && (n3[o3.styleProperty] = i4), o3.style)
@@ -36586,16 +36734,16 @@ class Ai extends ie {
       }
     }
     if (Object.keys(n3).length)
-      for (e4 in t5 || (t5 = T4("span")), n3)
+      for (e4 in t5 || (t5 = w4("span")), n3)
         i4 = n3[e4], t5.style[e4] = i4;
     return t5;
   }
   createContainerElement() {
     for (const t5 in this.attributes) {
-      const e4 = this.attributes[t5], i4 = ft(t5);
+      const e4 = this.attributes[t5], i4 = bt(t5);
       if (i4 && i4.groupTagName) {
         const n3 = {};
-        return n3[t5] = e4, T4(i4.groupTagName, n3);
+        return n3[t5] = e4, w4(i4.groupTagName, n3);
       }
     }
   }
@@ -36604,16 +36752,16 @@ class Ai extends ie {
   }
 }
 
-class yi extends ie {
+class xi extends ne {
   constructor() {
     super(...arguments), this.text = this.object, this.textConfig = this.options.textConfig;
   }
   createNodes() {
-    const t5 = [], e4 = $t.groupObjects(this.getPieces()), i4 = e4.length - 1;
+    const t5 = [], e4 = Zt.groupObjects(this.getPieces()), i4 = e4.length - 1;
     for (let r4 = 0;r4 < e4.length; r4++) {
       const o3 = e4[r4], s4 = {};
-      r4 === 0 && (s4.isFirst = true), r4 === i4 && (s4.isLast = true), xi(n3) && (s4.followsWhitespace = true);
-      const a4 = this.findOrCreateCachedChildView(Ai, o3, { textConfig: this.textConfig, context: s4 });
+      r4 === 0 && (s4.isFirst = true), r4 === i4 && (s4.isLast = true), Ci(n3) && (s4.followsWhitespace = true);
+      const a4 = this.findOrCreateCachedChildView(yi, o3, { textConfig: this.textConfig, context: s4 });
       t5.push(...Array.from(a4.getNodes() || []));
       var n3 = o3;
     }
@@ -36623,21 +36771,21 @@ class yi extends ie {
     return Array.from(this.text.getPieces()).filter((t5) => !t5.hasAttribute("blockBreak"));
   }
 }
-var xi = (t5) => /\s$/.test(t5 == null ? undefined : t5.toString());
-var { css: Ci } = z3;
+var Ci = (t5) => /\s$/.test(t5 == null ? undefined : t5.toString());
+var { css: Ei } = q3;
 
-class Ei extends ie {
+class Si extends ne {
   constructor() {
     super(...arguments), this.block = this.object, this.attributes = this.block.getAttributes();
   }
   createNodes() {
     const t5 = [document.createComment("block")];
     if (this.block.isEmpty())
-      t5.push(T4("br"));
+      t5.push(w4("br"));
     else {
       var e4;
-      const i4 = (e4 = mt(this.block.getLastAttribute())) === null || e4 === undefined ? undefined : e4.text, n3 = this.findOrCreateCachedChildView(yi, this.block.text, { textConfig: i4 });
-      t5.push(...Array.from(n3.getNodes() || [])), this.shouldAddExtraNewlineElement() && t5.push(T4("br"));
+      const i4 = (e4 = pt(this.block.getLastAttribute())) === null || e4 === undefined ? undefined : e4.text, n3 = this.findOrCreateCachedChildView(xi, this.block.text, { textConfig: i4 });
+      t5.push(...Array.from(n3.getNodes() || [])), this.shouldAddExtraNewlineElement() && t5.push(w4("br"));
     }
     if (this.attributes.length)
       return t5;
@@ -36645,78 +36793,82 @@ class Ei extends ie {
       let e5;
       const { tagName: i4 } = n2.default;
       this.block.isRTL() && (e5 = { dir: "rtl" });
-      const r4 = T4({ tagName: i4, attributes: e5 });
+      const r4 = w4({ tagName: i4, attributes: e5 });
       return t5.forEach((t6) => r4.appendChild(t6)), [r4];
     }
   }
   createContainerElement(t5) {
     const e4 = {};
     let i4;
-    const n3 = this.attributes[t5], { tagName: r4, htmlAttributes: o3 = [] } = mt(n3);
+    const n3 = this.attributes[t5], { tagName: r4, htmlAttributes: o3 = [] } = pt(n3);
     if (t5 === 0 && this.block.isRTL() && Object.assign(e4, { dir: "rtl" }), n3 === "attachmentGallery") {
       const t6 = this.block.getBlockBreakPosition();
-      i4 = "".concat(Ci.attachmentGallery, " ").concat(Ci.attachmentGallery, "--").concat(t6);
+      i4 = "".concat(Ei.attachmentGallery, " ").concat(Ei.attachmentGallery, "--").concat(t6);
     }
     return Object.entries(this.block.htmlAttributes).forEach((t6) => {
       let [i5, n4] = t6;
       o3.includes(i5) && (e4[i5] = n4);
-    }), T4({ tagName: r4, className: i4, attributes: e4 });
+    }), w4({ tagName: r4, className: i4, attributes: e4 });
   }
   shouldAddExtraNewlineElement() {
     return /\n\n$/.test(this.block.toString());
   }
 }
 
-class Si extends ie {
+class Ri extends ne {
   static render(t5) {
-    const e4 = T4("div"), i4 = new this(t5, { element: e4 });
+    const e4 = w4("div"), i4 = new this(t5, { element: e4 });
     return i4.render(), i4.sync(), e4;
   }
   constructor() {
-    super(...arguments), this.element = this.options.element, this.elementStore = new Qt, this.setDocument(this.object);
+    super(...arguments), this.element = this.options.element, this.elementStore = new te, this.setDocument(this.object);
   }
   setDocument(t5) {
     t5.isEqualTo(this.document) || (this.document = this.object = t5);
   }
   render() {
-    if (this.childViews = [], this.shadowElement = T4("div"), !this.document.isEmpty()) {
-      const t5 = $t.groupObjects(this.document.getBlocks(), { asTree: true });
+    if (this.childViews = [], this.shadowElement = w4("div"), !this.document.isEmpty()) {
+      const t5 = Zt.groupObjects(this.document.getBlocks(), { asTree: true });
       Array.from(t5).forEach((t6) => {
-        const e4 = this.findOrCreateCachedChildView(Ei, t6);
+        const e4 = this.findOrCreateCachedChildView(Si, t6);
         Array.from(e4.getNodes()).map((t7) => this.shadowElement.appendChild(t7));
       });
     }
   }
   isSynced() {
-    return ki(this.shadowElement, this.element);
+    return Ti(this.shadowElement, this.element);
   }
   sync() {
-    const t5 = this.createDocumentFragmentForSync();
-    for (;this.element.lastChild; )
-      this.element.removeChild(this.element.lastChild);
-    return this.element.appendChild(t5), this.didSync();
+    const t5 = v3("trix-before-render", { cancelable: false, attributes: { render: (t6, e5) => {
+      for (;t6.lastChild; )
+        t6.removeChild(t6.lastChild);
+      t6.appendChild(e5);
+    } } });
+    this.element.dispatchEvent(t5);
+    const e4 = this.createDocumentFragmentForSync();
+    return t5.render(this.element, e4), this.didSync();
   }
   didSync() {
-    return this.elementStore.reset(Ri(this.element)), Rt(() => this.garbageCollectCachedViews());
+    return this.elementStore.reset(ki(this.element)), kt(() => this.garbageCollectCachedViews());
   }
   createDocumentFragmentForSync() {
     const t5 = document.createDocumentFragment();
     return Array.from(this.shadowElement.childNodes).forEach((e4) => {
       t5.appendChild(e4.cloneNode(true));
-    }), Array.from(Ri(t5)).forEach((t6) => {
+    }), Array.from(ki(t5)).forEach((t6) => {
       const e4 = this.elementStore.remove(t6);
       e4 && t6.parentNode.replaceChild(e4, t6);
     }), t5;
   }
 }
-var Ri = (t5) => t5.querySelectorAll("[data-trix-store-key]");
-var ki = (t5, e4) => Ti(t5.innerHTML) === Ti(e4.innerHTML);
-var Ti = (t5) => t5.replace(/&nbsp;/g, " ");
-function wi(t5) {
+var ki = (t5) => t5.querySelectorAll("[data-trix-store-key]");
+var Ti = (t5, e4) => wi(t5.innerHTML) === wi(e4.innerHTML);
+var wi = (t5) => t5.replace(/&nbsp;/g, " ");
+function Li(t5) {
   var e4, i4;
   function n3(e5, i5) {
     try {
-      var o3 = t5[e5](i5), s4 = o3.value, a4 = s4 instanceof Li;
+      var o3 = t5[e5](i5), s4 = o3.value, a4 = s4 instanceof Di;
       Promise.resolve(a4 ? s4.v : s4).then(function(i6) {
         if (a4) {
           var l80 = e5 === "return" ? "return" : "next";
@@ -36752,15 +36904,12 @@ function wi(t5) {
     });
   }, typeof t5.return != "function" && (this.return = undefined);
 }
-function Li(t5, e4) {
+function Di(t5, e4) {
   this.v = t5, this.k = e4;
-}
-function Di(t5, e4, i4) {
-  return (e4 = Ni(e4)) in t5 ? Object.defineProperty(t5, e4, { value: i4, enumerable: true, configurable: true, writable: true }) : t5[e4] = i4, t5;
 }
 function Ni(t5) {
   var e4 = function(t6, e5) {
-    if (typeof t6 != "object" || t6 === null)
+    if (typeof t6 != "object" || !t6)
       return t6;
     var i4 = t6[Symbol.toPrimitive];
     if (i4 !== undefined) {
@@ -36773,30 +36922,33 @@ function Ni(t5) {
   }(t5, "string");
   return typeof e4 == "symbol" ? e4 : String(e4);
 }
-wi.prototype[typeof Symbol == "function" && Symbol.asyncIterator || "@@asyncIterator"] = function() {
+function Ii(t5, e4, i4) {
+  return (e4 = Ni(e4)) in t5 ? Object.defineProperty(t5, e4, { value: i4, enumerable: true, configurable: true, writable: true }) : t5[e4] = i4, t5;
+}
+Li.prototype[typeof Symbol == "function" && Symbol.asyncIterator || "@@asyncIterator"] = function() {
   return this;
-}, wi.prototype.next = function(t5) {
+}, Li.prototype.next = function(t5) {
   return this._invoke("next", t5);
-}, wi.prototype.throw = function(t5) {
+}, Li.prototype.throw = function(t5) {
   return this._invoke("throw", t5);
-}, wi.prototype.return = function(t5) {
+}, Li.prototype.return = function(t5) {
   return this._invoke("return", t5);
 };
-function Ii(t5, e4) {
-  return Pi(t5, Fi(t5, e4, "get"));
-}
-function Oi(t5, e4, i4) {
-  return Mi(t5, Fi(t5, e4, "set"), i4), i4;
+function Oi(t5, e4) {
+  return Mi(t5, Pi(t5, e4, "get"));
 }
 function Fi(t5, e4, i4) {
+  return Bi(t5, Pi(t5, e4, "set"), i4), i4;
+}
+function Pi(t5, e4, i4) {
   if (!e4.has(t5))
     throw new TypeError("attempted to " + i4 + " private field on non-instance");
   return e4.get(t5);
 }
-function Pi(t5, e4) {
+function Mi(t5, e4) {
   return e4.get ? e4.get.call(t5) : e4.value;
 }
-function Mi(t5, e4, i4) {
+function Bi(t5, e4, i4) {
   if (e4.set)
     e4.set.call(t5, i4);
   else {
@@ -36805,20 +36957,20 @@ function Mi(t5, e4, i4) {
     e4.value = i4;
   }
 }
-function Bi(t5, e4, i4) {
+function _i(t5, e4, i4) {
   if (!e4.has(t5))
     throw new TypeError("attempted to get private field on non-instance");
   return i4;
 }
-function _i(t5, e4) {
+function ji(t5, e4) {
   if (e4.has(t5))
     throw new TypeError("Cannot initialize the same private elements twice on an object");
 }
-function ji(t5, e4, i4) {
-  _i(t5, e4), e4.set(t5, i4);
+function Wi(t5, e4, i4) {
+  ji(t5, e4), e4.set(t5, i4);
 }
 
-class Wi extends rt {
+class Ui extends ot {
   static registerType(t5, e4) {
     e4.type = t5, this.types[t5] = e4;
   }
@@ -36829,7 +36981,7 @@ class Wi extends rt {
   }
   constructor(t5) {
     let e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    super(...arguments), this.attributes = Ht.box(e4);
+    super(...arguments), this.attributes = Jt.box(e4);
   }
   copyWithAttributes(t5) {
     return new this.constructor(this.getValue(), t5);
@@ -36892,9 +37044,9 @@ class Wi extends rt {
     return false;
   }
 }
-Di(Wi, "types", {});
+Ii(Ui, "types", {});
 
-class Ui extends ee {
+class Vi extends ie {
   constructor(t5) {
     super(...arguments), this.url = t5;
   }
@@ -36904,20 +37056,23 @@ class Ui extends ee {
   }
 }
 
-class Vi extends rt {
+class zi extends ot {
   static attachmentForFile(t5) {
     const e4 = new this(this.attributesForFile(t5));
     return e4.setFile(t5), e4;
   }
   static attributesForFile(t5) {
-    return new Ht({ filename: t5.name, filesize: t5.size, contentType: t5.type });
+    return new Jt({ filename: t5.name, filesize: t5.size, contentType: t5.type });
   }
   static fromJSON(t5) {
     return new this(t5);
   }
   constructor() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    super(t5), this.releaseFile = this.releaseFile.bind(this), this.attributes = Ht.box(t5), this.didChangeAttributes();
+    super(t5), this.releaseFile = this.releaseFile.bind(this), this.attributes = Jt.box(t5), this.didChangeAttributes();
+  }
+  setAttribute(t5, e4) {
+    this.setAttributes({ [t5]: e4 });
   }
   getAttribute(t5) {
     return this.attributes.get(t5);
@@ -36943,7 +37098,7 @@ class Vi extends rt {
     return this.file != null && !(this.getURL() || this.getHref());
   }
   isPreviewable() {
-    return this.attributes.has("previewable") ? this.attributes.get("previewable") : Vi.previewablePattern.test(this.getContentType());
+    return this.attributes.has("previewable") ? this.attributes.get("previewable") : zi.previewablePattern.test(this.getContentType());
   }
   getType() {
     return this.hasContent() ? "content" : this.isPreviewable() ? "preview" : "file";
@@ -37028,18 +37183,18 @@ class Vi extends rt {
   preload(t5, e4) {
     if (t5 && t5 !== this.getPreviewURL()) {
       this.preloadingURL = t5;
-      return new Ui(t5).then((i4) => {
+      return new Vi(t5).then((i4) => {
         let { width: n3, height: r4 } = i4;
         return this.getWidth() && this.getHeight() || this.setAttributes({ width: n3, height: r4 }), this.preloadingURL = null, this.setPreviewURL(t5), e4 == null ? undefined : e4();
       }).catch(() => (this.preloadingURL = null, e4 == null ? undefined : e4()));
     }
   }
 }
-Di(Vi, "previewablePattern", /^image(\/(gif|png|webp|jpe?g)|$)/);
+Ii(zi, "previewablePattern", /^image(\/(gif|png|webp|jpe?g)|$)/);
 
-class zi extends Wi {
+class qi extends Ui {
   static fromJSON(t5) {
-    return new this(Vi.fromJSON(t5.attachment), t5.attributes);
+    return new this(zi.fromJSON(t5.attachment), t5.attributes);
   }
   constructor(t5) {
     super(...arguments), this.attachment = t5, this.length = 1, this.ensureAttachmentExclusivelyHasAttribute("href"), this.attachment.hasContent() || this.removeProhibitedAttributes();
@@ -37048,7 +37203,7 @@ class zi extends Wi {
     this.hasAttribute(t5) && (this.attachment.hasAttribute(t5) || this.attachment.setAttributes(this.attributes.slice([t5])), this.attributes = this.attributes.remove(t5));
   }
   removeProhibitedAttributes() {
-    const t5 = this.attributes.slice(zi.permittedAttributes);
+    const t5 = this.attributes.slice(qi.permittedAttributes);
     t5.isEqualTo(this.attributes) || (this.attributes = t5);
   }
   getValue() {
@@ -37078,9 +37233,9 @@ class zi extends Wi {
     return JSON.stringify(this.toString());
   }
 }
-Di(zi, "permittedAttributes", ["caption", "presentation"]), Wi.registerType("attachment", zi);
+Ii(qi, "permittedAttributes", ["caption", "presentation"]), Ui.registerType("attachment", qi);
 
-class qi extends Wi {
+class Hi extends Ui {
   static fromJSON(t5) {
     return new this(t5.string, t5.attributes);
   }
@@ -37117,9 +37272,9 @@ class qi extends Wi {
     return t5.length > 15 && (t5 = t5.slice(0, 14) + "…"), JSON.stringify(t5.toString());
   }
 }
-Wi.registerType("string", qi);
+Ui.registerType("string", Hi);
 
-class Hi extends rt {
+class Ji extends ot {
   static box(t5) {
     return t5 instanceof this ? t5 : new this(t5);
   }
@@ -37133,7 +37288,7 @@ class Hi extends rt {
   splice() {
     for (var t5 = arguments.length, e4 = new Array(t5), i4 = 0;i4 < t5; i4++)
       e4[i4] = arguments[i4];
-    return new this.constructor(st(this.objects, ...e4));
+    return new this.constructor(at(this.objects, ...e4));
   }
   eachObject(t5) {
     return this.objects.map((e4, i4) => t5(e4, i4));
@@ -37177,8 +37332,8 @@ class Hi extends rt {
     return new this.constructor(o3);
   }
   splitObjectsAtRange(t5) {
-    let e4, [i4, n3, r4] = this.splitObjectAtPosition(Ki(t5));
-    return [i4, e4] = new this.constructor(i4).splitObjectAtPosition(Gi(t5) + r4), [i4, n3, e4 - 1];
+    let e4, [i4, n3, r4] = this.splitObjectAtPosition(Gi(t5));
+    return [i4, e4] = new this.constructor(i4).splitObjectAtPosition(Yi(t5) + r4), [i4, n3, e4 - 1];
   }
   getObjectAtPosition(t5) {
     const { index: e4 } = this.findIndexAndOffsetAtPosition(t5);
@@ -37246,13 +37401,13 @@ class Hi extends rt {
     return this.toArray();
   }
   isEqualTo(t5) {
-    return super.isEqualTo(...arguments) || Ji(this.objects, t5 == null ? undefined : t5.objects);
+    return super.isEqualTo(...arguments) || Ki(this.objects, t5 == null ? undefined : t5.objects);
   }
   contentsForInspection() {
     return { objects: "[".concat(this.objects.map((t5) => t5.inspect()).join(", "), "]") };
   }
 }
-var Ji = function(t5) {
+var Ki = function(t5) {
   let e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
   if (t5.length !== e4.length)
     return false;
@@ -37263,24 +37418,24 @@ var Ji = function(t5) {
   }
   return i4;
 };
-var Ki = (t5) => t5[0];
-var Gi = (t5) => t5[1];
+var Gi = (t5) => t5[0];
+var Yi = (t5) => t5[1];
 
-class Yi extends rt {
+class Xi extends ot {
   static textForAttachmentWithAttributes(t5, e4) {
-    return new this([new zi(t5, e4)]);
-  }
-  static textForStringWithAttributes(t5, e4) {
     return new this([new qi(t5, e4)]);
   }
+  static textForStringWithAttributes(t5, e4) {
+    return new this([new Hi(t5, e4)]);
+  }
   static fromJSON(t5) {
-    return new this(Array.from(t5).map((t6) => Wi.fromJSON(t6)));
+    return new this(Array.from(t5).map((t6) => Ui.fromJSON(t6)));
   }
   constructor() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     super(...arguments);
     const e4 = t5.filter((t6) => !t6.isEmpty());
-    this.pieceList = new Hi(e4);
+    this.pieceList = new Ji(e4);
   }
   copy() {
     return this.copyWithPieceList(this.pieceList);
@@ -37329,7 +37484,7 @@ class Yi extends rt {
   }
   getCommonAttributes() {
     const t5 = Array.from(this.pieceList.toArray()).map((t6) => t6.getAttributes());
-    return Ht.fromCommonAttributesOfObjects(t5).toObject();
+    return Jt.fromCommonAttributesOfObjects(t5).toObject();
   }
   getCommonAttributesAtRange(t5) {
     return this.getTextAtRange(t5).getCommonAttributes() || {};
@@ -37427,34 +37582,34 @@ class Yi extends rt {
     return JSON.stringify(this.pieceList.toArray().map((t5) => JSON.parse(t5.toConsole())));
   }
   getDirection() {
-    return lt(this.toString());
+    return ct(this.toString());
   }
   isRTL() {
     return this.getDirection() === "rtl";
   }
 }
 
-class Xi extends rt {
+class $i extends ot {
   static fromJSON(t5) {
-    return new this(Yi.fromJSON(t5.text), t5.attributes, t5.htmlAttributes);
+    return new this(Xi.fromJSON(t5.text), t5.attributes, t5.htmlAttributes);
   }
   constructor(t5, e4, i4) {
-    super(...arguments), this.text = $i(t5 || new Yi), this.attributes = e4 || [], this.htmlAttributes = i4 || {};
+    super(...arguments), this.text = Zi(t5 || new Xi), this.attributes = e4 || [], this.htmlAttributes = i4 || {};
   }
   isEmpty() {
     return this.text.isBlockBreak();
   }
   isEqualTo(t5) {
-    return !!super.isEqualTo(t5) || this.text.isEqualTo(t5 == null ? undefined : t5.text) && ot(this.attributes, t5 == null ? undefined : t5.attributes) && Tt(this.htmlAttributes, t5 == null ? undefined : t5.htmlAttributes);
+    return !!super.isEqualTo(t5) || this.text.isEqualTo(t5 == null ? undefined : t5.text) && st(this.attributes, t5 == null ? undefined : t5.attributes) && wt(this.htmlAttributes, t5 == null ? undefined : t5.htmlAttributes);
   }
   copyWithText(t5) {
-    return new Xi(t5, this.attributes, this.htmlAttributes);
+    return new $i(t5, this.attributes, this.htmlAttributes);
   }
   copyWithoutText() {
     return this.copyWithText(null);
   }
   copyWithAttributes(t5) {
-    return new Xi(this.text, t5, this.htmlAttributes);
+    return new $i(this.text, t5, this.htmlAttributes);
   }
   copyWithoutAttributes() {
     return this.copyWithAttributes(null);
@@ -37464,22 +37619,22 @@ class Xi extends rt {
     return e4 ? this.copyWithText(e4) : this.copyWithText(this.text.copyUsingObjectMap(t5));
   }
   addAttribute(t5) {
-    const e4 = this.attributes.concat(rn(t5));
+    const e4 = this.attributes.concat(on(t5));
     return this.copyWithAttributes(e4);
   }
   addHTMLAttribute(t5, e4) {
     const i4 = Object.assign({}, this.htmlAttributes, { [t5]: e4 });
-    return new Xi(this.text, this.attributes, i4);
+    return new $i(this.text, this.attributes, i4);
   }
   removeAttribute(t5) {
-    const { listAttribute: e4 } = mt(t5), i4 = sn(sn(this.attributes, t5), e4);
+    const { listAttribute: e4 } = pt(t5), i4 = an(an(this.attributes, t5), e4);
     return this.copyWithAttributes(i4);
   }
   removeLastAttribute() {
     return this.removeAttribute(this.getLastAttribute());
   }
   getLastAttribute() {
-    return on(this.attributes);
+    return sn(this.attributes);
   }
   getAttributes() {
     return this.attributes.slice(0);
@@ -37497,10 +37652,10 @@ class Xi extends rt {
     return this.getAttributeLevel() > 0;
   }
   getLastNestableAttribute() {
-    return on(this.getNestableAttributes());
+    return sn(this.getNestableAttributes());
   }
   getNestableAttributes() {
-    return this.attributes.filter((t5) => mt(t5).nestable);
+    return this.attributes.filter((t5) => pt(t5).nestable);
   }
   getNestingLevel() {
     return this.getNestableAttributes().length;
@@ -37512,25 +37667,25 @@ class Xi extends rt {
   increaseNestingLevel() {
     const t5 = this.getLastNestableAttribute();
     if (t5) {
-      const e4 = this.attributes.lastIndexOf(t5), i4 = st(this.attributes, e4 + 1, 0, ...rn(t5));
+      const e4 = this.attributes.lastIndexOf(t5), i4 = at(this.attributes, e4 + 1, 0, ...on(t5));
       return this.copyWithAttributes(i4);
     }
     return this;
   }
   getListItemAttributes() {
-    return this.attributes.filter((t5) => mt(t5).listAttribute);
+    return this.attributes.filter((t5) => pt(t5).listAttribute);
   }
   isListItem() {
     var t5;
-    return (t5 = mt(this.getLastAttribute())) === null || t5 === undefined ? undefined : t5.listAttribute;
+    return (t5 = pt(this.getLastAttribute())) === null || t5 === undefined ? undefined : t5.listAttribute;
   }
   isTerminalBlock() {
     var t5;
-    return (t5 = mt(this.getLastAttribute())) === null || t5 === undefined ? undefined : t5.terminal;
+    return (t5 = pt(this.getLastAttribute())) === null || t5 === undefined ? undefined : t5.terminal;
   }
   breaksOnReturn() {
     var t5;
-    return (t5 = mt(this.getLastAttribute())) === null || t5 === undefined ? undefined : t5.breakOnReturn;
+    return (t5 = pt(this.getLastAttribute())) === null || t5 === undefined ? undefined : t5.breakOnReturn;
   }
   findLineBreakInDirectionFromPosition(t5, e4) {
     const i4 = this.toString();
@@ -37569,7 +37724,7 @@ class Xi extends rt {
     return !this.hasAttributes() && !t5.hasAttributes() && this.getDirection() === t5.getDirection();
   }
   consolidateWith(t5) {
-    const e4 = Yi.textForStringWithAttributes(`
+    const e4 = Xi.textForStringWithAttributes(`
 `), i4 = this.getTextWithoutBlockBreak().appendText(e4);
     return this.copyWithText(i4.appendText(t5.text));
   }
@@ -37581,68 +37736,68 @@ class Xi extends rt {
     return this.text.getLength() - 1;
   }
   getTextWithoutBlockBreak() {
-    return en2(this.text) ? this.text.getTextAtRange([0, this.getBlockBreakPosition()]) : this.text.copy();
+    return nn2(this.text) ? this.text.getTextAtRange([0, this.getBlockBreakPosition()]) : this.text.copy();
   }
   canBeGrouped(t5) {
     return this.attributes[t5];
   }
   canBeGroupedWith(t5, e4) {
     const i4 = t5.getAttributes(), r4 = i4[e4], o3 = this.attributes[e4];
-    return o3 === r4 && !(mt(o3).group === false && !(() => {
-      if (!dt) {
-        dt = [];
+    return o3 === r4 && !(pt(o3).group === false && !(() => {
+      if (!gt) {
+        gt = [];
         for (const t6 in n2) {
           const { listAttribute: e5 } = n2[t6];
-          e5 != null && dt.push(e5);
+          e5 != null && gt.push(e5);
         }
       }
-      return dt;
+      return gt;
     })().includes(i4[e4 + 1])) && (this.getDirection() === t5.getDirection() || t5.isEmpty());
   }
 }
-var $i = function(t5) {
-  return t5 = Zi(t5), t5 = tn2(t5);
-};
 var Zi = function(t5) {
+  return t5 = Qi(t5), t5 = en2(t5);
+};
+var Qi = function(t5) {
   let e4 = false;
   const i4 = t5.getPieces();
   let n3 = i4.slice(0, i4.length - 1);
   const r4 = i4[i4.length - 1];
-  return r4 ? (n3 = n3.map((t6) => t6.isBlockBreak() ? (e4 = true, nn2(t6)) : t6), e4 ? new Yi([...n3, r4]) : t5) : t5;
+  return r4 ? (n3 = n3.map((t6) => t6.isBlockBreak() ? (e4 = true, rn(t6)) : t6), e4 ? new Xi([...n3, r4]) : t5) : t5;
 };
-var Qi = Yi.textForStringWithAttributes(`
+var tn2 = Xi.textForStringWithAttributes(`
 `, { blockBreak: true });
-var tn2 = function(t5) {
-  return en2(t5) ? t5 : t5.appendText(Qi);
-};
 var en2 = function(t5) {
+  return nn2(t5) ? t5 : t5.appendText(tn2);
+};
+var nn2 = function(t5) {
   const e4 = t5.getLength();
   if (e4 === 0)
     return false;
   return t5.getTextAtRange([e4 - 1, e4]).isBlockBreak();
 };
-var nn2 = (t5) => t5.copyWithoutAttribute("blockBreak");
-var rn = function(t5) {
-  const { listAttribute: e4 } = mt(t5);
+var rn = (t5) => t5.copyWithoutAttribute("blockBreak");
+var on = function(t5) {
+  const { listAttribute: e4 } = pt(t5);
   return e4 ? [e4, t5] : [t5];
 };
-var on = (t5) => t5.slice(-1)[0];
-var sn = function(t5, e4) {
+var sn = (t5) => t5.slice(-1)[0];
+var an = function(t5, e4) {
   const i4 = t5.lastIndexOf(e4);
-  return i4 === -1 ? t5 : st(t5, i4, 1);
+  return i4 === -1 ? t5 : at(t5, i4, 1);
 };
 
-class an extends rt {
+class ln extends ot {
   static fromJSON(t5) {
-    return new this(Array.from(t5).map((t6) => Xi.fromJSON(t6)));
+    return new this(Array.from(t5).map((t6) => $i.fromJSON(t6)));
   }
   static fromString(t5, e4) {
-    const i4 = Yi.textForStringWithAttributes(t5, e4);
-    return new this([new Xi(i4)]);
+    const i4 = Xi.textForStringWithAttributes(t5, e4);
+    return new this([new $i(i4)]);
   }
   constructor() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    super(...arguments), t5.length === 0 && (t5 = [new Xi]), this.blockList = Hi.box(t5);
+    super(...arguments), t5.length === 0 && (t5 = [new $i]), this.blockList = Ji.box(t5);
   }
   isEmpty() {
     const t5 = this.getBlockAtIndex(0);
@@ -37653,7 +37808,7 @@ class an extends rt {
     return new this.constructor(t5);
   }
   copyUsingObjectsFromDocument(t5) {
-    const e4 = new Zt(t5.getObjects());
+    const e4 = new Qt(t5.getObjects());
     return this.copyUsingObjectMap(e4);
   }
   copyUsingObjectMap(t5) {
@@ -37674,24 +37829,24 @@ class an extends rt {
   }
   insertDocumentAtRange(t5, e4) {
     const { blockList: i4 } = t5;
-    e4 = wt(e4);
+    e4 = Lt(e4);
     let [n3] = e4;
     const { index: r4, offset: o3 } = this.locationFromPosition(n3);
     let s4 = this;
     const a4 = this.getBlockAtPosition(n3);
-    return Lt(e4) && a4.isEmpty() && !a4.hasAttributes() ? s4 = new this.constructor(s4.blockList.removeObjectAtIndex(r4)) : a4.getBlockBreakPosition() === o3 && n3++, s4 = s4.removeTextAtRange(e4), new this.constructor(s4.blockList.insertSplittableListAtPosition(i4, n3));
+    return Dt(e4) && a4.isEmpty() && !a4.hasAttributes() ? s4 = new this.constructor(s4.blockList.removeObjectAtIndex(r4)) : a4.getBlockBreakPosition() === o3 && n3++, s4 = s4.removeTextAtRange(e4), new this.constructor(s4.blockList.insertSplittableListAtPosition(i4, n3));
   }
   mergeDocumentAtRange(t5, e4) {
     let i4, n3;
-    e4 = wt(e4);
+    e4 = Lt(e4);
     const [r4] = e4, o3 = this.locationFromPosition(r4), s4 = this.getBlockAtIndex(o3.index).getAttributes(), a4 = t5.getBaseBlockAttributes(), l80 = s4.slice(-a4.length);
-    if (ot(a4, l80)) {
+    if (st(a4, l80)) {
       const e5 = s4.slice(0, -a4.length);
       i4 = t5.copyWithBaseBlockAttributes(e5);
     } else
       i4 = t5.copy({ consolidateBlocks: true }).copyWithBaseBlockAttributes(s4);
     const c4 = i4.getBlockCount(), u4 = i4.getBlockAtIndex(0);
-    if (ot(s4, u4.getAttributes())) {
+    if (st(s4, u4.getAttributes())) {
       const t6 = u4.getTextWithoutBlockBreak();
       if (n3 = this.insertTextAtRange(t6, e4), c4 > 1) {
         i4 = new this.constructor(i4.getBlocks().slice(1));
@@ -37703,15 +37858,15 @@ class an extends rt {
     return n3;
   }
   insertTextAtRange(t5, e4) {
-    e4 = wt(e4);
+    e4 = Lt(e4);
     const [i4] = e4, { index: n3, offset: r4 } = this.locationFromPosition(i4), o3 = this.removeTextAtRange(e4);
     return new this.constructor(o3.blockList.editObjectAtIndex(n3, (e5) => e5.copyWithText(e5.text.insertTextAtPosition(t5, r4))));
   }
   removeTextAtRange(t5) {
     let e4;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const [i4, n3] = t5;
-    if (Lt(t5))
+    if (Dt(t5))
       return this;
     const [r4, o3] = Array.from(this.locationRangeFromRange(t5)), s4 = r4.index, a4 = r4.offset, l80 = this.getBlockAtIndex(s4), c4 = o3.index, u4 = o3.offset, h4 = this.getBlockAtIndex(c4);
     if (n3 - i4 == 1 && l80.getBlockBreakPosition() === a4 && h4.getBlockBreakPosition() !== u4 && h4.text.getStringAtPosition(u4) === `
@@ -37728,7 +37883,7 @@ class an extends rt {
   }
   moveTextFromRangeToPosition(t5, e4) {
     let i4;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const [n3, r4] = t5;
     if (n3 <= e4 && e4 <= r4)
       return this;
@@ -37741,7 +37896,7 @@ class an extends rt {
   addAttributeAtRange(t5, e4, i4) {
     let { blockList: n3 } = this;
     return this.eachBlockAtRange(i4, (i5, r4, o3) => n3 = n3.editObjectAtIndex(o3, function() {
-      return mt(t5) ? i5.addAttribute(t5, e4) : r4[0] === r4[1] ? i5 : i5.copyWithText(i5.text.addAttributeAtRange(t5, e4, r4));
+      return pt(t5) ? i5.addAttribute(t5, e4) : r4[0] === r4[1] ? i5 : i5.copyWithText(i5.text.addAttributeAtRange(t5, e4, r4));
     })), new this.constructor(n3);
   }
   addAttribute(t5, e4) {
@@ -37751,7 +37906,7 @@ class an extends rt {
   removeAttributeAtRange(t5, e4) {
     let { blockList: i4 } = this;
     return this.eachBlockAtRange(e4, function(e5, n3, r4) {
-      mt(t5) ? i4 = i4.editObjectAtIndex(r4, () => e5.removeAttribute(t5)) : n3[0] !== n3[1] && (i4 = i4.editObjectAtIndex(r4, () => e5.copyWithText(e5.text.removeAttributeAtRange(t5, n3))));
+      pt(t5) ? i4 = i4.editObjectAtIndex(r4, () => e5.removeAttribute(t5)) : n3[0] !== n3[1] && (i4 = i4.editObjectAtIndex(r4, () => e5.copyWithText(e5.text.removeAttributeAtRange(t5, n3))));
     }), new this.constructor(i4);
   }
   updateAttributesForAttachment(t5, e4) {
@@ -37768,15 +37923,15 @@ class an extends rt {
   }
   insertBlockBreakAtRange(t5) {
     let e4;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const [i4] = t5, { offset: n3 } = this.locationFromPosition(i4), r4 = this.removeTextAtRange(t5);
-    return n3 === 0 && (e4 = [new Xi]), new this.constructor(r4.blockList.insertSplittableListAtPosition(new Hi(e4), i4));
+    return n3 === 0 && (e4 = [new $i]), new this.constructor(r4.blockList.insertSplittableListAtPosition(new Ji(e4), i4));
   }
   applyBlockAttributeAtRange(t5, e4, i4) {
     const n3 = this.expandRangeToLineBreaksAndSplitBlocks(i4);
     let r4 = n3.document;
     i4 = n3.range;
-    const o3 = mt(t5);
+    const o3 = pt(t5);
     if (o3.listAttribute) {
       r4 = r4.removeLastListAttributeAtRange(i4, { exceptAttributeName: t5 });
       const e5 = r4.convertLineBreaksToBlockBreaksInRange(i4);
@@ -37789,14 +37944,14 @@ class an extends rt {
     let e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}, { blockList: i4 } = this;
     return this.eachBlockAtRange(t5, function(t6, n3, r4) {
       const o3 = t6.getLastAttribute();
-      o3 && mt(o3).listAttribute && o3 !== e4.exceptAttributeName && (i4 = i4.editObjectAtIndex(r4, () => t6.removeAttribute(o3)));
+      o3 && pt(o3).listAttribute && o3 !== e4.exceptAttributeName && (i4 = i4.editObjectAtIndex(r4, () => t6.removeAttribute(o3)));
     }), new this.constructor(i4);
   }
   removeLastTerminalAttributeAtRange(t5) {
     let { blockList: e4 } = this;
     return this.eachBlockAtRange(t5, function(t6, i4, n3) {
       const r4 = t6.getLastAttribute();
-      r4 && mt(r4).terminal && (e4 = e4.editObjectAtIndex(n3, () => t6.removeAttribute(r4)));
+      r4 && pt(r4).terminal && (e4 = e4.editObjectAtIndex(n3, () => t6.removeAttribute(r4)));
     }), new this.constructor(e4);
   }
   removeBlockAttributesAtRange(t5) {
@@ -37807,7 +37962,7 @@ class an extends rt {
   }
   expandRangeToLineBreaksAndSplitBlocks(t5) {
     let e4;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     let [i4, n3] = t5;
     const r4 = this.locationFromPosition(i4), o3 = this.locationFromPosition(n3);
     let s4 = this;
@@ -37819,10 +37974,10 @@ class an extends rt {
       t6.text.getStringAtRange([o3.offset - 1, o3.offset]) === `
 ` ? o3.offset -= 1 : o3.offset = t6.findLineBreakInDirectionFromPosition("forward", o3.offset), o3.offset !== t6.getBlockBreakPosition() && (e4 = s4.positionFromLocation(o3), s4 = s4.insertBlockBreakAtRange([e4, e4 + 1]));
     }
-    return i4 = s4.positionFromLocation(r4), n3 = s4.positionFromLocation(o3), { document: s4, range: t5 = wt([i4, n3]) };
+    return i4 = s4.positionFromLocation(r4), n3 = s4.positionFromLocation(o3), { document: s4, range: t5 = Lt([i4, n3]) };
   }
   convertLineBreaksToBlockBreaksInRange(t5) {
-    t5 = wt(t5);
+    t5 = Lt(t5);
     let [e4] = t5;
     const i4 = this.getStringAtRange(t5).slice(0, -1);
     let n3 = this;
@@ -37831,18 +37986,18 @@ class an extends rt {
     }), { document: n3, range: t5 };
   }
   consolidateBlocksAtRange(t5) {
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const [e4, i4] = t5, n3 = this.locationFromPosition(e4).index, r4 = this.locationFromPosition(i4).index;
     return new this.constructor(this.blockList.consolidateFromIndexToIndex(n3, r4));
   }
   getDocumentAtRange(t5) {
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const e4 = this.blockList.getSplittableListInRange(t5).toArray();
     return new this.constructor(e4);
   }
   getStringAtRange(t5) {
     let e4;
-    const i4 = t5 = wt(t5);
+    const i4 = t5 = Lt(t5);
     return i4[i4.length - 1] !== this.getLength() && (e4 = -1), this.getDocumentAtRange(t5).toString().slice(0, e4);
   }
   getBlockAtIndex(t5) {
@@ -37885,7 +38040,7 @@ class an extends rt {
   }
   eachBlockAtRange(t5, e4) {
     let i4, n3;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const [r4, o3] = t5, s4 = this.locationFromPosition(r4), a4 = this.locationFromPosition(o3);
     if (s4.index === a4.index)
       return i4 = this.getBlockAtIndex(s4.index), n3 = [s4.offset, a4.offset], e4(i4, n3, s4.index);
@@ -37905,16 +38060,16 @@ class an extends rt {
       }
   }
   getCommonAttributesAtRange(t5) {
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const [e4] = t5;
-    if (Lt(t5))
+    if (Dt(t5))
       return this.getCommonAttributesAtPosition(e4);
     {
       const e5 = [], i4 = [];
       return this.eachBlockAtRange(t5, function(t6, n3) {
         if (n3[0] !== n3[1])
-          return e5.push(t6.text.getCommonAttributesAtRange(n3)), i4.push(ln(t6));
-      }), Ht.fromCommonAttributesOfObjects(e5).merge(Ht.fromCommonAttributesOfObjects(i4)).toObject();
+          return e5.push(t6.text.getCommonAttributesAtRange(n3)), i4.push(cn(t6));
+      }), Jt.fromCommonAttributesOfObjects(e5).merge(Jt.fromCommonAttributesOfObjects(i4)).toObject();
     }
   }
   getCommonAttributesAtPosition(t5) {
@@ -37922,14 +38077,14 @@ class an extends rt {
     const { index: n3, offset: r4 } = this.locationFromPosition(t5), o3 = this.getBlockAtIndex(n3);
     if (!o3)
       return {};
-    const s4 = ln(o3), a4 = o3.text.getAttributesAtPosition(r4), l80 = o3.text.getAttributesAtPosition(r4 - 1), c4 = Object.keys(W2).filter((t6) => W2[t6].inheritable);
+    const s4 = cn(o3), a4 = o3.text.getAttributesAtPosition(r4), l80 = o3.text.getAttributesAtPosition(r4 - 1), c4 = Object.keys(U2).filter((t6) => U2[t6].inheritable);
     for (e4 in l80)
       i4 = l80[e4], (i4 === a4[e4] || c4.includes(e4)) && (s4[e4] = i4);
     return s4;
   }
   getRangeOfCommonAttributeAtPosition(t5, e4) {
     const { index: i4, offset: n3 } = this.locationFromPosition(e4), r4 = this.getTextAtIndex(i4), [o3, s4] = Array.from(r4.getExpandedRangeForAttributeAtOffset(t5, n3)), a4 = this.positionFromLocation({ index: i4, offset: o3 }), l80 = this.positionFromLocation({ index: i4, offset: s4 });
-    return wt([a4, l80]);
+    return Lt([a4, l80]);
   }
   getBaseBlockAttributes() {
     let t5 = this.getBlockAtIndex(0).getAttributes();
@@ -37965,7 +38120,7 @@ class an extends rt {
     for (let n3 = 0;n3 < i4.length; n3++) {
       const { text: r4 } = i4[n3], o3 = r4.getRangeOfAttachment(t5);
       if (o3)
-        return wt([e4 + o3[0], e4 + o3[1]]);
+        return Lt([e4 + o3[0], e4 + o3[1]]);
       e4 += r4.getLength();
     }
   }
@@ -38009,19 +38164,19 @@ class an extends rt {
     return this.blockList.findPositionAtIndexAndOffset(t5.index, t5.offset);
   }
   locationRangeFromPosition(t5) {
-    return wt(this.locationFromPosition(t5));
+    return Lt(this.locationFromPosition(t5));
   }
   locationRangeFromRange(t5) {
-    if (!(t5 = wt(t5)))
+    if (!(t5 = Lt(t5)))
       return;
     const [e4, i4] = Array.from(t5), n3 = this.locationFromPosition(e4), r4 = this.locationFromPosition(i4);
-    return wt([n3, r4]);
+    return Lt([n3, r4]);
   }
   rangeFromLocationRange(t5) {
     let e4;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const i4 = this.positionFromLocation(t5[0]);
-    return Lt(t5) || (e4 = this.positionFromLocation(t5[1])), wt([i4, e4]);
+    return Dt(t5) || (e4 = this.positionFromLocation(t5[1])), Lt([i4, e4]);
   }
   isEqualTo(t5) {
     return this.blockList.isEqualTo(t5 == null ? undefined : t5.blockList);
@@ -38052,15 +38207,15 @@ class an extends rt {
     return JSON.stringify(this.blockList.toArray().map((t5) => JSON.parse(t5.text.toConsole())));
   }
 }
-var ln = function(t5) {
+var cn = function(t5) {
   const e4 = {}, i4 = t5.getLastAttribute();
   return i4 && (e4[i4] = true), e4;
 };
-var cn = function(t5) {
+var un = function(t5) {
   let e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return { string: t5 = Wt(t5), attributes: e4, type: "string" };
+  return { string: t5 = Ut(t5), attributes: e4, type: "string" };
 };
-var un = (t5, e4) => {
+var hn = (t5, e4) => {
   try {
     return JSON.parse(t5.getAttribute("data-trix-".concat(e4)));
   } catch (t6) {
@@ -38068,7 +38223,7 @@ var un = (t5, e4) => {
   }
 };
 
-class hn extends q3 {
+class dn extends H3 {
   static parse(t5, e4) {
     const i4 = new this(t5, e4);
     return i4.parse(), i4;
@@ -38078,12 +38233,12 @@ class hn extends q3 {
     super(...arguments), this.html = t5, this.referenceElement = e4, this.purifyOptions = i4, this.blocks = [], this.blockElements = [], this.processedElements = [];
   }
   getDocument() {
-    return an.fromJSON(this.blocks);
+    return ln.fromJSON(this.blocks);
   }
   parse() {
     try {
-      this.createHiddenContainer(), di.setHTML(this.containerElement, this.html, { purifyOptions: this.purifyOptions });
-      const t5 = R(this.containerElement, { usingFilter: pn });
+      this.createHiddenContainer(), gi.setHTML(this.containerElement, this.html, { purifyOptions: this.purifyOptions });
+      const t5 = k3(this.containerElement, { usingFilter: fn });
       for (;t5.nextNode(); )
         this.processNode(t5.currentNode);
       return this.translateBlockElementMarginsToNewlines();
@@ -38092,10 +38247,10 @@ class hn extends q3 {
     }
   }
   createHiddenContainer() {
-    return this.referenceElement ? (this.containerElement = this.referenceElement.cloneNode(false), this.containerElement.removeAttribute("id"), this.containerElement.setAttribute("data-trix-internal", ""), this.containerElement.style.display = "none", this.referenceElement.parentNode.insertBefore(this.containerElement, this.referenceElement.nextSibling)) : (this.containerElement = T4({ tagName: "div", style: { display: "none" } }), document.body.appendChild(this.containerElement));
+    return this.referenceElement ? (this.containerElement = this.referenceElement.cloneNode(false), this.containerElement.removeAttribute("id"), this.containerElement.setAttribute("data-trix-internal", ""), this.containerElement.style.display = "none", this.referenceElement.parentNode.insertBefore(this.containerElement, this.referenceElement.nextSibling)) : (this.containerElement = w4({ tagName: "div", style: { display: "none" } }), document.body.appendChild(this.containerElement));
   }
   removeHiddenContainer() {
-    return S2(this.containerElement);
+    return R(this.containerElement);
   }
   processNode(t5) {
     switch (t5.nodeType) {
@@ -38115,16 +38270,16 @@ class hn extends q3 {
     if (e4 === this.containerElement || this.isBlockElement(e4)) {
       var i4;
       const t6 = this.getBlockAttributes(e4), n3 = this.getBlockHTMLAttributes(e4);
-      ot(t6, (i4 = this.currentBlock) === null || i4 === undefined ? undefined : i4.attributes) || (this.currentBlock = this.appendBlockForAttributesWithElement(t6, e4, n3), this.currentBlockElement = e4);
+      st(t6, (i4 = this.currentBlock) === null || i4 === undefined ? undefined : i4.attributes) || (this.currentBlock = this.appendBlockForAttributesWithElement(t6, e4, n3), this.currentBlockElement = e4);
     }
   }
   appendBlockForElement(t5) {
-    const e4 = this.isBlockElement(t5), i4 = C3(this.currentBlockElement, t5);
+    const e4 = this.isBlockElement(t5), i4 = E2(this.currentBlockElement, t5);
     if (e4 && !this.isBlockElement(t5.firstChild)) {
       if (!this.isInsignificantTextNode(t5.firstChild) || !this.isBlockElement(t5.firstElementChild)) {
         const e5 = this.getBlockAttributes(t5), n3 = this.getBlockHTMLAttributes(t5);
         if (t5.firstChild) {
-          if (i4 && ot(e5, this.currentBlock.attributes))
+          if (i4 && st(e5, this.currentBlock.attributes))
             return this.appendStringWithAttributes(`
 `);
           this.currentBlock = this.appendBlockForAttributesWithElement(e5, t5, n3), this.currentBlockElement = t5;
@@ -38149,19 +38304,19 @@ class hn extends q3 {
   processTextNode(t5) {
     let e4 = t5.data;
     var i4;
-    dn(t5.parentNode) || (e4 = Vt(e4), vn((i4 = t5.previousSibling) === null || i4 === undefined ? undefined : i4.textContent) && (e4 = fn(e4)));
+    gn(t5.parentNode) || (e4 = zt(e4), An((i4 = t5.previousSibling) === null || i4 === undefined ? undefined : i4.textContent) && (e4 = bn(e4)));
     return this.appendStringWithAttributes(e4, this.getTextAttributes(t5.parentNode));
   }
   processElement(t5) {
     let e4;
-    if (P3(t5)) {
-      if (e4 = un(t5, "attachment"), Object.keys(e4).length) {
+    if (M2(t5)) {
+      if (e4 = hn(t5, "attachment"), Object.keys(e4).length) {
         const i4 = this.getTextAttributes(t5);
         this.appendAttachmentWithAttributes(e4, i4), t5.innerHTML = "";
       }
       return this.processedElements.push(t5);
     }
-    switch (k3(t5)) {
+    switch (T4(t5)) {
       case "br":
         return this.isExtraBR(t5) || this.isBlockElement(t5.nextSibling) || this.appendStringWithAttributes(`
 `, this.getTextAttributes(t5)), this.processedElements.push(t5);
@@ -38178,11 +38333,11 @@ class hn extends q3 {
         return this.appendAttachmentWithAttributes(e4, this.getTextAttributes(t5)), this.processedElements.push(t5);
       case "tr":
         if (this.needsTableSeparator(t5))
-          return this.appendStringWithAttributes(j4.tableRowSeparator);
+          return this.appendStringWithAttributes(W2.tableRowSeparator);
         break;
       case "td":
         if (this.needsTableSeparator(t5))
-          return this.appendStringWithAttributes(j4.tableCellSeparator);
+          return this.appendStringWithAttributes(W2.tableCellSeparator);
     }
   }
   appendBlockForAttributesWithElement(t5, e4) {
@@ -38197,7 +38352,7 @@ class hn extends q3 {
     return this.appendBlockForAttributesWithElement([], null);
   }
   appendStringWithAttributes(t5, e4) {
-    return this.appendPiece(cn(t5, e4));
+    return this.appendPiece(un(t5, e4));
   }
   appendAttachmentWithAttributes(t5, e4) {
     return this.appendPiece(function(t6) {
@@ -38210,21 +38365,21 @@ class hn extends q3 {
   appendStringToTextAtIndex(t5, e4) {
     const { text: i4 } = this.blocks[e4], n3 = i4[i4.length - 1];
     if ((n3 == null ? undefined : n3.type) !== "string")
-      return i4.push(cn(t5));
+      return i4.push(un(t5));
     n3.string += t5;
   }
   prependStringToTextAtIndex(t5, e4) {
     const { text: i4 } = this.blocks[e4], n3 = i4[0];
     if ((n3 == null ? undefined : n3.type) !== "string")
-      return i4.unshift(cn(t5));
+      return i4.unshift(un(t5));
     n3.string = t5 + n3.string;
   }
   getTextAttributes(t5) {
     let e4;
     const i4 = {};
-    for (const n3 in W2) {
-      const r4 = W2[n3];
-      if (r4.tagName && y3(t5, { matchingSelector: r4.tagName, untilNode: this.containerElement }))
+    for (const n3 in U2) {
+      const r4 = U2[n3];
+      if (r4.tagName && x4(t5, { matchingSelector: r4.tagName, untilNode: this.containerElement }))
         i4[n3] = true;
       else if (r4.parser) {
         if (e4 = r4.parser(t5), e4) {
@@ -38239,8 +38394,8 @@ class hn extends q3 {
       } else
         r4.styleProperty && (e4 = t5.style[r4.styleProperty], e4 && (i4[n3] = e4));
     }
-    if (P3(t5)) {
-      const n3 = un(t5, "attributes");
+    if (M2(t5)) {
+      const n3 = hn(t5, "attributes");
       for (const t6 in n3)
         e4 = n3[t6], i4[t6] = e4;
     }
@@ -38253,7 +38408,7 @@ class hn extends q3 {
         const o3 = n2[r4];
         var i4;
         if (o3.parse !== false) {
-          if (k3(t5) === o3.tagName)
+          if (T4(t5) === o3.tagName)
             ((i4 = o3.test) !== null && i4 !== undefined && i4.call(o3, t5) || !o3.test) && (e4.push(r4), o3.listAttribute && e4.push(o3.listAttribute));
         }
       }
@@ -38262,7 +38417,7 @@ class hn extends q3 {
     return e4.reverse();
   }
   getBlockHTMLAttributes(t5) {
-    const e4 = {}, i4 = Object.values(n2).find((e5) => e5.tagName === k3(t5));
+    const e4 = {}, i4 = Object.values(n2).find((e5) => e5.tagName === T4(t5));
     return ((i4 == null ? undefined : i4.htmlAttributes) || []).forEach((i5) => {
       t5.hasAttribute(i5) && (e4[i5] = t5.getAttribute(i5));
     }), e4;
@@ -38270,28 +38425,28 @@ class hn extends q3 {
   findBlockElementAncestors(t5) {
     const e4 = [];
     for (;t5 && t5 !== this.containerElement; ) {
-      const i4 = k3(t5);
-      L3().includes(i4) && e4.push(t5), t5 = t5.parentNode;
+      const i4 = T4(t5);
+      D3().includes(i4) && e4.push(t5), t5 = t5.parentNode;
     }
     return e4;
   }
   isBlockElement(t5) {
-    if ((t5 == null ? undefined : t5.nodeType) === Node.ELEMENT_NODE && !P3(t5) && !y3(t5, { matchingSelector: "td", untilNode: this.containerElement }))
-      return L3().includes(k3(t5)) || window.getComputedStyle(t5).display === "block";
+    if ((t5 == null ? undefined : t5.nodeType) === Node.ELEMENT_NODE && !M2(t5) && !x4(t5, { matchingSelector: "td", untilNode: this.containerElement }))
+      return D3().includes(T4(t5)) || window.getComputedStyle(t5).display === "block";
   }
   isInsignificantTextNode(t5) {
     if ((t5 == null ? undefined : t5.nodeType) !== Node.TEXT_NODE)
       return;
-    if (!bn(t5.data))
+    if (!vn(t5.data))
       return;
     const { parentNode: e4, previousSibling: i4, nextSibling: n3 } = t5;
-    return gn(e4.previousSibling) && !this.isBlockElement(e4.previousSibling) || dn(e4) ? undefined : !i4 || this.isBlockElement(i4) || !n3 || this.isBlockElement(n3);
+    return mn(e4.previousSibling) && !this.isBlockElement(e4.previousSibling) || gn(e4) ? undefined : !i4 || this.isBlockElement(i4) || !n3 || this.isBlockElement(n3);
   }
   isExtraBR(t5) {
-    return k3(t5) === "br" && this.isBlockElement(t5.parentNode) && t5.parentNode.lastChild === t5;
+    return T4(t5) === "br" && this.isBlockElement(t5.parentNode) && t5.parentNode.lastChild === t5;
   }
   needsTableSeparator(t5) {
-    if (j4.removeBlankTableCells) {
+    if (W2.removeBlankTableCells) {
       var e4;
       const i4 = (e4 = t5.previousSibling) === null || e4 === undefined ? undefined : e4.textContent;
       return i4 && /\S/.test(i4);
@@ -38309,73 +38464,73 @@ class hn extends q3 {
   }
   getMarginOfBlockElementAtIndex(t5) {
     const e4 = this.blockElements[t5];
-    if (e4 && e4.textContent && !L3().includes(k3(e4)) && !this.processedElements.includes(e4))
-      return mn(e4);
+    if (e4 && e4.textContent && !D3().includes(T4(e4)) && !this.processedElements.includes(e4))
+      return pn(e4);
   }
   getMarginOfDefaultBlockElement() {
-    const t5 = T4(n2.default.tagName);
-    return this.containerElement.appendChild(t5), mn(t5);
+    const t5 = w4(n2.default.tagName);
+    return this.containerElement.appendChild(t5), pn(t5);
   }
 }
-var dn = function(t5) {
+var gn = function(t5) {
   const { whiteSpace: e4 } = window.getComputedStyle(t5);
   return ["pre", "pre-wrap", "pre-line"].includes(e4);
 };
-var gn = (t5) => t5 && !vn(t5.textContent);
-var mn = function(t5) {
+var mn = (t5) => t5 && !An(t5.textContent);
+var pn = function(t5) {
   const e4 = window.getComputedStyle(t5);
   if (e4.display === "block")
     return { top: parseInt(e4.marginTop), bottom: parseInt(e4.marginBottom) };
 };
-var pn = function(t5) {
-  return k3(t5) === "style" ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+var fn = function(t5) {
+  return T4(t5) === "style" ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
 };
-var fn = (t5) => t5.replace(new RegExp("^".concat(Ut.source, "+")), "");
-var bn = (t5) => new RegExp("^".concat(Ut.source, "*$")).test(t5);
-var vn = (t5) => /\s$/.test(t5);
-var An = ["contenteditable", "data-trix-id", "data-trix-store-key", "data-trix-mutable", "data-trix-placeholder", "tabindex"];
-var yn = "data-trix-serialized-attributes";
-var xn = "[".concat(yn, "]");
-var Cn = new RegExp("<!--block-->", "g");
-var En = { "application/json": function(t5) {
+var bn = (t5) => t5.replace(new RegExp("^".concat(Vt.source, "+")), "");
+var vn = (t5) => new RegExp("^".concat(Vt.source, "*$")).test(t5);
+var An = (t5) => /\s$/.test(t5);
+var yn = ["contenteditable", "data-trix-id", "data-trix-store-key", "data-trix-mutable", "data-trix-placeholder", "tabindex"];
+var xn = "data-trix-serialized-attributes";
+var Cn = "[".concat(xn, "]");
+var En = new RegExp("<!--block-->", "g");
+var Sn = { "application/json": function(t5) {
   let e4;
-  if (t5 instanceof an)
+  if (t5 instanceof ln)
     e4 = t5;
   else {
     if (!(t5 instanceof HTMLElement))
       throw new Error("unserializable object");
-    e4 = hn.parse(t5.innerHTML).getDocument();
+    e4 = dn.parse(t5.innerHTML).getDocument();
   }
   return e4.toSerializableDocument().toJSONString();
 }, "text/html": function(t5) {
   let e4;
-  if (t5 instanceof an)
-    e4 = Si.render(t5);
+  if (t5 instanceof ln)
+    e4 = Ri.render(t5);
   else {
     if (!(t5 instanceof HTMLElement))
       throw new Error("unserializable object");
     e4 = t5.cloneNode(true);
   }
   return Array.from(e4.querySelectorAll("[data-trix-serialize=false]")).forEach((t6) => {
-    S2(t6);
-  }), An.forEach((t6) => {
+    R(t6);
+  }), yn.forEach((t6) => {
     Array.from(e4.querySelectorAll("[".concat(t6, "]"))).forEach((e5) => {
       e5.removeAttribute(t6);
     });
-  }), Array.from(e4.querySelectorAll(xn)).forEach((t6) => {
+  }), Array.from(e4.querySelectorAll(Cn)).forEach((t6) => {
     try {
-      const e5 = JSON.parse(t6.getAttribute(yn));
-      t6.removeAttribute(yn);
+      const e5 = JSON.parse(t6.getAttribute(xn));
+      t6.removeAttribute(xn);
       for (const i4 in e5) {
         const n3 = e5[i4];
         t6.setAttribute(i4, n3);
       }
     } catch (t7) {}
-  }), e4.innerHTML.replace(Cn, "");
+  }), e4.innerHTML.replace(En, "");
 } };
-var Sn = Object.freeze({ __proto__: null });
+var Rn = Object.freeze({ __proto__: null });
 
-class Rn extends q3 {
+class kn extends H3 {
   constructor(t5, e4) {
     super(...arguments), this.attachmentManager = t5, this.attachment = e4, this.id = this.attachment.id, this.file = this.attachment.file;
   }
@@ -38383,9 +38538,9 @@ class Rn extends q3 {
     return this.attachmentManager.requestRemovalOfAttachment(this.attachment);
   }
 }
-Rn.proxyMethod("attachment.getAttribute"), Rn.proxyMethod("attachment.hasAttribute"), Rn.proxyMethod("attachment.setAttribute"), Rn.proxyMethod("attachment.getAttributes"), Rn.proxyMethod("attachment.setAttributes"), Rn.proxyMethod("attachment.isPending"), Rn.proxyMethod("attachment.isPreviewable"), Rn.proxyMethod("attachment.getURL"), Rn.proxyMethod("attachment.getHref"), Rn.proxyMethod("attachment.getFilename"), Rn.proxyMethod("attachment.getFilesize"), Rn.proxyMethod("attachment.getFormattedFilesize"), Rn.proxyMethod("attachment.getExtension"), Rn.proxyMethod("attachment.getContentType"), Rn.proxyMethod("attachment.getFile"), Rn.proxyMethod("attachment.setFile"), Rn.proxyMethod("attachment.releaseFile"), Rn.proxyMethod("attachment.getUploadProgress"), Rn.proxyMethod("attachment.setUploadProgress");
+kn.proxyMethod("attachment.getAttribute"), kn.proxyMethod("attachment.hasAttribute"), kn.proxyMethod("attachment.setAttribute"), kn.proxyMethod("attachment.getAttributes"), kn.proxyMethod("attachment.setAttributes"), kn.proxyMethod("attachment.isPending"), kn.proxyMethod("attachment.isPreviewable"), kn.proxyMethod("attachment.getURL"), kn.proxyMethod("attachment.getPreviewURL"), kn.proxyMethod("attachment.setPreviewURL"), kn.proxyMethod("attachment.getHref"), kn.proxyMethod("attachment.getFilename"), kn.proxyMethod("attachment.getFilesize"), kn.proxyMethod("attachment.getFormattedFilesize"), kn.proxyMethod("attachment.getExtension"), kn.proxyMethod("attachment.getContentType"), kn.proxyMethod("attachment.getFile"), kn.proxyMethod("attachment.setFile"), kn.proxyMethod("attachment.releaseFile"), kn.proxyMethod("attachment.getUploadProgress"), kn.proxyMethod("attachment.setUploadProgress");
 
-class kn extends q3 {
+class Tn extends H3 {
   constructor() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     super(...arguments), this.managedAttachments = {}, Array.from(t5).forEach((t6) => {
@@ -38401,7 +38556,7 @@ class kn extends q3 {
     return t5;
   }
   manageAttachment(t5) {
-    return this.managedAttachments[t5.id] || (this.managedAttachments[t5.id] = new Rn(this, t5)), this.managedAttachments[t5.id];
+    return this.managedAttachments[t5.id] || (this.managedAttachments[t5.id] = new kn(this, t5)), this.managedAttachments[t5.id];
   }
   attachmentIsManaged(t5) {
     return t5.id in this.managedAttachments;
@@ -38417,7 +38572,7 @@ class kn extends q3 {
   }
 }
 
-class Tn {
+class wn {
   constructor(t5) {
     this.composition = t5, this.document = this.composition.document;
     const e4 = this.composition.getSelectedRange();
@@ -38443,9 +38598,9 @@ class Tn {
   }
 }
 
-class wn extends q3 {
+class Ln extends H3 {
   constructor() {
-    super(...arguments), this.document = new an, this.attachments = [], this.currentAttributes = {}, this.revision = 0;
+    super(...arguments), this.document = new ln, this.attachments = [], this.currentAttributes = {}, this.revision = 0;
   }
   setDocument(t5) {
     var e4, i4;
@@ -38458,7 +38613,7 @@ class wn extends q3 {
   loadSnapshot(t5) {
     var e4, i4, n3, r4;
     let { document: o3, selectedRange: s4 } = t5;
-    return (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.compositionWillLoadSnapshot) === null || i4 === undefined || i4.call(e4), this.setDocument(o3 != null ? o3 : new an), this.setSelection(s4 != null ? s4 : [0, 0]), (n3 = this.delegate) === null || n3 === undefined || (r4 = n3.compositionDidLoadSnapshot) === null || r4 === undefined ? undefined : r4.call(n3);
+    return (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.compositionWillLoadSnapshot) === null || i4 === undefined || i4.call(e4), this.setDocument(o3 != null ? o3 : new ln), this.setSelection(s4 != null ? s4 : [0, 0]), (n3 = this.delegate) === null || n3 === undefined || (r4 = n3.compositionDidLoadSnapshot) === null || r4 === undefined ? undefined : r4.call(n3);
   }
   insertText(t5) {
     let { updatePosition: e4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { updatePosition: true };
@@ -38468,19 +38623,19 @@ class wn extends q3 {
     return e4 && this.setSelection(r4), this.notifyDelegateOfInsertionAtRange([n3, r4]);
   }
   insertBlock() {
-    let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Xi;
-    const e4 = new an([t5]);
+    let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new $i;
+    const e4 = new ln([t5]);
     return this.insertDocument(e4);
   }
   insertDocument() {
-    let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new an;
+    let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new ln;
     const e4 = this.getSelectedRange();
     this.setDocument(this.document.insertDocumentAtRange(t5, e4));
     const i4 = e4[0], n3 = i4 + t5.getLength();
     return this.setSelection(n3), this.notifyDelegateOfInsertionAtRange([i4, n3]);
   }
   insertString(t5, e4) {
-    const i4 = this.getCurrentTextAttributes(), n3 = Yi.textForStringWithAttributes(t5, i4);
+    const i4 = this.getCurrentTextAttributes(), n3 = Xi.textForStringWithAttributes(t5, i4);
     return this.insertText(n3, e4);
   }
   insertBlockBreak() {
@@ -38490,24 +38645,24 @@ class wn extends q3 {
     return this.setSelection(i4), this.notifyDelegateOfInsertionAtRange([e4, i4]);
   }
   insertLineBreak() {
-    const t5 = new Tn(this);
+    const t5 = new wn(this);
     if (t5.shouldDecreaseListLevel())
       return this.decreaseListLevel(), this.setSelection(t5.startPosition);
     if (t5.shouldPrependListItem()) {
-      const e4 = new an([t5.block.copyWithoutText()]);
+      const e4 = new ln([t5.block.copyWithoutText()]);
       return this.insertDocument(e4);
     }
     return t5.shouldInsertBlockBreak() ? this.insertBlockBreak() : t5.shouldRemoveLastBlockAttribute() ? this.removeLastBlockAttribute() : t5.shouldBreakFormattedBlock() ? this.breakFormattedBlock(t5) : this.insertString(`
 `);
   }
   insertHTML(t5) {
-    const e4 = hn.parse(t5, { purifyOptions: { SAFE_FOR_XML: true } }).getDocument(), i4 = this.getSelectedRange();
+    const e4 = dn.parse(t5, { purifyOptions: { SAFE_FOR_XML: true } }).getDocument(), i4 = this.getSelectedRange();
     this.setDocument(this.document.mergeDocumentAtRange(e4, i4));
     const n3 = i4[0], r4 = n3 + e4.getLength() - 1;
     return this.setSelection(r4), this.notifyDelegateOfInsertionAtRange([n3, r4]);
   }
   replaceHTML(t5) {
-    const e4 = hn.parse(t5).getDocument().copyUsingObjectsFromDocument(this.document), i4 = this.getLocationRange({ strict: false }), n3 = this.document.rangeFromLocationRange(i4);
+    const e4 = dn.parse(t5).getDocument().copyUsingObjectsFromDocument(this.document), i4 = this.getLocationRange({ strict: false }), n3 = this.document.rangeFromLocationRange(i4);
     return this.setDocument(e4), this.setSelection(n3);
   }
   insertFile(t5) {
@@ -38518,7 +38673,7 @@ class wn extends q3 {
     return Array.from(t5).forEach((t6) => {
       var i4;
       if ((i4 = this.delegate) !== null && i4 !== undefined && i4.compositionShouldAcceptFile(t6)) {
-        const i5 = Vi.attachmentForFile(t6);
+        const i5 = zi.attachmentForFile(t6);
         e4.push(i5);
       }
     }), this.insertAttachments(e4);
@@ -38527,18 +38682,18 @@ class wn extends q3 {
     return this.insertAttachments([t5]);
   }
   insertAttachments(t5) {
-    let e4 = new Yi;
+    let e4 = new Xi;
     return Array.from(t5).forEach((t6) => {
       var n3;
       const r4 = t6.getType(), o3 = (n3 = i3[r4]) === null || n3 === undefined ? undefined : n3.presentation, s4 = this.getCurrentTextAttributes();
       o3 && (s4.presentation = o3);
-      const a4 = Yi.textForAttachmentWithAttributes(t6, s4);
+      const a4 = Xi.textForAttachmentWithAttributes(t6, s4);
       e4 = e4.appendText(a4);
     }), this.insertText(e4);
   }
   shouldManageDeletingInDirection(t5) {
     const e4 = this.getLocationRange();
-    if (Lt(e4)) {
+    if (Dt(e4)) {
       if (t5 === "backward" && e4[0].offset === 0)
         return true;
       if (this.shouldManageMovingCursorInDirection(t5))
@@ -38551,7 +38706,7 @@ class wn extends q3 {
     let e4, i4, n3, { length: r4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const o3 = this.getLocationRange();
     let s4 = this.getSelectedRange();
-    const a4 = Lt(s4);
+    const a4 = Dt(s4);
     if (a4 ? i4 = t5 === "backward" && o3[0].offset === 0 : n3 = o3[0].index !== o3[1].index, i4 && this.canDecreaseBlockAttributeLevel()) {
       const t6 = this.getBlock();
       if (t6.isListItem() ? this.decreaseListLevel() : this.decreaseBlockAttributeLevel(), this.setSelection(s4[0]), t6.isEmpty())
@@ -38591,7 +38746,7 @@ class wn extends q3 {
     return e4 ? this.setCurrentAttribute(t5, e4) : this.removeCurrentAttribute(t5);
   }
   canSetCurrentAttribute(t5) {
-    return mt(t5) ? this.canSetCurrentBlockAttribute(t5) : this.canSetCurrentTextAttribute(t5);
+    return pt(t5) ? this.canSetCurrentBlockAttribute(t5) : this.canSetCurrentTextAttribute(t5);
   }
   canSetCurrentTextAttribute(t5) {
     const e4 = this.getSelectedDocument();
@@ -38608,11 +38763,11 @@ class wn extends q3 {
       return !e4.isTerminalBlock();
   }
   setCurrentAttribute(t5, e4) {
-    return mt(t5) ? this.setBlockAttribute(t5, e4) : (this.setTextAttribute(t5, e4), this.currentAttributes[t5] = e4, this.notifyDelegateOfCurrentAttributesChange());
+    return pt(t5) ? this.setBlockAttribute(t5, e4) : (this.setTextAttribute(t5, e4), this.currentAttributes[t5] = e4, this.notifyDelegateOfCurrentAttributesChange());
   }
   setHTMLAtributeAtPosition(t5, e4, i4) {
     var n3;
-    const r4 = this.document.getBlockAtPosition(t5), o3 = (n3 = mt(r4.getLastAttribute())) === null || n3 === undefined ? undefined : n3.htmlAttributes;
+    const r4 = this.document.getBlockAtPosition(t5), o3 = (n3 = pt(r4.getLastAttribute())) === null || n3 === undefined ? undefined : n3.htmlAttributes;
     if (r4 && o3 != null && o3.includes(e4)) {
       const n4 = this.document.setHTMLAttributeAtPosition(t5, e4, i4);
       this.setDocument(n4);
@@ -38626,7 +38781,7 @@ class wn extends q3 {
     if (n3 !== r4)
       return this.setDocument(this.document.addAttributeAtRange(t5, e4, i4));
     if (t5 === "href") {
-      const t6 = Yi.textForStringWithAttributes(e4, { href: e4 });
+      const t6 = Xi.textForStringWithAttributes(e4, { href: e4 });
       return this.insertText(t6);
     }
   }
@@ -38636,7 +38791,7 @@ class wn extends q3 {
       return this.setDocument(this.document.applyBlockAttributeAtRange(t5, e4, i4)), this.setSelection(i4);
   }
   removeCurrentAttribute(t5) {
-    return mt(t5) ? (this.removeBlockAttribute(t5), this.updateCurrentAttributes()) : (this.removeTextAttribute(t5), delete this.currentAttributes[t5], this.notifyDelegateOfCurrentAttributesChange());
+    return pt(t5) ? (this.removeBlockAttribute(t5), this.updateCurrentAttributes()) : (this.removeTextAttribute(t5), delete this.currentAttributes[t5], this.notifyDelegateOfCurrentAttributesChange());
   }
   removeTextAttribute(t5) {
     const e4 = this.getSelectedRange();
@@ -38656,14 +38811,14 @@ class wn extends q3 {
     var t5;
     const e4 = this.getBlock();
     if (e4) {
-      if ((t5 = mt(e4.getLastNestableAttribute())) === null || t5 === undefined || !t5.listAttribute)
+      if ((t5 = pt(e4.getLastNestableAttribute())) === null || t5 === undefined || !t5.listAttribute)
         return e4.getNestingLevel() > 0;
       {
         const t6 = this.getPreviousBlock();
         if (t6)
           return function() {
             let t7 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-            return ot((arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []).slice(0, t7.length), t7);
+            return st((arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : []).slice(0, t7.length), t7);
           }(t6.getListItemAttributes(), e4.getListItemAttributes());
       }
     }
@@ -38704,9 +38859,9 @@ class wn extends q3 {
     const t5 = this.getSelectedRange({ ignoreLock: true });
     if (t5) {
       const e4 = this.document.getCommonAttributesAtRange(t5);
-      if (Array.from(gt()).forEach((t6) => {
+      if (Array.from(mt()).forEach((t6) => {
         e4[t6] || this.canSetCurrentAttribute(t6) || (e4[t6] = false);
-      }), !Tt(e4, this.currentAttributes))
+      }), !wt(e4, this.currentAttributes))
         return this.currentAttributes = e4, this.notifyDelegateOfCurrentAttributesChange();
     }
   }
@@ -38717,7 +38872,7 @@ class wn extends q3 {
     const t5 = {};
     for (const e4 in this.currentAttributes) {
       const i4 = this.currentAttributes[e4];
-      i4 !== false && ft(e4) && (t5[e4] = i4);
+      i4 !== false && bt(e4) && (t5[e4] = i4);
     }
     return t5;
   }
@@ -38750,7 +38905,7 @@ class wn extends q3 {
       return this.document.positionFromLocation(t5[0]);
   }
   getLocationRange(t5) {
-    return this.targetLocationRange ? this.targetLocationRange : this.getSelectionManager().getLocationRange(t5) || wt({ index: 0, offset: 0 });
+    return this.targetLocationRange ? this.targetLocationRange : this.getSelectionManager().getLocationRange(t5) || Lt({ index: 0, offset: 0 });
   }
   withTargetLocationRange(t5, e4) {
     let i4;
@@ -38772,7 +38927,7 @@ class wn extends q3 {
   }
   getExpandedRangeInDirection(t5) {
     let { length: e4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {}, [i4, n3] = Array.from(this.getSelectedRange());
-    return t5 === "backward" ? e4 ? i4 -= e4 : i4 = this.translateUTF16PositionFromOffset(i4, -1) : e4 ? n3 += e4 : n3 = this.translateUTF16PositionFromOffset(n3, 1), wt([i4, n3]);
+    return t5 === "backward" ? e4 ? i4 -= e4 : i4 = this.translateUTF16PositionFromOffset(i4, -1) : e4 ? n3 += e4 : n3 = this.translateUTF16PositionFromOffset(n3, 1), Lt([i4, n3]);
   }
   shouldManageMovingCursorInDirection(t5) {
     if (this.editingAttachment)
@@ -38786,7 +38941,7 @@ class wn extends q3 {
       i4 = this.document.getRangeOfAttachment(this.editingAttachment);
     else {
       const n3 = this.getSelectedRange();
-      i4 = this.getExpandedRangeInDirection(t5), e4 = !Dt(n3, i4);
+      i4 = this.getExpandedRangeInDirection(t5), e4 = !Nt(n3, i4);
     }
     if (t5 === "backward" ? this.setSelectedRange(i4[0]) : this.setSelectedRange(i4[1]), e4) {
       const t6 = this.getAttachmentAtRange(i4);
@@ -38891,7 +39046,7 @@ class wn extends q3 {
 ` ? n3 += 1 : e4 = e4.removeTextAtRange(r4), r4 = [n3, n3]) : t5.nextCharacter === `
 ` ? t5.previousCharacter === `
 ` ? r4 = [n3 - 1, n3 + 1] : (r4 = [n3, n3 + 1], n3 += 1) : t5.startLocation.offset - 1 != 0 && (n3 += 1);
-    const o3 = new an([i4.removeLastAttribute().copyWithoutText()]);
+    const o3 = new ln([i4.removeLastAttribute().copyWithoutText()]);
     return this.setDocument(e4.insertDocumentAtRange(o3, r4)), this.setSelection(n3);
   }
   getPreviousBlock() {
@@ -38926,16 +39081,16 @@ class wn extends q3 {
     return i4.offsetToUCS2Offset(n3 + e4);
   }
 }
-wn.proxyMethod("getSelectionManager().getPointRange"), wn.proxyMethod("getSelectionManager().setLocationRangeFromPointRange"), wn.proxyMethod("getSelectionManager().createLocationRangeFromDOMRange"), wn.proxyMethod("getSelectionManager().locationIsCursorTarget"), wn.proxyMethod("getSelectionManager().selectionIsExpanded"), wn.proxyMethod("delegate?.getSelectionManager");
+Ln.proxyMethod("getSelectionManager().getPointRange"), Ln.proxyMethod("getSelectionManager().setLocationRangeFromPointRange"), Ln.proxyMethod("getSelectionManager().createLocationRangeFromDOMRange"), Ln.proxyMethod("getSelectionManager().locationIsCursorTarget"), Ln.proxyMethod("getSelectionManager().selectionIsExpanded"), Ln.proxyMethod("delegate?.getSelectionManager");
 
-class Ln extends q3 {
+class Dn extends H3 {
   constructor(t5) {
     super(...arguments), this.composition = t5, this.undoEntries = [], this.redoEntries = [];
   }
   recordUndoEntry(t5) {
     let { context: e4, consolidatable: i4 } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const n3 = this.undoEntries.slice(-1)[0];
-    if (!i4 || !Dn(n3, t5, e4)) {
+    if (!i4 || !Nn(n3, t5, e4)) {
       const i5 = this.createEntry({ description: t5, context: e4 });
       this.undoEntries.push(i5), this.redoEntries = [];
     }
@@ -38965,10 +39120,10 @@ class Ln extends q3 {
     return { description: t5 == null ? undefined : t5.toString(), context: JSON.stringify(e4), snapshot: this.composition.getSnapshot() };
   }
 }
-var Dn = (t5, e4, i4) => (t5 == null ? undefined : t5.description) === (e4 == null ? undefined : e4.toString()) && (t5 == null ? undefined : t5.context) === JSON.stringify(i4);
-var Nn = "attachmentGallery";
+var Nn = (t5, e4, i4) => (t5 == null ? undefined : t5.description) === (e4 == null ? undefined : e4.toString()) && (t5 == null ? undefined : t5.context) === JSON.stringify(i4);
+var In = "attachmentGallery";
 
-class In {
+class On {
   constructor(t5) {
     this.document = t5.document, this.selectedRange = t5.selectedRange;
   }
@@ -38979,18 +39134,18 @@ class In {
     return { document: this.document, selectedRange: this.selectedRange };
   }
   removeBlockAttribute() {
-    return this.findRangesOfBlocks().map((t5) => this.document = this.document.removeAttributeAtRange(Nn, t5));
+    return this.findRangesOfBlocks().map((t5) => this.document = this.document.removeAttributeAtRange(In, t5));
   }
   applyBlockAttribute() {
     let t5 = 0;
     this.findRangesOfPieces().forEach((e4) => {
       e4[1] - e4[0] > 1 && (e4[0] += t5, e4[1] += t5, this.document.getCharacterAtPosition(e4[1]) !== `
 ` && (this.document = this.document.insertBlockBreakAtRange(e4[1]), e4[1] < this.selectedRange[1] && this.moveSelectedRangeForward(), e4[1]++, t5++), e4[0] !== 0 && this.document.getCharacterAtPosition(e4[0] - 1) !== `
-` && (this.document = this.document.insertBlockBreakAtRange(e4[0]), e4[0] < this.selectedRange[0] && this.moveSelectedRangeForward(), e4[0]++, t5++), this.document = this.document.applyBlockAttributeAtRange(Nn, true, e4));
+` && (this.document = this.document.insertBlockBreakAtRange(e4[0]), e4[0] < this.selectedRange[0] && this.moveSelectedRangeForward(), e4[0]++, t5++), this.document = this.document.applyBlockAttributeAtRange(In, true, e4));
     });
   }
   findRangesOfBlocks() {
-    return this.document.findRangesForBlockAttribute(Nn);
+    return this.document.findRangesForBlockAttribute(In);
   }
   findRangesOfPieces() {
     return this.document.findRangesForTextAttribute("presentation", { withValue: "gallery" });
@@ -38999,30 +39154,30 @@ class In {
     this.selectedRange[0] += 1, this.selectedRange[1] += 1;
   }
 }
-var On = function(t5) {
-  const e4 = new In(t5);
+var Fn = function(t5) {
+  const e4 = new On(t5);
   return e4.perform(), e4.getSnapshot();
 };
-var Fn = [On];
+var Pn = [Fn];
 
-class Pn {
+class Mn {
   constructor(t5, e4, i4) {
-    this.insertFiles = this.insertFiles.bind(this), this.composition = t5, this.selectionManager = e4, this.element = i4, this.undoManager = new Ln(this.composition), this.filters = Fn.slice(0);
+    this.insertFiles = this.insertFiles.bind(this), this.composition = t5, this.selectionManager = e4, this.element = i4, this.undoManager = new Dn(this.composition), this.filters = Pn.slice(0);
   }
   loadDocument(t5) {
     return this.loadSnapshot({ document: t5, selectedRange: [0, 0] });
   }
   loadHTML() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    const e4 = hn.parse(t5, { referenceElement: this.element }).getDocument();
+    const e4 = dn.parse(t5, { referenceElement: this.element }).getDocument();
     return this.loadDocument(e4);
   }
   loadJSON(t5) {
     let { document: e4, selectedRange: i4 } = t5;
-    return e4 = an.fromJSON(e4), this.loadSnapshot({ document: e4, selectedRange: i4 });
+    return e4 = ln.fromJSON(e4), this.loadSnapshot({ document: e4, selectedRange: i4 });
   }
   loadSnapshot(t5) {
-    return this.undoManager = new Ln(this.composition), this.composition.loadSnapshot(t5);
+    return this.undoManager = new Dn(this.composition), this.composition.loadSnapshot(t5);
   }
   getDocument() {
     return this.composition.document;
@@ -39135,27 +39290,27 @@ class Pn {
   }
 }
 
-class Mn {
+class Bn {
   constructor(t5) {
     this.element = t5;
   }
   findLocationFromContainerAndOffset(t5, e4) {
     let { strict: i4 } = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : { strict: true }, n3 = 0, r4 = false;
     const o3 = { index: 0, offset: 0 }, s4 = this.findAttachmentElementParentForNode(t5);
-    s4 && (t5 = s4.parentNode, e4 = E2(s4));
-    const a4 = R(this.element, { usingFilter: Wn });
+    s4 && (t5 = s4.parentNode, e4 = S2(s4));
+    const a4 = k3(this.element, { usingFilter: Un });
     for (;a4.nextNode(); ) {
       const s5 = a4.currentNode;
-      if (s5 === t5 && B3(t5)) {
-        F4(s5) || (o3.offset += e4);
+      if (s5 === t5 && _3(t5)) {
+        P3(s5) || (o3.offset += e4);
         break;
       }
       if (s5.parentNode === t5) {
         if (n3++ === e4)
           break;
-      } else if (!C3(t5, s5) && n3 > 0)
+      } else if (!E2(t5, s5) && n3 > 0)
         break;
-      N3(s5, { strict: i4 }) ? (r4 && o3.index++, o3.offset = 0, r4 = true) : o3.offset += Bn(s5);
+      I3(s5, { strict: i4 }) ? (r4 && o3.index++, o3.offset = 0, r4 = true) : o3.offset += _n(s5);
     }
     return o3;
   }
@@ -39163,7 +39318,7 @@ class Mn {
     let e4, i4;
     if (t5.index === 0 && t5.offset === 0) {
       for (e4 = this.element, i4 = 0;e4.firstChild; )
-        if (e4 = e4.firstChild, D3(e4)) {
+        if (e4 = e4.firstChild, N3(e4)) {
           i4 = 1;
           break;
         }
@@ -39171,13 +39326,13 @@ class Mn {
     }
     let [n3, r4] = this.findNodeAndOffsetFromLocation(t5);
     if (n3) {
-      if (B3(n3))
-        Bn(n3) === 0 ? (e4 = n3.parentNode.parentNode, i4 = E2(n3.parentNode), F4(n3, { name: "right" }) && i4++) : (e4 = n3, i4 = t5.offset - r4);
+      if (_3(n3))
+        _n(n3) === 0 ? (e4 = n3.parentNode.parentNode, i4 = S2(n3.parentNode), P3(n3, { name: "right" }) && i4++) : (e4 = n3, i4 = t5.offset - r4);
       else {
-        if (e4 = n3.parentNode, !N3(n3.previousSibling) && !D3(e4))
-          for (;n3 === e4.lastChild && (n3 = e4, e4 = e4.parentNode, !D3(e4)); )
+        if (e4 = n3.parentNode, !I3(n3.previousSibling) && !N3(e4))
+          for (;n3 === e4.lastChild && (n3 = e4, e4 = e4.parentNode, !N3(e4)); )
             ;
-        i4 = E2(n3), t5.offset !== 0 && i4++;
+        i4 = S2(n3), t5.offset !== 0 && i4++;
       }
       return [e4, i4];
     }
@@ -39185,10 +39340,10 @@ class Mn {
   findNodeAndOffsetFromLocation(t5) {
     let e4, i4, n3 = 0;
     for (const r4 of this.getSignificantNodesForIndex(t5.index)) {
-      const o3 = Bn(r4);
+      const o3 = _n(r4);
       if (t5.offset <= n3 + o3)
-        if (B3(r4)) {
-          if (e4 = r4, i4 = n3, t5.offset === i4 && F4(e4))
+        if (_3(r4)) {
+          if (e4 = r4, i4 = n3, t5.offset === i4 && P3(e4))
             break;
         } else
           e4 || (e4 = r4, i4 = n3);
@@ -39199,18 +39354,18 @@ class Mn {
   }
   findAttachmentElementParentForNode(t5) {
     for (;t5 && t5 !== this.element; ) {
-      if (P3(t5))
+      if (M2(t5))
         return t5;
       t5 = t5.parentNode;
     }
   }
   getSignificantNodesForIndex(t5) {
-    const e4 = [], i4 = R(this.element, { usingFilter: _n });
+    const e4 = [], i4 = k3(this.element, { usingFilter: jn });
     let n3 = false;
     for (;i4.nextNode(); ) {
       const o3 = i4.currentNode;
       var r4;
-      if (I3(o3)) {
+      if (O2(o3)) {
         if (r4 != null ? r4++ : r4 = 0, r4 === t5)
           n3 = true;
         else if (n3)
@@ -39221,25 +39376,25 @@ class Mn {
     return e4;
   }
 }
-var Bn = function(t5) {
+var _n = function(t5) {
   if (t5.nodeType === Node.TEXT_NODE) {
-    if (F4(t5))
+    if (P3(t5))
       return 0;
     return t5.textContent.length;
   }
-  return k3(t5) === "br" || P3(t5) ? 1 : 0;
-};
-var _n = function(t5) {
-  return jn(t5) === NodeFilter.FILTER_ACCEPT ? Wn(t5) : NodeFilter.FILTER_REJECT;
+  return T4(t5) === "br" || M2(t5) ? 1 : 0;
 };
 var jn = function(t5) {
-  return M2(t5) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+  return Wn(t5) === NodeFilter.FILTER_ACCEPT ? Un(t5) : NodeFilter.FILTER_REJECT;
 };
 var Wn = function(t5) {
-  return P3(t5.parentNode) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+  return B3(t5) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+};
+var Un = function(t5) {
+  return M2(t5.parentNode) ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
 };
 
-class Un {
+class Vn {
   createDOMRangeFromPoint(t5) {
     let e4, { x: i4, y: n3 } = t5;
     if (document.caretPositionFromPoint) {
@@ -39249,12 +39404,12 @@ class Un {
     if (document.caretRangeFromPoint)
       return document.caretRangeFromPoint(i4, n3);
     if (document.body.createTextRange) {
-      const t6 = Mt();
+      const t6 = Bt();
       try {
         const t7 = document.body.createTextRange();
         t7.moveToPoint(i4, n3), t7.select();
       } catch (t7) {}
-      return e4 = Mt(), Bt(t6), e4;
+      return e4 = Bt(), _t(t6), e4;
     }
   }
   getClientRectsForDOMRange(t5) {
@@ -39263,23 +39418,23 @@ class Un {
   }
 }
 
-class Vn extends q3 {
+class zn extends H3 {
   constructor(t5) {
-    super(...arguments), this.didMouseDown = this.didMouseDown.bind(this), this.selectionDidChange = this.selectionDidChange.bind(this), this.element = t5, this.locationMapper = new Mn(this.element), this.pointMapper = new Un, this.lockCount = 0, b3("mousedown", { onElement: this.element, withCallback: this.didMouseDown });
+    super(...arguments), this.didMouseDown = this.didMouseDown.bind(this), this.selectionDidChange = this.selectionDidChange.bind(this), this.element = t5, this.locationMapper = new Bn(this.element), this.pointMapper = new Vn, this.lockCount = 0, b3("mousedown", { onElement: this.element, withCallback: this.didMouseDown });
   }
   getLocationRange() {
     let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    return t5.strict === false ? this.createLocationRangeFromDOMRange(Mt()) : t5.ignoreLock ? this.currentLocationRange : this.lockedLocationRange ? this.lockedLocationRange : this.currentLocationRange;
+    return t5.strict === false ? this.createLocationRangeFromDOMRange(Bt()) : t5.ignoreLock ? this.currentLocationRange : this.lockedLocationRange ? this.lockedLocationRange : this.currentLocationRange;
   }
   setLocationRange(t5) {
     if (this.lockedLocationRange)
       return;
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const e4 = this.createDOMRangeFromLocationRange(t5);
-    e4 && (Bt(e4), this.updateCurrentLocationRange(t5));
+    e4 && (_t(e4), this.updateCurrentLocationRange(t5));
   }
   setLocationRangeFromPointRange(t5) {
-    t5 = wt(t5);
+    t5 = Lt(t5);
     const e4 = this.getLocationAtPoint(t5[0]), i4 = this.getLocationAtPoint(t5[1]);
     this.setLocationRange([e4, i4]);
   }
@@ -39290,7 +39445,7 @@ class Vn extends q3 {
   }
   locationIsCursorTarget(t5) {
     const e4 = Array.from(this.findNodeAndOffsetFromLocation(t5))[0];
-    return F4(e4);
+    return P3(e4);
   }
   lock() {
     this.lockCount++ == 0 && (this.updateCurrentLocationRange(), this.lockedLocationRange = this.getLocationRange());
@@ -39304,11 +39459,11 @@ class Vn extends q3 {
   }
   clearSelection() {
     var t5;
-    return (t5 = Pt()) === null || t5 === undefined ? undefined : t5.removeAllRanges();
+    return (t5 = Mt()) === null || t5 === undefined ? undefined : t5.removeAllRanges();
   }
   selectionIsCollapsed() {
     var t5;
-    return ((t5 = Mt()) === null || t5 === undefined ? undefined : t5.collapsed) === true;
+    return ((t5 = Bt()) === null || t5 === undefined ? undefined : t5.collapsed) === true;
   }
   selectionIsExpanded() {
     return !this.selectionIsCollapsed();
@@ -39320,7 +39475,7 @@ class Vn extends q3 {
     if (!i4)
       return;
     const n3 = t5.collapsed ? undefined : this.findLocationFromContainerAndOffset(t5.endContainer, t5.endOffset, e4);
-    return wt([i4, n3]);
+    return Lt([i4, n3]);
   }
   didMouseDown() {
     return this.pauseTemporarily();
@@ -39331,22 +39486,22 @@ class Vn extends q3 {
     const e4 = () => {
       if (this.paused = false, clearTimeout(i4), Array.from(t5).forEach((t6) => {
         t6.destroy();
-      }), C3(document, this.element))
+      }), E2(document, this.element))
         return this.selectionDidChange();
     }, i4 = setTimeout(e4, 200);
     t5 = ["mousemove", "keydown"].map((t6) => b3(t6, { onElement: document, withCallback: e4 }));
   }
   selectionDidChange() {
-    if (!this.paused && !x4(this.element))
+    if (!this.paused && !C3(this.element))
       return this.updateCurrentLocationRange();
   }
   updateCurrentLocationRange(t5) {
     var e4, i4;
-    if ((t5 != null ? t5 : t5 = this.createLocationRangeFromDOMRange(Mt())) && !Dt(t5, this.currentLocationRange))
+    if ((t5 != null ? t5 : t5 = this.createLocationRangeFromDOMRange(Bt())) && !Nt(t5, this.currentLocationRange))
       return this.currentLocationRange = t5, (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.locationRangeDidChange) === null || i4 === undefined ? undefined : i4.call(e4, this.currentLocationRange.slice(0));
   }
   createDOMRangeFromLocationRange(t5) {
-    const e4 = this.findContainerAndOffsetFromLocation(t5[0]), i4 = Lt(t5) ? e4 : this.findContainerAndOffsetFromLocation(t5[1]) || e4;
+    const e4 = this.findContainerAndOffsetFromLocation(t5[0]), i4 = Dt(t5) ? e4 : this.findContainerAndOffsetFromLocation(t5[1]) || e4;
     if (e4 != null && i4 != null) {
       const t6 = document.createRange();
       return t6.setStart(...Array.from(e4 || [])), t6.setEnd(...Array.from(i4 || [])), t6;
@@ -39359,30 +39514,30 @@ class Vn extends q3 {
       return (i4 = this.createLocationRangeFromDOMRange(e4)) === null || i4 === undefined ? undefined : i4[0];
   }
   domRangeWithinElement(t5) {
-    return t5.collapsed ? C3(this.element, t5.startContainer) : C3(this.element, t5.startContainer) && C3(this.element, t5.endContainer);
+    return t5.collapsed ? E2(this.element, t5.startContainer) : E2(this.element, t5.startContainer) && E2(this.element, t5.endContainer);
   }
 }
-Vn.proxyMethod("locationMapper.findLocationFromContainerAndOffset"), Vn.proxyMethod("locationMapper.findContainerAndOffsetFromLocation"), Vn.proxyMethod("locationMapper.findNodeAndOffsetFromLocation"), Vn.proxyMethod("pointMapper.createDOMRangeFromPoint"), Vn.proxyMethod("pointMapper.getClientRectsForDOMRange");
-var zn = Object.freeze({ __proto__: null, Attachment: Vi, AttachmentManager: kn, AttachmentPiece: zi, Block: Xi, Composition: wn, Document: an, Editor: Pn, HTMLParser: hn, HTMLSanitizer: di, LineBreakInsertion: Tn, LocationMapper: Mn, ManagedAttachment: Rn, Piece: Wi, PointMapper: Un, SelectionManager: Vn, SplittableList: Hi, StringPiece: qi, Text: Yi, UndoManager: Ln });
-var qn = Object.freeze({ __proto__: null, ObjectView: ie, AttachmentView: pi, BlockView: Ei, DocumentView: Si, PieceView: Ai, PreviewableAttachmentView: vi, TextView: yi });
-var { lang: Hn, css: Jn, keyNames: Kn } = z3;
-var Gn = function(t5) {
+zn.proxyMethod("locationMapper.findLocationFromContainerAndOffset"), zn.proxyMethod("locationMapper.findContainerAndOffsetFromLocation"), zn.proxyMethod("locationMapper.findNodeAndOffsetFromLocation"), zn.proxyMethod("pointMapper.createDOMRangeFromPoint"), zn.proxyMethod("pointMapper.getClientRectsForDOMRange");
+var qn = Object.freeze({ __proto__: null, Attachment: zi, AttachmentManager: Tn, AttachmentPiece: qi, Block: $i, Composition: Ln, Document: ln, Editor: Mn, HTMLParser: dn, HTMLSanitizer: gi, LineBreakInsertion: wn, LocationMapper: Bn, ManagedAttachment: kn, Piece: Ui, PointMapper: Vn, SelectionManager: zn, SplittableList: Ji, StringPiece: Hi, Text: Xi, UndoManager: Dn });
+var Hn = Object.freeze({ __proto__: null, ObjectView: ne, AttachmentView: fi, BlockView: Si, DocumentView: Ri, PieceView: yi, PreviewableAttachmentView: Ai, TextView: xi });
+var { lang: Jn, css: Kn, keyNames: Gn } = q3;
+var Yn = function(t5) {
   return function() {
     const e4 = t5.apply(this, arguments);
     e4.do(), this.undos || (this.undos = []), this.undos.push(e4.undo);
   };
 };
 
-class Yn extends q3 {
+class Xn extends H3 {
   constructor(t5, e4, i4) {
     let n3 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-    super(...arguments), Di(this, "makeElementMutable", Gn(() => ({ do: () => {
+    super(...arguments), Ii(this, "makeElementMutable", Yn(() => ({ do: () => {
       this.element.dataset.trixMutable = true;
-    }, undo: () => delete this.element.dataset.trixMutable }))), Di(this, "addToolbar", Gn(() => {
-      const t6 = T4({ tagName: "div", className: Jn.attachmentToolbar, data: { trixMutable: true }, childNodes: T4({ tagName: "div", className: "trix-button-row", childNodes: T4({ tagName: "span", className: "trix-button-group trix-button-group--actions", childNodes: T4({ tagName: "button", className: "trix-button trix-button--remove", textContent: Hn.remove, attributes: { title: Hn.remove }, data: { trixAction: "remove" } }) }) }) });
-      return this.attachment.isPreviewable() && t6.appendChild(T4({ tagName: "div", className: Jn.attachmentMetadataContainer, childNodes: T4({ tagName: "span", className: Jn.attachmentMetadata, childNodes: [T4({ tagName: "span", className: Jn.attachmentName, textContent: this.attachment.getFilename(), attributes: { title: this.attachment.getFilename() } }), T4({ tagName: "span", className: Jn.attachmentSize, textContent: this.attachment.getFormattedFilesize() })] }) })), b3("click", { onElement: t6, withCallback: this.didClickToolbar }), b3("click", { onElement: t6, matchingSelector: "[data-trix-action]", withCallback: this.didClickActionButton }), v3("trix-attachment-before-toolbar", { onElement: this.element, attributes: { toolbar: t6, attachment: this.attachment } }), { do: () => this.element.appendChild(t6), undo: () => S2(t6) };
-    })), Di(this, "installCaptionEditor", Gn(() => {
-      const t6 = T4({ tagName: "textarea", className: Jn.attachmentCaptionEditor, attributes: { placeholder: Hn.captionPlaceholder }, data: { trixMutable: true } });
+    }, undo: () => delete this.element.dataset.trixMutable }))), Ii(this, "addToolbar", Yn(() => {
+      const t6 = w4({ tagName: "div", className: Kn.attachmentToolbar, data: { trixMutable: true }, childNodes: w4({ tagName: "div", className: "trix-button-row", childNodes: w4({ tagName: "span", className: "trix-button-group trix-button-group--actions", childNodes: w4({ tagName: "button", className: "trix-button trix-button--remove", textContent: Jn.remove, attributes: { title: Jn.remove }, data: { trixAction: "remove" } }) }) }) });
+      return this.attachment.isPreviewable() && t6.appendChild(w4({ tagName: "div", className: Kn.attachmentMetadataContainer, childNodes: w4({ tagName: "span", className: Kn.attachmentMetadata, childNodes: [w4({ tagName: "span", className: Kn.attachmentName, textContent: this.attachment.getFilename(), attributes: { title: this.attachment.getFilename() } }), w4({ tagName: "span", className: Kn.attachmentSize, textContent: this.attachment.getFormattedFilesize() })] }) })), b3("click", { onElement: t6, withCallback: this.didClickToolbar }), b3("click", { onElement: t6, matchingSelector: "[data-trix-action]", withCallback: this.didClickActionButton }), A3("trix-attachment-before-toolbar", { onElement: this.element, attributes: { toolbar: t6, attachment: this.attachment } }), { do: () => this.element.appendChild(t6), undo: () => R(t6) };
+    })), Ii(this, "installCaptionEditor", Yn(() => {
+      const t6 = w4({ tagName: "textarea", className: Kn.attachmentCaptionEditor, attributes: { placeholder: Jn.captionPlaceholder }, data: { trixMutable: true } });
       t6.value = this.attachmentPiece.getCaption();
       const e5 = t6.cloneNode();
       e5.classList.add("trix-autoresize-clone"), e5.tabIndex = -1;
@@ -39392,12 +39547,12 @@ class Yn extends q3 {
       b3("input", { onElement: t6, withCallback: i5 }), b3("input", { onElement: t6, withCallback: this.didInputCaption }), b3("keydown", { onElement: t6, withCallback: this.didKeyDownCaption }), b3("change", { onElement: t6, withCallback: this.didChangeCaption }), b3("blur", { onElement: t6, withCallback: this.didBlurCaption });
       const n4 = this.element.querySelector("figcaption"), r4 = n4.cloneNode();
       return { do: () => {
-        if (n4.style.display = "none", r4.appendChild(t6), r4.appendChild(e5), r4.classList.add("".concat(Jn.attachmentCaption, "--editing")), n4.parentElement.insertBefore(r4, n4), i5(), this.options.editCaption)
-          return Rt(() => t6.focus());
+        if (n4.style.display = "none", r4.appendChild(t6), r4.appendChild(e5), r4.classList.add("".concat(Kn.attachmentCaption, "--editing")), n4.parentElement.insertBefore(r4, n4), i5(), this.options.editCaption)
+          return kt(() => t6.focus());
       }, undo() {
-        S2(r4), n4.style.display = null;
+        R(r4), n4.style.display = null;
       } };
-    })), this.didClickToolbar = this.didClickToolbar.bind(this), this.didClickActionButton = this.didClickActionButton.bind(this), this.didKeyDownCaption = this.didKeyDownCaption.bind(this), this.didInputCaption = this.didInputCaption.bind(this), this.didChangeCaption = this.didChangeCaption.bind(this), this.didBlurCaption = this.didBlurCaption.bind(this), this.attachmentPiece = t5, this.element = e4, this.container = i4, this.options = n3, this.attachment = this.attachmentPiece.attachment, k3(this.element) === "a" && (this.element = this.element.firstChild), this.install();
+    })), this.didClickToolbar = this.didClickToolbar.bind(this), this.didClickActionButton = this.didClickActionButton.bind(this), this.didKeyDownCaption = this.didKeyDownCaption.bind(this), this.didInputCaption = this.didInputCaption.bind(this), this.didChangeCaption = this.didChangeCaption.bind(this), this.didBlurCaption = this.didBlurCaption.bind(this), this.attachmentPiece = t5, this.element = e4, this.container = i4, this.options = n3, this.attachment = this.attachmentPiece.attachment, T4(this.element) === "a" && (this.element = this.element.firstChild), this.install();
   }
   install() {
     this.makeElementMutable(), this.addToolbar(), this.attachment.isPreviewable() && this.installCaptionEditor();
@@ -39429,7 +39584,7 @@ class Yn extends q3 {
   }
   didKeyDownCaption(t5) {
     var e4, i4;
-    if (Kn[t5.keyCode] === "return")
+    if (Gn[t5.keyCode] === "return")
       return t5.preventDefault(), this.savePendingCaption(), (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.attachmentEditorDidRequestDeselectingAttachment) === null || i4 === undefined ? undefined : i4.call(e4, this.attachment);
   }
   didInputCaption(t5) {
@@ -39443,9 +39598,9 @@ class Yn extends q3 {
   }
 }
 
-class Xn extends q3 {
+class $n extends H3 {
   constructor(t5, i4) {
-    super(...arguments), this.didFocus = this.didFocus.bind(this), this.didBlur = this.didBlur.bind(this), this.didClickAttachment = this.didClickAttachment.bind(this), this.element = t5, this.composition = i4, this.documentView = new Si(this.composition.document, { element: this.element }), b3("focus", { onElement: this.element, withCallback: this.didFocus }), b3("blur", { onElement: this.element, withCallback: this.didBlur }), b3("click", { onElement: this.element, matchingSelector: "a[contenteditable=false]", preventDefault: true }), b3("mousedown", { onElement: this.element, matchingSelector: e3, withCallback: this.didClickAttachment }), b3("click", { onElement: this.element, matchingSelector: "a".concat(e3), preventDefault: true });
+    super(...arguments), this.didFocus = this.didFocus.bind(this), this.didBlur = this.didBlur.bind(this), this.didClickAttachment = this.didClickAttachment.bind(this), this.element = t5, this.composition = i4, this.documentView = new Ri(this.composition.document, { element: this.element }), b3("focus", { onElement: this.element, withCallback: this.didFocus }), b3("blur", { onElement: this.element, withCallback: this.didBlur }), b3("click", { onElement: this.element, matchingSelector: "a[contenteditable=false]", preventDefault: true }), b3("mousedown", { onElement: this.element, matchingSelector: e3, withCallback: this.didClickAttachment }), b3("click", { onElement: this.element, matchingSelector: "a".concat(e3), preventDefault: true });
   }
   didFocus(t5) {
     var e4;
@@ -39457,15 +39612,15 @@ class Xn extends q3 {
     return ((e4 = this.blurPromise) === null || e4 === undefined ? undefined : e4.then(i4)) || i4();
   }
   didBlur(t5) {
-    this.blurPromise = new Promise((t6) => Rt(() => {
+    this.blurPromise = new Promise((t6) => kt(() => {
       var e4, i4;
-      x4(this.element) || (this.focused = null, (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.compositionControllerDidBlur) === null || i4 === undefined || i4.call(e4));
+      C3(this.element) || (this.focused = null, (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.compositionControllerDidBlur) === null || i4 === undefined || i4.call(e4));
       return this.blurPromise = null, t6();
     }));
   }
   didClickAttachment(t5, e4) {
     var i4, n3;
-    const r4 = this.findAttachmentForElement(e4), o3 = !!y3(t5.target, { matchingSelector: "figcaption" });
+    const r4 = this.findAttachmentForElement(e4), o3 = !!x4(t5.target, { matchingSelector: "figcaption" });
     return (i4 = this.delegate) === null || i4 === undefined || (n3 = i4.compositionControllerDidSelectAttachment) === null || n3 === undefined ? undefined : n3.call(i4, r4, { editCaption: o3 });
   }
   getSerializableElement() {
@@ -39506,7 +39661,7 @@ class Xn extends q3 {
       return;
     this.uninstallAttachmentEditor();
     const r4 = this.composition.document.getAttachmentPieceForAttachment(t5);
-    this.attachmentEditor = new Yn(r4, n3, this.element, e4), this.attachmentEditor.delegate = this;
+    this.attachmentEditor = new Xn(r4, n3, this.element, e4), this.attachmentEditor.delegate = this;
   }
   uninstallAttachmentEditor() {
     var t5;
@@ -39539,18 +39694,18 @@ class Xn extends q3 {
   }
 }
 
-class $n extends q3 {
+class Zn extends H3 {
 }
-var Zn = "data-trix-mutable";
-var Qn = "[".concat(Zn, "]");
-var tr = { attributes: true, childList: true, characterData: true, characterDataOldValue: true, subtree: true };
+var Qn = "data-trix-mutable";
+var tr = "[".concat(Qn, "]");
+var er = { attributes: true, childList: true, characterData: true, characterDataOldValue: true, subtree: true };
 
-class er extends q3 {
+class ir extends H3 {
   constructor(t5) {
     super(t5), this.didMutate = this.didMutate.bind(this), this.element = t5, this.observer = new window.MutationObserver(this.didMutate), this.start();
   }
   start() {
-    return this.reset(), this.observer.observe(this.element, tr);
+    return this.reset(), this.observer.observe(this.element, er);
   }
   stop() {
     return this.observer.disconnect();
@@ -39575,16 +39730,16 @@ class er extends q3 {
     return false;
   }
   nodeIsSignificant(t5) {
-    return t5 !== this.element && !this.nodeIsMutable(t5) && !M2(t5);
+    return t5 !== this.element && !this.nodeIsMutable(t5) && !B3(t5);
   }
   nodeIsMutable(t5) {
-    return y3(t5, { matchingSelector: Qn });
+    return x4(t5, { matchingSelector: tr });
   }
   nodesModifiedByMutation(t5) {
     const e4 = [];
     switch (t5.type) {
       case "attributes":
-        t5.attributeName !== Zn && e4.push(t5.target);
+        t5.attributeName !== Qn && e4.push(t5.target);
         break;
       case "characterData":
         e4.push(t5.target.parentNode), e4.push(t5.target);
@@ -39616,9 +39771,9 @@ class er extends q3 {
     Array.from(this.getMutationsByType("childList")).forEach((t6) => {
       i4.push(...Array.from(t6.addedNodes || [])), n3.push(...Array.from(t6.removedNodes || []));
     });
-    i4.length === 0 && n3.length === 1 && I3(n3[0]) ? (t5 = [], e4 = [`
-`]) : (t5 = ir(i4), e4 = ir(n3));
-    const r4 = t5.filter((t6, i5) => t6 !== e4[i5]).map(Wt), o3 = e4.filter((e5, i5) => e5 !== t5[i5]).map(Wt);
+    i4.length === 0 && n3.length === 1 && O2(n3[0]) ? (t5 = [], e4 = [`
+`]) : (t5 = nr(i4), e4 = nr(n3));
+    const r4 = t5.filter((t6, i5) => t6 !== e4[i5]).map(Ut), o3 = e4.filter((e5, i5) => e5 !== t5[i5]).map(Ut);
     return { additions: r4, deletions: o3 };
   }
   getTextChangesFromCharacterData() {
@@ -39627,14 +39782,14 @@ class er extends q3 {
     if (i4.length) {
       const n3 = i4[0], r4 = i4[i4.length - 1], o3 = function(t6, e5) {
         let i5, n4;
-        return t6 = $3.box(t6), (e5 = $3.box(e5)).length < t6.length ? [n4, i5] = zt(t6, e5) : [i5, n4] = zt(e5, t6), { added: i5, removed: n4 };
-      }(Wt(n3.oldValue), Wt(r4.target.data));
+        return t6 = Z2.box(t6), (e5 = Z2.box(e5)).length < t6.length ? [n4, i5] = qt(t6, e5) : [i5, n4] = qt(e5, t6), { added: i5, removed: n4 };
+      }(Ut(n3.oldValue), Ut(r4.target.data));
       t5 = o3.added, e4 = o3.removed;
     }
     return { additions: t5 ? [t5] : [], deletions: e4 ? [e4] : [] };
   }
 }
-var ir = function() {
+var nr = function() {
   let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   const e4 = [];
   for (const i4 of Array.from(t5))
@@ -39643,13 +39798,13 @@ var ir = function() {
         e4.push(i4.data);
         break;
       case Node.ELEMENT_NODE:
-        k3(i4) === "br" ? e4.push(`
-`) : e4.push(...Array.from(ir(i4.childNodes) || []));
+        T4(i4) === "br" ? e4.push(`
+`) : e4.push(...Array.from(nr(i4.childNodes) || []));
     }
   return e4;
 };
 
-class nr extends ee {
+class rr extends ie {
   constructor(t5) {
     super(...arguments), this.file = t5;
   }
@@ -39665,7 +39820,7 @@ class nr extends ee {
   }
 }
 
-class rr {
+class or {
   constructor(t5) {
     this.element = t5;
   }
@@ -39673,7 +39828,7 @@ class rr {
     return !!a3.samsungAndroid && (this.previousEvent = this.event, this.event = t5, this.checkSamsungKeyboardBuggyModeStart(), this.checkSamsungKeyboardBuggyModeEnd(), this.buggyMode);
   }
   checkSamsungKeyboardBuggyModeStart() {
-    this.insertingLongTextAfterUnidentifiedChar() && or(this.element.innerText, this.event.data) && (this.buggyMode = true, this.event.preventDefault());
+    this.insertingLongTextAfterUnidentifiedChar() && sr(this.element.innerText, this.event.data) && (this.buggyMode = true, this.event.preventDefault());
   }
   checkSamsungKeyboardBuggyModeEnd() {
     this.buggyMode && this.event.inputType !== "insertText" && (this.buggyMode = false);
@@ -39690,13 +39845,13 @@ class rr {
     return ((t5 = this.previousEvent) === null || t5 === undefined ? undefined : t5.type) === "keydown" && ((e4 = this.previousEvent) === null || e4 === undefined ? undefined : e4.key) === "Unidentified";
   }
 }
-var or = (t5, e4) => ar(t5) === ar(e4);
-var sr = new RegExp("(".concat("￼", "|").concat(d2, "|").concat(g4, "|\\s)+"), "g");
-var ar = (t5) => t5.replace(sr, " ").trim();
+var sr = (t5, e4) => lr(t5) === lr(e4);
+var ar = new RegExp("(".concat("￼", "|").concat(d2, "|").concat(g4, "|\\s)+"), "g");
+var lr = (t5) => t5.replace(ar, " ").trim();
 
-class lr extends q3 {
+class cr extends H3 {
   constructor(t5) {
-    super(...arguments), this.element = t5, this.mutationObserver = new er(this.element), this.mutationObserver.delegate = this, this.flakyKeyboardDetector = new rr(this.element);
+    super(...arguments), this.element = t5, this.mutationObserver = new ir(this.element), this.mutationObserver.delegate = this, this.flakyKeyboardDetector = new or(this.element);
     for (const t6 in this.constructor.events)
       b3(t6, { onElement: this.element, withCallback: this.handlerFor(t6) });
   }
@@ -39716,7 +39871,7 @@ class lr extends q3 {
     return (t5 = this.delegate) === null || t5 === undefined || (e4 = t5.inputControllerDidRequestReparse) === null || e4 === undefined || e4.call(t5), this.requestRender();
   }
   attachFiles(t5) {
-    const e4 = Array.from(t5).map((t6) => new nr(t6));
+    const e4 = Array.from(t5).map((t6) => new rr(t6));
     return Promise.all(e4).then((t6) => {
       this.handleInput(function() {
         var e5, i4;
@@ -39727,7 +39882,7 @@ class lr extends q3 {
   handlerFor(t5) {
     return (e4) => {
       e4.defaultPrevented || this.handleInput(() => {
-        if (!x4(this.element)) {
+        if (!C3(this.element)) {
           if (this.flakyKeyboardDetector.shouldIgnore(e4))
             return;
           this.eventName = t5, this.constructor.events[t5].call(this, e4);
@@ -39749,12 +39904,12 @@ class lr extends q3 {
     return i4.href = t5, i4.textContent = e4 || t5, i4.outerHTML;
   }
 }
-var cr;
-Di(lr, "events", {});
-var { browser: ur, keyNames: hr } = z3;
-var dr = 0;
+var ur;
+Ii(cr, "events", {});
+var { browser: hr, keyNames: dr } = q3;
+var gr = 0;
 
-class gr extends lr {
+class mr extends cr {
   constructor() {
     super(...arguments), this.resetInputSummary();
   }
@@ -39771,7 +39926,7 @@ class gr extends lr {
     this.inputSummary = {};
   }
   reset() {
-    return this.resetInputSummary(), Ft.reset();
+    return this.resetInputSummary(), Pt.reset();
   }
   elementDidMutate(t5) {
     var e4, i4;
@@ -39806,7 +39961,7 @@ class gr extends lr {
   getCompositionInput() {
     if (this.isComposing())
       return this.compositionInput;
-    this.compositionInput = new vr(this);
+    this.compositionInput = new Ar(this);
   }
   isComposing() {
     return this.compositionInput && !this.compositionInput.isEnded();
@@ -39820,8 +39975,8 @@ class gr extends lr {
     if (!function(t6) {
       if (t6 == null || !t6.setData)
         return false;
-      for (const e5 in Ct) {
-        const i5 = Ct[e5];
+      for (const e5 in Et) {
+        const i5 = Et[e5];
         try {
           if (t6.setData(e5, i5), !t6.getData(e5) === i5)
             return false;
@@ -39833,7 +39988,7 @@ class gr extends lr {
     }(t5))
       return;
     const i4 = (e4 = this.responder) === null || e4 === undefined ? undefined : e4.getSelectedDocument().toSerializableDocument();
-    return t5.setData("application/x-trix-document", JSON.stringify(i4)), t5.setData("text/html", Si.render(i4).innerHTML), t5.setData("text/plain", i4.toString().replace(/\n$/, "")), true;
+    return t5.setData("application/x-trix-document", JSON.stringify(i4)), t5.setData("text/html", Ri.render(i4).innerHTML), t5.setData("text/plain", i4.toString().replace(/\n$/, "")), true;
   }
   canAcceptDataTransfer(t5) {
     const e4 = {};
@@ -39842,25 +39997,25 @@ class gr extends lr {
     }), e4.Files || e4["application/x-trix-document"] || e4["text/html"] || e4["text/plain"];
   }
   getPastedHTMLUsingHiddenElement(t5) {
-    const e4 = this.getSelectedRange(), i4 = { position: "absolute", left: "".concat(window.pageXOffset, "px"), top: "".concat(window.pageYOffset, "px"), opacity: 0 }, n3 = T4({ style: i4, tagName: "div", editable: true });
+    const e4 = this.getSelectedRange(), i4 = { position: "absolute", left: "".concat(window.pageXOffset, "px"), top: "".concat(window.pageYOffset, "px"), opacity: 0 }, n3 = w4({ style: i4, tagName: "div", editable: true });
     return document.body.appendChild(n3), n3.focus(), requestAnimationFrame(() => {
       const i5 = n3.innerHTML;
-      return S2(n3), this.setSelectedRange(e4), t5(i5);
+      return R(n3), this.setSelectedRange(e4), t5(i5);
     });
   }
 }
-Di(gr, "events", { keydown(t5) {
+Ii(mr, "events", { keydown(t5) {
   this.isComposing() || this.resetInputSummary(), this.inputSummary.didInput = true;
-  const e4 = hr[t5.keyCode];
+  const e4 = dr[t5.keyCode];
   if (e4) {
     var i4;
     let n4 = this.keys;
     ["ctrl", "alt", "shift", "meta"].forEach((e5) => {
       var i5;
       t5["".concat(e5, "Key")] && (e5 === "ctrl" && (e5 = "control"), n4 = (i5 = n4) === null || i5 === undefined ? undefined : i5[e5]);
-    }), ((i4 = n4) === null || i4 === undefined ? undefined : i4[e4]) != null && (this.setInputSummary({ keyName: e4 }), Ft.reset(), n4[e4].call(this, t5));
+    }), ((i4 = n4) === null || i4 === undefined ? undefined : i4[e4]) != null && (this.setInputSummary({ keyName: e4 }), Pt.reset(), n4[e4].call(this, t5));
   }
-  if (St(t5)) {
+  if (Rt(t5)) {
     const e5 = String.fromCharCode(t5.keyCode).toLowerCase();
     if (e5) {
       var n3;
@@ -39878,7 +40033,7 @@ Di(gr, "events", { keydown(t5) {
     return;
   if (t5.ctrlKey && !t5.altKey)
     return;
-  const e4 = fr(t5);
+  const e4 = br(t5);
   var i4, n3;
   return e4 ? ((i4 = this.delegate) === null || i4 === undefined || i4.inputControllerWillPerformTyping(), (n3 = this.responder) === null || n3 === undefined || n3.insertString(e4), this.setInputSummary({ textAdded: e4, didDelete: this.selectionIsExpanded() })) : undefined;
 }, textInput(t5) {
@@ -39898,7 +40053,7 @@ Di(gr, "events", { keydown(t5) {
     t5.preventDefault();
     const n3 = { x: t5.clientX, y: t5.clientY };
     var e4, i4;
-    if (!Tt(n3, this.draggingPoint))
+    if (!wt(n3, this.draggingPoint))
       return this.draggingPoint = n3, (e4 = this.delegate) === null || e4 === undefined || (i4 = e4.inputControllerDidReceiveDragOverPoint) === null || i4 === undefined ? undefined : i4.call(e4, this.draggingPoint);
   }
 }, dragend(t5) {
@@ -39915,7 +40070,7 @@ Di(gr, "events", { keydown(t5) {
     (s4 = this.delegate) === null || s4 === undefined || s4.inputControllerWillMoveText(), (a4 = this.responder) === null || a4 === undefined || a4.moveTextFromRange(this.draggedRange), this.draggedRange = null, this.requestRender();
   } else if (r4) {
     var l80;
-    const t6 = an.fromJSONString(r4);
+    const t6 = ln.fromJSONString(r4);
     (l80 = this.responder) === null || l80 === undefined || l80.insertDocument(t6), this.requestRender();
   }
   this.draggedRange = null, this.draggingPoint = null;
@@ -39928,7 +40083,7 @@ Di(gr, "events", { keydown(t5) {
   (e4 = this.responder) !== null && e4 !== undefined && e4.selectionIsExpanded() && this.serializeSelectionToDataTransfer(t5.clipboardData) && t5.preventDefault();
 }, paste(t5) {
   const e4 = t5.clipboardData || t5.testClipboardData, i4 = { clipboard: e4 };
-  if (!e4 || br(t5))
+  if (!e4 || vr(t5))
     return void this.getPastedHTMLUsingHiddenElement((t6) => {
       var e5, n4, r5;
       return i4.type = "text/html", i4.html = t6, (e5 = this.delegate) === null || e5 === undefined || e5.inputControllerWillPaste(i4), (n4 = this.responder) === null || n4 === undefined || n4.insertHTML(i4.html), this.requestRender(), (r5 = this.delegate) === null || r5 === undefined ? undefined : r5.inputControllerDidPaste(i4);
@@ -39937,8 +40092,8 @@ Di(gr, "events", { keydown(t5) {
   if (n3) {
     var s4, a4, l80;
     let t6;
-    i4.type = "text/html", t6 = o3 ? Vt(o3).trim() : n3, i4.html = this.createLinkHTML(n3, t6), (s4 = this.delegate) === null || s4 === undefined || s4.inputControllerWillPaste(i4), this.setInputSummary({ textAdded: t6, didDelete: this.selectionIsExpanded() }), (a4 = this.responder) === null || a4 === undefined || a4.insertHTML(i4.html), this.requestRender(), (l80 = this.delegate) === null || l80 === undefined || l80.inputControllerDidPaste(i4);
-  } else if (Et(e4)) {
+    i4.type = "text/html", t6 = o3 ? zt(o3).trim() : n3, i4.html = this.createLinkHTML(n3, t6), (s4 = this.delegate) === null || s4 === undefined || s4.inputControllerWillPaste(i4), this.setInputSummary({ textAdded: t6, didDelete: this.selectionIsExpanded() }), (a4 = this.responder) === null || a4 === undefined || a4.insertHTML(i4.html), this.requestRender(), (l80 = this.delegate) === null || l80 === undefined || l80.inputControllerDidPaste(i4);
+  } else if (St(e4)) {
     var c4, u4, h4;
     i4.type = "text/plain", i4.string = e4.getData("text/plain"), (c4 = this.delegate) === null || c4 === undefined || c4.inputControllerWillPaste(i4), this.setInputSummary({ textAdded: i4.string, didDelete: this.selectionIsExpanded() }), (u4 = this.responder) === null || u4 === undefined || u4.insertString(i4.string), this.requestRender(), (h4 = this.delegate) === null || h4 === undefined || h4.inputControllerDidPaste(i4);
   } else if (r4) {
@@ -39949,8 +40104,8 @@ Di(gr, "events", { keydown(t5) {
     const t6 = (p4 = e4.items) === null || p4 === undefined || (p4 = p4[0]) === null || p4 === undefined || (f4 = p4.getAsFile) === null || f4 === undefined ? undefined : f4.call(p4);
     if (t6) {
       var b4, v4, A4;
-      const e5 = mr(t6);
-      !t6.name && e5 && (t6.name = "pasted-file-".concat(++dr, ".").concat(e5)), i4.type = "File", i4.file = t6, (b4 = this.delegate) === null || b4 === undefined || b4.inputControllerWillAttachFiles(), (v4 = this.responder) === null || v4 === undefined || v4.insertFile(i4.file), this.requestRender(), (A4 = this.delegate) === null || A4 === undefined || A4.inputControllerDidPaste(i4);
+      const e5 = pr(t6);
+      !t6.name && e5 && (t6.name = "pasted-file-".concat(++gr, ".").concat(e5)), i4.type = "File", i4.file = t6, (b4 = this.delegate) === null || b4 === undefined || b4.inputControllerWillAttachFiles(), (v4 = this.responder) === null || v4 === undefined || v4.insertFile(i4.file), this.requestRender(), (A4 = this.delegate) === null || A4 === undefined || A4.inputControllerDidPaste(i4);
     }
   }
   t5.preventDefault();
@@ -39964,7 +40119,7 @@ Di(gr, "events", { keydown(t5) {
   this.inputSummary.didInput = true;
 }, input(t5) {
   return this.inputSummary.didInput = true, t5.stopPropagation();
-} }), Di(gr, "keys", { backspace(t5) {
+} }), Ii(mr, "keys", { backspace(t5) {
   var e4;
   return (e4 = this.delegate) === null || e4 === undefined || e4.inputControllerWillPerformTyping(), this.deleteInDirection("backward", t5);
 }, delete(t5) {
@@ -40013,22 +40168,22 @@ Di(gr, "events", { keydown(t5) {
 } }, meta: { backspace(t5) {
   var e4;
   return this.setInputSummary({ preferDocument: false }), (e4 = this.delegate) === null || e4 === undefined ? undefined : e4.inputControllerWillPerformTyping();
-} } }), gr.proxyMethod("responder?.getSelectedRange"), gr.proxyMethod("responder?.setSelectedRange"), gr.proxyMethod("responder?.expandSelectionInDirection"), gr.proxyMethod("responder?.selectionIsInCursorTarget"), gr.proxyMethod("responder?.selectionIsExpanded");
-var mr = (t5) => {
+} } }), mr.proxyMethod("responder?.getSelectedRange"), mr.proxyMethod("responder?.setSelectedRange"), mr.proxyMethod("responder?.expandSelectionInDirection"), mr.proxyMethod("responder?.selectionIsInCursorTarget"), mr.proxyMethod("responder?.selectionIsExpanded");
+var pr = (t5) => {
   var e4;
   return (e4 = t5.type) === null || e4 === undefined || (e4 = e4.match(/\/(\w+)$/)) === null || e4 === undefined ? undefined : e4[1];
 };
-var pr = !((cr = " ".codePointAt) === null || cr === undefined || !cr.call(" ", 0));
-var fr = function(t5) {
-  if (t5.key && pr && t5.key.codePointAt(0) === t5.keyCode)
+var fr = !((ur = " ".codePointAt) === null || ur === undefined || !ur.call(" ", 0));
+var br = function(t5) {
+  if (t5.key && fr && t5.key.codePointAt(0) === t5.keyCode)
     return t5.key;
   {
     let e4;
-    if (t5.which === null ? e4 = t5.keyCode : t5.which !== 0 && t5.charCode !== 0 && (e4 = t5.charCode), e4 != null && hr[e4] !== "escape")
-      return $3.fromCodepoints([e4]).toString();
+    if (t5.which === null ? e4 = t5.keyCode : t5.which !== 0 && t5.charCode !== 0 && (e4 = t5.charCode), e4 != null && dr[e4] !== "escape")
+      return Z2.fromCodepoints([e4]).toString();
   }
 };
-var br = function(t5) {
+var vr = function(t5) {
   const e4 = t5.clipboardData;
   if (e4) {
     if (e4.types.includes("text/html")) {
@@ -40046,7 +40201,7 @@ var br = function(t5) {
   }
 };
 
-class vr extends q3 {
+class Ar extends H3 {
   constructor(t5) {
     super(...arguments), this.inputController = t5, this.responder = this.inputController.responder, this.delegate = this.inputController.delegate, this.inputSummary = this.inputController.inputSummary, this.data = {};
   }
@@ -40075,16 +40230,16 @@ class vr extends q3 {
     return this.getEndData() != null;
   }
   isSignificant() {
-    return !ur.composesExistingText || this.inputSummary.didInput;
+    return !hr.composesExistingText || this.inputSummary.didInput;
   }
   canApplyToDocument() {
     var t5, e4;
     return ((t5 = this.data.start) === null || t5 === undefined ? undefined : t5.length) === 0 && ((e4 = this.data.end) === null || e4 === undefined ? undefined : e4.length) > 0 && this.range;
   }
 }
-vr.proxyMethod("inputController.setInputSummary"), vr.proxyMethod("inputController.requestRender"), vr.proxyMethod("inputController.requestReparse"), vr.proxyMethod("responder?.selectionIsExpanded"), vr.proxyMethod("responder?.insertPlaceholder"), vr.proxyMethod("responder?.selectPlaceholder"), vr.proxyMethod("responder?.forgetPlaceholder");
+Ar.proxyMethod("inputController.setInputSummary"), Ar.proxyMethod("inputController.requestRender"), Ar.proxyMethod("inputController.requestReparse"), Ar.proxyMethod("responder?.selectionIsExpanded"), Ar.proxyMethod("responder?.insertPlaceholder"), Ar.proxyMethod("responder?.selectPlaceholder"), Ar.proxyMethod("responder?.forgetPlaceholder");
 
-class Ar extends lr {
+class yr extends cr {
   constructor() {
     super(...arguments), this.render = this.render.bind(this);
   }
@@ -40114,7 +40269,7 @@ class Ar extends lr {
   }
   toggleAttributeIfSupported(t5) {
     var e4;
-    if (gt().includes(t5))
+    if (mt().includes(t5))
       return (e4 = this.delegate) === null || e4 === undefined || e4.inputControllerWillPerformFormatting(t5), this.withTargetDOMRange(function() {
         var e5;
         return (e5 = this.responder) === null || e5 === undefined ? undefined : e5.toggleCurrentAttribute(t5);
@@ -40122,7 +40277,7 @@ class Ar extends lr {
   }
   activateAttributeIfSupported(t5, e4) {
     var i4;
-    if (gt().includes(t5))
+    if (mt().includes(t5))
       return (i4 = this.delegate) === null || i4 === undefined || i4.inputControllerWillPerformFormatting(t5), this.withTargetDOMRange(function() {
         var i5;
         return (i5 = this.responder) === null || i5 === undefined ? undefined : i5.setCurrentAttribute(t5, e4);
@@ -40140,14 +40295,14 @@ class Ar extends lr {
   }
   withTargetDOMRange(t5, e4) {
     var i4;
-    return typeof t5 == "function" && (e4 = t5, t5 = this.getTargetDOMRange()), t5 ? (i4 = this.responder) === null || i4 === undefined ? undefined : i4.withTargetDOMRange(t5, e4.bind(this)) : (Ft.reset(), e4.call(this));
+    return typeof t5 == "function" && (e4 = t5, t5 = this.getTargetDOMRange()), t5 ? (i4 = this.responder) === null || i4 === undefined ? undefined : i4.withTargetDOMRange(t5, e4.bind(this)) : (Pt.reset(), e4.call(this));
   }
   getTargetDOMRange() {
     var t5, e4;
     let { minLength: i4 } = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { minLength: 0 };
     const n3 = (t5 = (e4 = this.event).getTargetRanges) === null || t5 === undefined ? undefined : t5.call(e4);
     if (n3 && n3.length) {
-      const t6 = yr(n3[0]);
+      const t6 = xr(n3[0]);
       if (i4 === 0 || t6.toString().length >= i4)
         return t6;
     }
@@ -40163,10 +40318,10 @@ class Ar extends lr {
     return i4;
   }
 }
-Di(Ar, "events", { keydown(t5) {
-  if (St(t5)) {
+Ii(yr, "events", { keydown(t5) {
+  if (Rt(t5)) {
     var e4;
-    const i4 = Rr(t5);
+    const i4 = kr(t5);
     (e4 = this.delegate) !== null && e4 !== undefined && e4.inputControllerDidReceiveKeyboardCommand(i4) && t5.preventDefault();
   } else {
     let e5 = t5.key;
@@ -40179,36 +40334,36 @@ Di(Ar, "events", { keydown(t5) {
   var e4;
   let i4;
   const n3 = (e4 = t5.clipboardData) === null || e4 === undefined ? undefined : e4.getData("URL");
-  return Er(t5) ? (t5.preventDefault(), this.attachFiles(t5.clipboardData.files)) : Sr(t5) ? (t5.preventDefault(), i4 = { type: "text/plain", string: t5.clipboardData.getData("text/plain") }, (r4 = this.delegate) === null || r4 === undefined || r4.inputControllerWillPaste(i4), (o3 = this.responder) === null || o3 === undefined || o3.insertString(i4.string), this.render(), (s4 = this.delegate) === null || s4 === undefined ? undefined : s4.inputControllerDidPaste(i4)) : n3 ? (t5.preventDefault(), i4 = { type: "text/html", html: this.createLinkHTML(n3) }, (a4 = this.delegate) === null || a4 === undefined || a4.inputControllerWillPaste(i4), (l80 = this.responder) === null || l80 === undefined || l80.insertHTML(i4.html), this.render(), (c4 = this.delegate) === null || c4 === undefined ? undefined : c4.inputControllerDidPaste(i4)) : undefined;
+  return Sr(t5) ? (t5.preventDefault(), this.attachFiles(t5.clipboardData.files)) : Rr(t5) ? (t5.preventDefault(), i4 = { type: "text/plain", string: t5.clipboardData.getData("text/plain") }, (r4 = this.delegate) === null || r4 === undefined || r4.inputControllerWillPaste(i4), (o3 = this.responder) === null || o3 === undefined || o3.insertString(i4.string), this.render(), (s4 = this.delegate) === null || s4 === undefined ? undefined : s4.inputControllerDidPaste(i4)) : n3 ? (t5.preventDefault(), i4 = { type: "text/html", html: this.createLinkHTML(n3) }, (a4 = this.delegate) === null || a4 === undefined || a4.inputControllerWillPaste(i4), (l80 = this.responder) === null || l80 === undefined || l80.insertHTML(i4.html), this.render(), (c4 = this.delegate) === null || c4 === undefined ? undefined : c4.inputControllerDidPaste(i4)) : undefined;
   var r4, o3, s4, a4, l80, c4;
 }, beforeinput(t5) {
   const e4 = this.constructor.inputTypes[t5.inputType], i4 = (n3 = t5, !(!/iPhone|iPad/.test(navigator.userAgent) || n3.inputType && n3.inputType !== "insertParagraph"));
   var n3;
   e4 && (this.withEvent(t5, e4), i4 || this.scheduleRender()), i4 && this.render();
 }, input(t5) {
-  Ft.reset();
+  Pt.reset();
 }, dragstart(t5) {
   var e4, i4;
-  (e4 = this.responder) !== null && e4 !== undefined && e4.selectionContainsAttachments() && (t5.dataTransfer.setData("application/x-trix-dragging", true), this.dragging = { range: (i4 = this.responder) === null || i4 === undefined ? undefined : i4.getSelectedRange(), point: kr(t5) });
+  (e4 = this.responder) !== null && e4 !== undefined && e4.selectionContainsAttachments() && (t5.dataTransfer.setData("application/x-trix-dragging", true), this.dragging = { range: (i4 = this.responder) === null || i4 === undefined ? undefined : i4.getSelectedRange(), point: Tr(t5) });
 }, dragenter(t5) {
-  xr(t5) && t5.preventDefault();
+  Cr(t5) && t5.preventDefault();
 }, dragover(t5) {
   if (this.dragging) {
     t5.preventDefault();
-    const i4 = kr(t5);
+    const i4 = Tr(t5);
     var e4;
-    if (!Tt(i4, this.dragging.point))
+    if (!wt(i4, this.dragging.point))
       return this.dragging.point = i4, (e4 = this.responder) === null || e4 === undefined ? undefined : e4.setLocationRangeFromPointRange(i4);
   } else
-    xr(t5) && t5.preventDefault();
+    Cr(t5) && t5.preventDefault();
 }, drop(t5) {
   var e4, i4;
   if (this.dragging)
     return t5.preventDefault(), (e4 = this.delegate) === null || e4 === undefined || e4.inputControllerWillMoveText(), (i4 = this.responder) === null || i4 === undefined || i4.moveTextFromRange(this.dragging.range), this.dragging = null, this.scheduleRender();
-  if (xr(t5)) {
+  if (Cr(t5)) {
     var n3;
     t5.preventDefault();
-    const e5 = kr(t5);
+    const e5 = Tr(t5);
     return (n3 = this.responder) === null || n3 === undefined || n3.setLocationRangeFromPointRange(e5), this.attachFiles(t5.dataTransfer.files);
   }
 }, dragend() {
@@ -40216,7 +40371,7 @@ Di(Ar, "events", { keydown(t5) {
   this.dragging && ((t5 = this.responder) === null || t5 === undefined || t5.setSelectedRange(this.dragging.range), this.dragging = null);
 }, compositionend(t5) {
   this.composing && (this.composing = false, a3.recentAndroid || this.scheduleRender());
-} }), Di(Ar, "keys", { ArrowLeft() {
+} }), Ii(yr, "keys", { ArrowLeft() {
   var t5, e4;
   if ((t5 = this.responder) !== null && t5 !== undefined && t5.shouldManageMovingCursorInDirection("backward"))
     return this.event.preventDefault(), (e4 = this.responder) === null || e4 === undefined ? undefined : e4.moveCursorInDirection("backward");
@@ -40236,7 +40391,7 @@ Di(Ar, "events", { keydown(t5) {
   var t5, e4;
   if ((t5 = this.responder) !== null && t5 !== undefined && t5.canDecreaseNestingLevel())
     return this.event.preventDefault(), (e4 = this.responder) === null || e4 === undefined || e4.decreaseNestingLevel(), this.render();
-} }), Di(Ar, "inputTypes", { deleteByComposition() {
+} }), Ii(yr, "inputTypes", { deleteByComposition() {
   return this.deleteInDirection("backward", { recordUndoEntry: false });
 }, deleteByCut() {
   return this.deleteInDirection("backward");
@@ -40343,14 +40498,14 @@ Di(Ar, "events", { keydown(t5) {
     let n4;
     this.event.preventDefault(), e4.type = "text/html";
     const o4 = t5.getData("public.url-name");
-    n4 = o4 ? Vt(o4).trim() : i4, e4.html = this.createLinkHTML(i4, n4), (r4 = this.delegate) === null || r4 === undefined || r4.inputControllerWillPaste(e4), this.withTargetDOMRange(function() {
+    n4 = o4 ? zt(o4).trim() : i4, e4.html = this.createLinkHTML(i4, n4), (r4 = this.delegate) === null || r4 === undefined || r4.inputControllerWillPaste(e4), this.withTargetDOMRange(function() {
       var t6;
       return (t6 = this.responder) === null || t6 === undefined ? undefined : t6.insertHTML(e4.html);
     }), this.afterRender = () => {
       var t6;
       return (t6 = this.delegate) === null || t6 === undefined ? undefined : t6.inputControllerDidPaste(e4);
     };
-  } else if (Et(t5)) {
+  } else if (St(t5)) {
     var o3;
     e4.type = "text/plain", e4.string = t5.getData("text/plain"), (o3 = this.delegate) === null || o3 === undefined || o3.inputControllerWillPaste(e4), this.withTargetDOMRange(function() {
       var t6;
@@ -40359,7 +40514,7 @@ Di(Ar, "events", { keydown(t5) {
       var t6;
       return (t6 = this.delegate) === null || t6 === undefined ? undefined : t6.inputControllerDidPaste(e4);
     };
-  } else if (Cr(this.event)) {
+  } else if (Er(this.event)) {
     var s4;
     e4.type = "File", e4.file = t5.files[0], (s4 = this.delegate) === null || s4 === undefined || s4.inputControllerWillPaste(e4), this.withTargetDOMRange(function() {
       var t6;
@@ -40406,69 +40561,69 @@ Di(Ar, "events", { keydown(t5) {
 }, insertUnorderedList() {
   return this.toggleAttributeIfSupported("bullet");
 } });
-var yr = function(t5) {
+var xr = function(t5) {
   const e4 = document.createRange();
   return e4.setStart(t5.startContainer, t5.startOffset), e4.setEnd(t5.endContainer, t5.endOffset), e4;
 };
-var xr = (t5) => {
+var Cr = (t5) => {
   var e4;
   return Array.from(((e4 = t5.dataTransfer) === null || e4 === undefined ? undefined : e4.types) || []).includes("Files");
 };
-var Cr = (t5) => {
+var Er = (t5) => {
   var e4;
-  return ((e4 = t5.dataTransfer.files) === null || e4 === undefined ? undefined : e4[0]) && !Er(t5) && !((t6) => {
+  return ((e4 = t5.dataTransfer.files) === null || e4 === undefined ? undefined : e4[0]) && !Sr(t5) && !((t6) => {
     let { dataTransfer: e5 } = t6;
     return e5.types.includes("Files") && e5.types.includes("text/html") && e5.getData("text/html").includes("urn:schemas-microsoft-com:office:office");
   })(t5);
 };
-var Er = function(t5) {
+var Sr = function(t5) {
   const e4 = t5.clipboardData;
   if (e4) {
     return Array.from(e4.types).filter((t6) => t6.match(/file/i)).length === e4.types.length && e4.files.length >= 1;
   }
 };
-var Sr = function(t5) {
+var Rr = function(t5) {
   const e4 = t5.clipboardData;
   if (e4)
     return e4.types.includes("text/plain") && e4.types.length === 1;
 };
-var Rr = function(t5) {
+var kr = function(t5) {
   const e4 = [];
   return t5.altKey && e4.push("alt"), t5.shiftKey && e4.push("shift"), e4.push(t5.key), e4;
 };
-var kr = (t5) => ({ x: t5.clientX, y: t5.clientY });
-var Tr = "[data-trix-attribute]";
-var wr = "[data-trix-action]";
-var Lr = "".concat(Tr, ", ").concat(wr);
-var Dr = "[data-trix-dialog]";
-var Nr = "".concat(Dr, "[data-trix-active]");
-var Ir = "".concat(Dr, " [data-trix-method]");
-var Or = "".concat(Dr, " [data-trix-input]");
-var Fr = (t5, e4) => (e4 || (e4 = Mr(t5)), t5.querySelector("[data-trix-input][name='".concat(e4, "']")));
-var Pr = (t5) => t5.getAttribute("data-trix-action");
-var Mr = (t5) => t5.getAttribute("data-trix-attribute") || t5.getAttribute("data-trix-dialog-attribute");
+var Tr = (t5) => ({ x: t5.clientX, y: t5.clientY });
+var wr = "[data-trix-attribute]";
+var Lr = "[data-trix-action]";
+var Dr = "".concat(wr, ", ").concat(Lr);
+var Nr = "[data-trix-dialog]";
+var Ir = "".concat(Nr, "[data-trix-active]");
+var Or = "".concat(Nr, " [data-trix-method]");
+var Fr = "".concat(Nr, " [data-trix-input]");
+var Pr = (t5, e4) => (e4 || (e4 = Br(t5)), t5.querySelector("[data-trix-input][name='".concat(e4, "']")));
+var Mr = (t5) => t5.getAttribute("data-trix-action");
+var Br = (t5) => t5.getAttribute("data-trix-attribute") || t5.getAttribute("data-trix-dialog-attribute");
 
-class Br extends q3 {
+class _r extends H3 {
   constructor(t5) {
-    super(t5), this.didClickActionButton = this.didClickActionButton.bind(this), this.didClickAttributeButton = this.didClickAttributeButton.bind(this), this.didClickDialogButton = this.didClickDialogButton.bind(this), this.didKeyDownDialogInput = this.didKeyDownDialogInput.bind(this), this.element = t5, this.attributes = {}, this.actions = {}, this.resetDialogInputs(), b3("mousedown", { onElement: this.element, matchingSelector: wr, withCallback: this.didClickActionButton }), b3("mousedown", { onElement: this.element, matchingSelector: Tr, withCallback: this.didClickAttributeButton }), b3("click", { onElement: this.element, matchingSelector: Lr, preventDefault: true }), b3("click", { onElement: this.element, matchingSelector: Ir, withCallback: this.didClickDialogButton }), b3("keydown", { onElement: this.element, matchingSelector: Or, withCallback: this.didKeyDownDialogInput });
+    super(t5), this.didClickActionButton = this.didClickActionButton.bind(this), this.didClickAttributeButton = this.didClickAttributeButton.bind(this), this.didClickDialogButton = this.didClickDialogButton.bind(this), this.didKeyDownDialogInput = this.didKeyDownDialogInput.bind(this), this.element = t5, this.attributes = {}, this.actions = {}, this.resetDialogInputs(), b3("mousedown", { onElement: this.element, matchingSelector: Lr, withCallback: this.didClickActionButton }), b3("mousedown", { onElement: this.element, matchingSelector: wr, withCallback: this.didClickAttributeButton }), b3("click", { onElement: this.element, matchingSelector: Dr, preventDefault: true }), b3("click", { onElement: this.element, matchingSelector: Or, withCallback: this.didClickDialogButton }), b3("keydown", { onElement: this.element, matchingSelector: Fr, withCallback: this.didKeyDownDialogInput });
   }
   didClickActionButton(t5, e4) {
     var i4;
     (i4 = this.delegate) === null || i4 === undefined || i4.toolbarDidClickButton(), t5.preventDefault();
-    const n3 = Pr(e4);
+    const n3 = Mr(e4);
     return this.getDialog(n3) ? this.toggleDialog(n3) : (r4 = this.delegate) === null || r4 === undefined ? undefined : r4.toolbarDidInvokeAction(n3, e4);
     var r4;
   }
   didClickAttributeButton(t5, e4) {
     var i4;
     (i4 = this.delegate) === null || i4 === undefined || i4.toolbarDidClickButton(), t5.preventDefault();
-    const n3 = Mr(e4);
+    const n3 = Br(e4);
     var r4;
     this.getDialog(n3) ? this.toggleDialog(n3) : (r4 = this.delegate) === null || r4 === undefined || r4.toolbarDidToggleAttribute(n3);
     return this.refreshAttributeButtons();
   }
   didClickDialogButton(t5, e4) {
-    const i4 = y3(e4, { matchingSelector: Dr });
+    const i4 = x4(e4, { matchingSelector: Nr });
     return this[e4.getAttribute("data-trix-method")].call(this, i4);
   }
   didKeyDownDialogInput(t5, e4) {
@@ -40489,7 +40644,7 @@ class Br extends q3 {
     });
   }
   eachActionButton(t5) {
-    return Array.from(this.element.querySelectorAll(wr)).map((e4) => t5(e4, Pr(e4)));
+    return Array.from(this.element.querySelectorAll(Lr)).map((e4) => t5(e4, Mr(e4)));
   }
   updateAttributes(t5) {
     return this.attributes = t5, this.refreshAttributeButtons();
@@ -40498,14 +40653,14 @@ class Br extends q3 {
     return this.eachAttributeButton((t5, e4) => (t5.disabled = this.attributes[e4] === false, this.attributes[e4] || this.dialogIsVisible(e4) ? (t5.setAttribute("data-trix-active", ""), t5.classList.add("trix-active")) : (t5.removeAttribute("data-trix-active"), t5.classList.remove("trix-active"))));
   }
   eachAttributeButton(t5) {
-    return Array.from(this.element.querySelectorAll(Tr)).map((e4) => t5(e4, Mr(e4)));
+    return Array.from(this.element.querySelectorAll(wr)).map((e4) => t5(e4, Br(e4)));
   }
   applyKeyboardCommand(t5) {
     const e4 = JSON.stringify(t5.sort());
     for (const t6 of Array.from(this.element.querySelectorAll("[data-trix-key]"))) {
       const i4 = t6.getAttribute("data-trix-key").split("+");
       if (JSON.stringify(i4.sort()) === e4)
-        return v3("mousedown", { onElement: t6 }), true;
+        return A3("mousedown", { onElement: t6 }), true;
     }
     return false;
   }
@@ -40524,34 +40679,34 @@ class Br extends q3 {
     n3.setAttribute("data-trix-active", ""), n3.classList.add("trix-active"), Array.from(n3.querySelectorAll("input[disabled]")).forEach((t6) => {
       t6.removeAttribute("disabled");
     });
-    const r4 = Mr(n3);
+    const r4 = Br(n3);
     if (r4) {
-      const e5 = Fr(n3, t5);
+      const e5 = Pr(n3, t5);
       e5 && (e5.value = this.attributes[r4] || "", e5.select());
     }
     return (i4 = this.delegate) === null || i4 === undefined ? undefined : i4.toolbarDidShowDialog(t5);
   }
   setAttribute(t5) {
     var e4;
-    const i4 = Mr(t5), n3 = Fr(t5, i4);
+    const i4 = Br(t5), n3 = Pr(t5, i4);
     return !n3.willValidate || (n3.setCustomValidity(""), n3.checkValidity() && this.isSafeAttribute(n3)) ? ((e4 = this.delegate) === null || e4 === undefined || e4.toolbarDidUpdateAttribute(i4, n3.value), this.hideDialog()) : (n3.setCustomValidity("Invalid value"), n3.setAttribute("data-trix-validate", ""), n3.classList.add("trix-validate"), n3.focus());
   }
   isSafeAttribute(t5) {
-    return !t5.hasAttribute("data-trix-validate-href") || li.isValidAttribute("a", "href", t5.value);
+    return !t5.hasAttribute("data-trix-validate-href") || ci.isValidAttribute("a", "href", t5.value);
   }
   removeAttribute(t5) {
     var e4;
-    const i4 = Mr(t5);
+    const i4 = Br(t5);
     return (e4 = this.delegate) === null || e4 === undefined || e4.toolbarDidRemoveAttribute(i4), this.hideDialog();
   }
   hideDialog() {
-    const t5 = this.element.querySelector(Nr);
+    const t5 = this.element.querySelector(Ir);
     var e4;
     if (t5)
       return t5.removeAttribute("data-trix-active"), t5.classList.remove("trix-active"), this.resetDialogInputs(), (e4 = this.delegate) === null || e4 === undefined ? undefined : e4.toolbarDidHideDialog(((t6) => t6.getAttribute("data-trix-dialog"))(t5));
   }
   resetDialogInputs() {
-    Array.from(this.element.querySelectorAll(Or)).forEach((t5) => {
+    Array.from(this.element.querySelectorAll(Fr)).forEach((t5) => {
       t5.setAttribute("disabled", "disabled"), t5.removeAttribute("data-trix-validate"), t5.classList.remove("trix-validate");
     });
   }
@@ -40560,16 +40715,16 @@ class Br extends q3 {
   }
 }
 
-class _r extends $n {
+class jr extends Zn {
   constructor(t5) {
     let { editorElement: e4, document: i4, html: n3 } = t5;
-    super(...arguments), this.editorElement = e4, this.selectionManager = new Vn(this.editorElement), this.selectionManager.delegate = this, this.composition = new wn, this.composition.delegate = this, this.attachmentManager = new kn(this.composition.getAttachments()), this.attachmentManager.delegate = this, this.inputController = _3.getLevel() === 2 ? new Ar(this.editorElement) : new gr(this.editorElement), this.inputController.delegate = this, this.inputController.responder = this.composition, this.compositionController = new Xn(this.editorElement, this.composition), this.compositionController.delegate = this, this.toolbarController = new Br(this.editorElement.toolbarElement), this.toolbarController.delegate = this, this.editor = new Pn(this.composition, this.selectionManager, this.editorElement), i4 ? this.editor.loadDocument(i4) : this.editor.loadHTML(n3);
+    super(...arguments), this.editorElement = e4, this.selectionManager = new zn(this.editorElement), this.selectionManager.delegate = this, this.composition = new Ln, this.composition.delegate = this, this.attachmentManager = new Tn(this.composition.getAttachments()), this.attachmentManager.delegate = this, this.inputController = j4.getLevel() === 2 ? new yr(this.editorElement) : new mr(this.editorElement), this.inputController.delegate = this, this.inputController.responder = this.composition, this.compositionController = new $n(this.editorElement, this.composition), this.compositionController.delegate = this, this.toolbarController = new _r(this.editorElement.toolbarElement), this.toolbarController.delegate = this, this.editor = new Mn(this.composition, this.selectionManager, this.editorElement), i4 ? this.editor.loadDocument(i4) : this.editor.loadHTML(n3);
   }
   registerSelectionManager() {
-    return Ft.registerSelectionManager(this.selectionManager);
+    return Pt.registerSelectionManager(this.selectionManager);
   }
   unregisterSelectionManager() {
-    return Ft.unregisterSelectionManager(this.selectionManager);
+    return Pt.unregisterSelectionManager(this.selectionManager);
   }
   render() {
     return this.compositionController.render();
@@ -40712,7 +40867,7 @@ class _r extends $n {
     this.selectionManager.setLocationRange(this.locationRangeBeforeDrag), this.locationRangeBeforeDrag = null;
   }
   locationRangeDidChange(t5) {
-    return this.composition.updateCurrentAttributes(), this.updateCurrentActions(), this.attachmentLocationRange && !Dt(this.attachmentLocationRange, t5) && this.composition.stopEditingAttachment(), this.notifyEditorElement("selection-change");
+    return this.composition.updateCurrentAttributes(), this.updateCurrentActions(), this.attachmentLocationRange && !Nt(this.attachmentLocationRange, t5) && this.composition.stopEditingAttachment(), this.notifyEditorElement("selection-change");
   }
   toolbarDidClickButton() {
     if (!this.getLocationRange())
@@ -40769,7 +40924,7 @@ class _r extends $n {
   }
   updateCurrentActions() {
     const t5 = this.getCurrentActions();
-    if (!Tt(t5, this.currentActions))
+    if (!wt(t5, this.currentActions))
       return this.currentActions = t5, this.toolbarController.updateActions(this.currentActions), this.notifyEditorElement("actions-change", { actions: this.currentActions });
   }
   runEditorFilters() {
@@ -40777,13 +40932,13 @@ class _r extends $n {
     if (Array.from(this.editor.filters).forEach((e5) => {
       const { document: i5, selectedRange: n3 } = t5;
       t5 = e5.call(this.editor, t5) || {}, t5.document || (t5.document = i5), t5.selectedRange || (t5.selectedRange = n3);
-    }), e4 = t5, i4 = this.composition.getSnapshot(), !Dt(e4.selectedRange, i4.selectedRange) || !e4.document.isEqualTo(i4.document))
+    }), e4 = t5, i4 = this.composition.getSnapshot(), !Nt(e4.selectedRange, i4.selectedRange) || !e4.document.isEqualTo(i4.document))
       return this.composition.loadSnapshot(t5);
     var e4, i4;
   }
   updateInputElement() {
     const t5 = function(t6, e4) {
-      const i4 = En[e4];
+      const i4 = Sn[e4];
       if (i4)
         return i4(t6);
       throw new Error("unknown content type: ".concat(e4));
@@ -40810,8 +40965,8 @@ class _r extends $n {
     return this.editor.recordUndoEntry("Delete Attachment"), this.composition.removeAttachment(t5), this.render();
   }
   recordFormattingUndoEntry(t5) {
-    const e4 = mt(t5), i4 = this.selectionManager.getLocationRange();
-    if (e4 || !Lt(i4))
+    const e4 = pt(t5), i4 = this.selectionManager.getLocationRange();
+    if (e4 || !Dt(i4))
       return this.editor.recordUndoEntry("Formatting", { context: this.getUndoContext(), consolidatable: true });
   }
   recordTypingUndoEntry() {
@@ -40824,10 +40979,10 @@ class _r extends $n {
   }
   getLocationContext() {
     const t5 = this.selectionManager.getLocationRange();
-    return Lt(t5) ? t5[0].index : t5;
+    return Dt(t5) ? t5[0].index : t5;
   }
   getTimeContext() {
-    return V3.interval > 0 ? Math.floor(new Date().getTime() / V3.interval) : 0;
+    return z3.interval > 0 ? Math.floor(new Date().getTime() / z3.interval) : 0;
   }
   isFocused() {
     var t5;
@@ -40840,7 +40995,7 @@ class _r extends $n {
     return this.constructor.actions;
   }
 }
-Di(_r, "actions", { undo: { test() {
+Ii(jr, "actions", { undo: { test() {
   return this.editor.canUndo();
 }, perform() {
   return this.editor.undo();
@@ -40859,12 +41014,12 @@ Di(_r, "actions", { undo: { test() {
 }, perform() {
   return this.editor.decreaseNestingLevel() && this.render();
 } }, attachFiles: { test: () => true, perform() {
-  return _3.pickFiles(this.editor.insertFiles);
-} } }), _r.proxyMethod("getSelectionManager().setLocationRange"), _r.proxyMethod("getSelectionManager().getLocationRange");
-var jr = Object.freeze({ __proto__: null, AttachmentEditorController: Yn, CompositionController: Xn, Controller: $n, EditorController: _r, InputController: lr, Level0InputController: gr, Level2InputController: Ar, ToolbarController: Br });
-var Wr = Object.freeze({ __proto__: null, MutationObserver: er, SelectionChangeObserver: Ot });
-var Ur = Object.freeze({ __proto__: null, FileVerificationOperation: nr, ImagePreloadOperation: Ui });
-vt("trix-toolbar", `%t {
+  return j4.pickFiles(this.editor.insertFiles);
+} } }), jr.proxyMethod("getSelectionManager().setLocationRange"), jr.proxyMethod("getSelectionManager().getLocationRange");
+var Wr = Object.freeze({ __proto__: null, AttachmentEditorController: Xn, CompositionController: $n, Controller: Zn, EditorController: jr, InputController: cr, Level0InputController: mr, Level2InputController: yr, ToolbarController: _r });
+var Ur = Object.freeze({ __proto__: null, MutationObserver: ir, SelectionChangeObserver: Ft });
+var Vr = Object.freeze({ __proto__: null, FileVerificationOperation: rr, ImagePreloadOperation: Vi });
+At("trix-toolbar", `%t {
   display: block;
 }
 
@@ -40884,28 +41039,40 @@ vt("trix-toolbar", `%t {
   background-color: #ffdddd;
 }`);
 
-class Vr extends HTMLElement {
+class zr extends HTMLElement {
   connectedCallback() {
-    this.innerHTML === "" && (this.innerHTML = U2.getDefaultHTML());
+    this.innerHTML === "" && (this.innerHTML = V3.getDefaultHTML());
+  }
+  get editorElements() {
+    if (this.id) {
+      var t5;
+      const e4 = (t5 = this.ownerDocument) === null || t5 === undefined ? undefined : t5.querySelectorAll('trix-editor[toolbar="'.concat(this.id, '"]'));
+      return Array.from(e4);
+    }
+    return [];
+  }
+  get editorElement() {
+    const [t5] = this.editorElements;
+    return t5;
   }
 }
-var zr = 0;
-var qr = function(t5) {
+var qr = 0;
+var Hr = function(t5) {
   if (!t5.hasAttribute("contenteditable"))
-    return t5.setAttribute("contenteditable", ""), function(t6) {
+    return t5.toggleAttribute("contenteditable", !t5.disabled), function(t6) {
       let e4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
       return e4.times = 1, b3(t6, e4);
-    }("focus", { onElement: t5, withCallback: () => Hr(t5) });
-};
-var Hr = function(t5) {
-  return Jr(t5), Kr(t5);
+    }("focus", { onElement: t5, withCallback: () => Jr(t5) });
 };
 var Jr = function(t5) {
+  return Kr(t5), Gr(t5);
+};
+var Kr = function(t5) {
   var e4, i4;
   if ((e4 = (i4 = document).queryCommandSupported) !== null && e4 !== undefined && e4.call(i4, "enableObjectResizing"))
     return document.execCommand("enableObjectResizing", false, false), b3("mscontrolselect", { onElement: t5, preventDefault: true });
 };
-var Kr = function(t5) {
+var Gr = function(t5) {
   var e4, i4;
   if ((e4 = (i4 = document).queryCommandSupported) !== null && e4 !== undefined && e4.call(i4, "DefaultParagraphSeparator")) {
     const { tagName: t6 } = n2.default;
@@ -40913,8 +41080,8 @@ var Kr = function(t5) {
       return document.execCommand("DefaultParagraphSeparator", false, t6);
   }
 };
-var Gr = a3.forcesObjectResizing ? { display: "inline", width: "auto" } : { display: "inline-block", width: "1px" };
-vt("trix-editor", `%t {
+var Yr = a3.forcesObjectResizing ? { display: "inline", width: "auto" } : { display: "inline-block", width: "1px" };
+At("trix-editor", `%t {
     display: block;
 }
 
@@ -40951,8 +41118,8 @@ vt("trix-editor", `%t {
 }
 
 %t [data-trix-cursor-target] {
-    display: `).concat(Gr.display, ` !important;
-    width: `).concat(Gr.width, ` !important;
+    display: `).concat(Yr.display, ` !important;
+    width: `).concat(Yr.width, ` !important;
     padding: 0 !important;
     margin: 0 !important;
     border: none !important;
@@ -40967,24 +41134,33 @@ vt("trix-editor", `%t {
     vertical-align: bottom !important;
     margin-right: -1px !important;
 }`));
-var Yr = new WeakMap;
-var Xr = new WeakSet;
+var Xr = new WeakMap;
+var $r = new WeakMap;
+var Zr = new WeakSet;
 
-class $r {
+class Qr {
   constructor(t5) {
     var e4, i4;
-    _i(e4 = this, i4 = Xr), i4.add(e4), ji(this, Yr, { writable: true, value: undefined }), this.element = t5, Oi(this, Yr, t5.attachInternals());
+    ji(e4 = this, i4 = Zr), i4.add(e4), Ii(this, "value", ""), Wi(this, Xr, { writable: true, value: undefined }), Wi(this, $r, { writable: true, value: undefined }), this.element = t5, Fi(this, Xr, t5.attachInternals()), Fi(this, $r, false);
   }
   connectedCallback() {
-    Bi(this, Xr, Zr).call(this);
+    _i(this, Zr, to2).call(this);
   }
   disconnectedCallback() {}
+  get form() {
+    return Oi(this, Xr).form;
+  }
+  get name() {
+    return this.element.getAttribute("name");
+  }
+  set name(t5) {
+    this.element.setAttribute("name", t5);
+  }
   get labels() {
-    return Ii(this, Yr).labels;
+    return Oi(this, Xr).labels;
   }
   get disabled() {
-    var t5;
-    return (t5 = this.element.inputElement) === null || t5 === undefined ? undefined : t5.disabled;
+    return Oi(this, $r) || this.element.hasAttribute("disabled");
   }
   set disabled(t5) {
     this.element.toggleAttribute("disabled", t5);
@@ -40993,54 +41169,57 @@ class $r {
     return this.element.hasAttribute("required");
   }
   set required(t5) {
-    this.element.toggleAttribute("required", t5), Bi(this, Xr, Zr).call(this);
+    this.element.toggleAttribute("required", t5), _i(this, Zr, to2).call(this);
   }
   get validity() {
-    return Ii(this, Yr).validity;
+    return Oi(this, Xr).validity;
   }
   get validationMessage() {
-    return Ii(this, Yr).validationMessage;
+    return Oi(this, Xr).validationMessage;
   }
   get willValidate() {
-    return Ii(this, Yr).willValidate;
+    return Oi(this, Xr).willValidate;
+  }
+  formDisabledCallback(t5) {
+    Fi(this, $r, t5);
   }
   setFormValue(t5) {
-    Bi(this, Xr, Zr).call(this);
+    this.value = t5, _i(this, Zr, to2).call(this), Oi(this, Xr).setFormValue(this.element.disabled ? undefined : this.value);
   }
   checkValidity() {
-    return Ii(this, Yr).checkValidity();
+    return Oi(this, Xr).checkValidity();
   }
   reportValidity() {
-    return Ii(this, Yr).reportValidity();
+    return Oi(this, Xr).reportValidity();
   }
   setCustomValidity(t5) {
-    Bi(this, Xr, Zr).call(this, t5);
+    _i(this, Zr, to2).call(this, t5);
   }
 }
-function Zr() {
+function to2() {
   let t5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-  const { required: e4, value: i4 } = this.element, n3 = e4 && !i4, r4 = !!t5, o3 = T4("input", { required: e4 }), s4 = t5 || o3.validationMessage;
-  Ii(this, Yr).setValidity({ valueMissing: n3, customError: r4 }, s4);
+  const { required: e4, value: i4 } = this.element, n3 = e4 && !i4, r4 = !!t5, o3 = w4("input", { required: e4 }), s4 = t5 || o3.validationMessage;
+  Oi(this, Xr).setValidity({ valueMissing: n3, customError: r4 }, s4);
 }
-var Qr = new WeakMap;
-var to2 = new WeakMap;
 var eo = new WeakMap;
+var io = new WeakMap;
+var no = new WeakMap;
 
-class io {
+class ro {
   constructor(t5) {
-    ji(this, Qr, { writable: true, value: undefined }), ji(this, to2, { writable: true, value: (t6) => {
+    Wi(this, eo, { writable: true, value: undefined }), Wi(this, io, { writable: true, value: (t6) => {
       t6.defaultPrevented || t6.target === this.element.form && this.element.reset();
-    } }), ji(this, eo, { writable: true, value: (t6) => {
+    } }), Wi(this, no, { writable: true, value: (t6) => {
       if (t6.defaultPrevented)
         return;
       if (this.element.contains(t6.target))
         return;
-      const e4 = y3(t6.target, { matchingSelector: "label" });
+      const e4 = x4(t6.target, { matchingSelector: "label" });
       e4 && Array.from(this.labels).includes(e4) && this.element.focus();
     } }), this.element = t5;
   }
   connectedCallback() {
-    Oi(this, Qr, function(t5) {
+    Fi(this, eo, function(t5) {
       if (t5.hasAttribute("aria-label") || t5.hasAttribute("aria-labelledby"))
         return;
       const e4 = function() {
@@ -41051,17 +41230,26 @@ class io {
         return i4 ? t5.setAttribute("aria-label", i4) : t5.removeAttribute("aria-label");
       };
       return e4(), b3("focus", { onElement: t5, withCallback: e4 });
-    }(this.element)), window.addEventListener("reset", Ii(this, to2), false), window.addEventListener("click", Ii(this, eo), false);
+    }(this.element)), window.addEventListener("reset", Oi(this, io), false), window.addEventListener("click", Oi(this, no), false);
   }
   disconnectedCallback() {
     var t5;
-    (t5 = Ii(this, Qr)) === null || t5 === undefined || t5.destroy(), window.removeEventListener("reset", Ii(this, to2), false), window.removeEventListener("click", Ii(this, eo), false);
+    (t5 = Oi(this, eo)) === null || t5 === undefined || t5.destroy(), window.removeEventListener("reset", Oi(this, io), false), window.removeEventListener("click", Oi(this, no), false);
   }
   get labels() {
     const t5 = [];
     this.element.id && this.element.ownerDocument && t5.push(...Array.from(this.element.ownerDocument.querySelectorAll("label[for='".concat(this.element.id, "']")) || []));
-    const e4 = y3(this.element, { matchingSelector: "label" });
+    const e4 = x4(this.element, { matchingSelector: "label" });
     return e4 && [this.element, null].includes(e4.control) && t5.push(e4), t5;
+  }
+  get form() {
+    return console.warn("This browser does not support the .form property for trix-editor elements."), null;
+  }
+  get name() {
+    return console.warn("This browser does not support the .name property for trix-editor elements."), null;
+  }
+  set name(t5) {
+    console.warn("This browser does not support the .name property for trix-editor elements.");
   }
   get disabled() {
     return console.warn("This browser does not support the [disabled] attribute for trix-editor elements."), false;
@@ -41084,6 +41272,7 @@ class io {
   get willValidate() {
     return console.warn("This browser does not support the willValidate property for trix-editor elements."), false;
   }
+  formDisabledCallback(t5) {}
   setFormValue(t5) {}
   checkValidity() {
     return console.warn("This browser does not support checkValidity() for trix-editor elements."), true;
@@ -41095,38 +41284,40 @@ class io {
     console.warn("This browser does not support setCustomValidity(validationMessage) for trix-editor elements.");
   }
 }
-var no = new WeakMap;
+var oo = new WeakMap;
 
-class ro extends HTMLElement {
+class so extends HTMLElement {
   constructor() {
-    super(), ji(this, no, { writable: true, value: undefined }), Oi(this, no, this.constructor.formAssociated ? new $r(this) : new io(this));
+    super(), Wi(this, oo, { writable: true, value: undefined }), this.willCreateInput = true, Fi(this, oo, this.constructor.formAssociated ? new Qr(this) : new ro(this));
   }
   get trixId() {
-    return this.hasAttribute("trix-id") ? this.getAttribute("trix-id") : (this.setAttribute("trix-id", ++zr), this.trixId);
+    return this.hasAttribute("trix-id") ? this.getAttribute("trix-id") : (this.setAttribute("trix-id", ++qr), this.trixId);
   }
   get labels() {
-    return Ii(this, no).labels;
+    return Oi(this, oo).labels;
   }
   get disabled() {
-    return Ii(this, no).disabled;
+    const { inputElement: t5 } = this;
+    return t5 ? t5.disabled : Oi(this, oo).disabled;
   }
   set disabled(t5) {
-    Ii(this, no).disabled = t5;
+    const { inputElement: e4 } = this;
+    e4 && (e4.disabled = t5), Oi(this, oo).disabled = t5;
   }
   get required() {
-    return Ii(this, no).required;
+    return Oi(this, oo).required;
   }
   set required(t5) {
-    Ii(this, no).required = t5;
+    Oi(this, oo).required = t5;
   }
   get validity() {
-    return Ii(this, no).validity;
+    return Oi(this, oo).validity;
   }
   get validationMessage() {
-    return Ii(this, no).validationMessage;
+    return Oi(this, oo).validationMessage;
   }
   get willValidate() {
-    return Ii(this, no).willValidate;
+    return Oi(this, oo).willValidate;
   }
   get type() {
     return this.localName;
@@ -41137,35 +41328,32 @@ class ro extends HTMLElement {
       return (t5 = this.ownerDocument) === null || t5 === undefined ? undefined : t5.getElementById(this.getAttribute("toolbar"));
     if (this.parentNode) {
       const t6 = "trix-toolbar-".concat(this.trixId);
-      return this.setAttribute("toolbar", t6), this.internalToolbar = T4("trix-toolbar", { id: t6 }), this.parentNode.insertBefore(this.internalToolbar, this), this.internalToolbar;
+      return this.setAttribute("toolbar", t6), this.internalToolbar = w4("trix-toolbar", { id: t6 }), this.parentNode.insertBefore(this.internalToolbar, this), this.internalToolbar;
     }
   }
   get form() {
-    var t5;
-    return (t5 = this.inputElement) === null || t5 === undefined ? undefined : t5.form;
+    const { inputElement: t5 } = this;
+    return t5 ? t5.form : Oi(this, oo).form;
   }
   get inputElement() {
     var t5;
-    if (this.hasAttribute("input"))
-      return (t5 = this.ownerDocument) === null || t5 === undefined ? undefined : t5.getElementById(this.getAttribute("input"));
-    if (this.parentNode) {
-      const t6 = "trix-input-".concat(this.trixId);
-      this.setAttribute("input", t6);
-      const e4 = T4("input", { type: "hidden", id: t6 });
-      return this.parentNode.insertBefore(e4, this.nextElementSibling), e4;
-    }
+    return this.hasAttribute("input") ? (t5 = this.ownerDocument) === null || t5 === undefined ? undefined : t5.getElementById(this.getAttribute("input")) : undefined;
   }
   get editor() {
     var t5;
     return (t5 = this.editorController) === null || t5 === undefined ? undefined : t5.editor;
   }
   get name() {
-    var t5;
-    return (t5 = this.inputElement) === null || t5 === undefined ? undefined : t5.name;
+    const { inputElement: t5 } = this;
+    return t5 ? t5.name : Oi(this, oo).name;
+  }
+  set name(t5) {
+    const { inputElement: e4 } = this;
+    e4 ? e4.name = t5 : Oi(this, oo).name = t5;
   }
   get value() {
-    var t5;
-    return (t5 = this.inputElement) === null || t5 === undefined ? undefined : t5.value;
+    const { inputElement: t5 } = this;
+    return t5 ? t5.value : Oi(this, oo).value;
   }
   set value(t5) {
     var e4;
@@ -41176,23 +41364,35 @@ class ro extends HTMLElement {
   }
   notify(t5, e4) {
     if (this.editorController)
-      return v3("trix-".concat(t5), { onElement: this, attributes: e4 });
+      return A3("trix-".concat(t5), { onElement: this, attributes: e4 });
   }
   setFormValue(t5) {
-    this.inputElement && (this.inputElement.value = t5, Ii(this, no).setFormValue(t5));
+    const { inputElement: e4 } = this;
+    e4 && (e4.value = t5), Oi(this, oo).setFormValue(t5);
   }
   connectedCallback() {
-    this.hasAttribute("data-trix-internal") || (qr(this), function(t5) {
-      if (!t5.hasAttribute("role"))
-        t5.setAttribute("role", "textbox");
-    }(this), this.editorController || (v3("trix-before-initialize", { onElement: this }), this.editorController = new _r({ editorElement: this, html: this.defaultValue = this.value }), requestAnimationFrame(() => v3("trix-initialize", { onElement: this }))), this.editorController.registerSelectionManager(), Ii(this, no).connectedCallback(), this.toggleAttribute("connected", true), function(t5) {
-      if (!document.querySelector(":focus") && t5.hasAttribute("autofocus") && document.querySelector("[autofocus]") === t5)
-        t5.focus();
-    }(this));
+    if (!this.hasAttribute("data-trix-internal")) {
+      if (Hr(this), function(t5) {
+        if (!t5.hasAttribute("role"))
+          t5.setAttribute("role", "textbox");
+      }(this), !this.editorController) {
+        if (A3("trix-before-initialize", { onElement: this }), this.defaultValue = this.inputElement ? this.inputElement.value : this.innerHTML, !this.hasAttribute("input") && this.parentNode && this.willCreateInput) {
+          const t5 = "trix-input-".concat(this.trixId);
+          this.setAttribute("input", t5);
+          const e4 = w4("input", { type: "hidden", id: t5 });
+          this.parentNode.insertBefore(e4, this.nextElementSibling);
+        }
+        this.editorController = new jr({ editorElement: this, html: this.defaultValue }), requestAnimationFrame(() => A3("trix-initialize", { onElement: this }));
+      }
+      this.editorController.registerSelectionManager(), Oi(this, oo).connectedCallback(), this.toggleAttribute("connected", true), function(t5) {
+        if (!document.querySelector(":focus") && t5.hasAttribute("autofocus") && document.querySelector("[autofocus]") === t5)
+          t5.focus();
+      }(this);
+    }
   }
   disconnectedCallback() {
     var t5;
-    (t5 = this.editorController) === null || t5 === undefined || t5.unregisterSelectionManager(), Ii(this, no).disconnectedCallback(), this.toggleAttribute("connected", false);
+    (t5 = this.editorController) === null || t5 === undefined || t5.unregisterSelectionManager(), Oi(this, oo).disconnectedCallback(), this.toggleAttribute("connected", false);
   }
   reconnect() {
     this.removeInternalToolbar(), this.disconnectedCallback(), this.connectedCallback();
@@ -41202,16 +41402,17 @@ class ro extends HTMLElement {
     (t5 = this.internalToolbar) === null || t5 === undefined || t5.remove(), this.internalToolbar = null;
   }
   checkValidity() {
-    return Ii(this, no).checkValidity();
+    return Oi(this, oo).checkValidity();
   }
   reportValidity() {
-    return Ii(this, no).reportValidity();
+    return Oi(this, oo).reportValidity();
   }
   setCustomValidity(t5) {
-    Ii(this, no).setCustomValidity(t5);
+    Oi(this, oo).setCustomValidity(t5);
   }
   formDisabledCallback(t5) {
-    this.inputElement && (this.inputElement.disabled = t5), this.toggleAttribute("contenteditable", !t5);
+    const { inputElement: e4 } = this;
+    e4 && (e4.disabled = t5), this.toggleAttribute("contenteditable", !t5), Oi(this, oo).formDisabledCallback(t5);
   }
   formResetCallback() {
     this.reset();
@@ -41220,10 +41421,10 @@ class ro extends HTMLElement {
     this.value = this.defaultValue;
   }
 }
-Di(ro, "formAssociated", "ElementInternals" in window), Di(ro, "observedAttributes", ["connected"]);
-var oo = { VERSION: t3, config: z3, core: Sn, models: zn, views: qn, controllers: jr, observers: Wr, operations: Ur, elements: Object.freeze({ __proto__: null, TrixEditorElement: ro, TrixToolbarElement: Vr }), filters: Object.freeze({ __proto__: null, Filter: In, attachmentGalleryFilter: On }) };
-Object.assign(oo, zn), window.Trix = oo, setTimeout(function() {
-  customElements.get("trix-toolbar") || customElements.define("trix-toolbar", Vr), customElements.get("trix-editor") || customElements.define("trix-editor", ro);
+Ii(so, "formAssociated", "ElementInternals" in window), Ii(so, "observedAttributes", ["connected"]);
+var ao = { VERSION: t3, config: q3, core: Rn, models: qn, views: Hn, controllers: Wr, observers: Ur, operations: Vr, elements: Object.freeze({ __proto__: null, TrixEditorElement: so, TrixToolbarElement: zr }), filters: Object.freeze({ __proto__: null, Filter: On, attachmentGalleryFilter: Fn }) };
+Object.assign(ao, qn), window.Trix = ao, setTimeout(function() {
+  customElements.get("trix-toolbar") || customElements.define("trix-toolbar", zr), customElements.get("trix-editor") || customElements.define("trix-editor", so);
 }, 0);
 
 // node_modules/@rails/actiontext/app/assets/javascripts/actiontext.esm.js
@@ -41705,7 +41906,7 @@ function findElement2(root, selector) {
   }
   return root.querySelector(selector);
 }
-function dispatchEvent3(element, type, eventInit = {}) {
+function dispatchEvent2(element, type, eventInit = {}) {
   const { disabled } = element;
   const { bubbles, cancelable, detail } = eventInit;
   const event = document.createEvent("Event");
@@ -41905,7 +42106,7 @@ class DirectUploadController2 {
   dispatch(name, detail = {}) {
     detail.file = this.file;
     detail.id = this.directUpload.id;
-    return dispatchEvent3(this.input, `direct-upload:${name}`, {
+    return dispatchEvent2(this.input, `direct-upload:${name}`, {
       detail
     });
   }
@@ -42004,7 +42205,7 @@ class DirectUploadsController2 {
     return controllers;
   }
   dispatch(name, detail = {}) {
-    return dispatchEvent3(this.form, `direct-uploads:${name}`, {
+    return dispatchEvent2(this.form, `direct-uploads:${name}`, {
       detail
     });
   }
@@ -42162,7 +42363,7 @@ class AttachmentUpload {
   }
   dispatch(name, detail = {}) {
     detail.attachment = this.attachment;
-    return dispatchEvent3(this.element, `direct-upload:${name}`, {
+    return dispatchEvent2(this.element, `direct-upload:${name}`, {
       detail
     });
   }
@@ -42194,4 +42395,4 @@ addEventListener("trix-attachment-add", (event) => {
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=5E61A03A99BF599A64756E2164756E21
+//# debugId=3942EC97BAE9D7D964756E2164756E21

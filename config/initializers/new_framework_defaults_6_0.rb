@@ -46,5 +46,5 @@
 # of the relation's cache key into the cache version to support recycling cache key.
 # Rails.application.config.active_record.collection_cache_versioning = true
 
-#Enable default form remote true
+# Enable default form remote true
 Rails.application.config.action_view.form_with_generates_remote_forms = true

@@ -8,14 +8,14 @@ secretary = User.new(username: 'secretary', label: 'Secretary', name: 'Secretary
 secretary.save(validate: false)
 
 if ENV['RAILS_AUTHENTICATOR'] == 'database_authenticatable'
-  User.find_by(username: 'admin').reset_password('admin','password')
-  User.find_by(username: 'doctor').reset_password('doctor','password')
-  User.find_by(username: 'secretary').reset_password('secretary','password')
+  User.find_by(username: 'admin').reset_password('admin', 'password')
+  User.find_by(username: 'doctor').reset_password('doctor', 'password')
+  User.find_by(username: 'secretary').reset_password('secretary', 'password')
 end
 
 if Rails.env.development?
   50.times do |n|
-    u = User.create(username: "user#{n}", label: "User ##{n}", name: "User ##{n}", cf: "user#{n}", city: :other  ); u.save(validate: false)
+    u = User.create(username: "user#{n}", label: "User ##{n}", name: "User ##{n}", cf: "user#{n}", city: :other); u.save(validate: false)
   end
 end
 

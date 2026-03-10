@@ -8,6 +8,6 @@ FactoryBot.define do
     start_at { Time.zone.now }
     date_on { Time.zone.now }
     gender { :visit }
-    city { 'Rome' }
+    city { "Rome" }
   end
 end

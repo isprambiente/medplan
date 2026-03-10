@@ -9,6 +9,6 @@ FactoryBot.define do
     user
     category
     start_at { Time.zone.now }
-    body { 'MyText' }
+    body { "MyText" }
   end
 end

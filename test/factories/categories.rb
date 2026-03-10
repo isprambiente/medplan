@@ -6,6 +6,6 @@ FactoryBot.define do
     sequence(:code) { |n| "code_#{n}" }
     sequence(:title) { |n| "title_#{n}" }
     months { 1 }
-    protocol { 'MyText' }
+    protocol { "MyText" }
   end
 end

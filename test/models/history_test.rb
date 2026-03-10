@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class HistoryTest < ActiveSupport::TestCase
-  test 'valid from factory' do
+  test "valid from factory" do
     history = build(:history)
     assert history.valid?
   end
@@ -40,7 +40,7 @@ class HistoryTest < ActiveSupport::TestCase
   should validate_presence_of(:revision_date)
 
   # scope
-  test 'default_scope' do
+  test "default_scope" do
     audit = create :audit
     History.delete_all
     a = create :history, log: false, audit: audit
@@ -49,17 +49,17 @@ class HistoryTest < ActiveSupport::TestCase
     assert_equal a, History.all.first
   end
 
-  test 'scope active' do
+  test "scope active" do
     audit = create :audit
     History.delete_all
     a = create :history, log: false, audit: audit
     create :history, log: true, audit: audit
-    create :history, status: 'change_date_next_visit', log: false, audit: audit
+    create :history, status: "change_date_next_visit", log: false, audit: audit
     assert_equal 1, History.active.count
     assert_equal a, History.active.first
   end
 
-  test 'scope between' do
+  test "scope between" do
     audit = create :audit
     History.delete_all
     create :history, revision_date: Time.zone.today - 2.years, audit: audit, log: false
@@ -71,23 +71,23 @@ class HistoryTest < ActiveSupport::TestCase
   end
 
   # method
-  test 'delete' do
+  test "delete" do
     a = create :history
     assert_not a.delete
     assert a.persisted?
   end
 
-  test 'destroy' do
+  test "destroy" do
     a = create :history
     assert_not a.destroy
     assert a.persisted?
   end
 
   # private method
-  test 'require_doctor?' do
-    assert build(:history, log: false, status: 'suitable').send(:require_doctor?)
+  test "require_doctor?" do
+    assert build(:history, log: false, status: "suitable").send(:require_doctor?)
     assert_not build(:history, log: true).send(:require_doctor?)
-    assert_not build(:history, status: 'created').send(:require_doctor?)
-    assert_not build(:history, status: 'deleted').send(:require_doctor?)
+    assert_not build(:history, status: "created").send(:require_doctor?)
+    assert_not build(:history, status: "deleted").send(:require_doctor?)
   end
 end

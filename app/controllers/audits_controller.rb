@@ -44,17 +44,17 @@ class AuditsController < ApplicationController
     @audit.category_id = audit_params[:category_id]
     @audit.user_id = @user.id
     @audit.expire = Time.zone.now
-    @audit.status = 'created'
-    @audit.histories_attributes = [status: 'created', author_id: current_user.id]
+    @audit.status = "created"
+    @audit.histories_attributes = [ status: "created", author_id: current_user.id ]
     if @audit.save
-      flash.now[:success] = 'Creazione avvenuta con successo'
+      flash.now[:success] = "Creazione avvenuta con successo"
     else
       flash.now[:error] = write_errors @audit
     end
     category = Category.find(audit_params[:category_id])
     render turbo_stream: [
-      turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
-      turbo_stream.replace("user_#{@user.id}_category_#{category.id}", partial: 'audits/category', locals: {user: @user, category: category}),
+      turbo_stream.replace("user_#{@user.id}", partial: "users/user", locals: { user: @user, current_user: current_user }),
+      turbo_stream.replace("user_#{@user.id}_category_#{category.id}", partial: "audits/category", locals: { user: @user, category: category }),
       turbo_stream.replace(:flashes, partial: "flashes")
     ]
     # render partial: 'audits/category', locals: { category: @audit.category, user: @user }
@@ -69,7 +69,7 @@ class AuditsController < ApplicationController
   # @return [Object] render audits/edit
   def edit
     @history = @audit.histories.new
-    @pagy, @histories = pagy(@audit.histories.availables.order('id DESC').limit(5), link_extra: "data-turbo-frame='audits'")
+    @pagy, @histories = pagy(@audit.histories.availables.order("id DESC").limit(5), link_extra: "data-turbo-frame='audits'")
   end
 
   # PATCH /user/:user_id/audits/:id
@@ -82,14 +82,14 @@ class AuditsController < ApplicationController
   # @return [Object] render audits/edit
   def update
     if @audit.update(audit_params)
-      @pagy, @histories = pagy(@audit.histories.availables.order('id DESC').limit(5), link_extra: "data-turbo-frame='audits'")
+      @pagy, @histories = pagy(@audit.histories.availables.order("id DESC").limit(5), link_extra: "data-turbo-frame='audits'")
       @categories = Category.all
       @history = @audit.histories.new
-      flash.now[:success] = 'Aggiornamento avvenuto con successo'
+      flash.now[:success] = "Aggiornamento avvenuto con successo"
       render :edit, status: :ok
     else
       @history = @audit.histories.new
-      flash.now[:error] = @audit.errors.map { |k, v| "#{I18n.t k} #{v}" }.join(', ')
+      flash.now[:error] = @audit.errors.map { |k, v| "#{I18n.t k} #{v}" }.join(", ")
       render :edit
     end
   end
@@ -101,16 +101,16 @@ class AuditsController < ApplicationController
   # * set @audit.histories_attributes with status deleted
   # @return [Object] render audits/category
   def destroy
-    @audit = Audit.unscoped.where('id = ? and user_id = ?', params[:id], @user.id).first
-    @audit.histories_attributes = [status: 'deleted', author_id: current_user.id]
+    @audit = Audit.unscoped.where("id = ? and user_id = ?", params[:id], @user.id).first
+    @audit.histories_attributes = [ status: "deleted", author_id: current_user.id ]
     if @audit.save
-      flash.now[:success] = 'Cancellazione avvenuta con successo'
+      flash.now[:success] = "Cancellazione avvenuta con successo"
       @audit.meetings.delete_all
     end
     category = Category.find(audit_params[:category_id])
     render turbo_stream: [
-      turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
-      turbo_stream.replace("user_#{@user.id}_category_#{category.id}", partial: 'audits/category', locals: {user: @user, category: category}),
+      turbo_stream.replace("user_#{@user.id}", partial: "users/user", locals: { user: @user, current_user: current_user }),
+      turbo_stream.replace("user_#{@user.id}_category_#{category.id}", partial: "audits/category", locals: { user: @user, category: category }),
       turbo_stream.replace(:flashes, partial: "flashes")
     ]
   end
@@ -131,7 +131,7 @@ class AuditsController < ApplicationController
 
   # Set callback view
   def set_view
-    @view = filter_params[:view] || ''
+    @view = filter_params[:view] || ""
   end
 
   # Only allow a list of trusted parameters through.

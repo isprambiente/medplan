@@ -55,7 +55,7 @@ class Audit < ApplicationRecord
   belongs_to  :user
   belongs_to  :category
   has_many    :histories, dependent: :destroy
-  has_one     :history, -> { order created_at: :desc }, class_name: 'History', foreign_key: :audit_id, inverse_of: :audit
+  has_one     :history, -> { order created_at: :desc }, class_name: "History", foreign_key: :audit_id, inverse_of: :audit
   has_many    :meetings, dependent: :destroy
   has_many    :events, through: :meetings, dependent: :destroy
 
@@ -77,10 +77,10 @@ class Audit < ApplicationRecord
   }
 
   default_scope { where.not(status: 0) }
-  scope :ordered_by_category_title, -> { joins(:category).order('categories.title') }
+  scope :ordered_by_category_title, -> { joins(:category).order("categories.title") }
   scope :expire_beetween, ->(start_at = Time.zone.now.to_date, stop_at = Time.zone.now.to_date) { where(expire: start_at..stop_at) }
-  scope :expired, ->(date: Time.zone.today.end_of_month) { where('expire <= ?', date) }
-  scope :get_calendar, ->(start_at = Time.zone.now.to_date, stop_at = Time.zone.now.to_date) { expire_beetween(start_at, stop_at).select('expire as expire', 'Count(Distinct audits.user_id) as count').group('expire').order('expire') }
+  scope :expired, ->(date: Time.zone.today.end_of_month) { where("expire <= ?", date) }
+  scope :get_calendar, ->(start_at = Time.zone.now.to_date, stop_at = Time.zone.now.to_date) { expire_beetween(start_at, stop_at).select("expire as expire", "Count(Distinct audits.user_id) as count").group("expire").order("expire") }
 
   accepts_nested_attributes_for :histories, allow_destroy: false, limit: 1
 
@@ -103,7 +103,7 @@ class Audit < ApplicationRecord
 
   # @return [String] based on {expired?} response 'expired' o 'active'
   def status_class
-    expired? ? 'expired' : 'active'
+    expired? ? "expired" : "active"
   end
 
   # @return [Boolean] true if {Audit} is expired

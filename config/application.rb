@@ -16,12 +16,12 @@ module MedPlan
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
-    config.encoding = 'utf-8'
+    config.encoding = "utf-8"
     config.i18n.default_locale = :it
-    config.i18n.available_locales = [:it]
+    config.i18n.available_locales = [ :it ]
     config.i18n.enforce_available_locales = true
     config.i18n.fallbacks = true
-    config.time_zone = 'Rome'
+    config.time_zone = "Rome"
     config.generators do |g|
       g.template_engine :haml
     end

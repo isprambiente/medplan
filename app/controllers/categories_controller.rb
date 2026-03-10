@@ -50,10 +50,10 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
     if @category.save
       categories
-      flash.now[:success] = 'Creazione avvenuta con successo'
+      flash.now[:success] = "Creazione avvenuta con successo"
       render :index, status: :ok
     else
-      flash.now[:error] = 'Si è verificato un errore durante la creazione'
+      flash.now[:error] = "Si è verificato un errore durante la creazione"
       render :new, status: :error
     end
   end
@@ -67,10 +67,10 @@ class CategoriesController < ApplicationController
   def update
     if @category.update(category_params)
       categories
-      flash.now[:success] = 'Modifica avvenuta con successo'
+      flash.now[:success] = "Modifica avvenuta con successo"
       render :index, status: :ok
     else
-      flash.now[:error] = 'Si è verificato un errore durante la modifica'
+      flash.now[:error] = "Si è verificato un errore durante la modifica"
       render :edit, status: :error
     end
   end
@@ -83,9 +83,9 @@ class CategoriesController < ApplicationController
   # @return [Object] render categories/index
   def destroy
     if @category.destroy
-      flash.now[:success] = 'Cancellazione avvenuta con successo'
+      flash.now[:success] = "Cancellazione avvenuta con successo"
     else
-      flash.now[:error] = 'Si è verificato un errore durante la cancellazione'
+      flash.now[:error] = "Si è verificato un errore durante la cancellazione"
     end
     render turbo_stream: [
       turbo_stream.replace(:flashes, partial: "flashes"),
@@ -109,7 +109,7 @@ class CategoriesController < ApplicationController
 
   # Set callback view
   def set_view
-    @view = filter_params[:view] || ''
+    @view = filter_params[:view] || ""
   end
 
   # Only allow a list of trusted parameters through.

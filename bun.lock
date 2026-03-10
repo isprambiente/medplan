@@ -33,7 +33,7 @@
     },
   },
   "packages": {
-    "@creativebulma/bulma-tooltip": ["@creativebulma/bulma-tooltip@github:francesco-loreti/bulma-tooltip#0983464", {}, "francesco-loreti-bulma-tooltip-0983464"],
+    "@creativebulma/bulma-tooltip": ["@creativebulma/bulma-tooltip@github:francesco-loreti/bulma-tooltip#0983464", {}, "francesco-loreti-bulma-tooltip-0983464", "sha512-AOcvhUK/pb352JrWO9LZMRASw9XTEOiqaTbsTQo9NFpeu7zc5ij1P0Ec+xPO2PN9kRa2tNSUMZ8gPePq95bQKw=="],
 
     "@fortawesome/fontawesome-common-types": ["@fortawesome/fontawesome-common-types@6.7.2", "", {}, "sha512-Zs+YeHUC5fkt7Mg1l6XTniei3k4bwG/yo3iFUtZWd/pMx9g3fdvkSK9E0FOC+++phXOka78uJcYb8JaFkW52Xg=="],
 
@@ -83,7 +83,7 @@
 
     "bulma": ["bulma@1.0.4", "", {}, "sha512-Ffb6YGXDiZYX3cqvSbHWqQ8+LkX6tVoTcZuVB3lm93sbAVXlO0D6QlOTMnV6g18gILpAXqkG2z9hf9z4hCjz2g=="],
 
-    "bulma-quickview": ["bulma-quickview@github:francesco-loreti/bulma-quickview#fa33d11", {}, "francesco-loreti-bulma-quickview-fa33d11"],
+    "bulma-quickview": ["bulma-quickview@github:francesco-loreti/bulma-quickview#fa33d11", {}, "francesco-loreti-bulma-quickview-fa33d11", "sha512-lHX1iFM8r47uBe/fPqAAsxHSllszdfu5gTNMKOd0B0utySJSWLdxr0LhBax4zRTHFqzsx163sebbOVlIQYFNgw=="],
 
     "chokidar": ["chokidar@3.6.0", "", { "dependencies": { "anymatch": "~3.1.2", "braces": "~3.0.2", "glob-parent": "~5.1.2", "is-binary-path": "~2.1.0", "is-glob": "~4.0.1", "normalize-path": "~3.0.0", "readdirp": "~3.6.0" }, "optionalDependencies": { "fsevents": "~2.3.2" } }, "sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw=="],
 
@@ -93,7 +93,7 @@
 
     "dompurify": ["dompurify@3.2.6", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ=="],
 
-    "dual-listbox": ["dual-listbox@github:francesco-loreti/dual-listbox#4bcb2b2", { "dependencies": { "nodemon": "^2.0.20", "prettier": "^2.6.2" } }, "francesco-loreti-dual-listbox-4bcb2b2"],
+    "dual-listbox": ["dual-listbox@github:francesco-loreti/dual-listbox#4bcb2b2", { "dependencies": { "nodemon": "^2.0.20", "prettier": "^2.6.2" } }, "francesco-loreti-dual-listbox-4bcb2b2", "sha512-2Whi18bRVdXgP+ZspZPATA1gwzCNx4ItbVQAEsol5lNMLilPwDZSxqeT4xqAQOAv44Ict/xiELmAp4IF0D0ibA=="],
 
     "fill-range": ["fill-range@7.1.1", "", { "dependencies": { "to-regex-range": "^5.0.1" } }, "sha512-YsGpe3WHLK8ZYi4tWDg2Jy3ebRz2rXowDxnld4bkQB00cc/1Zw9AWnC0i9ztDJitivtQvaI9KaLyKrc+hBW0yg=="],
 
@@ -145,7 +145,7 @@
 
     "supports-color": ["supports-color@5.5.0", "", { "dependencies": { "has-flag": "^3.0.0" } }, "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="],
 
-    "sweetalert2": ["sweetalert2@11.26.18", "", {}, "sha512-3O5feBqV+hTIOwCRKGuZGHosjiuBAKP/vpBl6vKFZeVYfCUGdXqXuuidn6YXHan3f6e62UdmnjwJBt8UtDVBhg=="],
+    "sweetalert2": ["sweetalert2@11.26.22", "", {}, "sha512-UtfV5j7gXBRLm0+6Vm+MqIpsMA7CF7lOGeBj1sc8YSb2Q2xKT6mkSV63b4kFUGNs4vYa+Nd7ufZ97ZX9hNfqsA=="],
 
     "to-regex-range": ["to-regex-range@5.0.1", "", { "dependencies": { "is-number": "^7.0.0" } }, "sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ=="],
 

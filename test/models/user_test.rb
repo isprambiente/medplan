@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  test 'valid from factory' do
+  test "valid from factory" do
     user = build(:user)
     assert user.save
   end
@@ -45,23 +45,23 @@ class UserTest < ActiveSupport::TestCase
   should validate_presence_of(:label)
   should validate_presence_of(:cf)
   should validate_presence_of(:postazione)
-  test 'validate_presence_of_name' do
+  test "validate_presence_of_name" do
     user = create :user
     user.name = nil
     assert_not user.valid?
   end
-  test 'validate_presence_of_lastname' do
+  test "validate_presence_of_lastname" do
     user = create :user
     user.lastname = nil
     assert_not user.valid?
   end
-  test 'validate_uniqueness_of_cf' do
+  test "validate_uniqueness_of_cf" do
     a = create :user
     b = create :user
     b.cf = a.cf
     assert_not b.valid?
   end
-  test 'validate_uniqueness_of_username' do
+  test "validate_uniqueness_of_username" do
     a = create :user
     b = create :user
     b.username = a.username
@@ -71,7 +71,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   # scope
-  test 'users_scope_locked' do
+  test "users_scope_locked" do
     a = create :user, deleted: false, locked_at: Time.zone.now
     create :user, deleted: false, locked_at: nil
     create :user, deleted: true, locked_at: Time.zone.now
@@ -80,14 +80,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal a, User.locked.first
   end
 
-  test 'users_scope_unassigned' do
+  test "users_scope_unassigned" do
     a = create :user
     create(:audit).user
     assert_equal 1, User.unassigned.count
     assert_equal a, User.unassigned.first
   end
 
-  test 'users_scope_blocked' do
+  test "users_scope_blocked" do
     a = create :user, deleted: true, locked_at: nil
     create :user, deleted: true, locked_at: Time.zone.now
     create :user, deleted: false, locked_at: nil
@@ -96,31 +96,31 @@ class UserTest < ActiveSupport::TestCase
     assert_equal a, User.blocked.first
   end
 
-  test 'users_scope_doctors' do
+  test "users_scope_doctors" do
     a = create :user, doctor: true
     create :user, doctor: false
     assert_equal 1, User.doctors.count
     assert_equal a, User.doctors.first
   end
 
-  test 'users_scope_male' do
+  test "users_scope_male" do
     a = create :user
     b = create :user
-    b.update sex: 'F'
+    b.update sex: "F"
 
     assert_equal 1, User.male.count
     assert_equal a, User.male.first
   end
 
-  test 'users_scope_female' do
+  test "users_scope_female" do
     create :user
     b = create :user
-    b.update sex: 'F'
+    b.update sex: "F"
     assert_equal 1, User.female.count
     assert_equal b, User.female.first
   end
 
-  test 'user_scope_syncable' do
+  test "user_scope_syncable" do
     create :user, username: nil
     b = create :user
     assert_equal 1, User.syncable.count
@@ -128,7 +128,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   # methods
-  test 'delete' do
+  test "delete" do
     u = create :user
     assert_not u.locked_at.present?
     u.delete
@@ -136,7 +136,7 @@ class UserTest < ActiveSupport::TestCase
     assert u.locked_at.present?
   end
 
-  test 'destroy' do
+  test "destroy" do
     u = create :user
     assert_not u.locked_at.present?
     u.destroy
@@ -144,36 +144,36 @@ class UserTest < ActiveSupport::TestCase
     assert u.locked_at.present?
   end
 
-  test 'update_user_data' do
+  test "update_user_data" do
     u = create :user
-    u.update lastname: 'none'
+    u.update lastname: "none"
     u.update_user_data
-    assert_equal 'test', u.lastname
+    assert_equal "test", u.lastname
   end
 
-  test 'sex' do
+  test "sex" do
     u = create :user
-    assert_equal 'M', u.sex
+    assert_equal "M", u.sex
     u.update sex: nil
-    assert_equal 'n.d.', u.sex
+    assert_equal "n.d.", u.sex
   end
 
-  test 'prerequisite' do
+  test "prerequisite" do
     u = create :user, metadata: nil
     assert u.metadata.present?
   end
 
-  test 'get_data' do
+  test "get_data" do
     u = create :user
-    u.update lastname: 'none'
+    u.update lastname: "none"
     assert u.send(:get_data)
-    assert_equal 'test', u.lastname
+    assert_equal "test", u.lastname
   end
 
-  test 'reject_audit' do
+  test "reject_audit" do
     u = User.new
-    assert u.send(:reject_audit, { 'title' => nil })
-    assert u.send(:reject_audit, { 'title' => '' })
-    assert_not u.send(:reject_audit, { 'title' => 'asd' })
+    assert u.send(:reject_audit, { "title" => nil })
+    assert u.send(:reject_audit, { "title" => "" })
+    assert_not u.send(:reject_audit, { "title" => "asd" })
   end
 end

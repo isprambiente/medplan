@@ -13,6 +13,9 @@ application.register("book", BookController)
 import CalendarController from "./calendar_controller"
 application.register("calendar", CalendarController)
 
+import CookieBannerController from "./cookie_banner_controller"
+application.register("cookie-banner", CookieBannerController)
+
 import FormController from "./form_controller"
 application.register("form", FormController)
 

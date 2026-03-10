@@ -68,7 +68,7 @@ class Meeting < ApplicationRecord
 
   enum :status, { blocked: 0, proposed: 1, waiting: 2, confirmed: 3 }
 
-  scope :deletables, ->(date: Time.zone.today-(Settings.events.meetings.deletable.days).days) { proposed.where('sended_at < ?', date) }
+  scope :deletables, ->(date: Time.zone.today-(Settings.events.meetings.deletable.days).days) { proposed.where("sended_at < ?", date) }
 
   validates :event, presence: true, uniqueness: { scope: :audit }
   validates :audit, presence: true
@@ -79,24 +79,24 @@ class Meeting < ApplicationRecord
 
   # @return [Object] return an ICAL object with meeting data
   def ical
-    require 'icalendar'
-    require 'icalendar/tzinfo'
+    require "icalendar"
+    require "icalendar/tzinfo"
     cal = Icalendar::Calendar.new
     event_start = DateTime.parse(I18n.l(event.date_on, format: :date).to_s + "T#{I18n.l(start_at, format: :time)}")
 
-    tzid = 'Europe/Rome'
+    tzid = "Europe/Rome"
     tz = TZInfo::Timezone.get tzid
     timezone = tz.ical_timezone Time.zone.now
     cal.add_timezone timezone
 
     cal.event do |e|
-      e.dtstart = Icalendar::Values::DateTime.new event_start, 'tzid' => tzid
-      e.dtend   = Icalendar::Values::DateTime.new event_start, 'tzid' => tzid
+      e.dtstart = Icalendar::Values::DateTime.new event_start, "tzid" => tzid
+      e.dtend   = Icalendar::Values::DateTime.new event_start, "tzid" => tzid
       e.summary = "Prenotazione #{I18n.t(event.gender, scope: 'event.gender').downcase} del #{I18n.l(event.date_on)} alle ore #{I18n.l(start_at, format: :time)}"
       e.organizer = "mailto:#{Settings.email}"
       e.organizer = Icalendar::Values::CalAddress.new("mailto:#{Settings.email}", cn: user.label)
-      e.description = Settings.events[event.gender]['description']
-      e.location = Settings.events[event.gender]['location']
+      e.description = Settings.events[event.gender]["description"]
+      e.location = Settings.events[event.gender]["location"]
     end
   end
 

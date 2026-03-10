@@ -42,9 +42,9 @@ Questo repository contiene il codice sorgente del programma per la gestione dell
 Il sito è sviluppato in linguaggio Ruby 3.4, framework Rails 8.0.
 
 ### Specifiche tecniche progetto
-* [Ruby 3.4.x](https://www.ruby-lang.org)
+* [Ruby 4.0.x](https://www.ruby-lang.org)
 * [RVM](https://rvm.io/)
-* [Ruby on Rails 8.0](https://rubyonrails.org/)
+* [Ruby on Rails 8.1](https://rubyonrails.org/)
 * [NodeJS](https://nodejs.org/)
 * [Bun](https://bun.sh/)
 * [Hotwire](https://hotwired.dev/)

@@ -50,8 +50,8 @@ class Category < ApplicationRecord
   validates_uniqueness_of :title, conditions: -> { where(active: true) }
   validates :months, presence: true, numericality: { only_integer: true }
 
-  default_scope { order('title asc').where(active: true) }
-  scope :disabled, -> { unscoped.where(active: false).order('title asc') }
+  default_scope { order("title asc").where(active: true) }
+  scope :disabled, -> { unscoped.where(active: false).order("title asc") }
 
   # for security reason is an alias of {destroy}
   def delete

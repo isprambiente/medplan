@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class MeetingTest < ActiveSupport::TestCase
-  test 'valid from factory' do
+  test "valid from factory" do
     meeting = build(:meeting)
     assert meeting.save
   end
@@ -36,7 +36,7 @@ class MeetingTest < ActiveSupport::TestCase
   should validate_presence_of(:event)
   should validate_presence_of(:start_at)
 
-  test 'validate_uniqueness_of_event' do
+  test "validate_uniqueness_of_event" do
     meeting1 = create :meeting
     meeting2 = build  :meeting, audit: meeting1.audit, event: meeting1.event
     assert_not meeting2.valid?
@@ -46,14 +46,14 @@ class MeetingTest < ActiveSupport::TestCase
 
   # Callback
 
-  test 'add_stop_at_after_validate' do
+  test "add_stop_at_after_validate" do
     meeting = create :meeting, stop_at: nil
     assert meeting.valid?
     meeting.save
     assert meeting.stop_at.present?
   end
 
-  test 'after_destroy_remove_empty_event' do
+  test "after_destroy_remove_empty_event" do
     event = create :event
     a = create :meeting, event: event
     b = create :meeting, event: event

@@ -89,8 +89,8 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = {
-    host: Rails.application.credentials.default_url_host || Settings.action_mailer.default_url_option.host || '',
-    protocol: Rails.application.credentials.default_url_protocol || Settings.action_mailer.default_url_option.protocol || ''
+    host: Rails.application.credentials.default_url_host || Settings.action_mailer.default_url_option.host || "",
+    protocol: Rails.application.credentials.default_url_protocol || Settings.action_mailer.default_url_option.protocol || ""
   }
   config.action_mailer.smtp_settings = {
     address: Rails.application.credentials.smtp_address || Settings.action_mailer.smtp_settings.address,

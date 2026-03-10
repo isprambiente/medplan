@@ -3,22 +3,21 @@
 # This helper is used to define methods that can be used in the views of the application.
 # It is included in all views by default, but it can be customized if needed.
 module ApplicationHelper
-
   # @param [String] url source of remote page
   # @return [String] write a content tag for load a remote page
   def loader(url)
     # "<div data-target='page.loader', url='#{url}'>Sto caricando</div>".html_safe
-    content_tag(:div, 'Sto caricando', url: url, data: { target: 'page.loader' })
+    content_tag(:div, "Sto caricando", url: url, data: { target: "page.loader" })
   end
 
   # make a div for the font-awesome icons
-  def fas_icon(fa_style, span_style: nil, style: false, text: '', html: '', tooltip: false)
-    content_tag_i = tag.i('', class: "fas fa-#{fa_style}", aria: { hidden: 'true' })
+  def fas_icon(fa_style, span_style: nil, style: false, text: "", html: "", tooltip: false)
+    content_tag_i = tag.i("", class: "fas fa-#{fa_style}", aria: { hidden: "true" })
     span = if tooltip.present?
              tag.span(content_tag_i, class: "icon #{span_style}", style: style, data: { tooltip: tooltip })
-           else
+    else
              tag.span(content_tag_i, class: "icon #{span_style}", style: style)
-           end
+    end
     return span if text.blank? && html.blank?
 
     span + tag.span(text) + tag.span(html.html_safe)
@@ -40,16 +39,16 @@ module ApplicationHelper
   # @param timeout [String] set the timeout for javascript action, default: 3000
   # @param hidden [Boolean] set visibility class, default true
   # @return [String] Make a div with for the notification
-  def notify(text, type: 'alert', timeout: 3000, hidden: true)
-    content_tag(:div, text.to_s, class: "notification is-#{type} #{'is-hidden' if hidden}", data: { controller: 'noty', noty_type: type, noty_timeout: timeout })
+  def notify(text, type: "alert", timeout: 3000, hidden: true)
+    content_tag(:div, text.to_s, class: "notification is-#{type} #{'is-hidden' if hidden}", data: { controller: "noty", noty_type: type, noty_timeout: timeout })
   end
 
   # generate a list for a select from an enum
   # @param list [Hash], enum option list, default {}
   # @param scope [String] scope of localization, default ''
   # @return [List]
-  def t_enum(list = {}, scope = '')
-    list.map { |k, _| [t(k, scope: scope), k] }
+  def t_enum(list = {}, scope = "")
+    list.map { |k, _| [ t(k, scope: scope), k ] }
   end
 
   # Localize a DateTime with format :long if #obj is present
@@ -77,8 +76,8 @@ module ApplicationHelper
   # @param [Text] field_label
   # @param [Text] obj
   # @return [String] localized
-  def t_field(field_label = nil, obj = '')
-    return '' if field_label.blank?
+  def t_field(field_label = nil, obj = "")
+    return "" if field_label.blank?
 
     case obj
     when Class

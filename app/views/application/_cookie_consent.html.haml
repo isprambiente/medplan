@@ -1,0 +1,14 @@
+%div.cookie-banner.notification.is-light{ data: { controller: "cookie-banner", cookie_banner_target: "banner" } }
+  %p
+    Questo sito utilizza:
+    %ul
+      %li
+        %b cookie tecnici:
+        necessari per garantire il corretto funzionamento del sito,
+      %li
+        %b cookie analitici (facoltativi):
+        per raccogliere informazioni sull'utilizzo del sito.
+  %button.button.is-primary{ data: { action: "cookie-banner#accept" } }
+    Accetta
+  %button.button.is-secondary{ data: { action: "cookie-banner#reject" } }
+    Rifiuta

@@ -5,7 +5,7 @@ class RemoveRackCasSessions < ActiveRecord::Migration[8.0]
 
   def down
     create_table :sessions do |t|
-      t.string :session_id, :null => false
+      t.string :session_id, null: false
       t.string :cas_ticket
       t.text :data
       t.timestamps

@@ -185,20 +185,20 @@ class User < ApplicationRecord
 
   validates :username, uniqueness: true, allow_blank: true
   validates :label, presence: true
-  validates :name, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
+  validates :name, presence: { message: "non può essere lasciato in bianco" }, unless: -> { system? }
   # validates :lastname, presence: { message: 'non può essere lasciato in bianco' }, unless: -> { system? }
-  validates :cf, presence: { message: 'non può essere lasciato in bianco' }, uniqueness: { message: 'già esistente' }, unless: -> { system? }
+  validates :cf, presence: { message: "non può essere lasciato in bianco" }, uniqueness: { message: "già esistente" }, unless: -> { system? }
   validates :postazione, presence: true
-  validates :assegnazione, content_type: { in: 'application/pdf', message: 'non è un file PDF' }
-  validates :assegnazione, size: { less_than: Settings.users.assegnazione.max_file.kilobytes, message: 'deve avere una dimensione massima di 500kb' }
+  validates :assegnazione, content_type: { in: "application/pdf", message: "non è un file PDF" }
+  validates :assegnazione, size: { less_than: Settings.users.assegnazione.max_file.kilobytes, message: "deve avere una dimensione massima di 500kb" }
 
   default_scope { where(locked_at: nil, deleted: false) }
   scope :locked, -> { unscoped.where.not(locked_at: nil).where.not(deleted: true) }
   scope :unassigned, -> { where.not(id: Audit.select(:user_id).distinct.pluck(:user_id)) }
   scope :blocked, -> { unscoped.where(deleted: true).where(locked_at: nil) }
   scope :doctors, -> { where(doctor: true).order(:label) }
-  scope :male, -> { where("users.metadata->>'sex'=?", 'M') }
-  scope :female, -> { where("users.metadata->>'sex'=?", 'F') }
+  scope :male, -> { where("users.metadata->>'sex'=?", "M") }
+  scope :female, -> { where("users.metadata->>'sex'=?", "F") }
   scope :syncable, -> { where.not(username: nil).order(:label) }
   scope :system, -> { where(system: true) }
   scope :unsystem, -> { where(system: false) }
@@ -218,7 +218,7 @@ class User < ApplicationRecord
   # override sex attribute
   # @return [String] return 'n.d.' if {sex} attribute is empty
   def sex
-    metadata['sex'].blank? ? 'n.d.' : super
+    metadata["sex"].blank? ? "n.d." : super
   end
 
   # check if user have done analisy and require to do the visit
@@ -233,7 +233,7 @@ class User < ApplicationRecord
     user.email = auth.info.email
     user.password = SecureRandom.alphanumeric(20)
     user.confirmed_at = Time.zone.now
-    user.name = auth.info.try(ENV.fetch('RAILS_OIDC_NAME'){'name'})
+    user.name = auth.info.try(ENV.fetch("RAILS_OIDC_NAME") { "name" })
     user.locked_at = Time.zone.now unless user.persisted?
     user.save
     user
@@ -246,7 +246,7 @@ class User < ApplicationRecord
   # @param [Hash] attributed attributed is an hash with the params for make/update an {Audit}
   # @return [Boolean] true if attributed['title'] is empty
   def reject_audit(attributed)
-    attributed['title'].blank?
+    attributed["title"].blank?
   end
 
   # if {User} is locked destroy relative {Audit}
@@ -266,5 +266,4 @@ class User < ApplicationRecord
     errors.add :base, "Can't be destroyed"
     throw :abort
   end
-
 end

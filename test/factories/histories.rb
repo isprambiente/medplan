@@ -5,11 +5,11 @@
 FactoryBot.define do
   factory :history do
     audit
-    author { 'MyString' }
-    doctor { 'MyString' }
-    status { 'created' }
-    body { 'MyString' }
-    lab  { 'Lab' }
+    author { "MyString" }
+    doctor { "MyString" }
+    status { "created" }
+    body { "MyString" }
+    lab  { "Lab" }
     revision_date { Time.zone.now }
     log { true }
     city { 1 }

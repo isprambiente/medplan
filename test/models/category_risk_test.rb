@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require "test_helper"
 
 class CategoryRiskTest < ActiveSupport::TestCase
-  test 'valid from factory' do
+  test "valid from factory" do
     cr = build(:category_risk)
     assert cr.valid?
   end
@@ -21,7 +21,7 @@ class CategoryRiskTest < ActiveSupport::TestCase
   should belong_to(:risk)
 
   # validations
-  test 'uniquenes of category_id scope risk_id' do
+  test "uniquenes of category_id scope risk_id" do
     risk = create :risk
     cr1 = build :category_risk, risk: risk
     assert cr1.save

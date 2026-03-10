@@ -60,8 +60,8 @@
 #   @return [Object] related {Risk} through {CategoryRisk}
 class History < ApplicationRecord
   belongs_to :audit
-  belongs_to :doctor, class_name: 'User', foreign_key: 'doctor_id', optional: :require_doctor?, inverse_of: :audits
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id', optional: false, inverse_of: :audits
+  belongs_to :doctor, class_name: "User", foreign_key: "doctor_id", optional: :require_doctor?, inverse_of: :audits
+  belongs_to :author, class_name: "User", foreign_key: "author_id", optional: false, inverse_of: :audits
   has_one :user, through: :audit
   has_one :category, through: :audit
   has_one :category_risks, through: :category
@@ -72,7 +72,7 @@ class History < ApplicationRecord
   validates :status, presence: true, inclusion: Settings.history.status
   before_validation :prerequisite
 
-  scope :active, -> { where.not(status: 'change_date_next_visit') }
+  scope :active, -> { where.not(status: "change_date_next_visit") }
   scope :between, ->(start_on: Time.zone.now.beginning_of_year, stop_on: Time.zone.now.end_of_year) { where(revision_date: start_on..stop_on) }
   scope :availables, -> { where.not(status: %w[created deleted change_date_next_visit]) }
 
@@ -101,11 +101,11 @@ class History < ApplicationRecord
     self.revision_date = Time.zone.now if revision_date.blank?
     audit.expire = if audit.new_record?
                     revision_date.to_date
-                   elsif audit.persisted? && audit.status_was == 'deleted'
+    elsif audit.persisted? && audit.status_was == "deleted"
                      revision_date.to_date
-                   else
+    else
                     revision_date.to_date + audit.category.months.month
-                   end
+    end
     audit.status = status
   end
 

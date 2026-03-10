@@ -31,10 +31,10 @@ class Risk < ApplicationRecord
 
   validates :title, presence: true, uniqueness: true
 
-  default_scope { order('title asc').where(active: true) }
+  default_scope { order("title asc").where(active: true) }
 
   scope :printed, -> { where(printed: true).order(:code) }
-  scope :disabled, -> { unscoped.where(active: false).order('title asc') }
+  scope :disabled, -> { unscoped.where(active: false).order("title asc") }
 
   before_destroy :check_destroy
 

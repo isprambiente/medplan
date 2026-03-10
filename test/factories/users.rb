@@ -10,8 +10,8 @@ FactoryBot.define do
     admin         { false }
     cf
     label
-    name          { 'Mario' }
-    lastname      { 'Rossi' }
+    name          { "Mario" }
+    lastname      { "Rossi" }
     city          { :other }
     factory :secretary do
       secretary   { true }

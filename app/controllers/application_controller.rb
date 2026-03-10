@@ -57,12 +57,12 @@ class ApplicationController < ActionController::Base
   # @param [Array] errors
   # @param [Text] scope
   # @return [Array] translated errors messages
-  def translate_errors(errors = [], scope: '')
+  def translate_errors(errors = [], scope: "")
     translated = []
     errors.each do |e|
       translated << "#{t(e.attribute, scope: scope, default: e.attribute)} #{e.message}"
     end
-    return translated
+    translated
   end
 
   private
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
   # @param [Text] scope
   # @return [String] errors localized messages
   def write_errors(obj, scope: false)
-    obj.errors.map { |e| "#{t_field(e.attribute, scope || obj.class.table_name.singularize)} #{e.message}" }.join(', ')
+    obj.errors.map { |e| "#{t_field(e.attribute, scope || obj.class.table_name.singularize)} #{e.message}" }.join(", ")
   end
 
   # Set locale from `params[:locale]`.
@@ -86,19 +86,19 @@ class ApplicationController < ActionController::Base
   # Render 404 page and stop the work
   # @return [nil]
   def record_not_found!
-    render partial: 'errors/404', status: 404 && return
+    render partial: "errors/404", status: 404 && return
   end
 
   # Select the layout name based on request type: xhr request or other
   # @return [String] the layout name
   def set_layout
-    request.xhr? ? 'empty' : 'application'
+    request.xhr? ? "empty" : "application"
   end
 
   # Render 401 page and stop the work
   # @return [nil]
   def access_denied!
-    render partial: 'errors/401', status: 401 && return
+    render partial: "errors/401", status: 401 && return
   end
 
   # {access_denied!} unless the request.xhr == true
@@ -112,7 +112,7 @@ class ApplicationController < ActionController::Base
   def destroy_restricted!
     flash.now[:error] = "Non è possibile cancellare questo record poichè è collegato ad altre informazioni!"
     respond_to do |format|
-      format.html { render partial: 'errors/401', status: 401 && return }
+      format.html { render partial: "errors/401", status: 401 && return }
       format.turbo_stream {
         render turbo_stream: [ turbo_stream.replace(:flashes, partial: "flashes") ]
       }
@@ -123,8 +123,8 @@ class ApplicationController < ActionController::Base
   # @param [Text] field_label
   # @param [Text] obj
   # @return [String] localized
-  def t_field(field_label = nil, obj = '')
-    return '' if field_label.blank?
+  def t_field(field_label = nil, obj = "")
+    return "" if field_label.blank?
 
     case obj
     when Class

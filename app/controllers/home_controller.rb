@@ -5,8 +5,8 @@
 # * before_action :doctor_in!, only: [:report] -> {doctor_in!}
 class HomeController < ApplicationController
   include Pagy::Method
-  before_action :home_redirect, except: [:user, :reset_password]
-  before_action :doctor_in!, only: [:report]
+  before_action :home_redirect, except: [ :user, :reset_password ]
+  before_action :doctor_in!, only: [ :report ]
   before_action :set_view
 
   # GET /
@@ -18,8 +18,8 @@ class HomeController < ApplicationController
   # * preset @users with all {User}
   # @return [Object] render /home/index
   def index
-    @riepilogo ||= 'expired'
-    @expire = ''
+    @riepilogo ||= "expired"
+    @expire = ""
     @users = User.all.unsystem.left_outer_joins(:categories).distinct
     @start_at = Time.zone.today.at_beginning_of_month
     @stop_at = Time.zone.today.end_of_month
@@ -38,7 +38,7 @@ class HomeController < ApplicationController
   # @return [Object] render partial /home/_index
   def list
     users
-    flash.now[:success] = 'Caricamento completato'
+    flash.now[:success] = "Caricamento completato"
   end
 
   # GET /home/meetings
@@ -82,8 +82,8 @@ class HomeController < ApplicationController
     @range = 0
     @city = params[:report][:city].presence || :roma
     get_dates_range(@range, @year)
-    @users = History.unscoped.joins(:user, :risk).where('users.city=?', User.cities[@city])
-    @filename = @city.blank? ? 'report-medicina.xlsx' : "#{@city}-#{@year}.xlsx"
+    @users = History.unscoped.joins(:user, :risk).where("users.city=?", User.cities[@city])
+    @filename = @city.blank? ? "report-medicina.xlsx" : "#{@city}-#{@year}.xlsx"
     respond_to do |format|
       format.js
       format.xlsx
@@ -99,15 +99,15 @@ class HomeController < ApplicationController
     status = :ok
     @user = current_user
     if user_params[:password] != user_params[:password_confirmation]
-      @user.errors.add(:password, 'Not valid')
-      @user.errors.add(:current_password, 'Not valid')
+      @user.errors.add(:password, "Not valid")
+      @user.errors.add(:current_password, "Not valid")
     else
       @user.password = user_params[:password]
       if @user.save
-        flash.now[:success] = 'Modifica avvenuta con successo'
+        flash.now[:success] = "Modifica avvenuta con successo"
       else
         status = 500
-        flash.now[:error] = 'Si è verificato un errore durante la modifica'
+        flash.now[:error] = "Si è verificato un errore durante la modifica"
       end
     end
     redirect_to new_user_session_path
@@ -120,7 +120,7 @@ class HomeController < ApplicationController
   def export
     @audits = Audit.joins(:user).joins(:category).reorder(users: { label: :asc }, categories: { title: :asc })
     @filename = "riepilogo_utenti_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
-    response.headers['Content-Disposition'] = %(attachment; filename="#{ @filename }")
+    response.headers["Content-Disposition"] = %(attachment; filename="#{ @filename }")
   end
 
   private
@@ -153,7 +153,7 @@ class HomeController < ApplicationController
 
   # Set callback view
   def set_view
-    @view = filter_params[:view] || ''
+    @view = filter_params[:view] || ""
   end
 
   def users
@@ -162,10 +162,10 @@ class HomeController < ApplicationController
     selected[:city] = @filters[:city] if @filters[:city].present?
     selected[:postazione] = @filters[:postazione] if @filters[:postazione].present?
 
-    @text = ['label ilike ?', "%#{@filters[:text]}%"] if @filters[:text].present?
+    @text = [ "label ilike ?", "%#{@filters[:text]}%" ] if @filters[:text].present?
     @postazione = @filters[:postazione]
     @city = @filters[:city].try(:to_i)
-    @riepilogo = @filters[:riepilogo] || 'expired'
+    @riepilogo = @filters[:riepilogo] || "expired"
     @page = params[:page] || 1
 
     @start_at = Time.zone.today.at_beginning_of_month
@@ -175,25 +175,25 @@ class HomeController < ApplicationController
     @next_2_start_at = (Time.zone.today + 2.months).at_beginning_of_month
     @next_2_stop_at = (Time.zone.today + 2.months).end_of_month.next_month
     filter, scope = case @riepilogo
-                    when 'new' then [nil, :unassigned]
-                    when 'expired' then [['audits.expire < ? ', @start_at], :syncable]
-                    when 'nextmonth' then [['audits.expire Between ? And ?', @next_start_at, @next_stop_at], :syncable]
-                    when 'next2months' then [['audits.expire Between ? And ?', @next_2_start_at, @next_2_stop_at], :syncable]
-                    when 'locked' then [nil, :locked]
-                    when 'blocked' then [nil, :blocked]
-                    else [['audits.expire Between ? And ?', @start_at, @stop_at], :syncable]
-                    end
-    users_list = User.unsystem.left_outer_joins(:categories) #.distinct
+    when "new" then [ nil, :unassigned ]
+    when "expired" then [ [ "audits.expire < ? ", @start_at ], :syncable ]
+    when "nextmonth" then [ [ "audits.expire Between ? And ?", @next_start_at, @next_stop_at ], :syncable ]
+    when "next2months" then [ [ "audits.expire Between ? And ?", @next_2_start_at, @next_2_stop_at ], :syncable ]
+    when "locked" then [ nil, :locked ]
+    when "blocked" then [ nil, :blocked ]
+    else [ [ "audits.expire Between ? And ?", @start_at, @stop_at ], :syncable ]
+    end
+    users_list = User.unsystem.left_outer_joins(:categories) # .distinct
     users_list = if %w[locked blocked new].include?(@filters[:riepilogo])
-                   users_list.send(scope).group('users.label, users.id')
-                 else
-                   users_list.send(scope).select('users.*, audits.expire').where(filter).group('audits.expire, users.label, users.id')
-                 end
+                   users_list.send(scope).group("users.label, users.id")
+    else
+                   users_list.send(scope).select("users.*, audits.expire").where(filter).group("audits.expire, users.label, users.id")
+    end
     order = unless %w[locked blocked new].include?(@filters[:riepilogo])
-              'audits.expire, users.label'
-            else
-              'users.label'
-            end
+              "audits.expire, users.label"
+    else
+              "users.label"
+    end
     users_list = users_list.where(selected).where(@text).reorder(order)
     @users_list = users_list
     @pagy, @users = pagy(users_list, page: @page, count: users_list.length, link_extra: "data-turbo-frame='users'")

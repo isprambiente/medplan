@@ -4,5 +4,5 @@
 # Defaul sender are loaded from config/settings.yml - email
 class ApplicationMailer < ActionMailer::Base
   default from: Settings.email.to_s
-  layout 'mailer'
+  layout "mailer"
 end

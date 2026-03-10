@@ -53,9 +53,9 @@ class UsersController < ApplicationController
     current_user = @user
     @user.author = current_user.label
     if @user.disable!
-      flash.now[:success] = 'Disattivazione avvenuta con successo'
+      flash.now[:success] = "Disattivazione avvenuta con successo"
       render turbo_stream: [
-        turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
+        turbo_stream.replace("user_#{@user.id}", partial: "users/user", locals: { user: @user, current_user: current_user }),
         turbo_stream.replace(:flashes, partial: "flashes")
       ]
     else
@@ -72,10 +72,10 @@ class UsersController < ApplicationController
   # render /users/show
   def unlock
     if @user.enable!
-      flash.now[:success] = 'Attivazione avvenuta con successo'
+      flash.now[:success] = "Attivazione avvenuta con successo"
       render turbo_stream: [
-        turbo_stream.replace("user_#{@user.id}", partial: 'users/user', locals: {user: @user, current_user: current_user}),
-        turbo_stream.replace("user_#{@user.id}_show", partial: 'users/show', locals: {user: @user, analisys: @user.events.analisys.future.to_a.uniq(&:id), visits: @user.events.visit.future.to_a.uniq(&:id), view: @view}),
+        turbo_stream.replace("user_#{@user.id}", partial: "users/user", locals: { user: @user, current_user: current_user }),
+        turbo_stream.replace("user_#{@user.id}_show", partial: "users/show", locals: { user: @user, analisys: @user.events.analisys.future.to_a.uniq(&:id), visits: @user.events.visit.future.to_a.uniq(&:id), view: @view }),
         turbo_stream.replace(:flashes, partial: "flashes")
       ]
     else
@@ -94,7 +94,7 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       render :show, status: :ok
     else
-      render json: { error: translate_errors(@user.errors, scope: 'user').join(', '), status: :unprocessable_entity }, status: 500
+      render json: { error: translate_errors(@user.errors, scope: "user").join(", "), status: :unprocessable_entity }, status: 500
     end
   end
 
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
   # render the form for make an external user
   # @return  [Object] render /users/new
   def edit_external_user
-    render partial: 'form'
+    render partial: "form"
   end
 
   # GET
@@ -147,7 +147,7 @@ class UsersController < ApplicationController
     @user = User.new(external_user_params)
     @user.label = "#{external_user_params[:lastname]} #{external_user_params[:name]}"
     if @user.save
-      @users = User.where('label ilike ?', "%#{@user.label}%").order('label asc')
+      @users = User.where("label ilike ?", "%#{@user.label}%").order("label asc")
       @pagy, @users = pagy(@users, link_extra: "data-turbo-frame='users'")
       redirect_to users_url
     else
@@ -176,7 +176,7 @@ class UsersController < ApplicationController
   def export
     @users = User.unsystem.reorder(:label)
     @filename = "utenti_attivi_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
-    response.headers['Content-Disposition'] = %(attachment; filename="#{ @filename }")
+    response.headers["Content-Disposition"] = %(attachment; filename="#{ @filename }")
   end
 
   private
@@ -200,17 +200,17 @@ class UsersController < ApplicationController
 
   # Set callback view
   def set_view
-    @view = filter_params[:view] || ''
+    @view = filter_params[:view] || ""
   end
 
   def users
-    @text = ['label ilike ?', "%#{filter_params[:text]}%"] if filter_params[:text].present?
+    @text = [ "label ilike ?", "%#{filter_params[:text]}%" ] if filter_params[:text].present?
     search = {}
     search[:city] = filter_params[:city] if filter_params[:city].present?
     search[:categories] = { id: filter_params[:category] } if filter_params[:category].present?
     search[:postazione] = filter_params[:postazione] if filter_params[:postazione].present?
     scope = filter_params[:invisible] == true ? :unscoped : :all
 
-    User.send(scope).unsystem.left_outer_joins(:categories).distinct.where(@text).where(search).order('label asc')
+    User.send(scope).unsystem.left_outer_joins(:categories).distinct.where(@text).where(search).order("label asc")
   end
 end
