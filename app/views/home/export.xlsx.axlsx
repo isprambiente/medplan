@@ -12,7 +12,7 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
 
   # TITOLO
   sheet.add_row [
-    "Cognome", "Nome", "Codice Fiscale", "E-Mail",
+    "Cognome", "Nome", "Codice Fiscale", "E-Mail", "Struttura",
     "Postazione", "Sede", "Città", "Categorie di rischio",
     "Data ultima visita", "Data prossima visita", "Ultima verifica", "Stato"
   ], style: [ style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title ]
@@ -36,7 +36,7 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
       last_status = t(last_visit.status, scope: "audit.status")
     end
     sheet.add_row [
-      user.lastname, user.name, user.cf, user.email,
+      user.lastname, user.name, user.cf, user.email, user.structure,
       user.postazione, user.location, user.city, category.title,
       last_visit_date, next_visit_date, last_status, stato
     ]
