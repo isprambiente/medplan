@@ -615,7 +615,7 @@ var init_src = __esm(() => {
 // node_modules/sweetalert2/dist/sweetalert2.all.js
 var require_sweetalert2_all = __commonJS((exports, module) => {
   /*!
-  * sweetalert2 v11.26.22
+  * sweetalert2 v11.26.23
   * Released under the MIT License.
   */
   (function(global, factory) {
@@ -862,25 +862,16 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       if (!target || !classList) {
         return;
       }
-      if (typeof classList === "string") {
-        classList = classList.split(/\s+/).filter(Boolean);
-      }
-      classList.forEach((className) => {
-        if (Array.isArray(target)) {
-          target.forEach((elem) => {
-            if (condition) {
-              elem.classList.add(className);
-            } else {
-              elem.classList.remove(className);
-            }
-          });
-        } else {
+      const classes = typeof classList === "string" ? classList.split(/\s+/).filter(Boolean) : classList;
+      const targets = Array.isArray(target) ? target : [target];
+      targets.forEach((elem) => {
+        classes.forEach((className) => {
           if (condition) {
-            target.classList.add(className);
+            elem.classList.add(className);
           } else {
-            target.classList.remove(className);
+            elem.classList.remove(className);
           }
-        }
+        });
       });
     };
     const addClass = (target, classList) => {
@@ -902,7 +893,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       if (value === `${parseInt(`${value}`)}`) {
         value = parseInt(value);
       }
-      if (value || parseInt(`${value}`) === 0) {
+      if (value || value === 0) {
         elem.style.setProperty(property, typeof value === "number" ? `${value}px` : value);
       } else {
         elem.style.removeProperty(property);
@@ -1202,18 +1193,13 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         return;
       }
       addClass([confirmButton, denyButton, cancelButton], swalClasses.styled);
-      if (params.confirmButtonColor) {
-        confirmButton.style.setProperty("--swal2-confirm-button-background-color", params.confirmButtonColor);
-      }
-      if (params.denyButtonColor) {
-        denyButton.style.setProperty("--swal2-deny-button-background-color", params.denyButtonColor);
-      }
-      if (params.cancelButtonColor) {
-        cancelButton.style.setProperty("--swal2-cancel-button-background-color", params.cancelButtonColor);
-      }
-      applyOutlineColor(confirmButton);
-      applyOutlineColor(denyButton);
-      applyOutlineColor(cancelButton);
+      const buttons = [[confirmButton, "confirm", params.confirmButtonColor], [denyButton, "deny", params.denyButtonColor], [cancelButton, "cancel", params.cancelButtonColor]];
+      buttons.forEach(([button, type, color]) => {
+        if (color) {
+          button.style.setProperty(`--swal2-${type}-button-background-color`, color);
+        }
+        applyOutlineColor(button);
+      });
     }
     function applyOutlineColor(button) {
       const buttonStyle = window.getComputedStyle(button);
@@ -1697,17 +1683,10 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       removeClass(popup, "swal2-dragging");
     };
     const getClientXY = (event) => {
-      let clientX = 0, clientY = 0;
-      if (event.type.startsWith("mouse")) {
-        clientX = event.clientX;
-        clientY = event.clientY;
-      } else if (event.type.startsWith("touch")) {
-        clientX = event.touches[0].clientX;
-        clientY = event.touches[0].clientY;
-      }
+      const source = event.type.startsWith("touch") ? event.touches[0] : event;
       return {
-        clientX,
-        clientY
+        clientX: source.clientX,
+        clientY: source.clientY
       };
     };
     const renderPopup = (instance, params) => {
@@ -2392,25 +2371,8 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       }
     }
     const formatInputOptions = (inputOptions) => {
-      const result = [];
-      if (inputOptions instanceof Map) {
-        inputOptions.forEach((value, key) => {
-          let valueFormatted = value;
-          if (typeof valueFormatted === "object") {
-            valueFormatted = formatInputOptions(valueFormatted);
-          }
-          result.push([key, valueFormatted]);
-        });
-      } else {
-        Object.keys(inputOptions).forEach((key) => {
-          let valueFormatted = inputOptions[key];
-          if (typeof valueFormatted === "object") {
-            valueFormatted = formatInputOptions(valueFormatted);
-          }
-          result.push([key, valueFormatted]);
-        });
-      }
-      return result;
+      const entries = inputOptions instanceof Map ? Array.from(inputOptions) : Object.entries(inputOptions);
+      return entries.map(([key, value]) => [key, typeof value === "object" ? formatInputOptions(value) : value]);
     };
     const isSelected = (optionValue, inputValue) => {
       return Boolean(inputValue) && inputValue !== null && inputValue !== undefined && inputValue.toString() === optionValue.toString();
@@ -3246,17 +3208,13 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
         }
         result[`${type}ButtonText`] = button.innerHTML;
         result[`show${capitalizeFirstLetter(type)}Button`] = true;
-        if (button.hasAttribute("color")) {
-          const color = button.getAttribute("color");
-          if (color !== null) {
-            result[`${type}ButtonColor`] = color;
-          }
+        const color = button.getAttribute("color");
+        if (color !== null) {
+          result[`${type}ButtonColor`] = color;
         }
-        if (button.hasAttribute("aria-label")) {
-          const ariaLabel = button.getAttribute("aria-label");
-          if (ariaLabel !== null) {
-            result[`${type}ButtonAriaLabel`] = ariaLabel;
-          }
+        const ariaLabel = button.getAttribute("aria-label");
+        if (ariaLabel !== null) {
+          result[`${type}ButtonAriaLabel`] = ariaLabel;
         }
       });
       return result;
@@ -3266,18 +3224,18 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       const image = templateContent.querySelector("swal-image");
       if (image) {
         showWarningsForAttributes(image, ["src", "width", "height", "alt"]);
-        if (image.hasAttribute("src")) {
-          result.imageUrl = image.getAttribute("src") || undefined;
-        }
-        if (image.hasAttribute("width")) {
-          result.imageWidth = image.getAttribute("width") || undefined;
-        }
-        if (image.hasAttribute("height")) {
-          result.imageHeight = image.getAttribute("height") || undefined;
-        }
-        if (image.hasAttribute("alt")) {
-          result.imageAlt = image.getAttribute("alt") || undefined;
-        }
+        const src = image.getAttribute("src");
+        if (src !== null)
+          result.imageUrl = src || undefined;
+        const width = image.getAttribute("width");
+        if (width !== null)
+          result.imageWidth = width || undefined;
+        const height = image.getAttribute("height");
+        if (height !== null)
+          result.imageHeight = height || undefined;
+        const alt = image.getAttribute("alt");
+        if (alt !== null)
+          result.imageAlt = alt || undefined;
       }
       return result;
     };
@@ -3691,7 +3649,7 @@ var require_sweetalert2_all = __commonJS((exports, module) => {
       };
     });
     SweetAlert.DismissReason = DismissReason;
-    SweetAlert.version = "11.26.22";
+    SweetAlert.version = "11.26.23";
     const Swal = SweetAlert;
     Swal.default = Swal;
     return Swal;
@@ -35225,7 +35183,7 @@ application.register("modal", modal_controller_default);
 application.register("users", users_controller_default);
 
 // node_modules/trix/dist/trix.esm.min.js
-var t3 = "2.1.16";
+var t3 = "2.1.17";
 var e3 = "[data-trix-attachment]";
 var i3 = { preview: { presentation: "gallery", caption: { name: true, size: true } }, file: { caption: { size: true } } };
 var n2 = { default: { tagName: "div", parse: false }, quote: { tagName: "blockquote", nestable: true }, heading1: { tagName: "h1", terminal: true, breakOnReturn: true, group: false }, code: { tagName: "pre", terminal: true, htmlAttributes: ["language"], text: { plaintext: true } }, bulletList: { tagName: "ul", parse: false }, bullet: { tagName: "li", listAttribute: "bulletList", group: false, nestable: true, test(t4) {
@@ -36490,6 +36448,8 @@ var ci = function t4() {
   }, i4;
 }();
 ci.addHook("uponSanitizeAttribute", function(t5, e4) {
+  if (e4.attrName === "data-trix-serialized-attributes")
+    return void (e4.keepAttr = false);
   /^data-trix-/.test(e4.attrName) && (e4.forceKeepAttr = true);
 });
 var ui = "style href src width height language class".split(" ");
@@ -39306,8 +39266,10 @@ class Bn {
         break;
       }
       if (s5.parentNode === t5) {
-        if (n3++ === e4)
+        if (n3++ === e4) {
+          !i4 && I3(s5, { strict: i4 }) && (r4 && o3.index++, o3.offset = 0, r4 = true);
           break;
+        }
       } else if (!E2(t5, s5) && n3 > 0)
         break;
       I3(s5, { strict: i4 }) ? (r4 && o3.index++, o3.offset = 0, r4 = true) : o3.offset += _n(s5);
@@ -42395,4 +42357,4 @@ addEventListener("trix-attachment-add", (event) => {
 // app/javascript/application.js
 init_awesome();
 
-//# debugId=3942EC97BAE9D7D964756E2164756E21
+//# debugId=DC86C324216311E764756E2164756E21
