@@ -1,0 +1,43 @@
+name: Security Audit
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    env:
+      BUNDLE_DISABLE_DEFAULT_GEM: "true"
+
+    strategy:
+      matrix:
+        ruby-version: ['4.0']
+
+    name: Audit Ruby ${{ matrix.ruby-version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Install Gem dependencies
+        run: |
+          gem install rubocop
+          gem install bundler-audit
+          bundle install --jobs 4 --retry 3
+
+      - name: Run RuboCop
+        run: bundle exec rubocop
+
+      - name: Run bundler-audit
+        run: |
+          bundler-audit update
+          bundler-audit check --verbose
