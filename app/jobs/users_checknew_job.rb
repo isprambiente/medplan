@@ -53,18 +53,18 @@ class UsersChecknewJob < ApplicationJob
     user.denominazione_contratto  = data["contratto"]["denominazione"]
     user.location                 = if data["rubrica"]["sede"]["denominazione"].present?
                                       data["rubrica"]["sede"]["denominazione"]
-    elsif data["rubrica"]["jpers"]["denominazione"].present?
-                                      data["rubrica"]["sede"]["denominazione"]
-    else
+                                    elsif data["rubrica"]["jpers"]["denominazione"].present?
+                                      data["rubrica"]["jpers"]["denominazione"]
+                                    else
                                       ""
-    end
-    user.city                     = if data["rubrica"]["sede"]["citta"].present?
+                                    end
+    user.city                     = if data["rubrica"]["sede"]["citta"].present? && data["rubrica"]["sede"]["citta"].try(:downcase) != "other"
                                       data["rubrica"]["sede"]["citta"].try(:downcase)
-    elsif data["rubrica"]["jpers"]["citta"].present?
+                                    elsif data["rubrica"]["jpers"]["citta"].present?
                                       data["rubrica"]["jpers"]["citta"].try(:downcase)
-    else
+                                    else
                                       "other"
-    end
+                                    end
     user.floor                    = data["rubrica"]["piano"]
     user.room                     = data["rubrica"]["stanza"]
     user.telephone                = data["rubrica"]["interno"]
