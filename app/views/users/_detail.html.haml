@@ -87,22 +87,6 @@
                   %span{ class: "#{ 'editable tooltip' if current_user.secretary? }", data: { tooltip: "Clicca per #{ user.body.present? ? 'modificare la' : 'inserire una' } nota", controller: 'users', action: 'click->users#edit', user_id: user.id, field: { name: "user[body]", type: 'textarea', value: user.body.present? ? user.body : '', placeholder: "Inserisci una nota" } } }= user.body.present? ? user.body : 'aggiungi'
                 - else
                   = user.body.presence || 'n.d.'
-      - if Devise.mappings[:user].database_authenticatable? && (current_user.admin? || current_user.secretary? || current_user.doctor?)
-        %article.message
-          .message-header Credenziali di accesso
-          .message-body
-            %ul.info
-              %li.columns
-                .column.is-4.has-text-left.has-text-weight-bold= fas_icon('user', text: t('username', scope: 'user')+': ')
-                .column.has-text-left
-                  %span.editable.tooltip{ data: { tooltip: "Clicca per #{ user.username.present? ? 'modificare' : 'inserire' } la username", controller: 'users', action: 'click->users#edit', user_id: user.id, field: { name: "user[username]", type: 'text', value: user.username.present? ? user.username : '', placeholder: "Inserisci la username", required: false } } }= ( user.username.present? ? user.username : 'aggiungi username' )
-              %li.columns
-                .column.is-4.has-text-left.has-text-weight-bold
-                  = fas_icon('key', text: t('new', scope: 'user.password')+': ')
-                .column.has-text-left
-                  %span.editable.tooltip{ data: { tooltip: "Clicca per #{ user.password.present? ? 'modificare' : 'inserire' } la password", controller: 'users', action: 'click->users#edit', user_id: user.id, field: { name: "user[password]", type: 'password', value: user.password.present? ? '**********' : '', placeholder: "Inserisci la password", required: false } } }= ( user.password.present? ? '********' : 'aggiungi password' )
-                .column.is-3
-                  %span.help la password è segreta e può essere solo mdificata.
     .column
       %article.message
         .message-header= t('place_and_structure', scope: 'user')

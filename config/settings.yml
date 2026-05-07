@@ -1,5 +1,5 @@
 title: Med.Plan.
-version: 2.8.0
+version: 2.9.0
 status: demo
 group: tua_societa
 society:
@@ -13,12 +13,6 @@ subtitle: Programma per la gestione della segreteria medica
 email: medico-competente@domain.com
 user_data_lib: nil_data
 domain: domain.com
-auth:
-  cas: https://cas.domain.com/cas/
-  authenticator: 'database_authenticatable'
-  # Default in Devise is :email
-  # Check that column exist into Users table
-  field: :username
 rubrica: https://rubrica.domain.com
 tracker: tracker.domain.com
 app:

@@ -1,0 +1,12 @@
+= form_tag("/auth/#{ ENV.fetch("OIDC_NAME", "oidc") }", id: 'oidc', method: 'post', data: {turbo: false})
+
+.container
+  %article.message.is-danger.my-2.my-lg-4{ role: 'alert' }
+    .message-header
+      = t( 'login.required.title' )
+    .message-body
+      %p= t( 'login.required.body' )
+      %hr
+      %p.mb-0= t( 'login.required.footer' )
+:javascript
+  document.getElementById('oidc').submit();

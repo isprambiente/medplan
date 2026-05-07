@@ -30,27 +30,6 @@
                   %a{ data: { controller: 'form', action: 'click->form#confirmation', form_url: "#{ Settings.rubrica }", form_confirmation: t( 'alternative_confirm', scope: 'user', default: 'Confirm?' )  } } cambia
                 - else
                   = @user.emergenze.presence || 'n.d.'
-        - if Devise.mappings[:user].database_authenticatable?
-          .column.is-3
-            = form_with model: @user, url: reset_password_path, method: :put do |f|
-              .field
-                = f.label :current_password, t('current', scope: 'user.password', default: 'Current password')
-                .control= f.password_field :current_password, autofocus: true, autocomplete: 'current-password'
-                %p.help= f.error_message_for(:current_password)
-              .field
-                = f.label :password, t('new', scope: 'user.password', default: 'New password')
-                .control= f.password_field :password, autofocus: true, autocomplete: 'new-password'
-                %p.help= f.error_message_for(:password)
-              .field
-                = f.label :password_confirmation, t('confirm', scope: 'user.password', default: 'Confirm password')
-                .control= f.password_field :password_confirmation, autocomplete: 'new-password'
-                %p.help= f.error_message_for(:password_confirmation)
-              .actions
-                .field
-                  .control
-                    %button.is-link{ type: 'submit' }= t('save', scope: 'user.password', default: 'Cambia password')
-                    %p.help.is-danger Dopo il cambio password, sarà necessario effettuare una nuova autenticazione.
-
   .columns.has-2{ data: { controller: 'events' } }
     #analisys-list.column
       %article.message

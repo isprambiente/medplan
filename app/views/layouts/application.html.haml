@@ -26,5 +26,5 @@
         %section.section
           %turbo-frame#yield= yield
           %turbo-frame#modal.is-hidden= yield
-        .no-print= render partial: 'menu' if user_signed_in?
+        .no-print= render partial: 'menu' if authenticated?
         = turbo_frame_tag 'footer', src: Settings.footer, cache: true

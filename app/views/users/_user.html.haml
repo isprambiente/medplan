@@ -53,7 +53,5 @@
           = link_to fas_icon("redo"), unlock_user_path(user), method: :patch, :class => 'button is-danger tooltip', data: { confirm: t('reactive', scope: 'message.user'), tooltip: t('reactive', scope: 'user'), turbo_frame: dom_id(user), turbo_method: 'PATCH' }
         - elsif user.deleted?
           = link_to fas_icon('trash'), '#', :class => 'button tooltip', disabled: true, data: { tooltip: t('deleted', scope: 'user') }
-        - elsif Devise.mappings[:user].lockable? && !user.access_locked? && current_user == user
-          = link_to fas_icon('trash'), '#', :class => 'button is-light tooltip', disabled: true, data: { tooltip: t('same_user', scope: 'user') }
         - else
           %a{ href: user.locked_at? ? '#' : user_path(user), class: 'button is-danger tooltip', data: { method: :delete, turbo_method: 'DELETE', confirm: t('delete', scope: 'message.user'), tooltip: t('delete', scope: 'user'), disabled: user.locked_at? }}=  fas_icon('trash')

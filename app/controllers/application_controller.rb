@@ -3,15 +3,15 @@
 # This conroller contain the methods shared for all sons
 # * layout :set_layout -> set the view layout with {set_layout} method
 # * before_action :authenticate_user! -> before every action execute
-#   devise.authenticate_user! method. This method check if the user
-#   is signed in or require authentication
 # * before_action :set_locale
 # @raise [ActiveRecord::RecordNotFound] if a query can't be resolved
 #  execute {record_not_found!}
 class ApplicationController < ActionController::Base
+  include Authentication
   protect_from_forgery with: :exception, prepend: true
   layout :set_layout
-  before_action :authenticate_user!
+  helper_method :current_user, :real_user, :impersonating?, :authenticate_user!
+  before_action :set_user, if: :authenticated?
   before_action :set_locale
 
   rescue_from ActiveRecord::RecordNotFound do
@@ -22,35 +22,41 @@ class ApplicationController < ActionController::Base
     destroy_restricted!
   end
 
-  # Check if controller is Devise
-  # @return [Bool]
-  def do_not_check_authorization?
-    respond_to?(:devise_controller?) # || respond_to?(:pages_controller?)
+  rescue_from ActiveRecord::RecordNotSaved do
+    record_not_saved!
+  end
+
+  # Select the current_user
+  # @return [class] User
+  def set_user
+    access_denied! unless current_user&.present?
+
+    @user = current_user
   end
 
   # Execute {access_denied!} unless current_user.secretary == TRUE
   # @return [nil]
   def secretary_in!
-    access_denied! unless current_user.secretary?
+    access_denied! unless current_user&.secretary?
   end
 
   # Execute {access_denied!} unless current_user.doctor == TRUE
   # @return [nil]
   def doctor_in!
-    access_denied! unless current_user.doctor?
+    access_denied! unless current_user&.doctor?
   end
 
   # Execute {access_denied!} unless current_user.doctor == true
   # or current_user.secretary == true
   # @return [nil]
   def powered_in!
-    access_denied! unless current_user.doctor? || current_user.secretary?
+    access_denied! unless current_user&.doctor? || current_user&.secretary?
   end
 
   # Execute #access_denied unless current_user.admin == true
   # @return [nil]
   def admin_in!
-    access_denied! unless current_user.admin?
+    access_denied! unless current_user&.admin?
   end
 
   # Translate errors messages
@@ -98,7 +104,19 @@ class ApplicationController < ActionController::Base
   # Render 401 page and stop the work
   # @return [nil]
   def access_denied!
-    render partial: "errors/401", status: 401 && return
+    render partial: "errors/422", status: 422, cached: true
+  end
+
+  # Render message and stop the work
+  # @return [nil]
+  def record_not_saved!
+    flash.now[:error] = "Non è possibile salvare questo record!"
+    respond_to do |format|
+      format.html { render partial: "errors/401", status: 401 && return }
+      format.turbo_stream {
+        render turbo_stream: [ turbo_stream.replace(:flashes, partial: "flashes") ]
+      }
+    end
   end
 
   # {access_denied!} unless the request.xhr == true

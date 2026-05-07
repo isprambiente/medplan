@@ -140,7 +140,7 @@ class HomeController < ApplicationController
   end
 
   def home_redirect
-    redirect_to home_user_path unless current_user.doctor? || current_user.secretary?
+    redirect_to home_user_path unless current_user&.doctor? || current_user&.secretary?
   end
 
   def user_params

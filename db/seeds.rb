@@ -1,17 +1,11 @@
 # frozen_string_literal: true
 
-admin = User.new(username: 'admin', label: 'Administrator', name: 'Administrator', city: :other, cf: 'Admin1', admin: true, system: true)
+admin = User.new(username: 'admin', label: 'Administrator', name: 'Administrator', city: :other, cf: 'Admin12', admin: true, system: true)
 admin.save(validate: false)
 doctor = User.new(username: 'doctor', label: 'Doctor', name: 'Doctor', city: :roma, doctor: true, cf: 'DOCTOR', system: true)
 doctor.save(validate: false)
 secretary = User.new(username: 'secretary', label: 'Secretary', name: 'Secretary', city: :roma, secretary: true, cf: 'SECRETARY', system: true)
 secretary.save(validate: false)
-
-if ENV['RAILS_AUTHENTICATOR'] == 'database_authenticatable'
-  User.find_by(username: 'admin').reset_password('admin', 'password')
-  User.find_by(username: 'doctor').reset_password('doctor', 'password')
-  User.find_by(username: 'secretary').reset_password('secretary', 'password')
-end
 
 if Rails.env.development?
   50.times do |n|

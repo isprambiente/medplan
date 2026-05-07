@@ -159,6 +159,7 @@ class User < ApplicationRecord
   has_rich_text :content
   has_one_attached :assegnazione
 
+  has_many :sessions, dependent: :destroy
   has_many :audits, dependent: :destroy
   has_many :categories, through: :audits
   has_many :meetings, through: :audits
@@ -166,17 +167,18 @@ class User < ApplicationRecord
   has_many :histories, through: :audits, source: :histories
   has_many :risks, through: :categories, source: :risks
 
-  store_accessor :metadata, :email, :sex, :lastname, :name, :matr, :status, :postazione_inizio, :postazione_fine, :postazione_locazione, :postazione_created_at, :postazione_updated_at, :data_nasc, :citta_nasc, :naz_nasc, :scadenza_rapporto, :tipo_contratto, :denominazione_contratto, :location, :floor, :room, :telephone, :emergenze, :user_emergenze, :structure, :structure_label, :responsabile, :data_aggiornamento, :prefix
+  store_accessor :metadata, :email, :sex, :lastname, :name,
+                            :matr, :status,
+                            :postazione_inizio, :postazione_fine, :postazione_locazione,
+                            :postazione_created_at, :postazione_updated_at,
+                            :data_nasc, :citta_nasc, :naz_nasc, :scadenza_rapporto, :tipo_contratto,
+                            :denominazione_contratto, :location, :floor, :room, :telephone, :emergenze,
+                            :user_emergenze, :structure, :structure_label, :responsabile, :data_aggiornamento,
+                            :prefix
   attr_accessor :author, :external, :data
-
-  unless RAILS_DEVISE_DATABASE_AUTHENTICATABLE
-    attr_accessor :password
-  end
 
   enum :city, Settings.users.cities.to_hash
   enum :postazione, Settings.users.positions.to_hash
-
-  devise *RAILS_DEVISE_MODULES
 
   after_update :check_disabled
   before_destroy :abort_destroy
@@ -229,13 +231,34 @@ class User < ApplicationRecord
 
   # @return user finded or created from omiauth session
   def self.from_omniauth(auth)
-    user = find_or_initialize_by(username: auth.uid)
-    user.email = auth.info.email
-    user.password = SecureRandom.alphanumeric(20)
-    user.confirmed_at = Time.zone.now
-    user.name = auth.info.try(ENV.fetch("RAILS_OIDC_NAME") { "name" })
-    user.locked_at = Time.zone.now unless user.persisted?
-    user.save
+    info  = auth.info
+    extra = auth.extra&.raw_info || {}
+
+    codice_fiscale = extra["tax_number"] || ""
+    return nil if codice_fiscale.blank?
+
+    user = unscoped.find_or_initialize_by(cf: codice_fiscale)
+
+    if user.new_record?
+      user.username         = info.uid.presence || info.email
+      user.label            = info.name || info.email
+      user.name             = info.first_name
+      user.lastname         = info.last_name
+      user.email            = info.email
+      user.cf               = codice_fiscale
+      user.matr             = extra["employee_number"].presence || ""
+      user.structure        = extra["department"].presence || ""
+      user.room             = extra["room_number"].presence || ""
+      user.telephone        = extra["phone_number"].presence || ""
+      user.city             = "roma" unless user.persisted?
+
+      user.confirmed_at     = Time.zone.now
+      user.locked_at        = Time.zone.now unless user.persisted?
+
+      user.save
+    end
+    UsersSyncJob.perform_now(codicefiscale: codice_fiscale) if user.persisted?
+
     user
   end
 

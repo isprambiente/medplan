@@ -1,31 +1,44 @@
 # frozen_string_literal: true
 
 # This job contain the methods for sync users with REST-API json
-class UsersChecknewJob < ApplicationJob
+class UsersSyncJob < ApplicationJob
   queue_as :urgent
   require "open-uri"
 
   # get users data from remote api.
   # For each user received run {set_data}
+  # get users data from remote api.
+  # For each user received run {set_data}
   def perform(codicefiscale: "")
     url = Rails.application.credentials.api[:url] || Settings.api.url.to_s
+    return if url.blank?
 
-    json_parsed = JSON.parse(URI.open(
-      URI.parse(url),
+    users = User.unscoped.order(label: :asc)
+    users = users.where(cf: codicefiscale.upcase) if codicefiscale.present?
+    uri = URI.parse(url)
+    opts = {
       http_basic_authentication: [
         Rails.application.credentials.api[:user] || Settings.api.username.to_s,
         Rails.application.credentials.api[:secret_access_key] || Settings.api.secret_access_key.to_s
       ],
       ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
-    ).read)
-    json_parsed << json_parsed unless json_parsed.is_a?(Array)
-    json_parsed.each do |user_data|
-      user_data = user_data.first if user_data.is_a?(Array)
-      if user_data["cf"].present?
-        next if codicefiscale.present? && user_data["cf"].upcase != codicefiscale.upcase
+    }
+    users.each do |user|
+      next if user.cf.blank?
 
-        u = User.unscoped.find_or_initialize_by(cf: user_data["cf"].upcase)
-        set_data(u, user_data) # if user_data['login'].present?
+      uri.query = "codicefiscale=#{user.cf}"
+      begin
+        json_data = URI.parse(uri.to_s).open(opts).read
+      rescue
+        puts "No connection"
+      else
+        if json_data
+          user_data = JSON.parse(json_data)
+          user_data = user_data.first if user_data.is_a?(Array)
+          set_data(user, user_data)
+        end
+      ensure
+        uri.query = ""
       end
     end
   end

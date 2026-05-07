@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bootsnap", ">= 1.16.0", require: false
 gem "pg"
-gem "puma", "~> 6.0"
+gem "puma", "~> 7.0"
 gem "rails", "~> 8.1"
 gem "sass-embedded", "~> 1.85"
 gem "sprockets-rails"
@@ -56,7 +56,6 @@ gem "active_storage_validations"
 gem "caxlsx"
 gem "caxlsx_rails"
 gem "config"
-gem "devise"
 gem "omniauth_openid_connect"
 gem "omniauth-rails_csrf_protection"
 gem "hamlit"
@@ -68,3 +67,5 @@ gem "whenever", require: false
 
 gem "image_processing", "~> 1.14"
 gem "dotenv-rails"
+
+gem "bcrypt", "~> 3.1"
