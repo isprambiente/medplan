@@ -11,7 +11,12 @@ it:
   find: 'Cerca'
   all: 'Tutti'
   reload: 'Ricarica la pagina'
-  login: Entra
+  login:
+    button: "Accedi"
+    required:
+      title: Login richiesto!
+      body: Effettua il login con un'utenza valida per accedere all'applicativo
+      footer: ''
   logout: Esci
   not_authorized: 'Non sei autorizzato'
   'yes': 'Si'

@@ -43,4 +43,4 @@
                 %hr.navbar-divider
                 = button_to fas_icon('sign-out-alt', text: t('logout', default: 'Logout')), logout_path, class: 'navbar-item', method: :delete, data: { turbo: false }
         - else
-          .navbar-end= button_to(fas_icon('sign-in-alt', text: t('login', default: 'Login')), "/auth/openid_connect", class: 'navbar-item', form: { class: 'button_to navbar-item', data: { turbo: 'false' } })
+          .navbar-end= button_to(fas_icon('sign-in-alt', text: t('login.button', default: 'Login')), "/auth/openid_connect", class: 'navbar-item', form: { class: 'button_to navbar-item', data: { turbo: 'false' } })
