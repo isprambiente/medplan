@@ -177,6 +177,7 @@ class HomeController < ApplicationController
     filter, scope = case @riepilogo
     when "new" then [ nil, :unassigned ]
     when "expired" then [ [ "audits.expire < ? ", @start_at ], :syncable ]
+    when "thismonth" then [ [ "audits.expire Between ? And ?", @start_at, @stop_at ], :syncable ]
     when "nextmonth" then [ [ "audits.expire Between ? And ?", @next_start_at, @next_stop_at ], :syncable ]
     when "next2months" then [ [ "audits.expire Between ? And ?", @next_2_start_at, @next_2_stop_at ], :syncable ]
     when "locked" then [ nil, :locked ]

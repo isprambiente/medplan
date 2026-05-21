@@ -62,6 +62,7 @@ users:
   statuses:
     - new
     - expired
+    - thismonth
     - nextmonth
     - next2months
     - locked
