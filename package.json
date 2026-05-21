@@ -27,7 +27,7 @@
     "moment": "^2.30.1",
     "smart-timeout": "^2.7.1",
     "sweetalert2": "^11.26.24",
-    "trix": "^2.1.18"
+    "trix": "^2.1.19"
   },
   "scripts": {
     "build": "bun bun.config.js",

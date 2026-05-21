@@ -151,7 +151,7 @@
 
     "touch": ["touch@3.1.1", "", { "bin": { "nodetouch": "bin/nodetouch.js" } }, "sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA=="],
 
-    "trix": ["trix@2.1.18", "", { "dependencies": { "dompurify": "^3.2.5" } }, "sha512-DWOdTsz3n9PO3YBc1R6pGh9MG1cXys/2+rouc/qsISncjc2MBew2UOW8nXh3NjUOjobKsXCIPR6LB02abg2EYg=="],
+    "trix": ["trix@2.1.19", "", { "dependencies": { "dompurify": "^3.2.5" } }, "sha512-E7RA3EOeUiUwNJlrF5onIOkqCA06xUU6GmHOVxXyMnGMValrDK3Ce7uaMVgiVUOvVt4mzUERAHAzD10mxoLpOg=="],
 
     "undefsafe": ["undefsafe@2.0.5", "", {}, "sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA=="],
 
