@@ -71,11 +71,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
 
   create_table "categories", id: :serial, force: :cascade do |t|
     t.boolean "active", default: true, null: false
-    t.string "code"
+    t.string "code", limit: 255
     t.datetime "created_at", precision: nil
     t.integer "months", default: 0, null: false
     t.text "protocol"
-    t.string "title", default: "", null: false
+    t.string "title", limit: 255, default: "", null: false
     t.datetime "updated_at", precision: nil
     t.index ["active"], name: "index_categories_on_active"
     t.index ["title"], name: "index_categories_on_title", unique: true
@@ -83,9 +83,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
 
   create_table "category_risks", id: :serial, force: :cascade do |t|
     t.integer "category_id", null: false
-    t.datetime "created_at", precision: nil
     t.integer "risk_id", null: false
-    t.datetime "updated_at", precision: nil
     t.index ["category_id", "risk_id"], name: "index_category_risks_on_category_id_and_risk_id", unique: true
     t.index ["category_id"], name: "index_category_risks_on_category_id"
     t.index ["risk_id"], name: "index_category_risks_on_risk_id"
@@ -93,7 +91,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
 
   create_table "events", id: :serial, force: :cascade do |t|
     t.text "body"
-    t.string "city", null: false
+    t.string "city", limit: 255, null: false
     t.datetime "created_at", precision: nil
     t.date "date_on", null: false
     t.integer "gender", null: false
@@ -110,9 +108,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
     t.integer "city"
     t.datetime "created_at", precision: nil
     t.integer "doctor_id"
-    t.string "lab"
+    t.string "lab", limit: 255
     t.date "revision_date"
-    t.string "status", default: "", null: false
+    t.string "status", limit: 255, default: "", null: false
     t.datetime "updated_at", precision: nil
     t.index ["audit_id"], name: "index_histories_on_audit_id"
     t.index ["author_id"], name: "index_histories_on_author_id"
@@ -141,10 +139,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
 
   create_table "risks", id: :serial, force: :cascade do |t|
     t.boolean "active", default: true, null: false
-    t.string "code"
+    t.string "code", limit: 255
     t.datetime "created_at", precision: nil
     t.boolean "printed", default: true, null: false
-    t.string "title", default: "", null: false
+    t.string "title", limit: 255, default: "", null: false
     t.datetime "updated_at", precision: nil
     t.index ["active"], name: "index_risks_on_active"
     t.index ["title"], name: "index_risks_on_title", unique: true
@@ -162,19 +160,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.boolean "admin", default: false
     t.text "body", default: ""
-    t.string "cf", default: "", null: false
+    t.string "cf", limit: 255, default: "", null: false
     t.integer "city", null: false
     t.datetime "confirmed_at"
     t.datetime "created_at", precision: nil
     t.datetime "current_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
+    t.string "current_sign_in_ip", limit: 255
     t.boolean "deleted", default: false
     t.boolean "doctor", default: false
     t.string "encrypted_password", default: "", null: false
     t.integer "failed_attempts", default: 0, null: false
     t.citext "label", default: ""
     t.datetime "last_sign_in_at", precision: nil
-    t.string "last_sign_in_ip"
+    t.string "last_sign_in_ip", limit: 255
     t.datetime "locked_at", precision: nil
     t.jsonb "metadata", default: {}, null: false
     t.integer "postazione", default: 1, null: false
@@ -183,11 +181,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_112755) do
     t.boolean "secretary", default: false
     t.integer "sign_in_count", default: 0, null: false
     t.boolean "system", default: false, null: false
-    t.string "tel", default: ""
+    t.string "tel", limit: 255, default: ""
     t.datetime "updated_at", precision: nil
-    t.string "username"
+    t.string "username", limit: 255
     t.index ["cf"], name: "index_users_on_cf", unique: true
     t.index ["city"], name: "index_users_on_city"
+    t.index ["deleted"], name: "index_users_on_deleted"
     t.index ["metadata"], name: "index_users_on_metadata", using: :gin
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token"
     t.index ["system"], name: "index_users_on_system"
