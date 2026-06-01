@@ -41,8 +41,8 @@ group :development do
   gem "capistrano-yarn",    require: false
 
   gem "traceroute"
-  gem 'ed25519'
-  gem 'bcrypt_pbkdf'
+  gem "ed25519"
+  gem "bcrypt_pbkdf"
 end
 
 group :test do
@@ -71,4 +71,3 @@ gem "image_processing", "~> 1.14"
 gem "dotenv-rails"
 
 gem "bcrypt", "~> 3.1"
-
