@@ -47,7 +47,7 @@ end
 
 group :test do
   gem "capybara"
-  gem "selenium-webdriver"
+  gem "selenium-webdriver", "~> 4.46"
   gem "database_cleaner"
   gem "shoulda", "~> 3.5"
   gem "shoulda-matchers", "~> 2.0"
