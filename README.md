@@ -59,8 +59,8 @@ cd medplan
 
 ```bash
 # esempio con rbenv
-rvm install ruby-4.0.3
-rvm use 4.0.3
+rvm install ruby-4.0.5
+rvm use 4.0.5
 gem install bundler
 bundle install
 ```
