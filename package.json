@@ -24,7 +24,7 @@
     "bulma-quickview": "francesco-loreti/bulma-quickview",
     "dual-listbox": "francesco-loreti/dual-listbox",
     "flatpickr": "^4.6.13",
-    "moment": "^2.30.1",
+    "moment": "^2.31.0",
     "smart-timeout": "^2.7.1",
     "sweetalert2": "^11.26.25",
     "trix": "^2.1.19"
