@@ -12,6 +12,7 @@ gem "sprockets-rails"
 gem "tzinfo-data"
 gem "jbuilder"
 gem "fiddle"
+gem "json", "< 3.0"
 
 # Use Redis for Action Cable
 gem "redis", "~> 4.0"
