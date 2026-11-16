@@ -3,20 +3,20 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "bootsnap", ">= 1.16.0", require: false
+gem "bootsnap", ">= 1.26.1", require: false
 gem "pg"
-gem "puma", "~> 7.0"
-gem "rails", "~> 8.1"
-gem "sass-embedded", "~> 1.85"
+gem "puma", "~> 8.1.1"
+gem "rails", "~> 8.1.4.1"
+gem "sass-embedded", "~> 1.108.2"
 gem "sprockets-rails"
 gem "tzinfo-data"
 gem "jbuilder"
 gem "fiddle"
-gem "json", "< 3.0"
+gem "json"
 
 # Use Redis for Action Cable
-gem "redis", "~> 4.0"
-gem "turbo-rails", "~> 1.0.0"
+gem "redis", "~> 6.0.0"
+gem "turbo-rails", "~> 2.0.23"
 gem "stimulus-rails"
 
 group :development, :test do
@@ -48,10 +48,10 @@ end
 
 group :test do
   gem "capybara"
-  gem "selenium-webdriver", "~> 4.46"
+  gem "selenium-webdriver", "~> 4.52.0"
   gem "database_cleaner"
-  gem "shoulda", "~> 3.5"
-  gem "shoulda-matchers", "~> 2.0"
+  gem "shoulda", "~> 4.0.0"
+  gem "shoulda-matchers", "~> 4.0.1"
   gem "webdrivers"
 end
 
@@ -68,7 +68,7 @@ gem "pagy"
 gem "route_translator"
 gem "whenever", require: false
 
-gem "image_processing", "~> 1.14"
+gem "image_processing", "~> 2.2.0"
 gem "dotenv-rails"
 
-gem "bcrypt", "~> 3.1"
+gem "bcrypt", "~> 3.1.22"
