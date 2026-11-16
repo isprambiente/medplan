@@ -12,10 +12,15 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
 
   # TITOLO
   sheet.add_row [
-    "Cognome", "Nome", "Codice Fiscale", "E-Mail", "Struttura",
-    "Postazione", "Sede", "Città", "Categorie di rischio",
-    "Data prossima visita", "Stato", "Note"
-  ], style: [ style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title ]
+    "Cognome", "Nome", "Sesso", 
+    "DataDiNascita", "CodiceFiscale", "Mansione", 
+    "DataUltimaVisita", "Periodicita", "DataProssimaVisita"
+  ], 
+  style: [ 
+    style_title, style_title, style_title, 
+    style_title, style_title, style_title, 
+    style_title, style_title, style_title
+  ]
 
   # DATI UTENTI
   @audits.each do |audit|
@@ -30,11 +35,12 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
     category = audit.category
     next_visit_date = audit.expire
     last_visit = audit.histories.active.availables.last
+    revision_date = last_visit&.revision_date&.to_date || ""
     stato = "scaduto" if next_visit_date < Time.zone.now.to_date
     sheet.add_row [
-      user.lastname, user.name, user.cf, user.email, user.structure,
-      user.postazione, user.location, user.city, category.title,
-      next_visit_date, stato, user.body
+      user.lastname, user.name, user.sex,
+      user.data_nasc, user.cf, category&.title,
+      revision_date, category&.months,  next_visit_date
     ]
   end
 end
