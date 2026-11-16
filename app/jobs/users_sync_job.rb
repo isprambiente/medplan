@@ -10,7 +10,7 @@ class UsersSyncJob < ApplicationJob
   # get users data from remote api.
   # For each user received run {set_data}
   def perform(codicefiscale: "")
-    url = Rails.application.credentials.api[:url] || Settings.api.url.to_s
+    url = Rails.application.credentials.dig(:api, :url) || Settings.api.url.to_s
     return if url.blank?
 
     users = User.unscoped.order(label: :asc)
@@ -18,8 +18,8 @@ class UsersSyncJob < ApplicationJob
     uri = URI.parse(url)
     opts = {
       http_basic_authentication: [
-        Rails.application.credentials.api[:user] || Settings.api.username.to_s,
-        Rails.application.credentials.api[:secret_access_key] || Settings.api.secret_access_key.to_s
+        Rails.application.credentials.dig(:api, :user)  || Settings.api.username.to_s,
+        Rails.application.credentials.dig(:api, :secret_access_key) || Settings.api.secret_access_key.to_s
       ],
       ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
     }
