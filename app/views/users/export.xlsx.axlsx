@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 year = Time.zone.now.strftime("%Y")
-password = Rails.application.credentials.excel[:password]
+password = Rails.application.credentials.dig('excel', 'password')
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Utenti #{year}") do |sheet|
   # Stili
@@ -12,16 +12,20 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
 
   # TITOLO
   sheet.add_row [
-    "Cognome", "Nome", "Codice Fiscale", "E-Mail", "Struttura",
-    "Postazione", "Sede", "Città", "Categorie di rischio",
-    "Data prossima visita", "Stato", "Note"
-  ], style: [ style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title, style_title ]
+    "Cognome", "Nome", "Sesso", 
+    "DataDiNascita", "CodiceFiscale", "Mansione", 
+    "DataUltimaVisita", "Periodicita", "DataProssimaVisita"
+  ], 
+  style: [ 
+    style_title, style_title, style_title, 
+    style_title, style_title, style_title, 
+    style_title, style_title, style_title
+  ]
 
   # DATI UTENTI
   @users.each do |user|
     if user.audits.present?
       user.audits.joins(:category).reorder(categories: { title: :asc }).each do |audit|
-        dottore = ""
         stato = ""
         revision_date = ""
         next_visit_date = ""
@@ -29,18 +33,19 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
         category = audit.category
         next_visit_date = audit.expire
         last_visit = audit.histories.active.availables.last
+        revision_date = last_visit&.revision_date&.to_date || ""
         stato = "scaduto" if next_visit_date < Time.zone.now.to_date
         sheet.add_row [
-          user.lastname, user.name, user.cf, user.email, user.structure,
-          user.postazione, user.location, user.city, category.title,
-          next_visit_date, stato, user.body
+          user.lastname, user.name, user.sex,
+          user.data_nasc, user.cf, category&.title,
+          revision_date, category&.months,  next_visit_date
         ]
       end
     else
       sheet.add_row [
-        user.lastname, user.name, user.cf, user.email, user.structure,
-        user.postazione, user.location, user.city, "",
-        "", "", "", "", user.body
+        user.lastname, user.name, user.sex,
+        user.data_nasc, user.cf, "",
+        "", "", ""
       ]
     end
   end
