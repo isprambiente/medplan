@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 year = Time.zone.now.strftime("%Y")
-password = Rails.application.credentials.dig('excel', 'password')
+password = Rails.application.credentials.dig("excel", "password")
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Utenti #{year}") do |sheet|
   # Stili
@@ -12,16 +12,16 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
 
   # TITOLO
   sheet.add_row [
-    "Cognome", "Nome", "Sesso", 
-    "DataDiNascita", "CodiceFiscale", "Mansione", 
+    "Cognome", "Nome", "Sesso",
+    "DataDiNascita", "CodiceFiscale", "Mansione",
     "DataUltimaVisita", "Periodicita", "DataProssimaVisita",
-    "E-Mail", "Struttura", 
+    "E-Mail", "Struttura",
     "Postazione", "Sede", "Città",
     "StatoVisite", "Note"
-  ], 
-  style: [ 
-    style_title, style_title, style_title, 
-    style_title, style_title, style_title, 
+  ],
+  style: [
+    style_title, style_title, style_title,
+    style_title, style_title, style_title,
     style_title, style_title, style_title,
     style_title, style_title,
     style_title, style_title, style_title,
