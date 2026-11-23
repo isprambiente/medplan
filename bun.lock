@@ -91,7 +91,7 @@
 
     "debug": ["debug@3.2.7", "", { "dependencies": { "ms": "^2.1.1" } }, "sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ=="],
 
-    "dompurify": ["dompurify@3.4.18", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-ofe3wI/uNm68HInABYFJYqQxRw1EaKAjNdrFVKqjUY+UZurvNd2L/HuQe097s/4RivWiZyP6tT7aoT8atjfhwg=="],
+    "dompurify": ["dompurify@3.5.0", "", { "optionalDependencies": { "@types/trusted-types": "^2.0.7" } }, "sha512-LYC0ZkE8P1V42JsRYTwMdme/2ET8SpOc5AA2eOFjP/IadvRd2fwiT4TVz5vkfy0XUx12aS2UaRkTnfVPNOv9vw=="],
 
     "dual-listbox": ["dual-listbox@github:francesco-loreti/dual-listbox#4bcb2b2", { "dependencies": { "nodemon": "^2.0.20", "prettier": "^2.6.2" } }, "francesco-loreti-dual-listbox-4bcb2b2", "sha512-2Whi18bRVdXgP+ZspZPATA1gwzCNx4ItbVQAEsol5lNMLilPwDZSxqeT4xqAQOAv44Ict/xiELmAp4IF0D0ibA=="],
 
