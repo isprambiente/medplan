@@ -14,12 +14,18 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
   sheet.add_row [
     "Cognome", "Nome", "Sesso", 
     "DataDiNascita", "CodiceFiscale", "Mansione", 
-    "DataUltimaVisita", "Periodicita", "DataProssimaVisita"
+    "DataUltimaVisita", "Periodicita", "DataProssimaVisita",
+    "E-Mail", "Struttura", 
+    "Postazione", "Sede", "Città",
+    "Stato", "Note"
   ], 
   style: [ 
     style_title, style_title, style_title, 
     style_title, style_title, style_title, 
-    style_title, style_title, style_title
+    style_title, style_title, style_title,
+    style_title, style_title,
+    style_title, style_title, style_title,
+    style_title, style_title
   ]
 
   # DATI UTENTI
@@ -38,14 +44,20 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
         sheet.add_row [
           user.lastname, user.name, user.sex,
           user.data_nasc, user.cf, category&.title,
-          revision_date, category&.months,  next_visit_date
+          revision_date, category&.months,  next_visit_date,
+          user.email, user.structure,
+          user.postazione, user.location, user.city,
+          stato, user.body
         ]
       end
     else
       sheet.add_row [
         user.lastname, user.name, user.sex,
         user.data_nasc, user.cf, "",
-        "", "", ""
+        "", "", "",
+        user.email, user.structure,
+        user.postazione, user.location, user.city,
+        "", user.body
       ]
     end
   end

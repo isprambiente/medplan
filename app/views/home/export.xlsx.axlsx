@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 year = Time.zone.now.strftime("%Y")
-password = Rails.application.credentials.excel[:password]
+password = Rails.application.credentials.dig('excel', 'password')
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Utenti #{year}") do |sheet|
   # Stili
@@ -14,12 +14,18 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
   sheet.add_row [
     "Cognome", "Nome", "Sesso", 
     "DataDiNascita", "CodiceFiscale", "Mansione", 
-    "DataUltimaVisita", "Periodicita", "DataProssimaVisita"
+    "DataUltimaVisita", "Periodicita", "DataProssimaVisita",
+    "E-Mail", "Struttura", 
+    "Postazione", "Sede", "Città",
+    "StatoVisite", "Note"
   ], 
   style: [ 
     style_title, style_title, style_title, 
     style_title, style_title, style_title, 
-    style_title, style_title, style_title
+    style_title, style_title, style_title,
+    style_title, style_title,
+    style_title, style_title, style_title,
+    style_title, style_title
   ]
 
   # DATI UTENTI
@@ -38,9 +44,12 @@ wb.add_worksheet(name: "Utenti #{year}") do |sheet|
     revision_date = last_visit&.revision_date&.to_date || ""
     stato = "scaduto" if next_visit_date < Time.zone.now.to_date
     sheet.add_row [
-      user.lastname, user.name, user.sex,
-      user.data_nasc, user.cf, category&.title,
-      revision_date, category&.months,  next_visit_date
+      user&.lastname, user&.name, user&.sex,
+      user&.data_nasc, user&.cf, category&.title,
+      revision_date, category&.months,  next_visit_date,
+      user&.email, user&.structure,
+      user&.postazione, user&.location, user&.city,
+      stato, user&.body
     ]
   end
 end
