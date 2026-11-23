@@ -1,8 +1,8 @@
 publiccodeYmlVersion: 0.5.0
 name: Med.Plan.
 url: https://github.com/isprambiente/medplan
-softwareVersion: 2.7.2
-releaseDate: 2026-02-18
+softwareVersion: 2.10.1
+releaseDate: 2026-11-23
 logo: https://raw.githubusercontent.com/isprambiente/medplan/master/doc/logo.svg
 platforms:
   - web
